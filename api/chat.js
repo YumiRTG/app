@@ -1,6 +1,8 @@
 /**
- * Vercel Serverless Function — Support chat via xAI (SpaceXAI / Grok)
- * Env: XAI_API_KEY (set in Vercel → Settings → Environment Variables)
+ * Vercel Serverless Function — Support chat via xAI (Grok)
+ * Env: XAI_API_KEY (Vercel → Settings → Environment Variables)
+ *
+ * Uses ESM export (package.json has "type": "module").
  */
 
 const SYSTEM_PROMPT = `You are Dominion Support, the helpful assistant for the mobile game Dino Dominion and its official website.
@@ -21,32 +23,49 @@ Rules:
 - If unsure, say so and suggest Download, Play, Features, or Bestiary pages.
 `
 
-module.exports = async function handler(req, res) {
+function sendJson(res, status, data) {
+  res.statusCode = status
+  res.setHeader('Content-Type', 'application/json')
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.end(JSON.stringify(data))
+}
 
-  if (req.method === 'OPTIONS') {
-    return res.status(204).end()
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
-
-  const apiKey = process.env.XAI_API_KEY
-  if (!apiKey) {
-    return res.status(503).json({
-      error: 'AI not configured',
-      code: 'NO_API_KEY',
-    })
-  }
-
+export default async function handler(req, res) {
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {}
-    const incoming = Array.isArray(body.messages) ? body.messages : []
+    // CORS preflight
+    if (req.method === 'OPTIONS') {
+      res.statusCode = 204
+      res.setHeader('Access-Control-Allow-Origin', '*')
+      res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+      return res.end()
+    }
 
-    // Sanitize / limit conversation
+    if (req.method !== 'POST') {
+      return sendJson(res, 405, { error: 'Method not allowed' })
+    }
+
+    const apiKey = process.env.XAI_API_KEY
+    if (!apiKey) {
+      return sendJson(res, 503, {
+        error: 'AI not configured. Set XAI_API_KEY in Vercel Environment Variables and redeploy.',
+        code: 'NO_API_KEY',
+      })
+    }
+
+    let body = req.body
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body || '{}')
+      } catch {
+        return sendJson(res, 400, { error: 'Invalid JSON body' })
+      }
+    }
+    if (!body || typeof body !== 'object') body = {}
+
+    const incoming = Array.isArray(body.messages) ? body.messages : []
     const messages = incoming
       .filter(
         (m) =>
@@ -58,23 +77,15 @@ module.exports = async function handler(req, res) {
       .slice(-12)
       .map((m) => ({
         role: m.role,
-        content: m.content.trim().slice(0, 2000),
+        content: String(m.content).trim().slice(0, 2000),
       }))
 
     if (messages.length === 0) {
-      return res.status(400).json({ error: 'No messages' })
+      return sendJson(res, 400, { error: 'No messages' })
     }
 
-    const last = messages[messages.length - 1]
-    if (last.role !== 'user') {
-      return res.status(400).json({ error: 'Last message must be from user' })
-    }
-
-    const payload = {
-      model: 'grok-4.5',
-      messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
-      temperature: 0.6,
-      max_tokens: 450,
+    if (messages[messages.length - 1].role !== 'user') {
+      return sendJson(res, 400, { error: 'Last message must be from user' })
     }
 
     const upstream = await fetch('https://api.x.ai/v1/chat/completions', {
@@ -83,19 +94,25 @@ module.exports = async function handler(req, res) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        model: 'grok-4.5',
+        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
+        temperature: 0.6,
+        max_tokens: 450,
+      }),
     })
 
     const data = await upstream.json().catch(() => ({}))
 
     if (!upstream.ok) {
       const msg =
-        data?.error?.message ||
-        data?.error ||
+        (data && data.error && (data.error.message || data.error)) ||
         `xAI error ${upstream.status}`
-      return res.status(upstream.status >= 400 && upstream.status < 600 ? upstream.status : 502).json({
+      console.error('[api/chat] xAI error', upstream.status, msg)
+      return sendJson(res, 502, {
         error: String(msg),
         code: 'XAI_ERROR',
+        status: upstream.status,
       })
     }
 
@@ -103,10 +120,10 @@ module.exports = async function handler(req, res) {
       data?.choices?.[0]?.message?.content?.trim() ||
       'Sorry, I could not generate a reply. Please try again.'
 
-    return res.status(200).json({ reply })
+    return sendJson(res, 200, { reply })
   } catch (err) {
-    console.error('[api/chat]', err)
-    return res.status(500).json({
+    console.error('[api/chat] crash', err)
+    return sendJson(res, 500, {
       error: err?.message || 'Server error',
       code: 'SERVER_ERROR',
     })
