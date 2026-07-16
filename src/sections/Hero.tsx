@@ -107,11 +107,8 @@ export default function Hero() {
           <Link to="/download" className="btn-primary no-underline justify-center">
             DOWNLOAD APK
           </Link>
-          <Link
-            to="/roulette"
-            className="btn-secondary no-underline justify-center"
-          >
-            PLAY ROULETTE
+          <Link to="/features" className="btn-secondary no-underline justify-center">
+            FEATURES
           </Link>
         </div>
       </div>
