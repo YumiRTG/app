@@ -47,15 +47,15 @@ function friendlyError(err: unknown): string {
   const msg = (err as { message?: string })?.message || String(err)
 
   if (code.includes('permission-denied') || msg.includes('permission')) {
-    return 'Firebase permission denied. Allow read on collection "players" for signed-in users (including anonymous).'
+    return 'Login failed (permission denied). Try again later.'
   }
   if (code.includes('unavailable') || msg.includes('network')) {
     return 'Network error — check your connection and try again.'
   }
   if (code.includes('admin-restricted-operation') || code.includes('operation-not-allowed')) {
-    return 'Anonymous sign-in is disabled. Enable it in Firebase Console → Authentication → Sign-in method.'
+    return 'Login is temporarily unavailable.'
   }
-  return msg || 'Something went wrong talking to Firebase.'
+  return 'Login failed. Check your Account ID and try again.'
 }
 
 function pickDisplayName(data: Record<string, unknown> | undefined): string {
@@ -135,7 +135,7 @@ export async function loginWithAccountId(
 
     return {
       ok: false,
-      error: 'Account not found. Use the Account ID from the game (player ID). No new accounts on the website.',
+      error: 'Account not found. Check your Account ID from the game.',
     }
   } catch (err) {
     return { ok: false, error: friendlyError(err) }

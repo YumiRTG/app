@@ -88,7 +88,6 @@ export default function Navigation({ onNavigate }: NavigationProps) {
                   </span>
                   <span className="font-body text-cream/55 text-[11px] tracking-wide">
                     {session.accountId}
-                    {session.source === 'firebase' ? ' · cloud' : ''}
                   </span>
                 </div>
                 <button
