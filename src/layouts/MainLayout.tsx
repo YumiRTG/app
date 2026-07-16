@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router'
 import { AuthProvider } from '@/hooks/useAuth'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
+import SupportChat from '@/components/SupportChat'
 import { asset } from '@/lib/assets'
 
 export default function MainLayout() {
@@ -43,6 +44,7 @@ export default function MainLayout() {
             <Outlet />
           </main>
           <Footer />
+          <SupportChat />
         </div>
       </div>
     </AuthProvider>
