@@ -1,12 +1,11 @@
 /**
  * Vercel Serverless — deliver support form to your inbox.
  *
- * Priority:
- *  1) Gmail SMTP  — env GMAIL_USER + GMAIL_APP_PASSWORD  (most reliable)
- *  2) Resend      — env RESEND_API_KEY (+ optional SUPPORT_TO_EMAIL)
- *  3) FormSubmit  — free fallback (needs one-time "Activate Form" email)
- *
- * SUPPORT_TO_EMAIL — inbox (default: andre.miethke74@gmail.com)
+ * Env (Production + Redeploy required):
+ *   GMAIL_USER          e.g. andre.miethke74@gmail.com
+ *   GMAIL_APP_PASSWORD  16-char Google App Password (not normal login password)
+ *   SUPPORT_TO_EMAIL    optional, defaults to GMAIL_USER / hardcoded default
+ *   RESEND_API_KEY      optional alternative
  */
 
 import nodemailer from 'nodemailer'
@@ -17,7 +16,7 @@ function sendJson(res, status, data) {
   res.statusCode = status
   res.setHeader('Content-Type', 'application/json')
   res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS, GET')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
   res.end(JSON.stringify(data))
 }
@@ -45,6 +44,20 @@ function isEmail(v) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
 }
 
+function envStatus() {
+  const gmailUser = Boolean(clean(process.env.GMAIL_USER, 120))
+  const gmailPass = Boolean(clean(process.env.GMAIL_APP_PASSWORD, 120))
+  const supportTo = Boolean(clean(process.env.SUPPORT_TO_EMAIL, 120))
+  const resend = Boolean(clean(process.env.RESEND_API_KEY, 80))
+  return {
+    gmailUser,
+    gmailPass,
+    gmailReady: gmailUser && gmailPass,
+    supportTo,
+    resend,
+  }
+}
+
 function buildText({ name, email, accountId, message, lastQuestion, chatSummary }) {
   const lines = [
     'New support request from the website chat',
@@ -64,17 +77,41 @@ function buildText({ name, email, accountId, message, lastQuestion, chatSummary 
   return lines.join('\n')
 }
 
-async function sendViaGmail({ to, replyTo, subject, text, fromUser }) {
-  const user = clean(process.env.GMAIL_USER, 120) || fromUser
-  const pass = clean(process.env.GMAIL_APP_PASSWORD, 120).replace(/\s+/g, '')
-  if (!user || !pass) return { ok: false, skip: true }
+function getMailer() {
+  // nodemailer CJS/ESM interop on Vercel
+  const nm = nodemailer?.createTransport ? nodemailer : nodemailer?.default
+  if (!nm?.createTransport) {
+    throw new Error('nodemailer failed to load on server')
+  }
+  return nm
+}
 
-  const transporter = nodemailer.createTransport({
+async function sendViaGmail({ to, replyTo, subject, text }) {
+  const user = clean(process.env.GMAIL_USER, 120)
+  const pass = clean(process.env.GMAIL_APP_PASSWORD, 120).replace(/\s+/g, '')
+
+  if (!user || !pass) {
+    return {
+      ok: false,
+      skip: true,
+      error: !user && !pass
+        ? 'GMAIL_USER and GMAIL_APP_PASSWORD not set in Vercel'
+        : !user
+          ? 'GMAIL_USER not set in Vercel'
+          : 'GMAIL_APP_PASSWORD not set in Vercel',
+    }
+  }
+
+  const mailer = getMailer()
+  const transporter = mailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
     auth: { user, pass },
   })
+
+  // Verify credentials first (clearer errors)
+  await transporter.verify()
 
   await transporter.sendMail({
     from: `"Dino Dominion Support" <${user}>`,
@@ -88,7 +125,7 @@ async function sendViaGmail({ to, replyTo, subject, text, fromUser }) {
 
 async function sendViaResend({ to, replyTo, subject, text }) {
   const key = process.env.RESEND_API_KEY
-  if (!key) return { ok: false, skip: true }
+  if (!key) return { ok: false, skip: true, error: 'RESEND_API_KEY not set' }
 
   const upstream = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -114,71 +151,25 @@ async function sendViaResend({ to, replyTo, subject, text }) {
   return { ok: true, via: 'resend' }
 }
 
-async function sendViaFormSubmit({ to, name, email, subject, text, accountId }) {
-  const formSubmitUrl = `https://formsubmit.co/ajax/${encodeURIComponent(to)}`
-  const upstream = await fetch(formSubmitUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Origin: 'https://app-dino-dominion.vercel.app',
-      Referer: 'https://app-dino-dominion.vercel.app/',
-    },
-    body: JSON.stringify({
-      name: name || 'Player',
-      email,
-      _replyto: email,
-      _subject: subject,
-      message: text,
-      accountId: accountId || 'n/a',
-      _template: 'table',
-      _captcha: 'false',
-    }),
-  })
-
-  const data = await upstream.json().catch(() => ({}))
-  const msg = String(data?.message || data?.error || '')
-  const successFlag = data?.success
-  const isSuccess =
-    successFlag === true ||
-    successFlag === 'true' ||
-    /thank you|submitted|success/i.test(msg)
-
-  if (isSuccess) return { ok: true, via: 'formsubmit' }
-
-  // First-time setup: FormSubmit emails an activation link (often in spam)
-  if (/activat/i.test(msg)) {
-    return {
-      ok: false,
-      needsActivation: true,
-      error:
-        'FormSubmit needs a one-time activation. Check the support Gmail inbox AND spam for an email from formsubmit.co titled “Activate Form”, then click the link. After that, tickets will arrive normally.',
-    }
-  }
-
-  // Server-side fetch sometimes blocked
-  if (/web server|HTML files/i.test(msg)) {
-    return {
-      ok: false,
-      error: 'Form backend blocked server send. Configure Gmail App Password (see README).',
-    }
-  }
-
-  if (!upstream.ok) {
-    return { ok: false, error: msg || `FormSubmit HTTP ${upstream.status}` }
-  }
-
-  return { ok: false, error: msg || 'FormSubmit did not accept the message.' }
-}
-
 export default async function handler(req, res) {
   try {
     if (req.method === 'OPTIONS') {
       res.statusCode = 204
       res.setHeader('Access-Control-Allow-Origin', '*')
-      res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+      res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS, GET')
       res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
       return res.end()
+    }
+
+    // Safe status (no secrets) — helps confirm env vars after redeploy
+    if (req.method === 'GET') {
+      return sendJson(res, 200, {
+        ok: true,
+        env: envStatus(),
+        hint: envStatus().gmailReady
+          ? 'Gmail env looks set. POST a form to send a test mail.'
+          : 'Set GMAIL_USER + GMAIL_APP_PASSWORD in Vercel → Settings → Environment Variables (Production), then Redeploy.',
+      })
     }
 
     if (req.method !== 'POST') {
@@ -190,7 +181,6 @@ export default async function handler(req, res) {
       return sendJson(res, 400, { error: 'Invalid JSON body' })
     }
 
-    // Honeypot
     if (clean(body.website, 200)) {
       return sendJson(res, 200, { ok: true, via: 'honeypot' })
     }
@@ -209,9 +199,11 @@ export default async function handler(req, res) {
       return sendJson(res, 400, { error: 'Please describe your issue (at least a few words).' })
     }
 
-    const to = clean(process.env.SUPPORT_TO_EMAIL, 120) || DEFAULT_TO
-    const subject =
-      `[Support] ` + (clean(body.subject, 120) || 'Dino Dominion website')
+    const to =
+      clean(process.env.SUPPORT_TO_EMAIL, 120) ||
+      clean(process.env.GMAIL_USER, 120) ||
+      DEFAULT_TO
+    const subject = `[Support] ` + (clean(body.subject, 120) || 'Dino Dominion website')
     const text = buildText({
       name,
       email,
@@ -221,71 +213,83 @@ export default async function handler(req, res) {
       chatSummary,
     })
 
-    // 1) Gmail SMTP (recommended)
-    try {
-      const gmail = await sendViaGmail({
-        to,
-        replyTo: email,
-        subject,
-        text,
-        fromUser: to,
-      })
-      if (gmail.ok) return sendJson(res, 200, { ok: true, via: gmail.via })
-      if (!gmail.skip && gmail.error) {
-        console.error('[api/support-email] gmail', gmail.error)
-      }
-    } catch (err) {
-      console.error('[api/support-email] gmail crash', err?.message || err)
-    }
+    const env = envStatus()
+    const tried = []
 
-    // 2) Resend
-    try {
-      const resend = await sendViaResend({
-        to,
-        replyTo: email,
-        subject,
-        text,
-      })
-      if (resend.ok) return sendJson(res, 200, { ok: true, via: resend.via })
-      if (!resend.skip && resend.error) {
-        console.error('[api/support-email] resend', resend.error)
-      }
-    } catch (err) {
-      console.error('[api/support-email] resend crash', err?.message || err)
-    }
-
-    // 3) FormSubmit free fallback
-    try {
-      const fs = await sendViaFormSubmit({
-        to,
-        name,
-        email,
-        subject,
-        text,
-        accountId,
-      })
-      if (fs.ok) return sendJson(res, 200, { ok: true, via: fs.via })
-      if (fs.needsActivation) {
-        return sendJson(res, 503, {
+    // 1) Gmail — if env is set, this is the only path (clear errors, no silent fallback)
+    if (env.gmailUser || env.gmailPass) {
+      try {
+        const gmail = await sendViaGmail({ to, replyTo: email, subject, text })
+        if (gmail.ok) {
+          return sendJson(res, 200, { ok: true, via: 'gmail' })
+        }
+        if (!gmail.skip) {
+          tried.push(`gmail: ${gmail.error || 'failed'}`)
+        } else {
+          tried.push(`gmail: ${gmail.error}`)
+        }
+        // Credentials partially/fully set but send failed → return clear error
+        return sendJson(res, 502, {
           ok: false,
-          needsActivation: true,
-          error: fs.error,
-          code: 'NEEDS_ACTIVATION',
+          code: 'GMAIL_FAILED',
+          error:
+            gmail.error ||
+            'Gmail send failed. Check App Password, 2-Step Verification, and that env vars are on Production + Redeploy done.',
+          env,
+          tried,
+        })
+      } catch (err) {
+        const msg = err?.message || String(err)
+        console.error('[api/support-email] gmail', msg)
+        // Common Google messages
+        let hint = msg
+        if (/Invalid login|Username and Password not accepted|EAUTH/i.test(msg)) {
+          hint =
+            'Gmail rejected login. Use a Google App Password (not your normal password). Enable 2-Step Verification first. Copy the 16-character code into GMAIL_APP_PASSWORD, then Redeploy.'
+        } else if (/self-signed|certificate/i.test(msg)) {
+          hint = 'TLS/certificate error talking to Gmail SMTP.'
+        }
+        return sendJson(res, 502, {
+          ok: false,
+          code: 'GMAIL_FAILED',
+          error: hint,
+          env,
+          tried: [...tried, `gmail: ${msg}`],
         })
       }
-      return sendJson(res, 502, {
-        ok: false,
-        error: fs.error || 'Email send failed',
-        code: 'SEND_FAILED',
-      })
+    }
+
+    // 2) Resend (only if Gmail not configured)
+    try {
+      const resend = await sendViaResend({ to, replyTo: email, subject, text })
+      if (resend.ok) return sendJson(res, 200, { ok: true, via: 'resend' })
+      if (!resend.skip) {
+        return sendJson(res, 502, {
+          ok: false,
+          code: 'RESEND_FAILED',
+          error: resend.error,
+          env,
+        })
+      }
+      tried.push('resend: not configured')
     } catch (err) {
-      console.error('[api/support-email] formsubmit crash', err?.message || err)
       return sendJson(res, 502, {
         ok: false,
-        error: err?.message || 'Email send failed',
-        code: 'SEND_FAILED',
+        code: 'RESEND_FAILED',
+        error: err?.message || 'Resend failed',
+        env,
       })
     }
+
+    // Nothing configured
+    return sendJson(res, 503, {
+      ok: false,
+      code: 'NO_MAIL_PROVIDER',
+      error:
+        'No mail provider configured. In Vercel → Settings → Environment Variables set GMAIL_USER and GMAIL_APP_PASSWORD (Production), then Redeploy.',
+      env,
+      tried,
+    })
   } catch (err) {
     console.error('[api/support-email] crash', err)
     return sendJson(res, 500, {
