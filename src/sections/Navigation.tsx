@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react'
+import { useAuth } from '@/hooks/useAuth'
+import LoginModal from '@/components/LoginModal'
 
 interface NavigationProps {
   onNavigate: (section: string) => void
 }
 
 export default function Navigation({ onNavigate }: NavigationProps) {
+  const { session, logout, ready } = useAuth()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [loginOpen, setLoginOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,6 +18,16 @@ export default function Navigation({ onNavigate }: NavigationProps) {
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Deep link: #login opens the modal
+  useEffect(() => {
+    const openFromHash = () => {
+      if (window.location.hash === '#login') setLoginOpen(true)
+    }
+    openFromHash()
+    window.addEventListener('hashchange', openFromHash)
+    return () => window.removeEventListener('hashchange', openFromHash)
   }, [])
 
   const navItems = [
@@ -65,12 +79,41 @@ export default function Navigation({ onNavigate }: NavigationProps) {
             ))}
           </div>
 
-          <button
-            onClick={() => handleNavClick('apk')}
-            className="hidden md:block btn-primary text-sm py-3 px-7"
-          >
-            GET APK
-          </button>
+          <div className="hidden md:flex items-center gap-3">
+            {ready && session ? (
+              <>
+                <div className="flex flex-col items-end mr-1">
+                  <span className="font-ui text-cream text-xs tracking-wider uppercase">
+                    {session.displayName}
+                  </span>
+                  <span className="font-body text-cream/55 text-[11px] tracking-wide">
+                    {session.accountId}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="bg-transparent text-cream/80 border border-cream/30 font-ui text-xs uppercase tracking-wider py-2.5 px-4 rounded-full cursor-pointer hover:border-cream hover:text-cream transition-colors"
+                >
+                  Log out
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setLoginOpen(true)}
+                className="bg-transparent text-cream border border-cream/40 font-ui text-xs uppercase tracking-wider py-2.5 px-5 rounded-full cursor-pointer hover:bg-cream hover:text-teal transition-colors"
+              >
+                Log in
+              </button>
+            )}
+            <button
+              onClick={() => handleNavClick('apk')}
+              className="btn-primary text-sm py-3 px-7"
+            >
+              GET APK
+            </button>
+          </div>
 
           <button
             className="lg:hidden flex flex-col gap-[6px] p-2 bg-transparent border-none cursor-pointer"
@@ -105,7 +148,7 @@ export default function Navigation({ onNavigate }: NavigationProps) {
           transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)',
         }}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-7">
+        <div className="flex flex-col items-center justify-center h-full gap-7 px-6">
           {navItems.map((item) => (
             <button
               key={item.section}
@@ -115,11 +158,46 @@ export default function Navigation({ onNavigate }: NavigationProps) {
               {item.label}
             </button>
           ))}
-          <button onClick={() => handleNavClick('apk')} className="btn-primary mt-6 text-lg">
+
+          {ready && session ? (
+            <div className="text-center mt-2">
+              <p className="font-ui text-teal text-sm tracking-wider uppercase">
+                {session.displayName}
+              </p>
+              <p className="font-body text-teal/50 text-xs mt-1 tracking-wide">
+                {session.accountId}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  logout()
+                  setMenuOpen(false)
+                }}
+                className="mt-4 font-ui text-terracotta text-sm uppercase tracking-wider bg-transparent border-none cursor-pointer"
+              >
+                Log out
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen(false)
+                setLoginOpen(true)
+              }}
+              className="font-display text-teal text-3xl uppercase tracking-tight bg-transparent border-none cursor-pointer hover:text-terracotta"
+            >
+              Log in
+            </button>
+          )}
+
+          <button onClick={() => handleNavClick('apk')} className="btn-primary mt-4 text-lg">
             GET APK
           </button>
         </div>
       </div>
+
+      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
     </>
   )
 }

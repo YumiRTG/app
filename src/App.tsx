@@ -3,6 +3,7 @@ import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+import { AuthProvider } from '@/hooks/useAuth'
 import Navigation from './sections/Navigation'
 import Hero from './sections/Hero'
 import Manifesto from './sections/Manifesto'
@@ -63,27 +64,29 @@ export default function App() {
   }, [])
 
   return (
-    <div className="relative">
-      <div className="grain-overlay" />
+    <AuthProvider>
+      <div className="relative">
+        <div className="grain-overlay" />
 
-      <Navigation onNavigate={handleNavigate} />
+        <Navigation onNavigate={handleNavigate} />
 
-      <main>
-        <Hero />
-        <Manifesto />
-        <Features />
-        <Gameplay />
-        <CharacterSpotlight />
-        <Troops />
-        <DinoShowcase />
-        <DawnAtmosphere />
-        <WorldRealms />
-        <Gallery />
-        <ApkDownload />
-        <CTADownload />
-      </main>
+        <main>
+          <Hero />
+          <Manifesto />
+          <Features />
+          <Gameplay />
+          <CharacterSpotlight />
+          <Troops />
+          <DinoShowcase />
+          <DawnAtmosphere />
+          <WorldRealms />
+          <Gallery />
+          <ApkDownload />
+          <CTADownload />
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </AuthProvider>
   )
 }

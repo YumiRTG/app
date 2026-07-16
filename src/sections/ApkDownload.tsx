@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '@/lib/assets'
 import { APK_DOWNLOAD } from '@/config/download'
+import { useAuth } from '@/hooks/useAuth'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -10,6 +11,7 @@ export default function ApkDownload() {
   const sectionRef = useRef<HTMLElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
   const isReady = APK_DOWNLOAD.available && Boolean(APK_DOWNLOAD.apkUrl)
+  const { session } = useAuth()
 
   useEffect(() => {
     const section = sectionRef.current
@@ -129,6 +131,27 @@ export default function ApkDownload() {
             <p className="font-body text-teal/65 text-sm leading-relaxed mb-7 max-w-[640px]">
               {APK_DOWNLOAD.notes}
             </p>
+
+            {session ? (
+              <div className="mb-5 rounded-lg border border-sage/30 bg-sage/10 px-4 py-3">
+                <p className="label-text text-sage text-[10px]">Logged in as</p>
+                <p className="font-ui text-teal text-sm mt-1 tracking-wide">
+                  {session.displayName} · {session.accountId}
+                </p>
+              </div>
+            ) : (
+              <div className="mb-5 rounded-lg border border-teal/12 bg-teal/[0.04] px-4 py-3">
+                <p className="font-body text-teal/65 text-sm">
+                  Optional: log in with your Account ID first so friends know which commander you are.
+                </p>
+                <a
+                  href="#login"
+                  className="font-ui text-terracotta text-xs uppercase tracking-wider mt-2 inline-block no-underline hover:underline"
+                >
+                  Log in with Account ID →
+                </a>
+              </div>
+            )}
 
             {isReady ? (
               <a
