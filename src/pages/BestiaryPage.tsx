@@ -32,7 +32,7 @@ export default function BestiaryPage() {
           <h1 className="display-lg text-white mt-4">
             Beasts &
             <br />
-            <span className="text-[#e9b44c]">legends</span>
+            <span className="text-[#f0c14d]">legends</span>
           </h1>
           <p className="body-lg mt-5">
             Creatures and commanders from Dino Dominion — the roster that shapes
@@ -45,13 +45,21 @@ export default function BestiaryPage() {
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-16">
           {DINOS.map((d) => (
-            <article key={d.name} className="media-frame group">
-              <div className="aspect-[3/4] relative">
+            <article key={d.name} className="media-frame group relative">
+              <div className="aspect-[3/4] relative bg-[#143524]">
                 <img
                   src={d.img}
                   alt={d.name}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-105"
+                  style={{ objectFit: 'cover', objectPosition: 'center 15%' }}
                   loading="lazy"
+                />
+                <div
+                  className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
+                  style={{
+                    background:
+                      'linear-gradient(to top, rgba(12,26,18,0.95), transparent)',
+                  }}
                 />
               </div>
               <div className="absolute bottom-0 inset-x-0 z-10 p-4">
@@ -68,17 +76,25 @@ export default function BestiaryPage() {
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {HEROES.map((h) => (
-            <article key={h.name} className="media-frame group">
-              <div className="aspect-[3/4] relative">
+            <article key={h.name} className="media-frame group relative">
+              <div className="aspect-[3/4] relative bg-[#143524]">
                 <img
                   src={h.img}
                   alt={h.name}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-105"
+                  style={{ objectFit: 'cover', objectPosition: 'center 12%' }}
                   loading="lazy"
+                />
+                <div
+                  className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
+                  style={{
+                    background:
+                      'linear-gradient(to top, rgba(12,26,18,0.95), transparent)',
+                  }}
                 />
               </div>
               <div className="absolute bottom-0 inset-x-0 z-10 p-3">
-                <p className="font-ui text-[10px] tracking-widest uppercase text-[#e9b44c]">
+                <p className="font-ui text-[10px] tracking-widest uppercase text-[#f0c14d]">
                   {h.role}
                 </p>
                 <p className="font-display text-base text-white uppercase mt-0.5">

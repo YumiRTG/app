@@ -12,7 +12,7 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/[0.06] bg-[#050807]">
+    <footer className="border-t border-[#f0c14d]/15 bg-[#0c1a12]/90 backdrop-blur-md">
       <div className="max-w-[1200px] mx-auto px-6 py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
         <div className="flex items-center gap-3">
           <span className="text-[#e9b44c]">

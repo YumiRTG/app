@@ -38,11 +38,11 @@ export default function Navigation() {
           <nav
             className="flex items-center justify-between gap-4 rounded-2xl px-4 sm:px-6 h-14 sm:h-16"
             style={{
-              background: 'rgba(8, 14, 12, 0.72)',
-              border: '1px solid rgba(233, 180, 76, 0.12)',
+              background: 'rgba(20, 53, 36, 0.78)',
+              border: '1px solid rgba(240, 193, 77, 0.22)',
               backdropFilter: 'blur(18px)',
               WebkitBackdropFilter: 'blur(18px)',
-              boxShadow: '0 10px 40px rgba(0,0,0,0.35)',
+              boxShadow: '0 10px 40px rgba(0,0,0,0.28)',
             }}
           >
             <Link

@@ -4,36 +4,38 @@
 
 @layer base {
   :root {
-    --background: 0 0% 4%;
-    --foreground: 40 30% 92%;
-    --card: 150 20% 8%;
-    --card-foreground: 40 30% 92%;
-    --popover: 150 20% 8%;
-    --popover-foreground: 40 30% 92%;
-    --primary: 24 80% 48%;
-    --primary-foreground: 40 40% 96%;
-    --secondary: 150 15% 14%;
+    --background: 150 25% 8%;
+    --foreground: 40 35% 92%;
+    --card: 150 22% 12%;
+    --card-foreground: 40 35% 92%;
+    --popover: 150 22% 12%;
+    --popover-foreground: 40 35% 92%;
+    --primary: 24 85% 50%;
+    --primary-foreground: 40 40% 98%;
+    --secondary: 150 18% 16%;
     --secondary-foreground: 40 30% 92%;
-    --muted: 150 10% 16%;
-    --muted-foreground: 40 10% 60%;
-    --accent: 40 55% 52%;
+    --muted: 150 12% 18%;
+    --muted-foreground: 40 12% 65%;
+    --accent: 40 60% 55%;
     --accent-foreground: 150 30% 8%;
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 40 15% 22%;
-    --input: 150 12% 16%;
-    --ring: 24 80% 48%;
+    --border: 40 20% 28%;
+    --input: 150 14% 18%;
+    --ring: 24 85% 50%;
     --radius: 0.75rem;
 
-    --void: #050807;
-    --jungle: #0a1610;
-    --jungle-mid: #102018;
-    --bone: #f0e6d0;
-    --bone-dim: #c4b89a;
+    --void: #0c1a12;
+    --jungle: #143524;
+    --jungle-mid: #1a4230;
+    --canopy: #245a3c;
+    --bone: #f3e8cf;
+    --bone-dim: #d2c4a0;
     --ember: #e85d04;
-    --ember-deep: #9b3a02;
-    --gold: #e9b44c;
-    --moss: #3d6b4f;
+    --ember-deep: #b84302;
+    --gold: #f0c14d;
+    --moss: #4f8f63;
+    --leaf: #6bbf7a;
   }
 
   * {
@@ -48,13 +50,13 @@
     font-family: 'DM Sans', system-ui, sans-serif;
     font-weight: 400;
     color: var(--bone);
-    background: var(--void);
+    background-color: var(--void);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
 
   ::selection {
-    background: rgba(232, 93, 4, 0.35);
+    background: rgba(232, 93, 4, 0.4);
     color: #fff;
   }
 
@@ -98,7 +100,7 @@
     font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: rgba(240, 230, 208, 0.72);
+    color: rgba(243, 232, 207, 0.78);
     position: relative;
     transition: color 0.25s ease;
   }
@@ -136,7 +138,7 @@
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: #fff8ee;
-    background: linear-gradient(135deg, #ff7a2f 0%, var(--ember) 45%, var(--ember-deep) 100%);
+    background: linear-gradient(135deg, #ff8a3d 0%, var(--ember) 45%, var(--ember-deep) 100%);
     border: none;
     border-radius: 999px;
     padding: 1rem 2rem;
@@ -146,17 +148,14 @@
     justify-content: center;
     gap: 0.5rem;
     box-shadow:
-      0 0 0 1px rgba(255, 200, 120, 0.2) inset,
-      0 10px 40px rgba(232, 93, 4, 0.35);
+      0 0 0 1px rgba(255, 200, 120, 0.25) inset,
+      0 10px 40px rgba(232, 93, 4, 0.4);
     transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
   }
 
   .btn-primary:hover {
     filter: brightness(1.08);
     transform: translateY(-2px);
-    box-shadow:
-      0 0 0 1px rgba(255, 200, 120, 0.3) inset,
-      0 16px 48px rgba(232, 93, 4, 0.45);
   }
 
   .btn-primary:disabled {
@@ -173,8 +172,8 @@
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: var(--bone);
-    background: transparent;
-    border: 1px solid rgba(240, 230, 208, 0.35);
+    background: rgba(20, 53, 36, 0.45);
+    border: 1px solid rgba(240, 193, 77, 0.35);
     border-radius: 999px;
     padding: 1rem 2rem;
     cursor: pointer;
@@ -186,49 +185,67 @@
   }
 
   .btn-secondary:hover {
-    background: rgba(240, 230, 208, 0.08);
+    background: rgba(240, 193, 77, 0.12);
     border-color: var(--gold);
     color: var(--gold);
   }
 
   .section-dark {
-    background: var(--void);
+    background: transparent;
     color: var(--bone);
   }
 
   .section-light {
-    background: linear-gradient(180deg, #0e1a14 0%, #0a1210 100%);
+    background: transparent;
     color: var(--bone);
   }
 
   .page-shell {
     min-height: calc(100vh - 4rem);
-    padding-top: 5.5rem;
+    padding-top: 6rem;
     padding-bottom: 5rem;
+    position: relative;
   }
 
   .glass-panel {
-    background: linear-gradient(160deg, rgba(20, 36, 28, 0.85), rgba(8, 14, 12, 0.92));
-    border: 1px solid rgba(233, 180, 76, 0.15);
-    backdrop-filter: blur(20px);
+    background: linear-gradient(
+      160deg,
+      rgba(26, 66, 48, 0.75) 0%,
+      rgba(12, 32, 22, 0.88) 55%,
+      rgba(10, 26, 18, 0.92) 100%
+    );
+    border: 1px solid rgba(240, 193, 77, 0.22);
+    backdrop-filter: blur(18px);
     border-radius: 1.25rem;
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    box-shadow:
+      0 24px 80px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
+  /* Image frames that do NOT crop subjects badly */
   .media-frame {
     position: relative;
     overflow: hidden;
     border-radius: 1.25rem;
-    border: 1px solid rgba(233, 180, 76, 0.12);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(240, 193, 77, 0.2);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(180deg, #1a4230, #0c1a12);
   }
 
-  .media-frame::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(180deg, transparent 40%, rgba(5, 8, 7, 0.85) 100%);
+  .media-frame-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .media-frame-img-contain {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
   }
 
   .eyebrow {
@@ -260,7 +277,37 @@
   .body-lg {
     font-size: clamp(1rem, 1.5vw, 1.15rem);
     line-height: 1.7;
-    color: rgba(240, 230, 208, 0.72);
+    color: rgba(243, 232, 207, 0.78);
+  }
+
+  /* Atmospheric jungle site background */
+  .site-atmosphere {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 90% 60% at 10% 10%, rgba(79, 143, 99, 0.28), transparent 55%),
+      radial-gradient(ellipse 70% 50% at 90% 20%, rgba(232, 93, 4, 0.14), transparent 50%),
+      radial-gradient(ellipse 80% 55% at 50% 100%, rgba(36, 90, 60, 0.35), transparent 55%),
+      linear-gradient(165deg, #143524 0%, #0f2419 40%, #0c1a12 100%);
+  }
+
+  .site-atmosphere::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cellipse cx='48' cy='88' rx='12' ry='16' fill='%23f0c14d'/%3E%3Cellipse cx='70' cy='68' rx='8' ry='12' fill='%23f0c14d'/%3E%3Cellipse cx='88' cy='64' rx='7' ry='11' fill='%23f0c14d'/%3E%3Cellipse cx='104' cy='72' rx='6' ry='10' fill='%23f0c14d'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
+  .site-atmosphere::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(12, 26, 18, 0.35) 0%, transparent 20%, transparent 80%, rgba(12, 26, 18, 0.35) 100%);
   }
 }
 
@@ -268,7 +315,7 @@
   .text-cream { color: var(--bone); }
   .text-teal { color: var(--moss); }
   .text-terracotta { color: var(--ember); }
-  .text-sage { color: var(--moss); }
+  .text-sage { color: var(--leaf); }
   .text-amber { color: var(--gold); }
   .bg-teal { background-color: var(--jungle); }
   .bg-cream { background-color: var(--bone); }
@@ -281,7 +328,7 @@
   inset: 0;
   z-index: 9998;
   pointer-events: none;
-  opacity: 0.04;
+  opacity: 0.035;
   mix-blend-mode: soft-light;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 180px;
@@ -295,9 +342,4 @@
 @keyframes float-soft {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.85; }
 }
