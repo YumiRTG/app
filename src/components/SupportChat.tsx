@@ -4,6 +4,7 @@ import { COMMUNITY } from '@/config/community'
 import { useAuth } from '@/hooks/useAuth'
 import { asset } from '@/lib/assets'
 import { supportAnswer, welcomeMessage, type ChatMessage } from '@/lib/supportBot'
+import { saveSupportTicket } from '@/lib/supportTickets'
 
 function uid() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
@@ -121,23 +122,60 @@ export default function SupportChat() {
       .map((m) => `${m.role === 'user' ? 'Player' : 'Bot'}: ${m.text}`)
       .join('\n')
 
+    const payload = {
+      name: formName.trim(),
+      email,
+      accountId: formAccountId.trim(),
+      message,
+      lastQuestion,
+      chatSummary,
+      subject: 'Website support chat',
+      website: honeypot,
+    }
+
+    // Always try to save in Firestore (backup if mail fails)
+    const ticket = await saveSupportTicket(payload)
+    const savedNote = ticket.ok
+      ? ' Ticket also saved in our system.'
+      : ''
+
     try {
       const res = await fetch('/api/support-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formName.trim(),
-          email,
-          accountId: formAccountId.trim(),
-          message,
-          lastQuestion,
-          chatSummary,
-          subject: 'Website support chat',
-          website: honeypot,
-        }),
+        body: JSON.stringify(payload),
       })
-      const data = (await res.json().catch(() => ({}))) as { error?: string; ok?: boolean }
-      if (!res.ok) {
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string
+        ok?: boolean
+        needsActivation?: boolean
+        code?: string
+        via?: string
+      }
+
+      if (data.needsActivation || data.code === 'NEEDS_ACTIVATION') {
+        setEmailStatus('error')
+        setEmailError(
+          data.error ||
+            'Support inbox must activate FormSubmit once. Check Gmail + Spam for “formsubmit.co / Activate Form”, click the link, then send again.'
+        )
+        // Still useful: ticket may be in Firestore
+        if (ticket.ok) {
+          setMessages((m) => [
+            ...m,
+            {
+              id: uid(),
+              role: 'assistant',
+              text:
+                'Your ticket was saved in our system, but email delivery needs a one-time setup on the support inbox (FormSubmit activation). We’ll still see it in Firebase if rules allow.',
+              at: Date.now(),
+            },
+          ])
+        }
+        return
+      }
+
+      if (!res.ok || data.ok === false) {
         throw new Error(data.error || `Send failed (${res.status})`)
       }
 
@@ -147,15 +185,47 @@ export default function SupportChat() {
         {
           id: uid(),
           role: 'assistant',
-          text: 'Thanks! Your message was sent to support. We’ll reply by email as soon as we can.',
+          text:
+            'Thanks! Your message was emailed to support. We’ll reply to your address as soon as we can.' +
+            savedNote,
           at: Date.now(),
         },
       ])
       setShowEmailForm(false)
       setFormMessage('')
     } catch (err) {
+      // Fallback: open the player's mail app pre-filled to support
+      const supportTo = COMMUNITY.supportEmail || 'andre.miethke74@gmail.com'
+      const mailto = `mailto:${encodeURIComponent(supportTo)}?subject=${encodeURIComponent(
+        '[Support] Dino Dominion'
+      )}&body=${encodeURIComponent(
+        `Name: ${formName.trim() || '-'}\nEmail: ${email}\nAccount ID: ${formAccountId.trim() || '-'}\n\n${message}\n\n---\nLast question: ${lastQuestion || '-'}`
+      )}`
+
+      if (ticket.ok) {
+        setEmailStatus('ok')
+        setMessages((m) => [
+          ...m,
+          {
+            id: uid(),
+            role: 'assistant',
+            text:
+              'Email service is not fully set up yet, but your ticket was saved. You can also email us directly from your mail app — a compose window can open if you allow it.',
+            at: Date.now(),
+          },
+        ])
+        window.location.href = mailto
+        setShowEmailForm(false)
+        return
+      }
+
       setEmailStatus('error')
-      setEmailError(err instanceof Error ? err.message : 'Could not send. Try again later.')
+      setEmailError(
+        (err instanceof Error ? err.message : 'Could not send.') +
+          ' You can still use “Open mail app” below.'
+      )
+      // Stash mailto for button
+      ;(window as unknown as { __ddSupportMailto?: string }).__ddSupportMailto = mailto
     }
   }
 
@@ -327,20 +397,32 @@ export default function SupportChat() {
                 />
 
                 {emailStatus === 'error' && emailError && (
-                  <p className="font-body text-[11px] text-red-300">{emailError}</p>
+                  <p className="font-body text-[11px] text-red-300 leading-relaxed">{emailError}</p>
                 )}
                 {emailStatus === 'ok' && (
-                  <p className="font-body text-[11px] text-emerald-300">Sent — check your inbox for our reply.</p>
+                  <p className="font-body text-[11px] text-emerald-300">
+                    Sent — we&apos;ll reply to your email.
+                  </p>
                 )}
 
-                <div className="flex gap-2 pt-0.5">
+                <div className="flex flex-wrap gap-2 pt-0.5">
                   <button
                     type="submit"
                     disabled={emailStatus === 'sending'}
-                    className="btn-primary !px-4 !py-2 !text-[0.7rem] disabled:opacity-50 flex-1"
+                    className="btn-primary !px-4 !py-2 !text-[0.7rem] disabled:opacity-50 flex-1 min-w-[7rem]"
                   >
                     {emailStatus === 'sending' ? 'Sending…' : 'Send email'}
                   </button>
+                  <a
+                    href={`mailto:${COMMUNITY.supportEmail || 'andre.miethke74@gmail.com'}?subject=${encodeURIComponent(
+                      '[Support] Dino Dominion'
+                    )}&body=${encodeURIComponent(
+                      `Name: ${formName.trim() || '-'}\nEmail: ${formEmail.trim() || '-'}\nAccount ID: ${formAccountId.trim() || '-'}\n\n${formMessage.trim() || ''}\n\n---\nLast question: ${lastQuestion || '-'}`
+                    )}`}
+                    className="font-ui text-[10px] uppercase tracking-wider px-3 py-2 rounded-lg border border-[#f0c14d]/30 text-[#f0c14d] no-underline hover:bg-[#f0c14d]/10 text-center"
+                  >
+                    Open mail app
+                  </a>
                   <button
                     type="button"
                     onClick={() => {

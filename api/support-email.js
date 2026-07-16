@@ -1,13 +1,15 @@
 /**
- * Vercel Serverless — send support form to your inbox.
+ * Vercel Serverless — deliver support form to your inbox.
  *
- * Env (Vercel → Settings → Environment Variables):
- *   SUPPORT_TO_EMAIL   required — your inbox (e.g. you@gmail.com)
- *   RESEND_API_KEY     optional — if set, send via Resend (recommended)
+ * Priority:
+ *  1) Gmail SMTP  — env GMAIL_USER + GMAIL_APP_PASSWORD  (most reliable)
+ *  2) Resend      — env RESEND_API_KEY (+ optional SUPPORT_TO_EMAIL)
+ *  3) FormSubmit  — free fallback (needs one-time "Activate Form" email)
  *
- * Without RESEND_API_KEY, uses FormSubmit.co (free). First message ever
- * sent to a new address needs a one-time confirmation click in your inbox.
+ * SUPPORT_TO_EMAIL — inbox (default: andre.miethke74@gmail.com)
  */
+
+import nodemailer from 'nodemailer'
 
 const DEFAULT_TO = 'andre.miethke74@gmail.com'
 
@@ -43,6 +45,132 @@ function isEmail(v) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
 }
 
+function buildText({ name, email, accountId, message, lastQuestion, chatSummary }) {
+  const lines = [
+    'New support request from the website chat',
+    '========================================',
+    '',
+    `From name:  ${name || '(not given)'}`,
+    `Reply-to:   ${email}`,
+    `Account ID: ${accountId || '(not given)'}`,
+    `Time (UTC): ${new Date().toISOString()}`,
+    '',
+    '--- Message ---',
+    message,
+    '',
+  ]
+  if (lastQuestion) lines.push('--- Last chat question ---', lastQuestion, '')
+  if (chatSummary) lines.push('--- Recent chat ---', chatSummary, '')
+  return lines.join('\n')
+}
+
+async function sendViaGmail({ to, replyTo, subject, text, fromUser }) {
+  const user = clean(process.env.GMAIL_USER, 120) || fromUser
+  const pass = clean(process.env.GMAIL_APP_PASSWORD, 120).replace(/\s+/g, '')
+  if (!user || !pass) return { ok: false, skip: true }
+
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: { user, pass },
+  })
+
+  await transporter.sendMail({
+    from: `"Dino Dominion Support" <${user}>`,
+    to,
+    replyTo,
+    subject,
+    text,
+  })
+  return { ok: true, via: 'gmail' }
+}
+
+async function sendViaResend({ to, replyTo, subject, text }) {
+  const key = process.env.RESEND_API_KEY
+  if (!key) return { ok: false, skip: true }
+
+  const upstream = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${key}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: 'Dino Dominion Support <onboarding@resend.dev>',
+      to: [to],
+      reply_to: replyTo,
+      subject,
+      text,
+    }),
+  })
+  const data = await upstream.json().catch(() => ({}))
+  if (!upstream.ok) {
+    return {
+      ok: false,
+      error: data?.message || `Resend error ${upstream.status}`,
+    }
+  }
+  return { ok: true, via: 'resend' }
+}
+
+async function sendViaFormSubmit({ to, name, email, subject, text, accountId }) {
+  const formSubmitUrl = `https://formsubmit.co/ajax/${encodeURIComponent(to)}`
+  const upstream = await fetch(formSubmitUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Origin: 'https://app-dino-dominion.vercel.app',
+      Referer: 'https://app-dino-dominion.vercel.app/',
+    },
+    body: JSON.stringify({
+      name: name || 'Player',
+      email,
+      _replyto: email,
+      _subject: subject,
+      message: text,
+      accountId: accountId || 'n/a',
+      _template: 'table',
+      _captcha: 'false',
+    }),
+  })
+
+  const data = await upstream.json().catch(() => ({}))
+  const msg = String(data?.message || data?.error || '')
+  const successFlag = data?.success
+  const isSuccess =
+    successFlag === true ||
+    successFlag === 'true' ||
+    /thank you|submitted|success/i.test(msg)
+
+  if (isSuccess) return { ok: true, via: 'formsubmit' }
+
+  // First-time setup: FormSubmit emails an activation link (often in spam)
+  if (/activat/i.test(msg)) {
+    return {
+      ok: false,
+      needsActivation: true,
+      error:
+        'FormSubmit needs a one-time activation. Check the support Gmail inbox AND spam for an email from formsubmit.co titled “Activate Form”, then click the link. After that, tickets will arrive normally.',
+    }
+  }
+
+  // Server-side fetch sometimes blocked
+  if (/web server|HTML files/i.test(msg)) {
+    return {
+      ok: false,
+      error: 'Form backend blocked server send. Configure Gmail App Password (see README).',
+    }
+  }
+
+  if (!upstream.ok) {
+    return { ok: false, error: msg || `FormSubmit HTTP ${upstream.status}` }
+  }
+
+  return { ok: false, error: msg || 'FormSubmit did not accept the message.' }
+}
+
 export default async function handler(req, res) {
   try {
     if (req.method === 'OPTIONS') {
@@ -62,9 +190,9 @@ export default async function handler(req, res) {
       return sendJson(res, 400, { error: 'Invalid JSON body' })
     }
 
-    // Honeypot — bots fill this; humans never see it
+    // Honeypot
     if (clean(body.website, 200)) {
-      return sendJson(res, 200, { ok: true })
+      return sendJson(res, 200, { ok: true, via: 'honeypot' })
     }
 
     const name = clean(body.name, 80)
@@ -82,87 +210,82 @@ export default async function handler(req, res) {
     }
 
     const to = clean(process.env.SUPPORT_TO_EMAIL, 120) || DEFAULT_TO
-    const subject = clean(body.subject, 120) || 'Dino Dominion — Support request'
-    const lines = [
-      'New support request from the website chat',
-      '========================================',
-      '',
-      `From name:  ${name || '(not given)'}`,
-      `Reply-to:   ${email}`,
-      `Account ID: ${accountId || '(not given)'}`,
-      `Time (UTC): ${new Date().toISOString()}`,
-      '',
-      '--- Message ---',
+    const subject =
+      `[Support] ` + (clean(body.subject, 120) || 'Dino Dominion website')
+    const text = buildText({
+      name,
+      email,
+      accountId,
       message,
-      '',
-    ]
-    if (lastQuestion) {
-      lines.push('--- Last chat question ---', lastQuestion, '')
-    }
-    if (chatSummary) {
-      lines.push('--- Recent chat ---', chatSummary, '')
-    }
-    const text = lines.join('\n')
-
-    const resendKey = process.env.RESEND_API_KEY
-    if (resendKey) {
-      const upstream = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${resendKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'Dino Dominion Support <onboarding@resend.dev>',
-          to: [to],
-          reply_to: email,
-          subject: `[Support] ${subject}`,
-          text,
-        }),
-      })
-      const data = await upstream.json().catch(() => ({}))
-      if (!upstream.ok) {
-        console.error('[api/support-email] Resend error', upstream.status, data)
-        return sendJson(res, 502, {
-          error: data?.message || `Email provider error (${upstream.status})`,
-          code: 'RESEND_ERROR',
-        })
-      }
-      return sendJson(res, 200, { ok: true, via: 'resend' })
-    }
-
-    // Free fallback: FormSubmit (no API key). Activate once via email link.
-    const formSubmitUrl = `https://formsubmit.co/ajax/${encodeURIComponent(to)}`
-    const upstream = await fetch(formSubmitUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        name: name || 'Player',
-        email,
-        _replyto: email,
-        _subject: `[Support] ${subject}`,
-        message: text,
-        accountId: accountId || 'n/a',
-        _template: 'table',
-        _captcha: 'false',
-      }),
+      lastQuestion,
+      chatSummary,
     })
 
-    const data = await upstream.json().catch(() => ({}))
-    if (!upstream.ok) {
-      console.error('[api/support-email] FormSubmit error', upstream.status, data)
-      return sendJson(res, 502, {
-        error:
-          data?.message ||
-          'Could not send email. If this is the first time, check the support inbox for a FormSubmit activation link.',
-        code: 'FORMSUBMIT_ERROR',
+    // 1) Gmail SMTP (recommended)
+    try {
+      const gmail = await sendViaGmail({
+        to,
+        replyTo: email,
+        subject,
+        text,
+        fromUser: to,
       })
+      if (gmail.ok) return sendJson(res, 200, { ok: true, via: gmail.via })
+      if (!gmail.skip && gmail.error) {
+        console.error('[api/support-email] gmail', gmail.error)
+      }
+    } catch (err) {
+      console.error('[api/support-email] gmail crash', err?.message || err)
     }
 
-    return sendJson(res, 200, { ok: true, via: 'formsubmit' })
+    // 2) Resend
+    try {
+      const resend = await sendViaResend({
+        to,
+        replyTo: email,
+        subject,
+        text,
+      })
+      if (resend.ok) return sendJson(res, 200, { ok: true, via: resend.via })
+      if (!resend.skip && resend.error) {
+        console.error('[api/support-email] resend', resend.error)
+      }
+    } catch (err) {
+      console.error('[api/support-email] resend crash', err?.message || err)
+    }
+
+    // 3) FormSubmit free fallback
+    try {
+      const fs = await sendViaFormSubmit({
+        to,
+        name,
+        email,
+        subject,
+        text,
+        accountId,
+      })
+      if (fs.ok) return sendJson(res, 200, { ok: true, via: fs.via })
+      if (fs.needsActivation) {
+        return sendJson(res, 503, {
+          ok: false,
+          needsActivation: true,
+          error: fs.error,
+          code: 'NEEDS_ACTIVATION',
+        })
+      }
+      return sendJson(res, 502, {
+        ok: false,
+        error: fs.error || 'Email send failed',
+        code: 'SEND_FAILED',
+      })
+    } catch (err) {
+      console.error('[api/support-email] formsubmit crash', err?.message || err)
+      return sendJson(res, 502, {
+        ok: false,
+        error: err?.message || 'Email send failed',
+        code: 'SEND_FAILED',
+      })
+    }
   } catch (err) {
     console.error('[api/support-email] crash', err)
     return sendJson(res, 500, {
