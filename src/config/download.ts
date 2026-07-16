@@ -1,34 +1,31 @@
 /**
  * Android APK download settings for friend testing.
  *
- * HOW TO ENABLE LATER:
- * 1) Host the APK somewhere public (GitHub Release, Drive, Dropbox, own server).
- *    Note: GitHub repo file limit is 100 MB — large APKs need Releases/external host.
- * 2) Paste the full download URL into `apkUrl` below.
- * 3) Set `available` to true, update version/size, commit & push.
+ * HOW TO UPDATE:
+ * 1) Host a new APK (Drive, Dropbox, GitHub Release, etc.)
+ * 2) Paste the download URL into `apkUrl`
+ * 3) Set `available` to true, update version/size, commit & push
  *
- * Optional local file (only if under ~100 MB):
- *   put the file at public/dino-dominion.apk
- *   and set: apkUrl: import.meta.env.BASE_URL + 'dino-dominion.apk'
+ * Google Drive tip:
+ *   share link:  https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+ *   download:    https://drive.google.com/uc?export=download&id=FILE_ID
  */
 export const APK_DOWNLOAD = {
   /** Set to true when friends should be able to download */
-  available: false,
+  available: true,
 
   /**
-   * Full URL to the APK file.
-   * Examples:
-   * - 'https://github.com/YumiRTG/app/releases/download/v0.1.0/DinoDominion.apk'
-   * - 'https://your-cdn.com/DinoDominion.apk'
-   * - import.meta.env.BASE_URL + 'dino-dominion.apk'  (only if file is in /public)
+   * Direct download URL (Google Drive export link).
+   * Source share: https://drive.google.com/file/d/1vCOXB_CIomE0c1ybGzfo7FxK6Mfh-quM/view?usp=sharing
    */
-  apkUrl: '',
+  apkUrl:
+    'https://drive.google.com/uc?export=download&id=1vCOXB_CIomE0c1ybGzfo7FxK6Mfh-quM',
 
   fileName: 'DinoDominion.apk',
   version: '0.1.0-beta',
-  sizeLabel: '—',
+  sizeLabel: '~3.5 GB',
   platform: 'Android',
   minAndroid: 'Android 8.0+',
   notes:
-    'This is a private beta build for friends. Install from unknown sources must be allowed on your phone.',
+    'Private friend beta. Download may take a while (large file). On Android, allow install from this browser/source when prompted. Wi‑Fi recommended.',
 } as const
