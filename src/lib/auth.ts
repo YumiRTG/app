@@ -4,6 +4,8 @@ export type AuthSession = {
   accountId: string
   displayName: string
   loggedInAt: string
+  firebaseUid?: string
+  source?: 'local' | 'firebase'
 }
 
 /** Normalize and validate account IDs (game-style codes). */
@@ -40,6 +42,8 @@ export function loadSession(): AuthSession | null {
       accountId: normalizeAccountId(data.accountId),
       displayName: (data.displayName || 'Commander').trim().slice(0, 24),
       loggedInAt: data.loggedInAt || new Date().toISOString(),
+      firebaseUid: data.firebaseUid,
+      source: data.source || 'local',
     }
   } catch {
     return null
