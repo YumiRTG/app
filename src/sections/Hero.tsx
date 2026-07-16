@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { asset } from '@/lib/assets'
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -49,9 +50,9 @@ export default function Hero() {
         playsInline
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover z-0"
-        poster="/hero-poster-mobile.jpg"
+        poster={asset('hero-poster-mobile.jpg')}
       >
-        <source src="/hero-jungle-aerial.mp4" type="video/mp4" />
+        <source src={asset('hero-jungle-aerial.mp4')} type="video/mp4" />
       </video>
 
       {/* Gradient Overlay */}

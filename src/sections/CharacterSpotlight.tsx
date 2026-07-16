@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { asset } from '@/lib/assets'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -87,7 +88,7 @@ export default function CharacterSpotlight() {
             style={{ aspectRatio: '3/4', maxHeight: '700px' }}
           >
             <img
-              src="/character-kira.jpg"
+              src={asset('character-kira.jpg')}
               alt="Kira, Stammesführerin"
               className="w-full h-full object-cover scale-110"
               style={{ transform: 'translateY(-40px) scale(1.1)' }}

@@ -1,25 +1,26 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { asset } from '@/lib/assets'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const ADVENTURE_IMAGES = [
-  { src: '/dino-trex.jpg', caption: 'T-Rex Begegnung' },
-  { src: '/dino-triceratops.jpg', caption: 'Triceratops Herde' },
-  { src: '/dino-pteranodon.jpg', caption: 'Pteranodon Schwarm' },
-  { src: '/dino-stegosaurus.jpg', caption: 'Stegosaurus im Wald' },
-  { src: '/dino-velociraptor.jpg', caption: 'Velociraptor Jagd' },
-  { src: '/combat-scene.jpg', caption: 'Epischer Kampf' },
+  { src: asset('dino-trex.jpg'), caption: 'T-Rex Begegnung' },
+  { src: asset('dino-triceratops.jpg'), caption: 'Triceratops Herde' },
+  { src: asset('dino-pteranodon.jpg'), caption: 'Pteranodon Schwarm' },
+  { src: asset('dino-stegosaurus.jpg'), caption: 'Stegosaurus im Wald' },
+  { src: asset('dino-velociraptor.jpg'), caption: 'Velociraptor Jagd' },
+  { src: asset('combat-scene.jpg'), caption: 'Epischer Kampf' },
 ]
 
 const ATMOSPHERE_IMAGES = [
-  { src: '/env-jungle.jpg', caption: 'Urwald' },
-  { src: '/env-volcano.jpg', caption: 'Vulkanregion' },
-  { src: '/env-oasis.jpg', caption: 'Oase' },
-  { src: '/camp-tribal.jpg', caption: 'Stammlager' },
-  { src: '/character-kira.jpg', caption: 'Kira' },
-  { src: '/hero-poster-mobile.jpg', caption: 'Sonnenaufgang' },
+  { src: asset('env-jungle.jpg'), caption: 'Urwald' },
+  { src: asset('env-volcano.jpg'), caption: 'Vulkanregion' },
+  { src: asset('env-oasis.jpg'), caption: 'Oase' },
+  { src: asset('camp-tribal.jpg'), caption: 'Stammlager' },
+  { src: asset('character-kira.jpg'), caption: 'Kira' },
+  { src: asset('hero-poster-mobile.jpg'), caption: 'Sonnenaufgang' },
 ]
 
 export default function Gallery() {

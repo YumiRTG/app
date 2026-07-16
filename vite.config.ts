@@ -4,8 +4,8 @@ import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
-  // Relative base works for GitHub Pages project sites and local preview
-  base: './',
+  // GitHub Pages project site: https://yumirtg.github.io/app/
+  base: '/app/',
   plugins: [react()],
   server: {
     port: 3000,

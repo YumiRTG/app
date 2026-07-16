@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { asset } from '@/lib/assets'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -104,7 +105,7 @@ export default function Gameplay() {
           preload="auto"
           className="w-full h-full object-cover"
         >
-          <source src="/gameplay-sequence.mp4" type="video/mp4" />
+          <source src={asset('gameplay-sequence.mp4')} type="video/mp4" />
         </video>
 
         {/* Overlay */}
