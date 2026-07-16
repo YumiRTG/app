@@ -69,9 +69,9 @@ const KB: KbEntry[] = [
   {
     keys: ['support', 'help', 'hilfe', 'problem', 'bug', 'error', 'fehler'],
     answerEn:
-      'I’m the free on-site Support assistant (no paid AI needed). I help with APK install, Account ID login, daily rewards, roulette and game basics. What’s wrong?',
+      'I’m your Dominion Support assistant. I help with APK install, Account ID login, daily rewards, roulette and game basics. What’s wrong?',
     answerDe:
-      'Ich bin der kostenlose Support-Assistent auf der Seite (keine bezahlte KI nötig). Ich helfe bei APK, Account-ID-Login, Daily, Roulette und Spiel-Basics. Was ist das Problem?',
+      'Ich bin dein Dominion Support-Assistent. Ich helfe bei APK, Account-ID-Login, Daily, Roulette und Spiel-Basics. Was ist das Problem?',
   },
   {
     keys: ['dino', 'dinosaur', 'tyranno', 'raptor', 'creature', 'bestiary', 'saurier'],
@@ -172,7 +172,7 @@ export function supportReply(userText: string): string {
 
 export function welcomeMessage(): string {
   return (
-    'Hey! I’m your free Dominion Support assistant (no paid AI). ' +
+    'Hey! I’m your Dominion Support assistant. ' +
     'Ask about download, Account ID login, daily rewards, roulette, dinos — DE or EN is fine.'
   )
 }

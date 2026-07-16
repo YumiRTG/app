@@ -52,7 +52,6 @@ export default function SupportChat() {
     setInput('')
     setTyping(true)
 
-    // Free local support only — no paid AI / no credits
     window.setTimeout(() => {
       const replyText = supportReply(value)
       setMessages((m) => [
