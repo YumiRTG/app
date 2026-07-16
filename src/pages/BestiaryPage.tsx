@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
+import { usePageMotion } from '@/hooks/useMotion'
 
 const DINOS = [
   { name: 'Tyrannosaurus', img: asset('dino-tyranno.png') },
@@ -24,10 +25,12 @@ const HEROES = [
 ]
 
 export default function BestiaryPage() {
+  const motionRef = usePageMotion()
+
   return (
-    <div className="page-shell">
+    <div ref={motionRef} className="page-shell">
       <div className="container-dd">
-        <div className="max-w-2xl mb-12 md:mb-14">
+        <div className="max-w-2xl mb-12 md:mb-14" data-reveal="up">
           <p className="eyebrow">Bestiary</p>
           <h1 className="display-lg text-white mt-4">
             Beasts &
@@ -40,14 +43,14 @@ export default function BestiaryPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center gap-4 mb-6" data-reveal="up">
           <h2 className="font-display text-2xl text-white tracking-wide">DINOSAURS</h2>
           <div className="hud-line flex-1 opacity-50" />
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-16" data-reveal-stagger>
           {DINOS.map((d) => (
-            <article key={d.name} className="dd-card group">
+            <article key={d.name} className="dd-card group" data-reveal-item>
               <div className="aspect-[3/4] relative bg-[#0a0810]">
                 <img
                   src={d.img}
@@ -73,14 +76,14 @@ export default function BestiaryPage() {
           ))}
         </div>
 
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center gap-4 mb-6" data-reveal="up">
           <h2 className="font-display text-2xl text-white tracking-wide">HEROES</h2>
           <div className="hud-line flex-1 opacity-50" />
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4" data-reveal-stagger>
           {HEROES.map((h) => (
-            <article key={h.name} className="dd-card group">
+            <article key={h.name} className="dd-card group" data-reveal-item>
               <div className="aspect-[3/4] relative bg-[#0a0810]">
                 <img
                   src={h.img}
@@ -109,7 +112,7 @@ export default function BestiaryPage() {
           ))}
         </div>
 
-        <div className="mt-14">
+        <div className="mt-14" data-reveal="up">
           <Link to="/download" className="btn-primary no-underline">
             Play free
           </Link>

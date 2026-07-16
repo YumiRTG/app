@@ -1,11 +1,14 @@
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
+import { usePageMotion } from '@/hooks/useMotion'
 
 export default function StoryPage() {
+  const motionRef = usePageMotion()
+
   return (
-    <div className="page-shell">
+    <div ref={motionRef} className="page-shell">
       <div className="container-dd grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <div>
+        <div data-reveal="left">
           <p className="eyebrow">The age awakens</p>
           <h1 className="display-lg text-white mt-4">
             A world where
@@ -25,13 +28,13 @@ export default function StoryPage() {
             frontiers.
           </p>
 
-          <div className="grid sm:grid-cols-3 gap-3 mt-10">
+          <div className="grid sm:grid-cols-3 gap-3 mt-10" data-reveal-stagger>
             {[
               { k: 'Tribe', v: 'Rise from ash' },
               { k: 'Beasts', v: 'Tame the wild' },
               { k: 'Map', v: 'Claim realms' },
             ].map((s) => (
-              <div key={s.k} className="stat-chip">
+              <div key={s.k} className="stat-chip" data-reveal-item>
                 <p className="font-display text-lg text-[var(--gold)]">{s.k}</p>
                 <p className="font-ui text-[10px] uppercase tracking-wider text-[var(--bone-dim)] mt-1">
                   {s.v}
@@ -40,7 +43,7 @@ export default function StoryPage() {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-3 mt-10">
+          <div className="flex flex-wrap gap-3 mt-10" data-reveal="up" data-reveal-delay="0.1">
             <Link to="/features" className="btn-primary no-underline">
               See features
             </Link>
@@ -50,15 +53,16 @@ export default function StoryPage() {
           </div>
         </div>
 
-        <div className="relative w-full max-w-[520px] mx-auto lg:mx-0 lg:ml-auto">
+        <div className="relative w-full max-w-[520px] mx-auto lg:mx-0 lg:ml-auto" data-reveal="right">
           <div
             className="media-frame relative w-full overflow-hidden group"
             style={{ aspectRatio: '3 / 4', minHeight: 420 }}
           >
             <img
+              data-parallax="0.1"
               src={asset('hero-nyra.png')}
               alt="Nyra Vale"
-              className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-105"
+              className="absolute inset-0 w-full h-[115%] transition-transform duration-700 group-hover:scale-105 will-change-transform"
               style={{
                 objectFit: 'cover',
                 objectPosition: 'center 12%',
@@ -82,7 +86,7 @@ export default function StoryPage() {
           </div>
 
           <div
-            className="absolute -inset-6 -z-10 rounded-[2rem] opacity-60 blur-3xl"
+            className="absolute -inset-6 -z-10 rounded-[2rem] opacity-60 blur-3xl animate-pulse-glow"
             style={{
               background:
                 'radial-gradient(circle at 50% 40%, rgba(255,77,26,0.3), transparent 65%)',

@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
+import { usePageMotion } from '@/hooks/useMotion'
 
 const features = [
   {
@@ -41,10 +42,12 @@ const features = [
 ]
 
 export default function FeaturesPage() {
+  const motionRef = usePageMotion()
+
   return (
-    <div className="page-shell">
+    <div ref={motionRef} className="page-shell">
       <div className="container-dd">
-        <div className="max-w-2xl mb-12 md:mb-16">
+        <div className="max-w-2xl mb-12 md:mb-16" data-reveal="up">
           <p className="eyebrow">Systems</p>
           <h1 className="display-lg text-white mt-4">
             Built for
@@ -57,9 +60,9 @@ export default function FeaturesPage() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5" data-reveal-stagger>
           {features.map((f) => (
-            <article key={f.title} className="dd-card group">
+            <article key={f.title} className="dd-card group" data-reveal-item>
               <div
                 className="relative w-full overflow-hidden bg-[#0a0810]"
                 style={{ aspectRatio: '16 / 11' }}
@@ -95,7 +98,7 @@ export default function FeaturesPage() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-wrap gap-3">
+        <div className="mt-14 flex flex-wrap gap-3" data-reveal="up">
           <Link to="/play" className="btn-primary no-underline">
             Claim rewards
           </Link>

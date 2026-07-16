@@ -576,3 +576,76 @@
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-18px, 22px) scale(1.06); }
+}
+
+@keyframes orb-float-slow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(22px, -16px) scale(1.08); }
+}
+
+@keyframes bg-drift {
+  0%, 100% { transform: scale(1.05) translate(0, 0); }
+  50% { transform: scale(1.08) translate(-1%, 0.5%); }
+}
+
+@keyframes scroll-cue {
+  0% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: scaleY(1); transform-origin: top; opacity: 0; }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.animate-orb-float {
+  animation: orb-float 12s ease-in-out infinite;
+}
+
+.animate-orb-float-slow {
+  animation: orb-float-slow 16s ease-in-out infinite;
+}
+
+.animate-bg-drift {
+  animation: bg-drift 28s ease-in-out infinite;
+}
+
+.scroll-cue-line {
+  display: block;
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  animation: scroll-cue 1.8s ease-in-out infinite;
+}
+
+/* Lenis smooth scroll base */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-glow,
+  .animate-orb-float,
+  .animate-orb-float-slow,
+  .animate-bg-drift,
+  .scroll-cue-line {
+    animation: none !important;
+  }
+}
