@@ -1,28 +1,50 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { COMMUNITY } from '@/config/community'
+import { useAuth } from '@/hooks/useAuth'
 import { asset } from '@/lib/assets'
-import { supportReply, welcomeMessage, type ChatMessage } from '@/lib/supportBot'
+import { supportAnswer, welcomeMessage, type ChatMessage } from '@/lib/supportBot'
 
 function uid() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 }
 
+type EmailStatus = 'idle' | 'sending' | 'ok' | 'error'
+
 export default function SupportChat() {
+  const { session } = useAuth()
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
     { id: uid(), role: 'assistant', text: welcomeMessage(), at: Date.now() },
   ])
+  const [showEmailForm, setShowEmailForm] = useState(false)
+  const [lastQuestion, setLastQuestion] = useState('')
+  const [formName, setFormName] = useState('')
+  const [formEmail, setFormEmail] = useState('')
+  const [formAccountId, setFormAccountId] = useState('')
+  const [formMessage, setFormMessage] = useState('')
+  const [honeypot, setHoneypot] = useState('')
+  const [emailStatus, setEmailStatus] = useState<EmailStatus>('idle')
+  const [emailError, setEmailError] = useState('')
   const listRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
+    if (session?.accountId && !formAccountId) {
+      setFormAccountId(session.accountId)
+    }
+    if (session?.displayName && !formName) {
+      setFormName(session.displayName)
+    }
+  }, [session, formAccountId, formName])
+
+  useEffect(() => {
     if (!open) return
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' })
-    inputRef.current?.focus()
-  }, [open, messages, typing])
+    if (!showEmailForm) inputRef.current?.focus()
+  }, [open, messages, typing, showEmailForm])
 
   useEffect(() => {
     const openFromHash = () => {
@@ -38,6 +60,16 @@ export default function SupportChat() {
     }
   }, [])
 
+  const openEmailForm = (question?: string) => {
+    const q = (question ?? lastQuestion).trim()
+    setShowEmailForm(true)
+    setEmailStatus('idle')
+    setEmailError('')
+    if (q && !formMessage) {
+      setFormMessage(q)
+    }
+  }
+
   const send = (text?: string) => {
     const value = (text ?? input).trim()
     if (!value || typing) return
@@ -50,16 +82,81 @@ export default function SupportChat() {
     }
     setMessages((m) => [...m, userMsg])
     setInput('')
+    setLastQuestion(value)
     setTyping(true)
+    setShowEmailForm(false)
+    setEmailStatus('idle')
 
     window.setTimeout(() => {
-      const replyText = supportReply(value)
+      const answer = supportAnswer(value)
       setMessages((m) => [
         ...m,
-        { id: uid(), role: 'assistant', text: replyText, at: Date.now() },
+        { id: uid(), role: 'assistant', text: answer.text, at: Date.now() },
       ])
       setTyping(false)
+      if (!answer.matched) {
+        setFormMessage((prev) => prev || value)
+        setShowEmailForm(true)
+      }
     }, 350 + Math.min(500, value.length * 8))
+  }
+
+  const submitEmail = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (emailStatus === 'sending') return
+
+    const email = formEmail.trim()
+    const message = formMessage.trim()
+    if (!email || !message) {
+      setEmailError('Email and message are required.')
+      setEmailStatus('error')
+      return
+    }
+
+    setEmailStatus('sending')
+    setEmailError('')
+
+    const chatSummary = messages
+      .slice(-8)
+      .map((m) => `${m.role === 'user' ? 'Player' : 'Bot'}: ${m.text}`)
+      .join('\n')
+
+    try {
+      const res = await fetch('/api/support-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formName.trim(),
+          email,
+          accountId: formAccountId.trim(),
+          message,
+          lastQuestion,
+          chatSummary,
+          subject: 'Website support chat',
+          website: honeypot,
+        }),
+      })
+      const data = (await res.json().catch(() => ({}))) as { error?: string; ok?: boolean }
+      if (!res.ok) {
+        throw new Error(data.error || `Send failed (${res.status})`)
+      }
+
+      setEmailStatus('ok')
+      setMessages((m) => [
+        ...m,
+        {
+          id: uid(),
+          role: 'assistant',
+          text: 'Thanks! Your message was sent to support. We’ll reply by email as soon as we can.',
+          at: Date.now(),
+        },
+      ])
+      setShowEmailForm(false)
+      setFormMessage('')
+    } catch (err) {
+      setEmailStatus('error')
+      setEmailError(err instanceof Error ? err.message : 'Could not send. Try again later.')
+    }
   }
 
   const quick = ['How do I download?', 'Account ID login', 'Daily rewards', 'Discord?']
@@ -90,7 +187,7 @@ export default function SupportChat() {
 
       {open && (
         <div
-          className="fixed bottom-20 right-4 sm:right-5 z-[150] w-[min(100vw-1.5rem,380px)] h-[min(70vh,520px)] flex flex-col overflow-hidden rounded-2xl"
+          className="fixed bottom-20 right-4 sm:right-5 z-[150] w-[min(100vw-1.5rem,380px)] h-[min(70vh,560px)] flex flex-col overflow-hidden rounded-2xl"
           style={{
             background: 'linear-gradient(165deg, rgba(26,66,48,0.97), rgba(12,26,18,0.98))',
             border: '1px solid rgba(240,193,77,0.28)',
@@ -103,7 +200,7 @@ export default function SupportChat() {
             <div>
               <p className="font-display text-lg text-white tracking-wide">SUPPORT</p>
               <p className="font-body text-[11px] text-[#d2c4a0]/75 mt-0.5">
-                Free helper · always online
+                Helper · email when needed
               </p>
             </div>
             <button
@@ -126,6 +223,13 @@ export default function SupportChat() {
             >
               Download
             </Link>
+            <button
+              type="button"
+              onClick={() => openEmailForm()}
+              className="font-ui text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full border border-[#f0c14d]/35 text-[#f0c14d] bg-transparent cursor-pointer hover:bg-[#f0c14d]/10"
+            >
+              Email us
+            </button>
           </div>
 
           <div ref={listRef} className="flex-1 overflow-y-auto px-3 py-3 space-y-3">
@@ -162,45 +266,137 @@ export default function SupportChat() {
                 </div>
               </div>
             )}
-          </div>
 
-          <div className="px-3 pb-2 flex flex-wrap gap-1.5 shrink-0">
-            {quick.map((q) => (
-              <button
-                key={q}
-                type="button"
-                onClick={() => send(q)}
-                disabled={typing}
-                className="font-body text-[11px] px-2.5 py-1 rounded-full border border-white/10 text-[#d2c4a0] bg-transparent cursor-pointer hover:border-[#f0c14d]/40 hover:text-[#f0c14d] disabled:opacity-50"
+            {showEmailForm && (
+              <form
+                onSubmit={(e) => void submitEmail(e)}
+                className="rounded-2xl border border-[#f0c14d]/30 bg-black/30 p-3 space-y-2.5"
               >
-                {q}
-              </button>
-            ))}
+                <p className="font-display text-sm text-[#f0c14d] tracking-wide">
+                  EMAIL SUPPORT
+                </p>
+                <p className="font-body text-[11px] text-[#d2c4a0]/80 leading-relaxed">
+                  We’ll receive this in our inbox and reply to your email.
+                </p>
+
+                {/* Honeypot — hidden from users */}
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  className="absolute opacity-0 pointer-events-none h-0 w-0"
+                  aria-hidden
+                />
+
+                <input
+                  type="text"
+                  value={formName}
+                  onChange={(e) => setFormName(e.target.value)}
+                  placeholder="Your name (optional)"
+                  maxLength={80}
+                  className="w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 text-sm text-[#f3e8cf] outline-none focus:border-[#f0c14d]/50 placeholder:text-white/30"
+                />
+                <input
+                  type="email"
+                  value={formEmail}
+                  onChange={(e) => setFormEmail(e.target.value)}
+                  placeholder="Your email *"
+                  required
+                  maxLength={120}
+                  className="w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 text-sm text-[#f3e8cf] outline-none focus:border-[#f0c14d]/50 placeholder:text-white/30"
+                />
+                <input
+                  type="text"
+                  value={formAccountId}
+                  onChange={(e) => setFormAccountId(e.target.value)}
+                  placeholder="Account ID (optional)"
+                  maxLength={80}
+                  className="w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 text-sm text-[#f3e8cf] outline-none focus:border-[#f0c14d]/50 placeholder:text-white/30"
+                />
+                <textarea
+                  value={formMessage}
+                  onChange={(e) => setFormMessage(e.target.value)}
+                  placeholder="Describe your issue *"
+                  required
+                  rows={4}
+                  maxLength={4000}
+                  className="w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 text-sm text-[#f3e8cf] outline-none focus:border-[#f0c14d]/50 placeholder:text-white/30 resize-none"
+                />
+
+                {emailStatus === 'error' && emailError && (
+                  <p className="font-body text-[11px] text-red-300">{emailError}</p>
+                )}
+                {emailStatus === 'ok' && (
+                  <p className="font-body text-[11px] text-emerald-300">Sent — check your inbox for our reply.</p>
+                )}
+
+                <div className="flex gap-2 pt-0.5">
+                  <button
+                    type="submit"
+                    disabled={emailStatus === 'sending'}
+                    className="btn-primary !px-4 !py-2 !text-[0.7rem] disabled:opacity-50 flex-1"
+                  >
+                    {emailStatus === 'sending' ? 'Sending…' : 'Send email'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowEmailForm(false)
+                      setEmailStatus('idle')
+                    }}
+                    className="font-ui text-[10px] uppercase tracking-wider px-3 py-2 rounded-lg border border-white/15 text-[#d2c4a0] bg-transparent cursor-pointer hover:border-white/30"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
 
-          <form
-            className="p-3 border-t border-white/10 flex gap-2 shrink-0"
-            onSubmit={(e) => {
-              e.preventDefault()
-              void send()
-            }}
-          >
-            <input
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about download, login…"
-              disabled={typing}
-              className="flex-1 rounded-xl bg-black/25 border border-white/10 px-3 py-2.5 text-sm text-[#f3e8cf] outline-none focus:border-[#f0c14d]/50 placeholder:text-white/30"
-            />
-            <button
-              type="submit"
-              disabled={typing || !input.trim()}
-              className="btn-primary !px-4 !py-2.5 !text-[0.7rem] disabled:opacity-50"
-            >
-              Send
-            </button>
-          </form>
+          {!showEmailForm && (
+            <>
+              <div className="px-3 pb-2 flex flex-wrap gap-1.5 shrink-0">
+                {quick.map((q) => (
+                  <button
+                    key={q}
+                    type="button"
+                    onClick={() => send(q)}
+                    disabled={typing}
+                    className="font-body text-[11px] px-2.5 py-1 rounded-full border border-white/10 text-[#d2c4a0] bg-transparent cursor-pointer hover:border-[#f0c14d]/40 hover:text-[#f0c14d] disabled:opacity-50"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+
+              <form
+                className="p-3 border-t border-white/10 flex gap-2 shrink-0"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  void send()
+                }}
+              >
+                <input
+                  ref={inputRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask about download, login…"
+                  disabled={typing}
+                  className="flex-1 rounded-xl bg-black/25 border border-white/10 px-3 py-2.5 text-sm text-[#f3e8cf] outline-none focus:border-[#f0c14d]/50 placeholder:text-white/30"
+                />
+                <button
+                  type="submit"
+                  disabled={typing || !input.trim()}
+                  className="btn-primary !px-4 !py-2.5 !text-[0.7rem] disabled:opacity-50"
+                >
+                  Send
+                </button>
+              </form>
+            </>
+          )}
         </div>
       )}
     </>

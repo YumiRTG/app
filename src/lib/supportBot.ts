@@ -143,13 +143,22 @@ function score(entry: KbEntry, q: string): number {
   return s
 }
 
-export function supportReply(userText: string): string {
+export type SupportAnswer = {
+  text: string
+  /** false = no KB match — offer email form to human support */
+  matched: boolean
+}
+
+export function supportAnswer(userText: string): SupportAnswer {
   const raw = userText.trim()
   const q = raw.toLowerCase()
   if (!q) {
-    return isGerman(raw)
-      ? 'Schreib kurz deine Frage — z. B. „Wie lade ich die APK?“ oder „Wo ist meine Account ID?“'
-      : 'Type a short question — e.g. “How do I download?” or “Where is my Account ID?”'
+    return {
+      matched: true,
+      text: isGerman(raw)
+        ? 'Schreib kurz deine Frage — z. B. „Wie lade ich die APK?“ oder „Wo ist meine Account ID?“'
+        : 'Type a short question — e.g. “How do I download?” or “Where is my Account ID?”',
+    }
   }
 
   let best: KbEntry | null = null
@@ -163,16 +172,27 @@ export function supportReply(userText: string): string {
   }
 
   const de = isGerman(q)
-  if (best && bestScore > 0) return de ? best.answerDe : best.answerEn
+  if (best && bestScore > 0) {
+    return { matched: true, text: de ? best.answerDe : best.answerEn }
+  }
 
-  return de
-    ? 'Dazu habe ich noch keine feste Antwort. Frag z. B. nach: Download/APK, Account-ID, Daily, Roulette, Dinos oder Helden. Menü: Download, Play, Bestiary.'
-    : 'I don’t have a fixed answer for that yet. Try: download/APK, Account ID, daily, roulette, dinos or heroes. Menu: Download, Play, Bestiary.'
+  return {
+    matched: false,
+    text: de
+      ? 'Dazu habe ich keine passende Antwort. Nutze das Formular unten — deine Nachricht geht per E-Mail an den Support, und wir melden uns bei dir.'
+      : 'I don’t have a fixed answer for that. Use the form below — your message is emailed to support and we’ll get back to you.',
+  }
+}
+
+/** @deprecated prefer supportAnswer */
+export function supportReply(userText: string): string {
+  return supportAnswer(userText).text
 }
 
 export function welcomeMessage(): string {
   return (
     'Hey! I’m your Dominion Support assistant. ' +
-    'Ask about download, Account ID login, daily rewards, roulette, dinos — DE or EN is fine.'
+    'Ask about download, Account ID login, daily rewards, roulette, dinos — DE or EN is fine. ' +
+    'If I can’t help, you can email human support from this chat.'
   )
 }
