@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '@/lib/assets'
@@ -159,12 +160,9 @@ export default function CharacterSpotlight() {
               ))}
             </div>
 
-            <button
-              className="btn-primary mt-12 w-fit"
-              onClick={() => document.getElementById('download')?.scrollIntoView({ behavior: 'smooth' })}
-            >
+            <Link to="/download" className="btn-primary mt-12 w-fit no-underline">
               PLAY AS NYRA
-            </button>
+            </Link>
           </div>
         </div>
 

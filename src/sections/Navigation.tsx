@@ -1,93 +1,90 @@
 import { useState, useEffect } from 'react'
+import { Link, NavLink, useSearchParams } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 import LoginModal from '@/components/LoginModal'
 
-interface NavigationProps {
-  onNavigate: (section: string) => void
-}
+const navItems = [
+  { label: 'FEATURES', to: '/features' },
+  { label: 'HEROES', to: '/heroes' },
+  { label: 'DINOS', to: '/dinos' },
+  { label: 'WORLD', to: '/world' },
+  { label: 'DAILY', to: '/daily' },
+  { label: 'ROULETTE', to: '/roulette' },
+  { label: 'DOWNLOAD', to: '/download' },
+]
 
-export default function Navigation({ onNavigate }: NavigationProps) {
+export default function Navigation() {
   const { session, logout, ready } = useAuth()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > window.innerHeight * 0.35)
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Deep link: #login opens the modal
+  // Open login via ?login=1
   useEffect(() => {
-    const openFromHash = () => {
-      if (window.location.hash === '#login') setLoginOpen(true)
+    if (searchParams.get('login') === '1') {
+      setLoginOpen(true)
     }
-    openFromHash()
-    window.addEventListener('hashchange', openFromHash)
-    return () => window.removeEventListener('hashchange', openFromHash)
-  }, [])
+  }, [searchParams])
 
-  const navItems = [
-    { label: 'FEATURES', section: 'features' },
-    { label: 'HEROES', section: 'heroes' },
-    { label: 'DINOS', section: 'dinos' },
-    { label: 'DAILY', section: 'daily' },
-    { label: 'ROULETTE', section: 'roulette' },
-    { label: 'APK', section: 'apk' },
-  ]
-
-  const handleNavClick = (section: string) => {
-    onNavigate(section)
-    setMenuOpen(false)
+  const closeLogin = () => {
+    setLoginOpen(false)
+    if (searchParams.get('login')) {
+      searchParams.delete('login')
+      setSearchParams(searchParams, { replace: true })
+    }
   }
+
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    `nav-link bg-transparent border-none cursor-pointer no-underline ${
+      isActive ? 'text-terracotta' : ''
+    }`
 
   return (
     <>
       <nav
         className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300"
         style={{
-          backgroundColor: scrolled || menuOpen ? 'rgba(8, 76, 97, 0.94)' : 'rgba(8, 76, 97, 0.55)',
+          backgroundColor: scrolled || menuOpen ? 'rgba(8, 76, 97, 0.96)' : 'rgba(8, 76, 97, 0.88)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderBottom: scrolled
-            ? '1px solid rgba(254, 250, 224, 0.15)'
-            : '1px solid transparent',
+          borderBottom: '1px solid rgba(254, 250, 224, 0.12)',
         }}
       >
-        <div className="flex items-center justify-between h-16 md:h-20 px-6 md:px-12 xl:px-20 max-w-[1728px] mx-auto">
-          <button
-            onClick={() => handleNavClick('hero')}
-            className="flex items-center gap-2 group bg-transparent border-none cursor-pointer"
+        <div className="flex items-center justify-between h-16 md:h-20 px-4 md:px-8 xl:px-16 max-w-[1728px] mx-auto gap-3">
+          <Link
+            to="/"
+            className="flex items-center gap-2 no-underline shrink-0"
+            onClick={() => setMenuOpen(false)}
           >
-            <span className="w-3 h-3 rounded-full bg-terracotta"></span>
+            <span className="w-3 h-3 rounded-full bg-terracotta" />
             <span className="font-display text-cream text-lg md:text-xl tracking-[0.1em]">
               DINO DOMINION
             </span>
-          </button>
+          </Link>
 
-          <div className="hidden lg:flex items-center gap-8 xl:gap-10">
+          <div className="hidden xl:flex items-center gap-5 2xl:gap-7 flex-wrap justify-center">
             {navItems.map((item) => (
-              <button
-                key={item.section}
-                onClick={() => handleNavClick(item.section)}
-                className="nav-link bg-transparent border-none cursor-pointer"
-              >
+              <NavLink key={item.to} to={item.to} className={linkClass}>
                 {item.label}
-              </button>
+              </NavLink>
             ))}
           </div>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3 shrink-0">
             {ready && session ? (
               <>
-                <div className="flex flex-col items-end mr-1">
-                  <span className="font-ui text-cream text-xs tracking-wider uppercase">
+                <div className="flex flex-col items-end mr-1 max-w-[140px]">
+                  <span className="font-ui text-cream text-xs tracking-wider uppercase truncate w-full text-right">
                     {session.displayName}
                   </span>
-                  <span className="font-body text-cream/55 text-[11px] tracking-wide">
+                  <span className="font-body text-cream/55 text-[10px] tracking-wide truncate w-full text-right">
                     {session.accountId}
                   </span>
                 </div>
@@ -108,24 +105,19 @@ export default function Navigation({ onNavigate }: NavigationProps) {
                 Log in
               </button>
             )}
-            <button
-              onClick={() => handleNavClick('apk')}
-              className="btn-primary text-sm py-3 px-7"
-            >
+            <Link to="/download" className="btn-primary text-sm py-3 px-6 no-underline">
               GET APK
-            </button>
+            </Link>
           </div>
 
           <button
-            className="lg:hidden flex flex-col gap-[6px] p-2 bg-transparent border-none cursor-pointer"
+            className="xl:hidden flex flex-col gap-[6px] p-2 bg-transparent border-none cursor-pointer"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu"
           >
             <span
               className="block w-6 h-[2px] bg-cream transition-all duration-300"
-              style={{
-                transform: menuOpen ? 'rotate(45deg) translateY(4px)' : 'none',
-              }}
+              style={{ transform: menuOpen ? 'rotate(45deg) translateY(4px)' : 'none' }}
             />
             <span
               className="block w-6 h-[2px] bg-cream transition-all duration-300"
@@ -133,40 +125,44 @@ export default function Navigation({ onNavigate }: NavigationProps) {
             />
             <span
               className="block w-6 h-[2px] bg-cream transition-all duration-300"
-              style={{
-                transform: menuOpen ? 'rotate(-45deg) translateY(-4px)' : 'none',
-              }}
+              style={{ transform: menuOpen ? 'rotate(-45deg) translateY(-4px)' : 'none' }}
             />
           </button>
         </div>
       </nav>
 
+      {/* Mobile / tablet menu */}
       <div
-        className="fixed inset-0 z-[99] lg:hidden transition-transform duration-[600ms]"
+        className="fixed inset-0 z-[99] xl:hidden transition-transform duration-[600ms] overflow-y-auto"
         style={{
           backgroundColor: '#FEFAE0',
           transform: menuOpen ? 'translateX(0)' : 'translateX(100%)',
           transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)',
         }}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-7 px-6">
+        <div className="flex flex-col items-center justify-center min-h-full gap-5 px-6 py-24">
+          <Link
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            className="font-display text-teal text-3xl uppercase no-underline hover:text-terracotta"
+          >
+            Home
+          </Link>
           {navItems.map((item) => (
-            <button
-              key={item.section}
-              onClick={() => handleNavClick(item.section)}
-              className="font-display text-teal text-4xl uppercase tracking-tight bg-transparent border-none cursor-pointer hover:text-terracotta transition-colors duration-300"
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={() => setMenuOpen(false)}
+              className="font-display text-teal text-3xl uppercase tracking-tight no-underline hover:text-terracotta transition-colors"
             >
               {item.label}
-            </button>
+            </Link>
           ))}
 
           {ready && session ? (
             <div className="text-center mt-2">
               <p className="font-ui text-teal text-sm tracking-wider uppercase">
                 {session.displayName}
-              </p>
-              <p className="font-body text-teal/50 text-xs mt-1 tracking-wide">
-                {session.accountId}
               </p>
               <button
                 type="button"
@@ -186,19 +182,23 @@ export default function Navigation({ onNavigate }: NavigationProps) {
                 setMenuOpen(false)
                 setLoginOpen(true)
               }}
-              className="font-display text-teal text-3xl uppercase tracking-tight bg-transparent border-none cursor-pointer hover:text-terracotta"
+              className="font-display text-teal text-2xl uppercase bg-transparent border-none cursor-pointer hover:text-terracotta"
             >
               Log in
             </button>
           )}
 
-          <button onClick={() => handleNavClick('apk')} className="btn-primary mt-4 text-lg">
+          <Link
+            to="/download"
+            onClick={() => setMenuOpen(false)}
+            className="btn-primary mt-4 text-lg no-underline"
+          >
             GET APK
-          </button>
+          </Link>
         </div>
       </div>
 
-      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
+      <LoginModal open={loginOpen} onClose={closeLogin} />
     </>
   )
 }

@@ -33,6 +33,10 @@ jobs:
       - name: Build
         run: npm run build
 
+      # SPA fallback so routes like /app/roulette work on GitHub Pages
+      - name: SPA 404 fallback
+        run: cp dist/index.html dist/404.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 

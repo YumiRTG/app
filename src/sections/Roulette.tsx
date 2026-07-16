@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 import {
   ROULETTE_PRIZES,
@@ -118,12 +119,9 @@ export default function Roulette() {
           <p className="font-body text-cream/65 mt-5 text-base leading-relaxed">
             Log in with your Account ID to spin for free speed ups that go straight into your game.
           </p>
-          <a
-            href="#login"
-            className="btn-primary mt-8 inline-flex no-underline"
-          >
+          <Link to="/roulette?login=1" className="btn-primary mt-8 inline-flex no-underline">
             Log in to spin
-          </a>
+          </Link>
         </div>
       </section>
     )

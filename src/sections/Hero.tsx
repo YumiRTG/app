@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router'
 import gsap from 'gsap'
 import { asset } from '@/lib/assets'
 
@@ -7,8 +8,7 @@ export default function Hero() {
   const titleLine1 = useRef<HTMLDivElement>(null)
   const titleLine2 = useRef<HTMLDivElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
-  const ctaRef = useRef<HTMLButtonElement>(null)
-  const scrollIndicatorRef = useRef<HTMLDivElement>(null)
+  const ctaRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: 'cubic-bezier(0.23, 1, 0.32, 1)' } })
@@ -34,10 +34,6 @@ export default function Hero() {
       y: 0,
       duration: 0.6,
     }, '-=0.3')
-    .to(scrollIndicatorRef.current, {
-      opacity: 1,
-      duration: 0.6,
-    }, '-=0.2')
 
     return () => { tl.kill() }
   }, [])
@@ -107,31 +103,17 @@ export default function Hero() {
           BUILD · TAME · CONQUER
         </p>
 
-        <button
-          ref={ctaRef}
-          type="button"
-          onClick={() => document.getElementById('apk')?.scrollIntoView({ behavior: 'smooth' })}
-          className="btn-primary mt-8 opacity-0 translate-y-4"
-        >
-          DOWNLOAD APK
-        </button>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div
-        ref={scrollIndicatorRef}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-[2] flex flex-col items-center opacity-0"
-      >
-        <div className="relative w-[1px] h-10 bg-cream/30">
-          <div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-terracotta animate-scroll-dot"
-          />
+        <div ref={ctaRef} className="flex flex-col sm:flex-row gap-3 mt-8 opacity-0 translate-y-4">
+          <Link to="/download" className="btn-primary no-underline justify-center">
+            DOWNLOAD APK
+          </Link>
+          <Link
+            to="/roulette"
+            className="btn-secondary no-underline justify-center"
+          >
+            PLAY ROULETTE
+          </Link>
         </div>
-        <span
-          className="font-ui text-cream/40 text-[10px] uppercase tracking-[0.1em] mt-2"
-        >
-          SCROLL
-        </span>
       </div>
     </section>
   )

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { Link } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 import {
   claimDailyLoginReward,
@@ -76,9 +77,9 @@ export default function DailyLogin() {
           <p className="font-body text-teal/65 mt-5 text-base leading-relaxed">
             Log in with your Account ID every day to claim free speed ups for your game.
           </p>
-          <a href="#login" className="btn-primary mt-8 inline-flex no-underline">
+          <Link to="/daily?login=1" className="btn-primary mt-8 inline-flex no-underline">
             Log in to claim
-          </a>
+          </Link>
         </div>
       </section>
     )
