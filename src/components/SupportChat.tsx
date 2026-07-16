@@ -8,42 +8,10 @@ function uid() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 }
 
-async function askGrok(
-  history: ChatMessage[]
-): Promise<{ ok: true; reply: string } | { ok: false; error: string; code?: string }> {
-  try {
-    const messages = history
-      .filter((m) => m.role === 'user' || m.role === 'assistant')
-      .map((m) => ({ role: m.role, content: m.text }))
-
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages }),
-    })
-
-    const data = await res.json().catch(() => ({}))
-    if (!res.ok) {
-      return {
-        ok: false,
-        error: data?.error || `HTTP ${res.status}`,
-        code: data?.code,
-      }
-    }
-    if (typeof data?.reply !== 'string' || !data.reply.trim()) {
-      return { ok: false, error: 'Empty reply' }
-    }
-    return { ok: true, reply: data.reply.trim() }
-  } catch (err) {
-    return { ok: false, error: (err as Error)?.message || 'Network error' }
-  }
-}
-
 export default function SupportChat() {
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
-  const [mode, setMode] = useState<'ai' | 'local'>('ai')
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
     { id: uid(), role: 'assistant', text: welcomeMessage(), at: Date.now() },
   ])
@@ -70,7 +38,7 @@ export default function SupportChat() {
     }
   }, [])
 
-  const send = async (text?: string) => {
+  const send = (text?: string) => {
     const value = (text ?? input).trim()
     if (!value || typing) return
 
@@ -80,30 +48,19 @@ export default function SupportChat() {
       text: value,
       at: Date.now(),
     }
-    const nextHistory = [...messages, userMsg]
-    setMessages(nextHistory)
+    setMessages((m) => [...m, userMsg])
     setInput('')
     setTyping(true)
 
-    // Prefer real Grok on Vercel; fall back to local FAQ bot
-    const ai = await askGrok(nextHistory)
-    let replyText: string
-    if (ai.ok) {
-      replyText = ai.reply
-      setMode('ai')
-    } else {
-      replyText = supportReply(value)
-      setMode('local')
-      if (ai.code === 'NO_API_KEY') {
-        // keep silent fallback — FAQ still works
-      }
-    }
-
-    setMessages((m) => [
-      ...m,
-      { id: uid(), role: 'assistant', text: replyText, at: Date.now() },
-    ])
-    setTyping(false)
+    // Free local support only — no paid AI / no credits
+    window.setTimeout(() => {
+      const replyText = supportReply(value)
+      setMessages((m) => [
+        ...m,
+        { id: uid(), role: 'assistant', text: replyText, at: Date.now() },
+      ])
+      setTyping(false)
+    }, 350 + Math.min(500, value.length * 8))
   }
 
   const quick = ['How do I download?', 'Account ID login', 'Daily rewards', 'Discord?']
@@ -161,7 +118,7 @@ export default function SupportChat() {
             <div>
               <p className="font-display text-lg text-white tracking-wide">SUPPORT</p>
               <p className="font-body text-[11px] text-[#d2c4a0]/75 mt-0.5">
-                {mode === 'ai' ? 'Grok AI · online' : 'Local guide · online'}
+                Free helper · always online
               </p>
             </div>
             <button
