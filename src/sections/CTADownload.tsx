@@ -78,7 +78,7 @@ export default function CTADownload() {
             letterSpacing: '-0.02em',
           }}
         >
-          WERDE ZUR LEGENDE
+          BECOME A LEGEND
         </h2>
 
         <p
@@ -89,7 +89,7 @@ export default function CTADownload() {
             lineHeight: 1.6,
           }}
         >
-          Jetzt kostenlos herunterladen und dein Abenteuer beginnen.
+          Download free now and begin your adventure.
         </p>
 
         <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12 opacity-0">

@@ -117,7 +117,7 @@ export default function DinoShowcase() {
 
         {/* Content (Right - 45%) */}
         <div ref={contentRef} className="w-full lg:w-[45%] lg:pl-20">
-          <span className="label-text text-sage">DEINE ARMEE</span>
+          <span className="label-text text-sage">YOUR ARMY</span>
           <h2
             className="font-display text-teal uppercase mt-4"
             style={{
@@ -126,7 +126,7 @@ export default function DinoShowcase() {
               letterSpacing: '-0.02em',
             }}
           >
-            MÄCHTIGE KREATUREN
+            MIGHTY CREATURES
           </h2>
           <p
             className="font-body text-teal/80 mt-6 max-w-[480px]"
@@ -135,13 +135,13 @@ export default function DinoShowcase() {
               lineHeight: 1.6,
             }}
           >
-            Von den gewaltigen Kiefern des T-Rex bis zu den fliegenden Schwingen des Pteranodon — jeder Dino hat einzigartige Fähigkeiten, die deine Strategie formen. Entdecke, zähme und trainiere über 50 verschiedene Arten.
+            From the crushing jaws of the T-Rex to the soaring wings of the Pteranodon — every dino has unique abilities that shape your strategy. Discover, tame, and train over 50 different species.
           </p>
           <button
             className="mt-10 bg-teal text-cream font-ui uppercase text-sm tracking-[0.06em] py-4 px-10 rounded-full hover:bg-[#0A5E78] transition-colors duration-300 cursor-pointer border-none"
             onClick={() => {}}
           >
-            ALLE DINOS ENTDECKEN
+            DISCOVER ALL DINOS
           </button>
         </div>
       </div>

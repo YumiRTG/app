@@ -129,7 +129,7 @@ export default function Gameplay() {
               letterSpacing: '-0.02em',
             }}
           >
-            MEISTERE DIE WILDNIS
+            MASTER THE WILD
           </h2>
           <p
             ref={descRef}
@@ -139,7 +139,7 @@ export default function Gameplay() {
               lineHeight: 1.6,
             }}
           >
-            Baue deinen Stamm, erforsche geheimnisvolle Landschaften und zähme mächtige Dinosaurier, die dich im Kampf gegen Rivalen und die gnadenlose Natur unterstützen.
+            Build your tribe, explore mysterious landscapes, and tame mighty dinosaurs that stand with you against rivals and the unforgiving wilderness.
           </p>
         </div>
       </div>

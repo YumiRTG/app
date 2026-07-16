@@ -73,7 +73,7 @@ export default function DawnAtmosphere() {
         ref={contentRef}
         className="relative z-[2] px-6 md:px-20 pb-[80px] md:pb-[120px] max-w-[600px]"
       >
-        <span className="label-text text-cream/70 animate-in block">DIE WELT ERWACHT</span>
+        <span className="label-text text-cream/70 animate-in block">THE WORLD AWAKENS</span>
         <h2
           className="font-display text-cream uppercase mt-3 animate-in"
           style={{
@@ -82,7 +82,7 @@ export default function DawnAtmosphere() {
             letterSpacing: '-0.02em',
           }}
         >
-          EIN NEUES ZEITALTER
+          A NEW AGE
         </h2>
         <p
           className="font-body text-cream/80 mt-5 animate-in"
@@ -91,12 +91,12 @@ export default function DawnAtmosphere() {
             lineHeight: 1.6,
           }}
         >
-          Jeder Sonnenaufgang bringt neue Gefahren und Chancen. Erkunde dichte Dschungel, schroffe Berge und weite Ebenen — jede Region birgt ihre eigenen Geheimnisse und gefährlichsten Kreaturen.
+          Every sunrise brings new dangers and opportunities. Explore dense jungles, rugged mountains, and vast plains — each region holds its own secrets and deadliest creatures.
         </p>
         <button
           className="btn-secondary mt-8 animate-in"
         >
-          DIE WELT ERKUNDEN
+          EXPLORE THE WORLD
         </button>
       </div>
     </section>

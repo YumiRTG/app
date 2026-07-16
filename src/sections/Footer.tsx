@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const GAME_LINKS = ['Features', 'Dinos', 'Welt', 'Gameplay']
+const GAME_LINKS = ['Features', 'Dinos', 'World', 'Gameplay']
 const COMMUNITY_LINKS = ['Discord', 'Forum', 'Wiki', 'Support']
 
 export default function Footer() {
@@ -52,13 +52,13 @@ export default function Footer() {
               DINO DOMINION
             </span>
             <p className="font-body text-cream/50 text-sm mt-3">
-              ZÄHME. KÄMPFE. ÜBERLEBE.
+              TAME. FIGHT. SURVIVE.
             </p>
           </div>
 
           {/* Game Links */}
           <div className="footer-col opacity-0">
-            <span className="label-text text-cream/50 mb-4 block">SPIEL</span>
+            <span className="label-text text-cream/50 mb-4 block">GAME</span>
             <ul className="space-y-2">
               {GAME_LINKS.map(link => (
                 <li key={link}>
@@ -97,11 +97,11 @@ export default function Footer() {
         {/* Bottom Row */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <span className="font-body text-cream/40 text-xs">
-            © 2025 Dino Dominion. Alle Rechte vorbehalten.
+            © 2025 Dino Dominion. All rights reserved.
           </span>
 
           <div className="flex items-center gap-4">
-            {['Datenschutz', 'Impressum', 'Nutzungsbedingungen'].map((item, i) => (
+            {['Privacy Policy', 'Legal Notice', 'Terms of Use'].map((item, i) => (
               <span key={item} className="flex items-center gap-4">
                 <button className="font-body text-cream/40 text-xs bg-transparent border-none cursor-pointer hover:text-cream/70 transition-colors duration-300">
                   {item}

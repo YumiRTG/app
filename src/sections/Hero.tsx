@@ -98,7 +98,7 @@ export default function Hero() {
             letterSpacing: '0.15em',
           }}
         >
-          ZÄHME. KÄMPFE. ÜBERLEBE.
+          TAME. FIGHT. SURVIVE.
         </p>
       </div>
 
@@ -115,7 +115,7 @@ export default function Hero() {
         <span
           className="font-ui text-cream/40 text-[10px] uppercase tracking-[0.1em] mt-2"
         >
-          SCROLLEN
+          SCROLL
         </span>
       </div>
     </section>

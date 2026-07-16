@@ -6,9 +6,9 @@ import { asset } from '@/lib/assets'
 gsap.registerPlugin(ScrollTrigger)
 
 const STATS = [
-  { label: 'STÄRKE', value: 88 },
-  { label: 'WEISHEIT', value: 92 },
-  { label: 'MUT', value: 95 },
+  { label: 'STRENGTH', value: 88 },
+  { label: 'WISDOM', value: 92 },
+  { label: 'COURAGE', value: 95 },
 ]
 
 export default function CharacterSpotlight() {
@@ -89,7 +89,7 @@ export default function CharacterSpotlight() {
           >
             <img
               src={asset('character-kira.jpg')}
-              alt="Kira, Stammesführerin"
+              alt="Kira, Tribal Leader"
               className="w-full h-full object-cover scale-110"
               style={{ transform: 'translateY(-40px) scale(1.1)' }}
             />
@@ -98,7 +98,7 @@ export default function CharacterSpotlight() {
 
         {/* Right - Character Info (40%) */}
         <div ref={contentRef} className="w-full md:w-[40%] flex flex-col justify-center">
-          <span className="label-text text-sage">DEIN PROTAGONIST</span>
+          <span className="label-text text-sage">YOUR PROTAGONIST</span>
           <h2
             className="font-display text-cream uppercase mt-4"
             style={{
@@ -107,7 +107,7 @@ export default function CharacterSpotlight() {
               letterSpacing: '-0.02em',
             }}
           >
-            KIRA, STAMMESFÜHRERIN
+            KIRA, TRIBAL LEADER
           </h2>
 
           {/* Divider */}
@@ -120,7 +120,7 @@ export default function CharacterSpotlight() {
               lineHeight: 1.7,
             }}
           >
-            Als junge Anführerin eines zersplitterten Stammes musst du gegen die Elemente, wilde Bestien und rivalisierende Clans bestehen. Deine Entscheidungen prägen das Schicksal deines Volkes.
+            As the young leader of a fractured tribe, you must face the elements, wild beasts, and rival clans. Your choices shape the fate of your people.
           </p>
 
           {/* Stats Row */}
@@ -146,7 +146,7 @@ export default function CharacterSpotlight() {
           <button
             className="btn-primary mt-12 w-fit"
           >
-            MEHR ERFAHREN
+            LEARN MORE
           </button>
         </div>
       </div>

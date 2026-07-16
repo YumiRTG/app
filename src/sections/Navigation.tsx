@@ -17,10 +17,10 @@ export default function Navigation({ onNavigate }: NavigationProps) {
   }, [])
 
   const navItems = [
-    { label: 'WELT', section: 'dawn' },
+    { label: 'WORLD', section: 'dawn' },
     { label: 'DINOS', section: 'dinos' },
     { label: 'GAMEPLAY', section: 'gameplay' },
-    { label: 'GALERIE', section: 'gallery' },
+    { label: 'GALLERY', section: 'gallery' },
   ]
 
   const handleNavClick = (section: string) => {
@@ -69,7 +69,7 @@ export default function Navigation({ onNavigate }: NavigationProps) {
             onClick={() => handleNavClick('download')}
             className="hidden md:block btn-primary text-sm py-3 px-8"
           >
-            JETZT SPIELEN
+            PLAY NOW
           </button>
 
           {/* Mobile Hamburger */}
@@ -123,7 +123,7 @@ export default function Navigation({ onNavigate }: NavigationProps) {
             onClick={() => handleNavClick('download')}
             className="btn-primary mt-8 text-lg"
           >
-            JETZT SPIELEN
+            PLAY NOW
           </button>
         </div>
       </div>

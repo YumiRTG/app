@@ -6,21 +6,21 @@ import { asset } from '@/lib/assets'
 gsap.registerPlugin(ScrollTrigger)
 
 const ADVENTURE_IMAGES = [
-  { src: asset('dino-trex.jpg'), caption: 'T-Rex Begegnung' },
-  { src: asset('dino-triceratops.jpg'), caption: 'Triceratops Herde' },
-  { src: asset('dino-pteranodon.jpg'), caption: 'Pteranodon Schwarm' },
-  { src: asset('dino-stegosaurus.jpg'), caption: 'Stegosaurus im Wald' },
-  { src: asset('dino-velociraptor.jpg'), caption: 'Velociraptor Jagd' },
-  { src: asset('combat-scene.jpg'), caption: 'Epischer Kampf' },
+  { src: asset('dino-trex.jpg'), caption: 'T-Rex Encounter' },
+  { src: asset('dino-triceratops.jpg'), caption: 'Triceratops Herd' },
+  { src: asset('dino-pteranodon.jpg'), caption: 'Pteranodon Swarm' },
+  { src: asset('dino-stegosaurus.jpg'), caption: 'Stegosaurus in the Forest' },
+  { src: asset('dino-velociraptor.jpg'), caption: 'Velociraptor Hunt' },
+  { src: asset('combat-scene.jpg'), caption: 'Epic Battle' },
 ]
 
 const ATMOSPHERE_IMAGES = [
-  { src: asset('env-jungle.jpg'), caption: 'Urwald' },
-  { src: asset('env-volcano.jpg'), caption: 'Vulkanregion' },
-  { src: asset('env-oasis.jpg'), caption: 'Oase' },
-  { src: asset('camp-tribal.jpg'), caption: 'Stammlager' },
+  { src: asset('env-jungle.jpg'), caption: 'Jungle' },
+  { src: asset('env-volcano.jpg'), caption: 'Volcanic Region' },
+  { src: asset('env-oasis.jpg'), caption: 'Oasis' },
+  { src: asset('camp-tribal.jpg'), caption: 'Tribal Camp' },
   { src: asset('character-kira.jpg'), caption: 'Kira' },
-  { src: asset('hero-poster-mobile.jpg'), caption: 'Sonnenaufgang' },
+  { src: asset('hero-poster-mobile.jpg'), caption: 'Sunrise' },
 ]
 
 export default function Gallery() {
@@ -109,7 +109,7 @@ export default function Gallery() {
         <div>
           {/* Header Row */}
           <div className="flex items-center gap-4">
-            <span className="label-text text-sage whitespace-nowrap">GALERIE</span>
+            <span className="label-text text-sage whitespace-nowrap">GALLERY</span>
             <div className="flex-1 h-[1px] bg-teal/15" />
           </div>
 
@@ -121,7 +121,7 @@ export default function Gallery() {
               letterSpacing: '-0.02em',
             }}
           >
-            MOMENTE DES EPOS
+            EPIC MOMENTS
           </h2>
           <p
             className="font-body text-teal/70 mt-4 max-w-[500px]"
@@ -130,7 +130,7 @@ export default function Gallery() {
               lineHeight: 1.6,
             }}
           >
-            Tauche ein in atemberaubende Szenen aus der Welt von Dino Dominion.
+            Dive into breathtaking scenes from the world of Dino Dominion.
           </p>
 
           {/* Adventure Grid */}
@@ -175,7 +175,7 @@ export default function Gallery() {
               letterSpacing: '-0.02em',
             }}
           >
-            ATMOSPHÄRE
+            ATMOSPHERE
           </h2>
           <p
             className="font-body text-teal/70 text-center mt-4 max-w-[500px] mx-auto"
@@ -184,7 +184,7 @@ export default function Gallery() {
               lineHeight: 1.6,
             }}
           >
-            Eine visuelle Reise durch die vielfältigen Regionen der prähistorischen Welt.
+            A visual journey through the diverse regions of the prehistoric world.
           </p>
 
           {/* Atmosphere Grid */}
