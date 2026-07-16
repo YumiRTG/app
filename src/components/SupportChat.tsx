@@ -70,37 +70,23 @@ export default function SupportChat() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-5 right-5 z-[150] p-0 border-none cursor-pointer bg-transparent group"
+        className="fixed bottom-4 right-4 z-[150] p-0 m-0 border-0 outline-none cursor-pointer bg-transparent shadow-none group"
+        style={{ background: 'transparent', boxShadow: 'none' }}
         aria-label={open ? 'Close support chat' : 'Open support chat'}
       >
-        <span
-          className="relative block w-[72px] h-[72px] sm:w-[84px] sm:h-[84px] rounded-full overflow-hidden transition-transform duration-200 group-hover:scale-105 group-active:scale-95"
-          style={{
-            boxShadow: open
-              ? '0 10px 28px rgba(0,0,0,0.35)'
-              : '0 14px 40px rgba(20,80,40,0.45), 0 0 0 3px rgba(240,193,77,0.45)',
-          }}
-        >
+        <span className="relative block w-[88px] h-[88px] sm:w-[100px] sm:h-[100px] bg-transparent transition-transform duration-200 group-hover:scale-105 group-active:scale-95">
           <img
             src={asset('support-bot.png')}
             alt="Support"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-contain object-center bg-transparent pointer-events-none select-none"
             draggable={false}
           />
           {open && (
-            <span
-              className="absolute inset-0 flex items-center justify-center font-display text-2xl text-white"
-              style={{ background: 'rgba(12,26,18,0.55)' }}
-            >
+            <span className="absolute top-1 right-1 flex items-center justify-center w-7 h-7 rounded-full font-display text-lg text-white bg-black/50 leading-none">
               ×
             </span>
           )}
         </span>
-        {!open && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#e85d04] border-2 border-[#0c1a12] flex items-center justify-center">
-            <span className="block w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-          </span>
-        )}
       </button>
 
       {open && (
