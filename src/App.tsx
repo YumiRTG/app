@@ -15,6 +15,7 @@ import DinoShowcase from './sections/DinoShowcase'
 import WorldRealms from './sections/WorldRealms'
 import DawnAtmosphere from './sections/DawnAtmosphere'
 import Gallery from './sections/Gallery'
+import DailyLogin from './sections/DailyLogin'
 import Roulette from './sections/Roulette'
 import ApkDownload from './sections/ApkDownload'
 import CTADownload from './sections/CTADownload'
@@ -82,6 +83,7 @@ export default function App() {
           <DawnAtmosphere />
           <WorldRealms />
           <Gallery />
+          <DailyLogin />
           <Roulette />
           <ApkDownload />
           <CTADownload />

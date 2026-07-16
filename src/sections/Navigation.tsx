@@ -34,6 +34,7 @@ export default function Navigation({ onNavigate }: NavigationProps) {
     { label: 'FEATURES', section: 'features' },
     { label: 'HEROES', section: 'heroes' },
     { label: 'DINOS', section: 'dinos' },
+    { label: 'DAILY', section: 'daily' },
     { label: 'ROULETTE', section: 'roulette' },
     { label: 'APK', section: 'apk' },
   ]

@@ -10,10 +10,19 @@ import {
 import { ensureAnonymousAuth } from '@/lib/firebaseAccounts'
 import { getFirebase } from '@/lib/firebase'
 import { SPIN_COOLDOWN_MS, type RoulettePrize } from '@/lib/roulette'
+import {
+  DAILY_LOGIN_REWARDS,
+  msUntilNextUtcMidnight,
+  previousUtcDateKey,
+  rewardForStreakDay,
+  utcDateKey,
+  type DailyLoginReward,
+} from '@/lib/dailyLogin'
 
 /** Pending rewards claimed by the Unity game via WebRewardService */
 export const WEB_REWARDS_ROOT = 'webRewards'
 export const WEB_SPINS_ROOT = 'webRouletteSpins'
+export const WEB_DAILY_LOGIN_ROOT = 'webDailyLogin'
 
 export type SpinStatus = {
   canSpin: boolean
@@ -124,4 +133,125 @@ export function formatCountdown(ms: number): string {
   if (h > 0) return `${h}h ${m}m`
   if (m > 0) return `${m}m ${sec}s`
   return `${sec}s`
+}
+
+export type DailyLoginStatus = {
+  canClaim: boolean
+  streak: number
+  /** 1–7 day in the current cycle to claim next */
+  nextDay: number
+  lastClaimDate: string | null
+  todayKey: string
+  msUntilReset: number
+  rewards: DailyLoginReward[]
+  todaysReward: DailyLoginReward
+}
+
+export async function getDailyLoginStatus(accountId: string): Promise<DailyLoginStatus> {
+  await ensureAnonymousAuth()
+  const { db } = getFirebase()
+  const today = utcDateKey()
+  const ref = doc(db, WEB_DAILY_LOGIN_ROOT, accountId)
+  const snap = await getDoc(ref)
+
+  const data = snap.exists() ? snap.data() : null
+  const lastClaimDate =
+    typeof data?.lastClaimDate === 'string' ? (data.lastClaimDate as string) : null
+  let streak = typeof data?.streak === 'number' ? (data.streak as number) : 0
+
+  const alreadyClaimedToday = lastClaimDate === today
+  const claimedYesterday = lastClaimDate === previousUtcDateKey()
+
+  // If missed a day (not today, not yesterday), streak resets for next claim
+  if (!alreadyClaimedToday && !claimedYesterday && lastClaimDate) {
+    streak = 0
+  }
+
+  const nextDay = alreadyClaimedToday
+    ? (streak % DAILY_LOGIN_REWARDS.length) + 1
+    : (streak % DAILY_LOGIN_REWARDS.length) + 1
+
+  // When claiming next, day index is based on streak after claim
+  const dayIfClaimNow = alreadyClaimedToday
+    ? nextDay
+    : ((streak % DAILY_LOGIN_REWARDS.length) + 1)
+
+  return {
+    canClaim: !alreadyClaimedToday,
+    streak,
+    nextDay: dayIfClaimNow,
+    lastClaimDate,
+    todayKey: today,
+    msUntilReset: msUntilNextUtcMidnight(),
+    rewards: DAILY_LOGIN_REWARDS,
+    todaysReward: rewardForStreakDay(dayIfClaimNow),
+  }
+}
+
+/**
+ * Claim daily login package → writes items to webRewards for the game.
+ * One claim per UTC calendar day. Streak continues if claimed yesterday.
+ */
+export async function claimDailyLoginReward(
+  accountId: string
+): Promise<
+  | { ok: true; reward: DailyLoginReward; streak: number }
+  | { ok: false; error: string }
+> {
+  try {
+    await ensureAnonymousAuth()
+    const { db } = getFirebase()
+    const status = await getDailyLoginStatus(accountId)
+
+    if (!status.canClaim) {
+      return { ok: false, error: 'Daily login already claimed today. Come back tomorrow.' }
+    }
+
+    const newStreak = status.streak + 1
+    const reward = rewardForStreakDay(newStreak)
+    const today = utcDateKey()
+
+    const itemsCol = collection(db, WEB_REWARDS_ROOT, accountId, 'items')
+    await addDoc(itemsCol, {
+      itemType: reward.itemType,
+      amount: reward.amount,
+      label: reward.label,
+      sublabel: reward.sublabel,
+      source: 'daily_login',
+      day: reward.day,
+      claimed: false,
+      createdAt: serverTimestamp(),
+    })
+
+    const loginRef = doc(db, WEB_DAILY_LOGIN_ROOT, accountId)
+    const prevSnap = await getDoc(loginRef)
+    const totalClaims =
+      typeof prevSnap.data()?.totalClaims === 'number'
+        ? (prevSnap.data()!.totalClaims as number) + 1
+        : 1
+
+    await setDoc(
+      loginRef,
+      {
+        lastClaimDate: today,
+        streak: newStreak,
+        totalClaims,
+        lastRewardDay: reward.day,
+        lastRewardLabel: reward.label,
+        updatedAt: serverTimestamp(),
+      },
+      { merge: true }
+    )
+
+    return { ok: true, reward, streak: newStreak }
+  } catch (err) {
+    const msg = (err as { message?: string })?.message || 'Could not claim daily reward.'
+    if (msg.includes('permission')) {
+      return {
+        ok: false,
+        error: 'Could not claim reward (permission denied). Check Firestore rules for webDailyLogin.',
+      }
+    }
+    return { ok: false, error: msg }
+  }
 }

@@ -29,8 +29,14 @@ match /webRewards/{userId}/items/{itemId} {
 match /webRouletteSpins/{userId} {
   allow read, write: if request.auth != null;
 }
+
+match /webDailyLogin/{userId} {
+  allow read, write: if request.auth != null;
+}
 ```
 
 ## Unity
 
 `Assets/Scripts/Core/WebRewardService.cs` polls unclaimed rewards every ~20s after Firebase is ready and calls `InventoryManager.AddItem`.
+
+Daily login and roulette both write to `webRewards/{userId}/items`.
