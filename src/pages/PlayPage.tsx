@@ -9,17 +9,16 @@ export default function PlayPage() {
   const [tab, setTab] = useState<'daily' | 'roulette'>('daily')
 
   useEffect(() => {
-    // Prefer daily when logged in for first visit
     if (session) setTab('daily')
   }, [session?.accountId])
 
   return (
-    <div className="page-shell px-4 md:px-8">
-      <div className="max-w-[1200px] mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-8">
-          <p className="eyebrow">Free player rewards</p>
+    <div className="page-shell">
+      <div className="container-dd">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <p className="eyebrow justify-center">Free player rewards</p>
           <h1 className="display-lg text-white mt-4">
-            Play hub
+            Play <span className="text-gradient-magma">hub</span>
           </h1>
           <p className="body-lg mt-4">
             Log in with your Account ID, then claim daily speed ups or spin the
@@ -46,11 +45,19 @@ export default function PlayPage() {
               key={t.id}
               type="button"
               onClick={() => setTab(t.id)}
-              className="font-ui text-xs uppercase tracking-[0.18em] px-5 py-2.5 rounded-full border cursor-pointer transition-colors"
+              className="font-ui text-xs uppercase tracking-[0.18em] px-6 py-2.5 cursor-pointer transition-all"
               style={{
-                background: tab === t.id ? 'rgba(232,93,4,0.2)' : 'transparent',
-                borderColor: tab === t.id ? '#e85d04' : 'rgba(255,255,255,0.12)',
-                color: tab === t.id ? '#e9b44c' : '#c4b89a',
+                background:
+                  tab === t.id
+                    ? 'linear-gradient(135deg, rgba(255,77,26,0.25), rgba(245,193,93,0.1))'
+                    : 'rgba(255,255,255,0.03)',
+                border:
+                  tab === t.id
+                    ? '1px solid rgba(255,77,26,0.55)'
+                    : '1px solid rgba(255,255,255,0.1)',
+                color: tab === t.id ? '#f5c15d' : '#b8aea0',
+                clipPath:
+                  'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))',
               }}
             >
               {t.label}
@@ -58,7 +65,7 @@ export default function PlayPage() {
           ))}
         </div>
 
-        <div className="rounded-[1.5rem] overflow-hidden border border-white/[0.06]">
+        <div className="dd-panel overflow-hidden">
           {tab === 'daily' ? <DailyLogin /> : <Roulette />}
         </div>
       </div>

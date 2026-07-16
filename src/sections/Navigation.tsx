@@ -17,11 +17,19 @@ export default function Navigation() {
   const { session, logout, ready } = useAuth()
   const [open, setOpen] = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const [params, setParams] = useSearchParams()
 
   useEffect(() => {
     if (params.get('login') === '1') setLoginOpen(true)
   }, [params])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const closeLogin = () => {
     setLoginOpen(false)
@@ -34,31 +42,40 @@ export default function Navigation() {
   return (
     <>
       <header className="fixed top-0 inset-x-0 z-[100]">
-        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 pt-4">
-          <nav
-            className="flex items-center justify-between gap-4 rounded-2xl px-4 sm:px-6 h-14 sm:h-16"
-            style={{
-              background: 'rgba(20, 53, 36, 0.78)',
-              border: '1px solid rgba(240, 193, 77, 0.22)',
-              backdropFilter: 'blur(18px)',
-              WebkitBackdropFilter: 'blur(18px)',
-              boxShadow: '0 10px 40px rgba(0,0,0,0.28)',
-            }}
-          >
+        <div
+          className="transition-all duration-300"
+          style={{
+            background: scrolled
+              ? 'linear-gradient(180deg, rgba(7,6,10,0.94) 0%, rgba(7,6,10,0.88) 100%)'
+              : 'linear-gradient(180deg, rgba(7,6,10,0.75) 0%, transparent 100%)',
+            backdropFilter: scrolled ? 'blur(16px)' : 'blur(8px)',
+            WebkitBackdropFilter: scrolled ? 'blur(16px)' : 'blur(8px)',
+            borderBottom: scrolled
+              ? '1px solid rgba(245,193,93,0.12)'
+              : '1px solid transparent',
+            boxShadow: scrolled ? '0 12px 40px rgba(0,0,0,0.35)' : 'none',
+          }}
+        >
+          <nav className="container-dd flex items-center justify-between gap-4 h-16 sm:h-[4.25rem]">
             <Link
               to="/"
-              className="flex items-center gap-2.5 no-underline shrink-0"
+              className="flex items-center gap-2.5 no-underline shrink-0 group"
               onClick={() => setOpen(false)}
             >
-              <span className="text-[#e9b44c]">
-                <DinoMark className="w-7 h-7" />
+              <span className="text-[var(--gold)] group-hover:text-[var(--magma-glow)] transition-colors">
+                <DinoMark className="w-8 h-8" />
               </span>
-              <span className="font-display text-[0.95rem] sm:text-lg tracking-[0.12em] text-[#f0e6d0]">
-                DINO DOMINION
-              </span>
+              <div className="leading-none">
+                <span className="font-display text-[0.95rem] sm:text-lg tracking-[0.14em] text-[var(--bone)] block">
+                  DINO DOMINION
+                </span>
+                <span className="hidden sm:block font-ui text-[9px] tracking-[0.28em] text-[var(--gold)]/70 uppercase mt-0.5">
+                  Prehistoric strategy
+                </span>
+              </div>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-7">
+            <div className="hidden lg:flex items-center gap-8">
               {navItems.map((item) => (
                 <NavLink
                   key={item.to}
@@ -73,32 +90,30 @@ export default function Navigation() {
               ))}
             </div>
 
-            <div className="hidden sm:flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2.5">
               {ready && session ? (
                 <>
-                  <div className="text-right max-w-[140px]">
-                    <p className="font-ui text-[11px] tracking-wider uppercase text-[#f0e6d0] truncate">
+                  <div className="text-right max-w-[140px] px-2">
+                    <p className="font-ui text-[10px] tracking-wider uppercase text-[var(--gold)]/80">
+                      Commander
+                    </p>
+                    <p className="font-ui text-[12px] tracking-wider uppercase text-[var(--bone)] truncate">
                       {session.displayName}
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={logout}
-                    className="font-ui text-[11px] uppercase tracking-wider text-[#c4b89a] border border-white/10 rounded-full px-3 py-1.5 hover:border-[#e9b44c]/50 hover:text-[#e9b44c] transition-colors bg-transparent cursor-pointer"
-                  >
+                  <button type="button" onClick={logout} className="btn-ghost">
                     Log out
                   </button>
                 </>
               ) : (
-                <button
-                  type="button"
-                  onClick={() => setLoginOpen(true)}
-                  className="font-ui text-[11px] uppercase tracking-wider text-[#f0e6d0] border border-white/15 rounded-full px-4 py-1.5 hover:border-[#e9b44c] hover:text-[#e9b44c] transition-colors bg-transparent cursor-pointer"
-                >
+                <button type="button" onClick={() => setLoginOpen(true)} className="btn-ghost">
                   Log in
                 </button>
               )}
-              <Link to="/download" className="btn-primary !py-2.5 !px-5 !text-[0.72rem] no-underline">
+              <Link
+                to="/download"
+                className="btn-primary !py-2.5 !px-4 !text-[0.7rem] no-underline"
+              >
                 Get APK
               </Link>
             </div>
@@ -109,54 +124,76 @@ export default function Navigation() {
               onClick={() => setOpen((v) => !v)}
               aria-label="Menu"
             >
-              <span className="block w-5 h-0.5 bg-[#f0e6d0]" />
-              <span className="block w-5 h-0.5 bg-[#f0e6d0]" />
-              <span className="block w-5 h-0.5 bg-[#f0e6d0]" />
+              <span
+                className="block w-6 h-0.5 bg-[var(--bone)] transition-transform origin-center"
+                style={{ transform: open ? 'translateY(4px) rotate(45deg)' : undefined }}
+              />
+              <span
+                className="block w-6 h-0.5 bg-[var(--bone)] transition-opacity"
+                style={{ opacity: open ? 0 : 1 }}
+              />
+              <span
+                className="block w-6 h-0.5 bg-[var(--bone)] transition-transform origin-center"
+                style={{ transform: open ? 'translateY(-4px) rotate(-45deg)' : undefined }}
+              />
             </button>
           </nav>
+          <div className="hud-line opacity-60" />
         </div>
       </header>
 
       {open && (
         <div
-          className="fixed inset-0 z-[99] lg:hidden pt-24 px-6 pb-10 overflow-y-auto"
-          style={{ background: 'rgba(5,8,7,0.96)' }}
+          className="fixed inset-0 z-[99] lg:hidden pt-20 px-6 pb-10 overflow-y-auto"
+          style={{
+            background:
+              'linear-gradient(165deg, rgba(7,6,10,0.98) 0%, rgba(20,12,16,0.98) 100%)',
+          }}
         >
-          <div className="flex flex-col gap-5 max-w-sm mx-auto">
-            {navItems.map((item) => (
+          <div className="flex flex-col gap-1 max-w-sm mx-auto">
+            {navItems.map((item, i) => (
               <Link
                 key={item.to}
                 to={item.to}
                 onClick={() => setOpen(false)}
-                className="font-display text-3xl uppercase tracking-wide text-[#f0e6d0] no-underline hover:text-[#e9b44c]"
+                className="font-display text-4xl uppercase tracking-wide text-[var(--bone)] no-underline hover:text-[var(--gold)] py-2 border-b border-white/5"
+                style={{ animation: `rise-in 0.4s ease ${i * 0.05}s both` }}
               >
                 {item.label}
               </Link>
             ))}
-            <div className="h-px bg-white/10 my-2" />
-            {session ? (
-              <button
-                type="button"
-                onClick={() => {
-                  logout()
-                  setOpen(false)
-                }}
-                className="font-ui text-left text-[#e85d04] uppercase tracking-wider bg-transparent border-none cursor-pointer text-sm"
+            <div className="mt-8 flex flex-col gap-3">
+              {session ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout()
+                    setOpen(false)
+                  }}
+                  className="btn-secondary w-full"
+                >
+                  Log out · {session.displayName}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false)
+                    setLoginOpen(true)
+                  }}
+                  className="btn-secondary w-full"
+                >
+                  Log in
+                </button>
+              )}
+              <Link
+                to="/download"
+                onClick={() => setOpen(false)}
+                className="btn-primary no-underline w-full"
               >
-                Log out · {session.displayName}
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => {
-                  setOpen(false)
-                  setLoginOpen(true)
-                }}
-                className="font-ui text-left text-[#e9b44c] uppercase tracking-wider bg-transparent border-none cursor-pointer text-sm"
-              >
-                Log in
-              </button>
-            )}
+                Download APK
+              </Link>
+            </div>
           </div>
         </div>
       )}

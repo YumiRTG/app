@@ -25,14 +25,14 @@ const HEROES = [
 
 export default function BestiaryPage() {
   return (
-    <div className="page-shell px-6 md:px-10">
-      <div className="max-w-[1200px] mx-auto">
-        <div className="max-w-2xl mb-12">
+    <div className="page-shell">
+      <div className="container-dd">
+        <div className="max-w-2xl mb-12 md:mb-14">
           <p className="eyebrow">Bestiary</p>
           <h1 className="display-lg text-white mt-4">
             Beasts &
             <br />
-            <span className="text-[#f0c14d]">legends</span>
+            <span className="text-gradient-magma">legends</span>
           </h1>
           <p className="body-lg mt-5">
             Creatures and commanders from Dino Dominion — the roster that shapes
@@ -40,17 +40,19 @@ export default function BestiaryPage() {
           </p>
         </div>
 
-        <h2 className="font-display text-2xl text-white tracking-wide mb-6">
-          DINOSAURS
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-16">
+        <div className="flex items-center gap-4 mb-6">
+          <h2 className="font-display text-2xl text-white tracking-wide">DINOSAURS</h2>
+          <div className="hud-line flex-1 opacity-50" />
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-16">
           {DINOS.map((d) => (
-            <article key={d.name} className="media-frame group relative">
-              <div className="aspect-[3/4] relative bg-[#143524]">
+            <article key={d.name} className="dd-card group">
+              <div className="aspect-[3/4] relative bg-[#0a0810]">
                 <img
                   src={d.img}
                   alt={d.name}
-                  className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-110"
                   style={{ objectFit: 'cover', objectPosition: 'center 15%' }}
                   loading="lazy"
                 />
@@ -58,30 +60,32 @@ export default function BestiaryPage() {
                   className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
                   style={{
                     background:
-                      'linear-gradient(to top, rgba(12,26,18,0.95), transparent)',
+                      'linear-gradient(to top, rgba(7,6,10,0.95), transparent)',
                   }}
                 />
-              </div>
-              <div className="absolute bottom-0 inset-x-0 z-10 p-4">
-                <p className="font-display text-lg text-white uppercase tracking-wide">
-                  {d.name}
-                </p>
+                <div className="absolute bottom-0 inset-x-0 z-10 p-4">
+                  <p className="font-display text-base md:text-lg text-white uppercase tracking-wide">
+                    {d.name}
+                  </p>
+                </div>
               </div>
             </article>
           ))}
         </div>
 
-        <h2 className="font-display text-2xl text-white tracking-wide mb-6">
-          HEROES
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="flex items-center gap-4 mb-6">
+          <h2 className="font-display text-2xl text-white tracking-wide">HEROES</h2>
+          <div className="hud-line flex-1 opacity-50" />
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
           {HEROES.map((h) => (
-            <article key={h.name} className="media-frame group relative">
-              <div className="aspect-[3/4] relative bg-[#143524]">
+            <article key={h.name} className="dd-card group">
+              <div className="aspect-[3/4] relative bg-[#0a0810]">
                 <img
                   src={h.img}
                   alt={h.name}
-                  className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-110"
                   style={{ objectFit: 'cover', objectPosition: 'center 12%' }}
                   loading="lazy"
                 />
@@ -89,17 +93,17 @@ export default function BestiaryPage() {
                   className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
                   style={{
                     background:
-                      'linear-gradient(to top, rgba(12,26,18,0.95), transparent)',
+                      'linear-gradient(to top, rgba(7,6,10,0.95), transparent)',
                   }}
                 />
-              </div>
-              <div className="absolute bottom-0 inset-x-0 z-10 p-3">
-                <p className="font-ui text-[10px] tracking-widest uppercase text-[#f0c14d]">
-                  {h.role}
-                </p>
-                <p className="font-display text-base text-white uppercase mt-0.5">
-                  {h.name}
-                </p>
+                <div className="absolute bottom-0 inset-x-0 z-10 p-3">
+                  <p className="font-ui text-[10px] tracking-widest uppercase text-[var(--gold)]">
+                    {h.role}
+                  </p>
+                  <p className="font-display text-base text-white uppercase mt-0.5">
+                    {h.name}
+                  </p>
+                </div>
               </div>
             </article>
           ))}

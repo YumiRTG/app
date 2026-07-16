@@ -50,27 +50,27 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
       <button
         type="button"
         className="absolute inset-0 border-none cursor-pointer"
-        style={{ background: 'rgba(5,8,7,0.82)', backdropFilter: 'blur(8px)' }}
+        style={{ background: 'rgba(7,6,10,0.88)', backdropFilter: 'blur(12px)' }}
         aria-label="Close login"
         onClick={() => !busy && onClose()}
       />
 
-      <div className="relative w-full max-w-[420px] glass-panel overflow-hidden">
-        <div className="px-6 pt-7 pb-5 border-b border-white/[0.06]">
+      <div className="relative w-full max-w-[420px] dd-panel overflow-hidden">
+        <div className="px-6 pt-7 pb-5 border-b border-[var(--gold)]/10">
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="eyebrow mb-2">Account</p>
               <h2 id={titleId} className="font-display text-3xl tracking-wide text-white">
                 LOG IN
               </h2>
-              <p className="font-body text-sm text-[#c4b89a]/85 mt-2 leading-relaxed">
+              <p className="font-body text-sm text-[var(--bone-dim)] mt-2 leading-relaxed">
                 Enter your Account ID from the game.
               </p>
             </div>
             <button
               type="button"
               onClick={() => !busy && onClose()}
-              className="text-[#c4b89a] hover:text-white bg-transparent border-none cursor-pointer text-2xl leading-none p-1"
+              className="text-[var(--bone-dim)] hover:text-white bg-transparent border-none cursor-pointer text-2xl leading-none p-1"
               aria-label="Close"
             >
               ×

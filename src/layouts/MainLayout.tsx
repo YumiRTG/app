@@ -15,17 +15,18 @@ export default function MainLayout() {
 
   return (
     <AuthProvider>
-      <div className="relative min-h-screen flex flex-col">
-        {/* Living jungle atmosphere — not pure black */}
+      <div className="relative min-h-screen flex flex-col bg-[var(--void)]">
         <div className="site-atmosphere" aria-hidden />
+
+        {/* Cinematic background art — desaturated, dark */}
         <div
-          className="fixed inset-0 z-0 pointer-events-none opacity-[0.18]"
+          className="fixed inset-0 z-0 pointer-events-none opacity-[0.22]"
           aria-hidden
           style={{
             backgroundImage: `url(${asset('env-loading-scene-6.png')})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            filter: 'saturate(1.15) brightness(0.55)',
+            filter: 'saturate(0.85) brightness(0.4) contrast(1.1)',
           }}
         />
         <div
@@ -33,11 +34,23 @@ export default function MainLayout() {
           aria-hidden
           style={{
             background:
-              'linear-gradient(180deg, rgba(12,26,18,0.55) 0%, rgba(12,26,18,0.72) 45%, rgba(12,26,18,0.88) 100%)',
+              'linear-gradient(180deg, rgba(7,6,10,0.5) 0%, rgba(7,6,10,0.72) 40%, rgba(7,6,10,0.92) 100%)',
           }}
         />
 
+        {/* Magma + biolume glow orbs */}
+        <div
+          className="glow-orb-magma fixed w-[420px] h-[420px] -top-20 -right-20 z-0 opacity-40"
+          aria-hidden
+        />
+        <div
+          className="glow-orb-gold fixed w-[320px] h-[320px] bottom-[10%] -left-24 z-0 opacity-30"
+          aria-hidden
+        />
+
         <div className="grain-overlay" />
+        <div className="site-vignette" />
+
         <div className="relative z-10 flex flex-col min-h-screen">
           <Navigation />
           <main className="flex-1">

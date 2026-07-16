@@ -7,18 +7,22 @@ export default function ApkDownload() {
   const { session } = useAuth()
 
   return (
-    <section id="apk" className="max-w-[920px] mx-auto px-2">
+    <section id="apk" className="max-w-[920px] mx-auto">
       <div className="text-center mb-10">
-        <p className="eyebrow">Friend beta</p>
-        <h1 className="display-lg text-white mt-4">Download</h1>
+        <p className="eyebrow justify-center">Friend beta</p>
+        <h1 className="display-lg text-white mt-4">
+          Down<span className="text-gradient-magma">load</span>
+        </h1>
         <p className="body-lg mt-4 max-w-lg mx-auto">
           Install the Android beta directly — share the link with friends.
         </p>
       </div>
 
-      <div className="glass-panel overflow-hidden">
-        {/* Tall banner — shows full scene, not a cropped strip */}
-        <div className="relative w-full overflow-hidden" style={{ height: 'min(42vw, 280px)', minHeight: 200 }}>
+      <div className="dd-panel overflow-hidden">
+        <div
+          className="relative w-full overflow-hidden"
+          style={{ height: 'min(42vw, 280px)', minHeight: 200 }}
+        >
           <img
             src={asset('campaign-1.png')}
             alt=""
@@ -29,12 +33,15 @@ export default function ApkDownload() {
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(180deg, rgba(12,26,18,0.15) 0%, rgba(12,26,18,0.55) 55%, rgba(12,26,18,0.95) 100%)',
+                'linear-gradient(180deg, rgba(7,6,10,0.2) 0%, rgba(7,6,10,0.55) 50%, rgba(7,6,10,0.95) 100%)',
             }}
           />
           <div className="absolute bottom-0 left-0 right-0 p-5 md:p-7 flex items-end gap-4">
-            <div
-              className="w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden border-2 border-[#f0c14d]/40 shrink-0 shadow-xl bg-[#143524]"
+            <div className="w-16 h-16 md:w-20 md:h-20 overflow-hidden border-2 border-[var(--gold)]/40 shrink-0 shadow-xl bg-[#0a0810]"
+              style={{
+                clipPath:
+                  'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))',
+              }}
             >
               <img
                 src={asset('dino-tyranno.png')}
@@ -47,7 +54,7 @@ export default function ApkDownload() {
               <p className="font-display text-2xl md:text-3xl text-white tracking-wide">
                 DINO DOMINION
               </p>
-              <p className="font-ui text-[11px] tracking-[0.18em] uppercase text-[#f0c14d] mt-1">
+              <p className="font-ui text-[11px] tracking-[0.18em] uppercase text-[var(--gold)] mt-1">
                 Android APK · Beta
               </p>
             </div>
@@ -62,23 +69,24 @@ export default function ApkDownload() {
               { label: 'Size', value: APK_DOWNLOAD.sizeLabel },
               { label: 'Requires', value: APK_DOWNLOAD.minAndroid },
             ].map((item) => (
-              <div
-                key={item.label}
-                className="rounded-xl border border-[#f0c14d]/15 bg-black/15 px-3 py-3 text-center"
-              >
-                <p className="eyebrow !text-[0.58rem] !tracking-[0.14em]">{item.label}</p>
+              <div key={item.label} className="stat-chip text-center !pl-3">
+                <p className="font-ui text-[9px] tracking-[0.2em] uppercase text-[var(--gold)]">
+                  {item.label}
+                </p>
                 <p className="font-ui text-sm text-white mt-1.5 tracking-wide">{item.value}</p>
               </div>
             ))}
           </div>
 
-          <p className="font-body text-sm text-[#d2c4a0]/90 leading-relaxed mb-6">
+          <p className="font-body text-sm text-[var(--bone-dim)] leading-relaxed mb-6">
             {APK_DOWNLOAD.notes}
           </p>
 
           {session && (
-            <div className="mb-5 rounded-xl border border-[#f0c14d]/25 bg-[#f0c14d]/10 px-4 py-3">
-              <p className="eyebrow !text-[0.58rem]">Logged in as</p>
+            <div className="mb-5 rounded-lg border border-[var(--gold)]/25 bg-[var(--gold)]/10 px-4 py-3">
+              <p className="font-ui text-[9px] tracking-[0.2em] uppercase text-[var(--gold)]">
+                Logged in as
+              </p>
               <p className="font-ui text-white text-sm mt-1">{session.displayName}</p>
             </div>
           )}
@@ -97,7 +105,7 @@ export default function ApkDownload() {
             </button>
           )}
 
-          <ol className="mt-8 space-y-2 font-body text-sm text-[#d2c4a0]/75 list-decimal list-inside leading-relaxed">
+          <ol className="mt-8 space-y-2 font-body text-sm text-[var(--bone-dim)] list-decimal list-inside leading-relaxed">
             <li>Open this page on your Android phone.</li>
             <li>Tap Download APK and wait for the file.</li>
             <li>Allow install from this source if asked.</li>
