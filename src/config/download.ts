@@ -16,10 +16,10 @@ export const APK_DOWNLOAD = {
 
   /**
    * Direct download URL (Google Drive export link).
-   * Source share: https://drive.google.com/file/d/1vCOXB_CIomE0c1ybGzfo7FxK6Mfh-quM/view?usp=sharing
+   * Source share: https://drive.google.com/file/d/1yCiQka3mMLRNC2pQuleHi0rwuX6yW4Ez/view?usp=sharing
    */
   apkUrl:
-    'https://drive.google.com/uc?export=download&id=1vCOXB_CIomE0c1ybGzfo7FxK6Mfh-quM',
+    'https://drive.google.com/uc?export=download&id=1yCiQka3mMLRNC2pQuleHi0rwuX6yW4Ez',
 
   fileName: 'DinoDominion.apk',
   version: '0.1.0-beta',
