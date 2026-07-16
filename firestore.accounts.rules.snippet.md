@@ -1,41 +1,39 @@
-# Firestore rules for Account ID login (website)
+# Firestore rules for website login (Account ID only)
 
-The website stores passwordless accounts in collection `accounts`.
+Website login:
 
-Your Unity game already uses anonymous Firebase Auth + `players/{uid}`.
+1. User enters **Account ID** = game Firebase User ID (`players/{userId}`)
+2. Website reads `players/{userId}.displayName` (commander name from the game)
+3. **No create account** on the website
+4. **No password**
 
-Add rules for `accounts` (merge into your existing rules):
+## Required rules
+
+Allow authenticated clients (anonymous auth is OK) to **read** player docs:
 
 ```
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Passwordless Account ID login for the website
-    match /accounts/{accountId} {
-      // Anyone signed in (anonymous is fine) can read/create accounts.
-      // Knowing the Account ID is the only "credential" — as requested.
+    match /players/{userId} {
+      // Website login needs to read displayName by Account ID
       allow read: if request.auth != null;
-      allow create: if request.auth != null
-                    && request.resource.data.accountId == accountId
-                    && request.resource.data.keys().hasAll(['accountId', 'displayName', 'firebaseUid']);
-      allow update: if request.auth != null;
-      allow delete: if false;
+
+      // Keep your existing write rules for the game client
+      // e.g. allow write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Keep your existing players / alliances rules here…
+    // ... your alliances / friends rules ...
   }
 }
 ```
 
-## Firebase Console checklist
+## Firebase Console
 
-1. **Authentication → Sign-in method → Anonymous → Enable**
-2. **Firestore → Rules** → add the `accounts` block above → Publish
-3. Optional: register a **Web app** in Project settings (Android app id already works for the JS SDK)
+1. **Authentication → Sign-in method → Anonymous → Enable** (website uses anonymous auth only to satisfy `request.auth != null`)
+2. Publish the `players` read rule above
 
-## How login works
+## Note
 
-- **Create**: generates `DD-XXXXXXXX`, writes `accounts/{id}`
-- **Log in**: looks up `accounts/{id}` — **no password**
-- Session is cached in the browser (localStorage)
+Knowing someone’s Account ID lets them open a website session as that commander name (passwordless by design). Do not treat this as strong security for sensitive actions.

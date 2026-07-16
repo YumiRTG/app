@@ -9,25 +9,24 @@ import {
 } from 'react'
 import {
   clearSession,
-  generateAccountId,
   loadSession,
   saveSession,
   type AuthSession,
 } from '@/lib/auth'
 import {
-  createAccountWithId,
   ensureAnonymousAuth,
   loginWithAccountId,
 } from '@/lib/firebaseAccounts'
 
-type AuthResult = { ok: true; accountId?: string } | { ok: false; error: string }
+type AuthResult =
+  | { ok: true; accountId: string; displayName: string; powerScore?: number }
+  | { ok: false; error: string }
 
 type AuthContextValue = {
   session: AuthSession | null
   ready: boolean
   busy: boolean
-  login: (accountId: string, displayName?: string) => Promise<AuthResult>
-  createAccount: (displayName?: string, preferredId?: string) => Promise<AuthResult>
+  login: (accountId: string) => Promise<AuthResult>
   logout: () => void
 }
 
@@ -41,33 +40,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setSession(loadSession())
     setReady(true)
-    // Warm up anonymous Firebase auth in the background
-    ensureAnonymousAuth().catch(() => {
-      // Console will surface real errors on login/create
-    })
+    ensureAnonymousAuth().catch(() => {})
   }, [])
 
-  const login = useCallback(async (accountId: string, displayName?: string) => {
+  const login = useCallback(async (accountId: string) => {
     setBusy(true)
     try {
-      const result = await loginWithAccountId(accountId, displayName)
+      const result = await loginWithAccountId(accountId)
       if (!result.ok) return result
       saveSession(result.session)
       setSession(result.session)
-      return { ok: true as const, accountId: result.session.accountId }
-    } finally {
-      setBusy(false)
-    }
-  }, [])
-
-  const createAccount = useCallback(async (displayName?: string, preferredId?: string) => {
-    setBusy(true)
-    try {
-      const result = await createAccountWithId(preferredId || generateAccountId(), displayName)
-      if (!result.ok) return result
-      saveSession(result.session)
-      setSession(result.session)
-      return { ok: true as const, accountId: result.session.accountId }
+      return {
+        ok: true as const,
+        accountId: result.session.accountId,
+        displayName: result.session.displayName,
+        powerScore: result.session.powerScore,
+      }
     } finally {
       setBusy(false)
     }
@@ -79,8 +67,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const value = useMemo(
-    () => ({ session, ready, busy, login, createAccount, logout }),
-    [session, ready, busy, login, createAccount, logout]
+    () => ({ session, ready, busy, login, logout }),
+    [session, ready, busy, login, logout]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

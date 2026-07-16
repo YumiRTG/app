@@ -6,28 +6,21 @@ export type AuthSession = {
   loggedInAt: string
   firebaseUid?: string
   source?: 'local' | 'firebase'
+  /** Optional game stats from players/{id} */
+  powerScore?: number
 }
 
-/** Normalize and validate account IDs (game-style codes). */
+/**
+ * Account ID = Firebase User ID from the game (players/{userId}).
+ * Do NOT force uppercase — Firebase UIDs are case-sensitive.
+ */
 export function normalizeAccountId(raw: string): string {
-  return raw.trim().toUpperCase().replace(/\s+/g, '')
+  return raw.trim()
 }
 
 export function isValidAccountId(id: string): boolean {
-  // 4–24 chars: letters, numbers, hyphen, underscore
-  return /^[A-Z0-9_-]{4,24}$/.test(id)
-}
-
-/** Generate a new web account ID, e.g. DD-A7K2M9QX */
-export function generateAccountId(): string {
-  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-  let code = ''
-  const bytes = new Uint8Array(8)
-  crypto.getRandomValues(bytes)
-  for (let i = 0; i < 8; i++) {
-    code += alphabet[bytes[i]! % alphabet.length]
-  }
-  return `DD-${code}`
+  // Firebase UIDs are typically ~28 alphanumeric chars; allow a safe range
+  return /^[A-Za-z0-9_-]{6,128}$/.test(id)
 }
 
 export function loadSession(): AuthSession | null {
@@ -40,10 +33,11 @@ export function loadSession(): AuthSession | null {
     }
     return {
       accountId: normalizeAccountId(data.accountId),
-      displayName: (data.displayName || 'Commander').trim().slice(0, 24),
+      displayName: (data.displayName || 'Commander').trim().slice(0, 48),
       loggedInAt: data.loggedInAt || new Date().toISOString(),
       firebaseUid: data.firebaseUid,
-      source: data.source || 'local',
+      source: data.source || 'firebase',
+      powerScore: typeof data.powerScore === 'number' ? data.powerScore : undefined,
     }
   } catch {
     return null

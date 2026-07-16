@@ -136,13 +136,16 @@ export default function ApkDownload() {
               <div className="mb-5 rounded-lg border border-sage/30 bg-sage/10 px-4 py-3">
                 <p className="label-text text-sage text-[10px]">Logged in as</p>
                 <p className="font-ui text-teal text-sm mt-1 tracking-wide">
-                  {session.displayName} · {session.accountId}
+                  {session.displayName}
+                </p>
+                <p className="font-body text-teal/45 text-xs mt-1 break-all">
+                  ID: {session.accountId}
                 </p>
               </div>
             ) : (
               <div className="mb-5 rounded-lg border border-teal/12 bg-teal/[0.04] px-4 py-3">
                 <p className="font-body text-teal/65 text-sm">
-                  Optional: log in with your Account ID first so friends know which commander you are.
+                  Optional: log in with your game Account ID — commander name is detected automatically.
                 </p>
                 <a
                   href="#login"

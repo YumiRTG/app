@@ -3,33 +3,20 @@ import {
   onAuthStateChanged,
   type User,
 } from 'firebase/auth'
+import { doc, getDoc, collection, query, where, limit, getDocs } from 'firebase/firestore'
+import { getFirebase } from '@/lib/firebase'
 import {
-  doc,
-  getDoc,
-  setDoc,
-  serverTimestamp,
-  updateDoc,
-} from 'firebase/firestore'
-import { ACCOUNTS_COLLECTION, getFirebase } from '@/lib/firebase'
-import {
-  generateAccountId,
   isValidAccountId,
   normalizeAccountId,
   type AuthSession,
 } from '@/lib/auth'
 
-export type AccountDoc = {
-  accountId: string
-  displayName: string
-  firebaseUid: string
-  createdAt?: unknown
-  lastLoginAt?: unknown
-  source?: string
-}
+/** Same collection as the Unity game (SaveSystem / FriendService). */
+export const PLAYERS_COLLECTION = 'players'
 
 let authReady: Promise<User> | null = null
 
-/** Ensure we have an anonymous Firebase session (same pattern as the Unity game). */
+/** Anonymous Firebase session so Firestore rules that require request.auth work. */
 export function ensureAnonymousAuth(): Promise<User> {
   if (authReady) return authReady
 
@@ -60,7 +47,7 @@ function friendlyError(err: unknown): string {
   const msg = (err as { message?: string })?.message || String(err)
 
   if (code.includes('permission-denied') || msg.includes('permission')) {
-    return 'Firebase permission denied. Enable Anonymous Auth and allow read/write on collection "accounts" in Firestore rules.'
+    return 'Firebase permission denied. Allow read on collection "players" for signed-in users (including anonymous).'
   }
   if (code.includes('unavailable') || msg.includes('network')) {
     return 'Network error — check your connection and try again.'
@@ -71,106 +58,85 @@ function friendlyError(err: unknown): string {
   return msg || 'Something went wrong talking to Firebase.'
 }
 
-/** Log in with Account ID only (no password). Looks up accounts/{accountId} in Firestore. */
+function pickDisplayName(data: Record<string, unknown> | undefined): string {
+  const raw =
+    (typeof data?.displayName === 'string' && data.displayName) ||
+    (typeof data?.name === 'string' && data.name) ||
+    (typeof data?.playerName === 'string' && data.playerName) ||
+    ''
+  const name = raw.trim()
+  return name || 'Commander'
+}
+
+function pickPower(data: Record<string, unknown> | undefined): number | undefined {
+  const v = data?.powerScore ?? data?.totalScore
+  if (typeof v === 'number' && Number.isFinite(v)) return v
+  if (typeof v === 'string' && v.trim() !== '' && !Number.isNaN(Number(v))) return Number(v)
+  return undefined
+}
+
+/**
+ * Log in with game Account ID only (Firebase User ID).
+ * No password. Commander name is read from players/{accountId}.displayName
+ * (same field the Unity game syncs via FriendService).
+ */
 export async function loginWithAccountId(
-  rawAccountId: string,
-  displayName?: string
+  rawAccountId: string
 ): Promise<{ ok: true; session: AuthSession } | { ok: false; error: string }> {
   const accountId = normalizeAccountId(rawAccountId)
   if (!isValidAccountId(accountId)) {
     return {
       ok: false,
-      error: 'Account ID must be 4–24 characters (A–Z, 0–9, - or _).',
+      error: 'Enter a valid Account ID (your game player ID, usually 20–30 characters).',
     }
   }
 
   try {
-    const user = await ensureAnonymousAuth()
+    await ensureAnonymousAuth()
     const { db } = getFirebase()
-    const ref = doc(db, ACCOUNTS_COLLECTION, accountId)
+
+    // Primary: document id = Firebase User ID from the game
+    const ref = doc(db, PLAYERS_COLLECTION, accountId)
     const snap = await getDoc(ref)
 
-    if (!snap.exists()) {
-      return {
-        ok: false,
-        error: 'Account ID not found. Create an account first, or check the ID.',
-      }
-    }
-
-    const data = snap.data() as AccountDoc
-    const name =
-      (displayName || data.displayName || 'Commander').trim().slice(0, 24) || 'Commander'
-
-    // Touch last login (best-effort)
-    try {
-      await updateDoc(ref, {
-        lastLoginAt: serverTimestamp(),
-        displayName: name,
-        lastWebUid: user.uid,
-      })
-    } catch {
-      // ignore if rules block updates
-    }
-
-    const session: AuthSession = {
-      accountId,
-      displayName: name,
-      loggedInAt: new Date().toISOString(),
-      firebaseUid: user.uid,
-      source: 'firebase',
-    }
-    return { ok: true, session }
-  } catch (err) {
-    return { ok: false, error: friendlyError(err) }
-  }
-}
-
-/** Create a new Account ID document in Firestore (no password). */
-export async function createAccountWithId(
-  preferredId?: string,
-  displayName?: string
-): Promise<{ ok: true; session: AuthSession } | { ok: false; error: string }> {
-  let accountId = preferredId ? normalizeAccountId(preferredId) : generateAccountId()
-  if (!isValidAccountId(accountId)) {
-    return { ok: false, error: 'Invalid Account ID format.' }
-  }
-
-  try {
-    const user = await ensureAnonymousAuth()
-    const { db } = getFirebase()
-
-    // Retry a few times if ID already taken
-    for (let attempt = 0; attempt < 5; attempt++) {
-      const ref = doc(db, ACCOUNTS_COLLECTION, accountId)
-      const existing = await getDoc(ref)
-      if (existing.exists()) {
-        accountId = generateAccountId()
-        continue
-      }
-
-      const name = (displayName || 'Commander').trim().slice(0, 24) || 'Commander'
-      const payload: Record<string, unknown> = {
-        accountId,
-        displayName: name,
-        firebaseUid: user.uid,
-        source: 'web',
-        createdAt: serverTimestamp(),
-        lastLoginAt: serverTimestamp(),
-      }
-
-      await setDoc(ref, payload)
-
+    if (snap.exists()) {
+      const data = snap.data() as Record<string, unknown>
       const session: AuthSession = {
         accountId,
-        displayName: name,
+        displayName: pickDisplayName(data),
         loggedInAt: new Date().toISOString(),
-        firebaseUid: user.uid,
+        firebaseUid: accountId,
         source: 'firebase',
+        powerScore: pickPower(data),
       }
       return { ok: true, session }
     }
 
-    return { ok: false, error: 'Could not allocate a free Account ID. Try again.' }
+    // Fallback: some tools paste displayName instead of ID — resolve like FriendService
+    const byName = query(
+      collection(db, PLAYERS_COLLECTION),
+      where('displayName', '==', accountId),
+      limit(1)
+    )
+    const nameSnap = await getDocs(byName)
+    if (!nameSnap.empty) {
+      const hit = nameSnap.docs[0]!
+      const data = hit.data() as Record<string, unknown>
+      const session: AuthSession = {
+        accountId: hit.id,
+        displayName: pickDisplayName(data),
+        loggedInAt: new Date().toISOString(),
+        firebaseUid: hit.id,
+        source: 'firebase',
+        powerScore: pickPower(data),
+      }
+      return { ok: true, session }
+    }
+
+    return {
+      ok: false,
+      error: 'Account not found. Use the Account ID from the game (player ID). No new accounts on the website.',
+    }
   } catch (err) {
     return { ok: false, error: friendlyError(err) }
   }
