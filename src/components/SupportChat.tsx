@@ -7,10 +7,42 @@ function uid() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 }
 
+async function askGrok(
+  history: ChatMessage[]
+): Promise<{ ok: true; reply: string } | { ok: false; error: string; code?: string }> {
+  try {
+    const messages = history
+      .filter((m) => m.role === 'user' || m.role === 'assistant')
+      .map((m) => ({ role: m.role, content: m.text }))
+
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages }),
+    })
+
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      return {
+        ok: false,
+        error: data?.error || `HTTP ${res.status}`,
+        code: data?.code,
+      }
+    }
+    if (typeof data?.reply !== 'string' || !data.reply.trim()) {
+      return { ok: false, error: 'Empty reply' }
+    }
+    return { ok: true, reply: data.reply.trim() }
+  } catch (err) {
+    return { ok: false, error: (err as Error)?.message || 'Network error' }
+  }
+}
+
 export default function SupportChat() {
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
+  const [mode, setMode] = useState<'ai' | 'local'>('ai')
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
     { id: uid(), role: 'assistant', text: welcomeMessage(), at: Date.now() },
   ])
@@ -23,7 +55,6 @@ export default function SupportChat() {
     inputRef.current?.focus()
   }, [open, messages, typing])
 
-  // Open from footer / hash
   useEffect(() => {
     const openFromHash = () => {
       if (window.location.hash === '#support') setOpen(true)
@@ -38,7 +69,7 @@ export default function SupportChat() {
     }
   }, [])
 
-  const send = (text?: string) => {
+  const send = async (text?: string) => {
     const value = (text ?? input).trim()
     if (!value || typing) return
 
@@ -48,26 +79,36 @@ export default function SupportChat() {
       text: value,
       at: Date.now(),
     }
-    setMessages((m) => [...m, userMsg])
+    const nextHistory = [...messages, userMsg]
+    setMessages(nextHistory)
     setInput('')
     setTyping(true)
 
-    // Small delay so it feels like a helper thinking
-    window.setTimeout(() => {
-      const reply = supportReply(value)
-      setMessages((m) => [
-        ...m,
-        { id: uid(), role: 'assistant', text: reply, at: Date.now() },
-      ])
-      setTyping(false)
-    }, 450 + Math.min(800, value.length * 12))
+    // Prefer real Grok on Vercel; fall back to local FAQ bot
+    const ai = await askGrok(nextHistory)
+    let replyText: string
+    if (ai.ok) {
+      replyText = ai.reply
+      setMode('ai')
+    } else {
+      replyText = supportReply(value)
+      setMode('local')
+      if (ai.code === 'NO_API_KEY') {
+        // keep silent fallback — FAQ still works
+      }
+    }
+
+    setMessages((m) => [
+      ...m,
+      { id: uid(), role: 'assistant', text: replyText, at: Date.now() },
+    ])
+    setTyping(false)
   }
 
   const quick = ['How do I download?', 'Account ID login', 'Daily rewards', 'Discord?']
 
   return (
     <>
-      {/* Floating button */}
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -93,12 +134,11 @@ export default function SupportChat() {
           role="dialog"
           aria-label="Support chat"
         >
-          {/* Header */}
           <div className="px-4 py-3 border-b border-white/10 flex items-start justify-between gap-2 shrink-0">
             <div>
               <p className="font-display text-lg text-white tracking-wide">SUPPORT</p>
               <p className="font-body text-[11px] text-[#d2c4a0]/75 mt-0.5">
-                Dominion assistant · online
+                {mode === 'ai' ? 'Grok AI · online' : 'Local guide · online'}
               </p>
             </div>
             <button
@@ -111,7 +151,6 @@ export default function SupportChat() {
             </button>
           </div>
 
-          {/* Community row */}
           <div className="px-3 py-2 border-b border-white/5 flex flex-wrap gap-2 shrink-0">
             <CommunityChip label="Discord" href={COMMUNITY.discordUrl} />
             <CommunityChip label="Forum" href={COMMUNITY.forumUrl} />
@@ -124,7 +163,6 @@ export default function SupportChat() {
             </Link>
           </div>
 
-          {/* Messages */}
           <div ref={listRef} className="flex-1 overflow-y-auto px-3 py-3 space-y-3">
             {messages.map((m) => (
               <div
@@ -155,13 +193,12 @@ export default function SupportChat() {
             {typing && (
               <div className="flex justify-start">
                 <div className="rounded-2xl px-4 py-2.5 text-xs text-[#d2c4a0] bg-white/5 border border-white/10">
-                  Typing…
+                  Thinking…
                 </div>
               </div>
             )}
           </div>
 
-          {/* Quick asks */}
           <div className="px-3 pb-2 flex flex-wrap gap-1.5 shrink-0">
             {quick.map((q) => (
               <button
@@ -176,12 +213,11 @@ export default function SupportChat() {
             ))}
           </div>
 
-          {/* Input */}
           <form
             className="p-3 border-t border-white/10 flex gap-2 shrink-0"
             onSubmit={(e) => {
               e.preventDefault()
-              send()
+              void send()
             }}
           >
             <input

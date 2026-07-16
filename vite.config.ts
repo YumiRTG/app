@@ -4,8 +4,8 @@ import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
-  // GitHub Pages project site: https://yumirtg.github.io/app/
-  base: '/app/',
+  // Vercel (and local) serve from site root
+  base: '/',
   plugins: [react()],
   server: {
     port: 3000,

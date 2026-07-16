@@ -121,7 +121,6 @@ export function supportReply(userText: string): string {
 
 export function welcomeMessage(): string {
   return (
-    'Welcome to Dino Dominion Support. I can help with install, Account ID login, daily rewards, roulette, and game basics. ' +
-    'What do you need?'
+    'Welcome to Dino Dominion Support. Ask me anything about the game or site — download, Account ID login, daily rewards, roulette, dinos, and more.'
   )
 }

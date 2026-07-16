@@ -14,7 +14,7 @@ import DownloadPage from '@/pages/DownloadPage'
  */
 export default function App() {
   return (
-    <BrowserRouter basename="/app">
+    <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
           <Route index element={<HomePage />} />
