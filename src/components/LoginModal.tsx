@@ -107,6 +107,9 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
               autoComplete="username"
               spellCheck={false}
             />
+            <p className="font-body text-teal/45 text-xs mt-2 leading-relaxed">
+              This is your Account player ID from the game. You can find it in the settings.
+            </p>
           </div>
 
           {error && (
