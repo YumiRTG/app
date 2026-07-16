@@ -10,17 +10,18 @@ export default function Navigation({ onNavigate }: NavigationProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > window.innerHeight * 0.5)
+      setScrolled(window.scrollY > window.innerHeight * 0.35)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const navItems = [
-    { label: 'WORLD', section: 'dawn' },
+    { label: 'FEATURES', section: 'features' },
+    { label: 'HEROES', section: 'heroes' },
+    { label: 'ARMY', section: 'army' },
     { label: 'DINOS', section: 'dinos' },
-    { label: 'GAMEPLAY', section: 'gameplay' },
-    { label: 'GALLERY', section: 'gallery' },
+    { label: 'WORLD', section: 'world' },
   ]
 
   const handleNavClick = (section: string) => {
@@ -33,17 +34,18 @@ export default function Navigation({ onNavigate }: NavigationProps) {
       <nav
         className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300"
         style={{
-          backgroundColor: 'rgba(8, 76, 97, 0.9)',
+          backgroundColor: scrolled || menuOpen ? 'rgba(8, 76, 97, 0.94)' : 'rgba(8, 76, 97, 0.55)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderBottom: scrolled ? '1px solid rgba(254, 250, 224, 0.15)' : '1px solid transparent',
+          borderBottom: scrolled
+            ? '1px solid rgba(254, 250, 224, 0.15)'
+            : '1px solid transparent',
         }}
       >
-        <div className="flex items-center justify-between h-16 md:h-20 px-6 md:px-20 max-w-[1728px] mx-auto">
-          {/* Logo */}
+        <div className="flex items-center justify-between h-16 md:h-20 px-6 md:px-12 xl:px-20 max-w-[1728px] mx-auto">
           <button
             onClick={() => handleNavClick('hero')}
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-2 group bg-transparent border-none cursor-pointer"
           >
             <span className="w-3 h-3 rounded-full bg-terracotta"></span>
             <span className="font-display text-cream text-lg md:text-xl tracking-[0.1em]">
@@ -51,8 +53,7 @@ export default function Navigation({ onNavigate }: NavigationProps) {
             </span>
           </button>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden lg:flex items-center gap-8 xl:gap-10">
             {navItems.map((item) => (
               <button
                 key={item.section}
@@ -64,17 +65,15 @@ export default function Navigation({ onNavigate }: NavigationProps) {
             ))}
           </div>
 
-          {/* Desktop CTA */}
           <button
             onClick={() => handleNavClick('download')}
-            className="hidden md:block btn-primary text-sm py-3 px-8"
+            className="hidden md:block btn-primary text-sm py-3 px-7"
           >
-            PLAY NOW
+            PLAY FREE
           </button>
 
-          {/* Mobile Hamburger */}
           <button
-            className="md:hidden flex flex-col gap-[6px] p-2 bg-transparent border-none cursor-pointer"
+            className="lg:hidden flex flex-col gap-[6px] p-2 bg-transparent border-none cursor-pointer"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu"
           >
@@ -86,9 +85,7 @@ export default function Navigation({ onNavigate }: NavigationProps) {
             />
             <span
               className="block w-6 h-[2px] bg-cream transition-all duration-300"
-              style={{
-                opacity: menuOpen ? 0 : 1,
-              }}
+              style={{ opacity: menuOpen ? 0 : 1 }}
             />
             <span
               className="block w-6 h-[2px] bg-cream transition-all duration-300"
@@ -100,30 +97,26 @@ export default function Navigation({ onNavigate }: NavigationProps) {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
       <div
-        className="fixed inset-0 z-[99] md:hidden transition-transform duration-[600ms]"
+        className="fixed inset-0 z-[99] lg:hidden transition-transform duration-[600ms]"
         style={{
           backgroundColor: '#FEFAE0',
           transform: menuOpen ? 'translateX(0)' : 'translateX(100%)',
           transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)',
         }}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-8">
+        <div className="flex flex-col items-center justify-center h-full gap-7">
           {navItems.map((item) => (
             <button
               key={item.section}
               onClick={() => handleNavClick(item.section)}
-              className="font-display text-teal text-5xl uppercase tracking-tight bg-transparent border-none cursor-pointer hover:text-terracotta transition-colors duration-300"
+              className="font-display text-teal text-4xl uppercase tracking-tight bg-transparent border-none cursor-pointer hover:text-terracotta transition-colors duration-300"
             >
               {item.label}
             </button>
           ))}
-          <button
-            onClick={() => handleNavClick('download')}
-            className="btn-primary mt-8 text-lg"
-          >
-            PLAY NOW
+          <button onClick={() => handleNavClick('download')} className="btn-primary mt-6 text-lg">
+            PLAY FREE
           </button>
         </div>
       </div>

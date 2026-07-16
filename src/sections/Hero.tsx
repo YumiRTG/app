@@ -98,7 +98,7 @@ export default function Hero() {
             letterSpacing: '0.15em',
           }}
         >
-          TAME. FIGHT. SURVIVE.
+          BUILD · TAME · CONQUER
         </p>
       </div>
 

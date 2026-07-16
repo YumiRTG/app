@@ -30,8 +30,7 @@ export default function Gameplay() {
         end: 'bottom bottom',
         scrub: true,
         onUpdate: (self) => {
-          const progress = self.progress
-          video.currentTime = duration * (1 - progress)
+          video.currentTime = duration * (1 - self.progress)
         },
       })
 
@@ -45,7 +44,7 @@ export default function Gameplay() {
           const progress = self.progress
           chars.forEach((char, i) => {
             const charStart = (i / chars.length) * 0.5
-            const charEnd = charStart + (0.5 / chars.length)
+            const charEnd = charStart + 0.5 / chars.length
             const charProgress = (progress - charStart) / (charEnd - charStart)
             const el = char as HTMLElement
             el.style.opacity = String(Math.max(0.1, Math.min(1, charProgress)))
@@ -53,10 +52,11 @@ export default function Gameplay() {
         },
       })
 
-      gsap.fromTo(desc,
+      gsap.fromTo(
+        desc,
         { opacity: 0, y: 20 },
         {
-          opacity: 0.8,
+          opacity: 0.85,
           y: 0,
           duration: 0.6,
           scrollTrigger: {
@@ -72,7 +72,11 @@ export default function Gameplay() {
     const text = title.textContent || ''
     title.innerHTML = text
       .split('')
-      .map(char => char === ' ' ? '<span class="char inline-block">&nbsp;</span>' : `<span class="char inline-block" style="opacity:0.1">${char}</span>`)
+      .map((char) =>
+        char === ' '
+          ? '<span class="char inline-block">&nbsp;</span>'
+          : `<span class="char inline-block" style="opacity:0.1">${char}</span>`
+      )
       .join('')
 
     video.addEventListener('loadedmetadata', setupScrollTrigger)
@@ -81,19 +85,14 @@ export default function Gameplay() {
     return () => {
       video.removeEventListener('loadedmetadata', setupScrollTrigger)
       if (triggerInstance) triggerInstance.kill()
-      ScrollTrigger.getAll().forEach(st => {
+      ScrollTrigger.getAll().forEach((st) => {
         if (st.trigger === section) st.kill()
       })
     }
   }, [])
 
   return (
-    <section
-      id="gameplay"
-      ref={sectionRef}
-      className="relative"
-      style={{ height: '300vh' }}
-    >
+    <section id="gameplay" ref={sectionRef} className="relative" style={{ height: '300vh' }}>
       <div className="sticky top-0 h-screen overflow-hidden">
         <video
           ref={videoRef}
@@ -115,26 +114,28 @@ export default function Gameplay() {
         />
 
         <div className="absolute inset-0 flex flex-col items-center justify-center z-[2] px-6">
+          <span className="label-text text-cream/70 mb-4">GAMEPLAY LOOP</span>
           <h2
             ref={titleRef}
             className="font-display text-cream uppercase text-center"
             style={{
-              fontSize: 'clamp(48px, 7vw, 96px)',
+              fontSize: 'clamp(42px, 6.5vw, 88px)',
               lineHeight: 0.9,
               letterSpacing: '-0.02em',
             }}
           >
-            MASTER THE WILD
+            GROW. FIGHT. REWARD.
           </h2>
           <p
             ref={descRef}
-            className="font-body text-cream/80 text-center mt-6 max-w-[560px]"
+            className="font-body text-cream/80 text-center mt-6 max-w-[600px]"
             style={{
               fontSize: 'clamp(16px, 1.8vw, 18px)',
               lineHeight: 1.6,
             }}
           >
-            Build your base, recruit legendary heroes, train elite troops, and command prehistoric beasts in battles that decide the fate of your dominion.
+            Collect resources, upgrade your base, recruit heroes, train troops, clear campaign stages,
+            and pull for legendary creatures — then do it all again, stronger than before.
           </p>
         </div>
       </div>

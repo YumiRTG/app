@@ -15,7 +15,10 @@ export default function Manifesto() {
     const text = el.textContent || ''
     const words = text.split(' ')
     el.innerHTML = words
-      .map(word => `<span class="inline-block opacity-0 translate-y-[10px]" style="transition: none;">${word}</span>`)
+      .map(
+        (word) =>
+          `<span class="inline-block opacity-0 translate-y-[10px]" style="transition: none;">${word}</span>`
+      )
       .join(' ')
 
     const wordSpans = el.querySelectorAll('span')
@@ -38,36 +41,34 @@ export default function Manifesto() {
 
     return () => {
       tl.kill()
-      ScrollTrigger.getAll().forEach(st => {
+      ScrollTrigger.getAll().forEach((st) => {
         if (st.trigger === el) st.kill()
       })
     }
   }, [])
 
   return (
-    <section
-      ref={sectionRef}
-      className="section-light py-[120px] md:py-[200px] px-6 md:px-20"
-    >
+    <section ref={sectionRef} className="section-light py-[100px] md:py-[160px] px-6 md:px-20">
       <div className="max-w-[1000px] mx-auto text-center">
-        {/* Decorative Element */}
-        <div className="flex items-center justify-center mb-12">
+        <div className="flex items-center justify-center mb-10">
           <div className="w-[60px] h-[1px] bg-sage" />
           <div className="w-2 h-2 rounded-full bg-terracotta mx-3" />
           <div className="w-[60px] h-[1px] bg-sage" />
         </div>
 
-        {/* Manifesto Text */}
+        <p className="label-text text-sage mb-6">PREHISTORIC STRATEGY SURVIVAL</p>
+
         <p
           ref={textRef}
           className="font-display text-teal uppercase text-center"
           style={{
-            fontSize: 'clamp(24px, 3.5vw, 48px)',
-            lineHeight: 1.2,
+            fontSize: 'clamp(22px, 3.2vw, 42px)',
+            lineHeight: 1.25,
             letterSpacing: '-0.01em',
           }}
         >
-          BUILD YOUR BASE. RECRUIT HEROES. TAME DINOSAURS. IN DINO DOMINION YOU COMMAND TROOPS, CONQUER CAMPAIGNS, AND FORGE ALLIANCES IN A LIVING PREHISTORIC WORLD FULL OF DANGER AND POWER.
+          BUILD YOUR BASE. RECRUIT HEROES. TRAIN TROOPS. TAME DINOSAURS. CONQUER THE CAMPAIGN.
+          IN DINO DOMINION, EVERY CHOICE FORGES AN EMPIRE THAT OUTLIVES THE AGE OF BEASTS.
         </p>
       </div>
     </section>

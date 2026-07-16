@@ -6,11 +6,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navigation from './sections/Navigation'
 import Hero from './sections/Hero'
 import Manifesto from './sections/Manifesto'
+import Features from './sections/Features'
 import Gameplay from './sections/Gameplay'
+import CharacterSpotlight from './sections/CharacterSpotlight'
+import Troops from './sections/Troops'
 import DinoShowcase from './sections/DinoShowcase'
+import WorldRealms from './sections/WorldRealms'
 import DawnAtmosphere from './sections/DawnAtmosphere'
 import Gallery from './sections/Gallery'
-import CharacterSpotlight from './sections/CharacterSpotlight'
 import CTADownload from './sections/CTADownload'
 import Footer from './sections/Footer'
 
@@ -20,7 +23,6 @@ export default function App() {
   const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
-    // Initialize Lenis smooth scroll
     const lenis = new Lenis({
       lerp: 0.08,
       duration: 1.2,
@@ -28,7 +30,6 @@ export default function App() {
     })
     lenisRef.current = lenis
 
-    // Connect Lenis to GSAP ScrollTrigger
     lenis.on('scroll', () => {
       ScrollTrigger.update()
     })
@@ -38,7 +39,6 @@ export default function App() {
     })
     gsap.ticker.lagSmoothing(0)
 
-    // Refresh ScrollTrigger after all content loads
     const handleLoad = () => {
       ScrollTrigger.refresh()
     }
@@ -63,25 +63,24 @@ export default function App() {
 
   return (
     <div className="relative">
-      {/* Global Grain Overlay */}
       <div className="grain-overlay" />
 
-      {/* Navigation */}
       <Navigation onNavigate={handleNavigate} />
 
-      {/* Main Content */}
       <main>
         <Hero />
         <Manifesto />
+        <Features />
         <Gameplay />
+        <CharacterSpotlight />
+        <Troops />
         <DinoShowcase />
         <DawnAtmosphere />
+        <WorldRealms />
         <Gallery />
-        <CharacterSpotlight />
         <CTADownload />
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   )

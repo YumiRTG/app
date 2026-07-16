@@ -126,7 +126,7 @@ export default function Gallery() {
               letterSpacing: '-0.02em',
             }}
           >
-            CAMPAIGN SCENES
+            CAMPAIGN STORY
           </h2>
           <p
             className="font-body text-teal/70 mt-4 max-w-[500px]"
@@ -135,7 +135,7 @@ export default function Gallery() {
               lineHeight: 1.6,
             }}
           >
-            Official campaign art from Dino Dominion — moments that define your conquest.
+            Official campaign scenes from Dino Dominion — the battles and milestones that define your rise.
           </p>
 
           <div

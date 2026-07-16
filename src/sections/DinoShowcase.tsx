@@ -161,7 +161,7 @@ export default function DinoShowcase() {
               lineHeight: 1.6,
             }}
           >
-            From the crushing jaws of the Tyrannosaurus to the venom spit of the Dilophosaurus — every creature in Dino Dominion has unique skills that shape your strategy.
+            Collect and power up Tyrannosaurus, Dilophosaurus, Velociraptor, Mammoth, Fire Dragon and more — each with unique skills that define your army composition.
           </p>
           <button
             className="mt-10 bg-teal text-cream font-ui uppercase text-sm tracking-[0.06em] py-4 px-10 rounded-full hover:bg-[#0A5E78] transition-colors duration-300 cursor-pointer border-none"
