@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, NavLink, useSearchParams } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 import LoginModal from '@/components/LoginModal'
+import DinoMark from '@/components/DinoMark'
 
 /** Every button = its own single page */
 const navItems = [
@@ -55,19 +56,20 @@ export default function Navigation() {
       <nav
         className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300"
         style={{
-          backgroundColor: scrolled || menuOpen ? 'rgba(8, 76, 97, 0.97)' : 'rgba(8, 76, 97, 0.9)',
+          backgroundColor: scrolled || menuOpen ? 'rgba(6, 38, 28, 0.96)' : 'rgba(11, 61, 46, 0.9)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(254, 250, 224, 0.12)',
+          borderBottom: '1px solid rgba(212, 161, 90, 0.25)',
         }}
       >
         <div className="flex items-center justify-between h-14 md:h-16 px-3 md:px-5 max-w-[1800px] mx-auto gap-2">
           <Link
             to="/"
-            className="flex items-center gap-2 no-underline shrink-0"
+            className="flex items-center gap-2 no-underline shrink-0 text-warm-sand"
             onClick={() => setMenuOpen(false)}
+            style={{ color: '#D4A15A' }}
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-terracotta" />
+            <DinoMark className="w-8 h-8" />
             <span className="font-display text-cream text-base md:text-lg tracking-[0.08em]">
               DINO DOMINION
             </span>

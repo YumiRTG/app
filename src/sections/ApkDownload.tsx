@@ -145,17 +145,8 @@ export default function ApkDownload() {
               <a
                 href={APK_DOWNLOAD.apkUrl}
                 download={APK_DOWNLOAD.fileName}
-                className="btn-primary inline-flex items-center justify-center gap-3 w-full md:w-auto min-w-[280px] py-[18px] px-10 no-underline"
+                className="btn-primary inline-flex items-center justify-center w-full md:w-auto min-w-[280px] py-[18px] px-10 no-underline"
               >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-                  <path
-                    d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
                 Download APK
               </a>
             ) : (
@@ -163,18 +154,9 @@ export default function ApkDownload() {
                 <button
                   type="button"
                   disabled
-                  className="inline-flex items-center justify-center gap-3 w-full md:w-auto min-w-[280px] py-[18px] px-10 rounded-full font-ui uppercase tracking-[0.06em] text-base border-none cursor-not-allowed opacity-70"
-                  style={{ background: 'rgba(8,76,97,0.25)', color: '#FEFAE0' }}
+                  className="inline-flex items-center justify-center w-full md:w-auto min-w-[280px] py-[18px] px-10 rounded-md font-ui uppercase tracking-[0.06em] text-base border-none cursor-not-allowed opacity-70"
+                  style={{ background: 'rgba(11,61,46,0.35)', color: '#F3E7C9' }}
                 >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-                    <path
-                      d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
                   APK coming soon
                 </button>
                 <p className="font-body text-teal/50 text-xs leading-relaxed">

@@ -100,24 +100,15 @@ export default function CTADownload() {
           <button
             type="button"
             onClick={() => document.getElementById('apk')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-terracotta text-cream font-ui uppercase text-base tracking-[0.06em] py-[18px] px-10 rounded-full hover:bg-[#C0563A] transition-colors duration-300 cursor-pointer border-none flex items-center gap-3"
+            className="btn-primary"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path
-                d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
             Android APK
           </button>
 
           <button
             type="button"
             disabled
-            className="bg-transparent text-cream/50 font-ui uppercase text-base tracking-[0.06em] py-[18px] px-10 rounded-full border-2 border-cream/25 cursor-not-allowed flex items-center gap-3"
+            className="btn-secondary opacity-50 cursor-not-allowed"
             title="Coming later"
           >
             App Store · Soon
@@ -126,7 +117,7 @@ export default function CTADownload() {
           <button
             type="button"
             disabled
-            className="bg-transparent text-cream/50 font-ui uppercase text-base tracking-[0.06em] py-[18px] px-10 rounded-full border-2 border-cream/25 cursor-not-allowed flex items-center gap-3"
+            className="btn-secondary opacity-50 cursor-not-allowed"
             title="Coming later"
           >
             Google Play · Soon

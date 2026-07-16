@@ -50,13 +50,9 @@ export default function Manifesto() {
   return (
     <section ref={sectionRef} className="section-light py-[100px] md:py-[160px] px-6 md:px-20">
       <div className="max-w-[1000px] mx-auto text-center">
-        <div className="flex items-center justify-center mb-10">
-          <div className="w-[60px] h-[1px] bg-sage" />
-          <div className="w-2 h-2 rounded-full bg-terracotta mx-3" />
-          <div className="w-[60px] h-[1px] bg-sage" />
+        <div className="claw-divider mb-8">
+          <span className="label-text text-sage">PREHISTORIC STRATEGY SURVIVAL</span>
         </div>
-
-        <p className="label-text text-sage mb-6">PREHISTORIC STRATEGY SURVIVAL</p>
 
         <p
           ref={textRef}

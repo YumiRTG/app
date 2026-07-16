@@ -7,28 +7,24 @@ gsap.registerPlugin(ScrollTrigger)
 
 const TROOPS = [
   {
-    icon: asset('icon-infantry.png'),
     art: asset('troop-infantry.png'),
     name: 'INFANTRY',
     role: 'Frontline Holders',
     text: 'Train soldiers from your infantry camp. Tank damage, hold lines, and push through enemy defenses.',
   },
   {
-    icon: asset('icon-rider.png'),
     art: asset('troop-rider.png'),
     name: 'RIDERS',
     role: 'Fast Assault',
     text: 'Mounted units strike hard and fast. Flank, break formations, and overwhelm weaker targets.',
   },
   {
-    icon: asset('icon-shooter.png'),
     art: asset('troop-shooter.png'),
     name: 'SHOOTERS',
     role: 'Ranged Power',
     text: 'Archers and gunners rain damage from the backline. Protect them well — they win long fights.',
   },
   {
-    icon: asset('icon-raptor.png'),
     art: asset('dino-raptor.png'),
     name: 'DINOS',
     role: 'Beast Force',
@@ -102,7 +98,7 @@ export default function Troops() {
           {TROOPS.map((troop) => (
             <article
               key={troop.name}
-              className="troop-card opacity-0 rounded-[6px] overflow-hidden border border-cream/10 bg-cream/[0.03]"
+              className="troop-card dino-card opacity-0 bg-cream/[0.03]"
             >
               <div className="relative aspect-[4/5] overflow-hidden">
                 <img
@@ -115,14 +111,11 @@ export default function Troops() {
                   className="absolute inset-0"
                   style={{
                     background:
-                      'linear-gradient(180deg, transparent 40%, rgba(8, 76, 97, 0.95) 100%)',
+                      'linear-gradient(180deg, transparent 40%, rgba(6, 38, 28, 0.95) 100%)',
                   }}
                 />
-                <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-teal/90 border border-cream/20 overflow-hidden p-2">
-                  <img src={troop.icon} alt="" className="w-full h-full object-contain" />
-                </div>
                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <span className="label-text text-terracotta text-[11px]">{troop.role}</span>
+                  <span className="label-text text-amber text-[11px]">{troop.role}</span>
                   <h3 className="font-display text-cream text-2xl mt-1 tracking-wide">
                     {troop.name}
                   </h3>

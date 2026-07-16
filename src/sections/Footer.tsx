@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import DinoMark from '@/components/DinoMark'
 
 const GAME_LINKS = [
   { label: 'Home', to: '/' },
@@ -22,11 +23,14 @@ export default function Footer() {
       <div className="max-w-[1400px] mx-auto">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
           <div>
-            <span className="font-display text-cream text-xl tracking-[0.1em]">
-              DINO DOMINION
-            </span>
+            <div className="flex items-center gap-2" style={{ color: '#D4A15A' }}>
+              <DinoMark className="w-7 h-7" />
+              <span className="font-display text-cream text-xl tracking-[0.1em]">
+                DINO DOMINION
+              </span>
+            </div>
             <p className="font-body text-cream/50 text-sm mt-3 max-w-[260px] leading-relaxed">
-              Prehistoric strategy survival.
+              Tame dinosaurs. Build your tribe. Conquer the age of beasts.
             </p>
           </div>
           <div className="flex flex-wrap gap-x-5 gap-y-2 max-w-[640px]">
