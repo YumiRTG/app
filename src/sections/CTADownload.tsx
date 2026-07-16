@@ -89,7 +89,7 @@ export default function CTADownload() {
             lineHeight: 1.6,
           }}
         >
-          Download free now and begin your adventure.
+          Download Dino Dominion free and start building your prehistoric empire.
         </p>
 
         <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12 opacity-0">

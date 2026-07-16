@@ -1,25 +1,38 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { asset } from '@/lib/assets'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const DINOS = [
-  'TYRANNOSAURUS REX',
+  'TYRANNOSAURUS',
   'TRICERATOPS',
   'VELOCIRAPTOR',
   'STEGOSAURUS',
-  'PTERANODON',
-  'BRACHIOSAURUS',
-  'SPINOSAURUS',
-  'ANKYLOSAURUS',
+  'DILOPHOSAURUS',
+  'ALLOSAURUS',
   'PARASAUROLOPHUS',
+  'PTERODACTYL',
+  'SMILODON',
+  'MAMMOTH',
+  'FIRE DRAGON',
+]
+
+const DINO_CARDS = [
+  { src: asset('dino-tyranno.png'), name: 'Tyrannosaurus' },
+  { src: asset('dino-dilo.png'), name: 'Dilophosaurus' },
+  { src: asset('dino-raptor.png'), name: 'Velociraptor' },
+  { src: asset('dino-triceratops.png'), name: 'Triceratops' },
+  { src: asset('dino-stego.png'), name: 'Stegosaurus' },
+  { src: asset('dino-allo.png'), name: 'Allosaurus' },
 ]
 
 export default function DinoShowcase() {
   const sectionRef = useRef<HTMLElement>(null)
   const cylinderRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const cardsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -27,7 +40,6 @@ export default function DinoShowcase() {
     const content = contentRef.current
     if (!section || !cylinder || !content) return
 
-    // Cylinder fade in
     gsap.fromTo(cylinder,
       { opacity: 0 },
       {
@@ -41,7 +53,6 @@ export default function DinoShowcase() {
       }
     )
 
-    // Content slide in from right
     gsap.fromTo(content,
       { opacity: 0, x: 60 },
       {
@@ -57,9 +68,27 @@ export default function DinoShowcase() {
       }
     )
 
+    if (cardsRef.current) {
+      gsap.fromTo(cardsRef.current.querySelectorAll('.dino-card'),
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'cubic-bezier(0.23, 1, 0.32, 1)',
+          scrollTrigger: {
+            trigger: cardsRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        }
+      )
+    }
+
     return () => {
       ScrollTrigger.getAll().forEach(st => {
-        if (st.trigger === section) st.kill()
+        if (st.trigger === section || st.trigger === cardsRef.current) st.kill()
       })
     }
   }, [])
@@ -74,9 +103,7 @@ export default function DinoShowcase() {
       className="section-light py-[160px] md:py-[240px] px-6 md:px-20 overflow-hidden"
     >
       <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-0">
-        {/* Cylinder (Left - 55%) */}
         <div className="w-full lg:w-[55%] relative" style={{ height: '400px' }}>
-          {/* Vignette fades */}
           <div
             className="absolute top-0 left-0 right-0 h-[100px] z-[1] pointer-events-none"
             style={{ background: 'linear-gradient(to bottom, #FEFAE0, transparent)' }}
@@ -115,7 +142,6 @@ export default function DinoShowcase() {
           </div>
         </div>
 
-        {/* Content (Right - 45%) */}
         <div ref={contentRef} className="w-full lg:w-[45%] lg:pl-20">
           <span className="label-text text-sage">YOUR ARMY</span>
           <h2
@@ -135,7 +161,7 @@ export default function DinoShowcase() {
               lineHeight: 1.6,
             }}
           >
-            From the crushing jaws of the T-Rex to the soaring wings of the Pteranodon — every dino has unique abilities that shape your strategy. Discover, tame, and train over 50 different species.
+            From the crushing jaws of the Tyrannosaurus to the venom spit of the Dilophosaurus — every creature in Dino Dominion has unique skills that shape your strategy.
           </p>
           <button
             className="mt-10 bg-teal text-cream font-ui uppercase text-sm tracking-[0.06em] py-4 px-10 rounded-full hover:bg-[#0A5E78] transition-colors duration-300 cursor-pointer border-none"
@@ -144,6 +170,38 @@ export default function DinoShowcase() {
             DISCOVER ALL DINOS
           </button>
         </div>
+      </div>
+
+      {/* Game art cards */}
+      <div
+        ref={cardsRef}
+        className="max-w-[1400px] mx-auto mt-24 md:mt-32 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8"
+      >
+        {DINO_CARDS.map((dino) => (
+          <div
+            key={dino.name}
+            className="dino-card group relative overflow-hidden rounded-[4px] opacity-0"
+            style={{ aspectRatio: '3/4' }}
+          >
+            <img
+              src={dino.src}
+              alt={dino.name}
+              loading="lazy"
+              className="w-full h-full object-cover transition-transform duration-[600ms] group-hover:scale-[1.05]"
+              style={{ transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)' }}
+            />
+            <div
+              className="absolute inset-x-0 bottom-0 p-4 md:p-6"
+              style={{
+                background: 'linear-gradient(transparent, rgba(8, 76, 97, 0.9))',
+              }}
+            >
+              <span className="font-display text-cream text-lg md:text-2xl uppercase tracking-wide">
+                {dino.name}
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   )

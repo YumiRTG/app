@@ -6,21 +6,30 @@ import { asset } from '@/lib/assets'
 gsap.registerPlugin(ScrollTrigger)
 
 const ADVENTURE_IMAGES = [
-  { src: asset('dino-trex.jpg'), caption: 'T-Rex Encounter' },
-  { src: asset('dino-triceratops.jpg'), caption: 'Triceratops Herd' },
-  { src: asset('dino-pteranodon.jpg'), caption: 'Pteranodon Swarm' },
-  { src: asset('dino-stegosaurus.jpg'), caption: 'Stegosaurus in the Forest' },
-  { src: asset('dino-velociraptor.jpg'), caption: 'Velociraptor Hunt' },
-  { src: asset('combat-scene.jpg'), caption: 'Epic Battle' },
+  { src: asset('campaign-1.png'), caption: 'Campaign — Opening' },
+  { src: asset('campaign-2.png'), caption: 'Campaign — The Hunt' },
+  { src: asset('campaign-3.png'), caption: 'Campaign — Ambush' },
+  { src: asset('campaign-4.png'), caption: 'Campaign — Ruins' },
+  { src: asset('campaign-5.png'), caption: 'Campaign — Summit' },
+  { src: asset('campaign-6.png'), caption: 'Campaign — Clash' },
+  { src: asset('campaign-7.png'), caption: 'Campaign — Storm' },
+  { src: asset('campaign-8.png'), caption: 'Campaign — Victory' },
+  { src: asset('campaign-9.png'), caption: 'Campaign — Legacy' },
 ]
 
 const ATMOSPHERE_IMAGES = [
-  { src: asset('env-jungle.jpg'), caption: 'Jungle' },
-  { src: asset('env-volcano.jpg'), caption: 'Volcanic Region' },
-  { src: asset('env-oasis.jpg'), caption: 'Oasis' },
-  { src: asset('camp-tribal.jpg'), caption: 'Tribal Camp' },
-  { src: asset('character-kira.jpg'), caption: 'Kira' },
-  { src: asset('hero-poster-mobile.jpg'), caption: 'Sunrise' },
+  { src: asset('dino-tyranno.png'), caption: 'Tyrannosaurus' },
+  { src: asset('dino-triceratops.png'), caption: 'Triceratops' },
+  { src: asset('dino-raptor.png'), caption: 'Velociraptor' },
+  { src: asset('dino-stego.png'), caption: 'Stegosaurus' },
+  { src: asset('dino-dilo.png'), caption: 'Dilophosaurus' },
+  { src: asset('dino-allo.png'), caption: 'Allosaurus' },
+  { src: asset('dino-para.png'), caption: 'Parasaurolophus' },
+  { src: asset('dino-ptera.png'), caption: 'Pterodactyl' },
+  { src: asset('dino-smilodon.png'), caption: 'Smilodon' },
+  { src: asset('dino-dragon.png'), caption: 'Fire Dragon' },
+  { src: asset('dino-mammoth.png'), caption: 'Mammoth' },
+  { src: asset('campaign-map.png'), caption: 'World Map' },
 ]
 
 export default function Gallery() {
@@ -34,7 +43,6 @@ export default function Gallery() {
     const atmosphereGrid = atmosphereGridRef.current
     if (!section || !adventureGrid || !atmosphereGrid) return
 
-    // Adventure grid - Column Stagger Reveal
     const advImages = adventureGrid.querySelectorAll('.gallery-img')
     const advColumns: Element[][] = [[], [], []]
     advImages.forEach((img, i) => {
@@ -60,7 +68,6 @@ export default function Gallery() {
       )
     })
 
-    // Atmosphere grid - 3D Rotation Grid Flip
     const atmoGrid = atmosphereGrid
     atmoGrid.style.perspective = '1000px'
 
@@ -105,9 +112,7 @@ export default function Gallery() {
       className="section-light pt-[120px] md:pt-[200px] pb-[80px] md:pb-[160px] px-6 md:px-20"
     >
       <div className="max-w-[1400px] mx-auto">
-        {/* Sub-section 1: Adventure */}
         <div>
-          {/* Header Row */}
           <div className="flex items-center gap-4">
             <span className="label-text text-sage whitespace-nowrap">GALLERY</span>
             <div className="flex-1 h-[1px] bg-teal/15" />
@@ -121,7 +126,7 @@ export default function Gallery() {
               letterSpacing: '-0.02em',
             }}
           >
-            EPIC MOMENTS
+            CAMPAIGN SCENES
           </h2>
           <p
             className="font-body text-teal/70 mt-4 max-w-[500px]"
@@ -130,10 +135,9 @@ export default function Gallery() {
               lineHeight: 1.6,
             }}
           >
-            Dive into breathtaking scenes from the world of Dino Dominion.
+            Official campaign art from Dino Dominion — moments that define your conquest.
           </p>
 
-          {/* Adventure Grid */}
           <div
             ref={adventureGridRef}
             className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mt-16 md:mt-24"
@@ -165,7 +169,6 @@ export default function Gallery() {
           </div>
         </div>
 
-        {/* Sub-section 2: Atmosphere */}
         <div className="mt-[120px] md:mt-[200px]">
           <h2
             className="font-display text-teal uppercase text-center"
@@ -175,7 +178,7 @@ export default function Gallery() {
               letterSpacing: '-0.02em',
             }}
           >
-            ATMOSPHERE
+            CREATURES & WORLD
           </h2>
           <p
             className="font-body text-teal/70 text-center mt-4 max-w-[500px] mx-auto"
@@ -184,10 +187,9 @@ export default function Gallery() {
               lineHeight: 1.6,
             }}
           >
-            A visual journey through the diverse regions of the prehistoric world.
+            Dinosaurs, beasts, and maps straight from the game roster.
           </p>
 
-          {/* Atmosphere Grid */}
           <div
             ref={atmosphereGridRef}
             className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mt-16 md:mt-24"

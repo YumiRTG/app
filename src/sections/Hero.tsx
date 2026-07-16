@@ -42,7 +42,7 @@ export default function Hero() {
       ref={sectionRef}
       className="relative w-full h-screen overflow-hidden"
     >
-      {/* Background Video */}
+      {/* Background Video — from game Intro */}
       <video
         autoPlay
         muted
@@ -50,9 +50,9 @@ export default function Hero() {
         playsInline
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover z-0"
-        poster={asset('hero-poster-mobile.jpg')}
+        poster={asset('hero-poster.png')}
       >
-        <source src={asset('hero-jungle-aerial.mp4')} type="video/mp4" />
+        <source src={asset('hero-intro.mp4')} type="video/mp4" />
       </video>
 
       {/* Gradient Overlay */}

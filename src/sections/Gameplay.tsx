@@ -35,7 +35,6 @@ export default function Gameplay() {
         },
       })
 
-      // Title character animation
       const chars = title.querySelectorAll('.char')
       ScrollTrigger.create({
         trigger: section,
@@ -54,7 +53,6 @@ export default function Gameplay() {
         },
       })
 
-      // Description fade in
       gsap.fromTo(desc,
         { opacity: 0, y: 20 },
         {
@@ -71,7 +69,6 @@ export default function Gameplay() {
       )
     }
 
-    // Split title into characters
     const text = title.textContent || ''
     title.innerHTML = text
       .split('')
@@ -98,17 +95,16 @@ export default function Gameplay() {
       style={{ height: '300vh' }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Video */}
         <video
           ref={videoRef}
           muted
           preload="auto"
           className="w-full h-full object-cover"
+          poster={asset('ui-hero-screen.png')}
         >
-          <source src={asset('gameplay-sequence.mp4')} type="video/mp4" />
+          <source src={asset('gameplay-heroes.mp4')} type="video/mp4" />
         </video>
 
-        {/* Overlay */}
         <div
           className="absolute inset-0"
           style={{
@@ -118,7 +114,6 @@ export default function Gameplay() {
           }}
         />
 
-        {/* Text Content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center z-[2] px-6">
           <h2
             ref={titleRef}
@@ -139,7 +134,7 @@ export default function Gameplay() {
               lineHeight: 1.6,
             }}
           >
-            Build your tribe, explore mysterious landscapes, and tame mighty dinosaurs that stand with you against rivals and the unforgiving wilderness.
+            Build your base, recruit legendary heroes, train elite troops, and command prehistoric beasts in battles that decide the fate of your dominion.
           </p>
         </div>
       </div>

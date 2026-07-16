@@ -6,9 +6,18 @@ import { asset } from '@/lib/assets'
 gsap.registerPlugin(ScrollTrigger)
 
 const STATS = [
-  { label: 'STRENGTH', value: 88 },
-  { label: 'WISDOM', value: 92 },
-  { label: 'COURAGE', value: 95 },
+  { label: 'STRENGTH', value: 94 },
+  { label: 'WISDOM', value: 88 },
+  { label: 'COURAGE', value: 97 },
+]
+
+const ALLIES = [
+  { src: asset('hero-alyssa.png'), name: 'Alyssa Mey' },
+  { src: asset('hero-carina.png'), name: 'Carina Vale' },
+  { src: asset('hero-elara.png'), name: 'Elara Veyn' },
+  { src: asset('hero-ronan.png'), name: 'Ronan' },
+  { src: asset('hero-kailina.png'), name: 'Kailina' },
+  { src: asset('hero-warrior.png'), name: 'Warrior' },
 ]
 
 export default function CharacterSpotlight() {
@@ -22,7 +31,6 @@ export default function CharacterSpotlight() {
     const content = contentRef.current
     if (!section || !image || !content) return
 
-    // Image slide in from left
     gsap.fromTo(image,
       { opacity: 0, x: -60 },
       {
@@ -38,7 +46,6 @@ export default function CharacterSpotlight() {
       }
     )
 
-    // Content slide in from right
     gsap.fromTo(content,
       { opacity: 0, x: 40 },
       {
@@ -55,7 +62,6 @@ export default function CharacterSpotlight() {
       }
     )
 
-    // Parallax on image
     gsap.to(image.querySelector('img'), {
       y: 40,
       ease: 'none',
@@ -80,7 +86,6 @@ export default function CharacterSpotlight() {
       className="section-dark py-[120px] md:py-[200px] px-6 md:px-20"
     >
       <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row gap-12 md:gap-16">
-        {/* Left - Character Image (60%) */}
         <div className="w-full md:w-[60%]">
           <div
             ref={imageRef}
@@ -88,15 +93,14 @@ export default function CharacterSpotlight() {
             style={{ aspectRatio: '3/4', maxHeight: '700px' }}
           >
             <img
-              src={asset('character-kira.jpg')}
-              alt="Kira, Tribal Leader"
+              src={asset('hero-nyra.png')}
+              alt="Nyra Vale, Tribal Leader"
               className="w-full h-full object-cover scale-110"
               style={{ transform: 'translateY(-40px) scale(1.1)' }}
             />
           </div>
         </div>
 
-        {/* Right - Character Info (40%) */}
         <div ref={contentRef} className="w-full md:w-[40%] flex flex-col justify-center">
           <span className="label-text text-sage">YOUR PROTAGONIST</span>
           <h2
@@ -107,10 +111,9 @@ export default function CharacterSpotlight() {
               letterSpacing: '-0.02em',
             }}
           >
-            KIRA, TRIBAL LEADER
+            NYRA VALE
           </h2>
 
-          {/* Divider */}
           <div className="w-10 h-[2px] bg-terracotta mt-6" />
 
           <p
@@ -120,10 +123,9 @@ export default function CharacterSpotlight() {
               lineHeight: 1.7,
             }}
           >
-            As the young leader of a fractured tribe, you must face the elements, wild beasts, and rival clans. Your choices shape the fate of your people.
+            Lead as Nyra Vale — a fierce commander in a world of dinosaurs, rival clans, and legendary heroes. Rally Alyssa, Carina, Elara, and more to expand your dominion.
           </p>
 
-          {/* Stats Row */}
           <div className="flex items-center gap-0 mt-10">
             {STATS.map((stat, i) => (
               <div key={stat.label} className="flex items-center">
@@ -143,9 +145,27 @@ export default function CharacterSpotlight() {
             ))}
           </div>
 
-          <button
-            className="btn-primary mt-12 w-fit"
-          >
+          <div className="mt-10">
+            <span className="label-text text-sage text-[10px] block mb-4">HERO ALLIES</span>
+            <div className="flex flex-wrap gap-3">
+              {ALLIES.map((ally) => (
+                <div
+                  key={ally.name}
+                  className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-cream/20"
+                  title={ally.name}
+                >
+                  <img
+                    src={ally.src}
+                    alt={ally.name}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button className="btn-primary mt-12 w-fit">
             LEARN MORE
           </button>
         </div>

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { asset } from '@/lib/assets'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -43,32 +44,20 @@ export default function DawnAtmosphere() {
       ref={sectionRef}
       className="relative w-full min-h-screen overflow-hidden flex items-end"
     >
-      {/* CSS Gradient Background as fallback / main visual */}
+      {/* Real game loading art as world backdrop */}
+      <img
+        src={asset('env-loading-scene-3.png')}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+
       <div
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(180deg, #1a3a4a 0%, #084C61 30%, #E76F51 60%, #F4A261 80%, #FEFAE0 100%)',
+          background: 'linear-gradient(180deg, rgba(8, 76, 97, 0.35) 0%, rgba(8, 76, 97, 0.75) 70%, rgba(8, 76, 97, 0.92) 100%)',
         }}
       />
 
-      {/* Animated clouds / haze overlay */}
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          background: 'radial-gradient(ellipse at 50% 80%, rgba(231, 111, 81, 0.4) 0%, transparent 60%)',
-        }}
-      />
-
-      {/* Grain overlay specific to this section */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.05]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          mixBlendMode: 'overlay',
-        }}
-      />
-
-      {/* Content */}
       <div
         ref={contentRef}
         className="relative z-[2] px-6 md:px-20 pb-[80px] md:pb-[120px] max-w-[600px]"
@@ -91,11 +80,9 @@ export default function DawnAtmosphere() {
             lineHeight: 1.6,
           }}
         >
-          Every sunrise brings new dangers and opportunities. Explore dense jungles, rugged mountains, and vast plains — each region holds its own secrets and deadliest creatures.
+          Expand your base across jungle, ice, volcano, and water realms. Every region in Dino Dominion holds unique resources, threats, and legendary beasts.
         </p>
-        <button
-          className="btn-secondary mt-8 animate-in"
-        >
+        <button className="btn-secondary mt-8 animate-in">
           EXPLORE THE WORLD
         </button>
       </div>
