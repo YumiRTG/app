@@ -19,9 +19,9 @@ export default function Navigation({ onNavigate }: NavigationProps) {
   const navItems = [
     { label: 'FEATURES', section: 'features' },
     { label: 'HEROES', section: 'heroes' },
-    { label: 'ARMY', section: 'army' },
     { label: 'DINOS', section: 'dinos' },
     { label: 'WORLD', section: 'world' },
+    { label: 'APK', section: 'apk' },
   ]
 
   const handleNavClick = (section: string) => {
@@ -66,10 +66,10 @@ export default function Navigation({ onNavigate }: NavigationProps) {
           </div>
 
           <button
-            onClick={() => handleNavClick('download')}
+            onClick={() => handleNavClick('apk')}
             className="hidden md:block btn-primary text-sm py-3 px-7"
           >
-            PLAY FREE
+            GET APK
           </button>
 
           <button
@@ -115,8 +115,8 @@ export default function Navigation({ onNavigate }: NavigationProps) {
               {item.label}
             </button>
           ))}
-          <button onClick={() => handleNavClick('download')} className="btn-primary mt-6 text-lg">
-            PLAY FREE
+          <button onClick={() => handleNavClick('apk')} className="btn-primary mt-6 text-lg">
+            GET APK
           </button>
         </div>
       </div>

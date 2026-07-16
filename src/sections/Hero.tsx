@@ -7,6 +7,7 @@ export default function Hero() {
   const titleLine1 = useRef<HTMLDivElement>(null)
   const titleLine2 = useRef<HTMLDivElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
+  const ctaRef = useRef<HTMLButtonElement>(null)
   const scrollIndicatorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -28,6 +29,11 @@ export default function Hero() {
       y: 0,
       duration: 0.8,
     }, '-=0.4')
+    .to(ctaRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+    }, '-=0.3')
     .to(scrollIndicatorRef.current, {
       opacity: 1,
       duration: 0.6,
@@ -100,6 +106,15 @@ export default function Hero() {
         >
           BUILD · TAME · CONQUER
         </p>
+
+        <button
+          ref={ctaRef}
+          type="button"
+          onClick={() => document.getElementById('apk')?.scrollIntoView({ behavior: 'smooth' })}
+          className="btn-primary mt-8 opacity-0 translate-y-4"
+        >
+          DOWNLOAD APK
+        </button>
       </div>
 
       {/* Scroll Indicator */}

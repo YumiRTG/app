@@ -10,7 +10,7 @@ const GAME_LINKS = [
   { label: 'Army', section: 'army' },
   { label: 'Dinosaurs', section: 'dinos' },
   { label: 'World', section: 'world' },
-  { label: 'Campaign', section: 'gallery' },
+  { label: 'Download APK', section: 'apk' },
 ]
 
 const COMMUNITY_LINKS = ['Discord', 'Forum', 'Wiki', 'Support']
