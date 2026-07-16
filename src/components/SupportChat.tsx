@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { COMMUNITY } from '@/config/community'
+import { asset } from '@/lib/assets'
 import { supportReply, welcomeMessage, type ChatMessage } from '@/lib/supportBot'
 
 function uid() {
@@ -112,15 +113,37 @@ export default function SupportChat() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-5 right-5 z-[150] flex items-center gap-2 rounded-full px-4 py-3 font-ui text-xs uppercase tracking-[0.16em] text-white border-none cursor-pointer shadow-xl"
-        style={{
-          background: 'linear-gradient(135deg, #ff8a3d, #e85d04 50%, #b84302)',
-          boxShadow: '0 12px 40px rgba(232,93,4,0.45)',
-        }}
+        className="fixed bottom-5 right-5 z-[150] p-0 border-none cursor-pointer bg-transparent group"
         aria-label={open ? 'Close support chat' : 'Open support chat'}
       >
-        <span className="text-base leading-none">{open ? '×' : '💬'}</span>
-        <span className="hidden sm:inline">{open ? 'Close' : 'Support'}</span>
+        <span
+          className="relative block w-[72px] h-[72px] sm:w-[84px] sm:h-[84px] rounded-full overflow-hidden transition-transform duration-200 group-hover:scale-105 group-active:scale-95"
+          style={{
+            boxShadow: open
+              ? '0 10px 28px rgba(0,0,0,0.35)'
+              : '0 14px 40px rgba(20,80,40,0.45), 0 0 0 3px rgba(240,193,77,0.45)',
+          }}
+        >
+          <img
+            src={asset('support-bot.png')}
+            alt="Support"
+            className="w-full h-full object-cover object-center"
+            draggable={false}
+          />
+          {open && (
+            <span
+              className="absolute inset-0 flex items-center justify-center font-display text-2xl text-white"
+              style={{ background: 'rgba(12,26,18,0.55)' }}
+            >
+              ×
+            </span>
+          )}
+        </span>
+        {!open && (
+          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#e85d04] border-2 border-[#0c1a12] flex items-center justify-center">
+            <span className="block w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          </span>
+        )}
       </button>
 
       {open && (
