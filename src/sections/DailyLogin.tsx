@@ -57,7 +57,7 @@ export default function DailyLogin() {
       return
     }
     setSuccess(
-      `Day ${result.reward.day}: ${result.reward.label} — sent to your game. Streak: ${result.streak} day${result.streak === 1 ? '' : 's'}.`
+      `Day ${result.reward.day}: ${result.reward.label} — sent to your game. Streak: ${result.streak}.`
     )
     setClaiming(false)
     await refresh()
@@ -65,22 +65,17 @@ export default function DailyLogin() {
 
   if (!ready || !session) {
     return (
-      <section id="daily" className="section-light py-[100px] md:py-[140px] px-6 md:px-20">
-        <div className="max-w-[700px] mx-auto text-center">
-          <span className="label-text text-sage">LOGIN BONUS</span>
-          <h2
-            className="font-display text-teal uppercase mt-4"
-            style={{ fontSize: 'clamp(36px, 5vw, 64px)', lineHeight: 0.95 }}
-          >
-            DAILY LOGIN REWARD
-          </h2>
-          <p className="font-body text-teal/65 mt-5 text-base leading-relaxed">
-            Log in with your Account ID every day to claim free speed ups for your game.
-          </p>
-          <Link to="/daily?login=1" className="btn-primary mt-8 inline-flex no-underline">
-            Log in to claim
-          </Link>
-        </div>
+      <section className="py-16 md:py-20 px-6 text-center">
+        <p className="eyebrow">Login bonus</p>
+        <h2 className="font-display text-3xl md:text-5xl text-white mt-3 uppercase">
+          Daily login reward
+        </h2>
+        <p className="body-lg mt-4 max-w-md mx-auto">
+          Log in with your Account ID every day for free speed ups.
+        </p>
+        <Link to="/play?login=1" className="btn-primary mt-8 inline-flex no-underline">
+          Log in to claim
+        </Link>
       </section>
     )
   }
@@ -88,98 +83,78 @@ export default function DailyLogin() {
   const streak = status?.streak ?? 0
   const nextDay = status?.nextDay ?? 1
   const canClaim = status?.canClaim ?? false
+  const cycleProgress = streak > 0 ? ((streak - 1) % 7) + 1 : 0
 
   return (
-    <section id="daily" className="section-light py-[100px] md:py-[140px] px-6 md:px-20">
+    <section className="py-12 md:py-16 px-5 md:px-8">
       <div className="max-w-[1000px] mx-auto">
-        <div className="text-center mb-12 md:mb-14">
-          <span className="label-text text-sage">LOGIN BONUS</span>
-          <h2
-            className="font-display text-teal uppercase mt-4"
-            style={{ fontSize: 'clamp(36px, 5vw, 72px)', lineHeight: 0.92 }}
-          >
-            DAILY LOGIN REWARD
+        <div className="text-center mb-10">
+          <p className="eyebrow">Login bonus</p>
+          <h2 className="font-display text-3xl md:text-5xl text-white mt-3 uppercase">
+            Daily login
           </h2>
-          <p className="font-body text-teal/65 mt-4 max-w-[520px] mx-auto leading-relaxed">
-            Claim once per day as{' '}
-            <span className="font-ui text-teal tracking-wide">{session.displayName}</span>.
-            Keep your streak for better speed ups.
+          <p className="body-lg mt-3">
+            Welcome, <span className="text-[#e9b44c]">{session.displayName}</span>
           </p>
         </div>
 
-        {/* Streak banner */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-10 mb-10">
-          <div className="rounded-2xl bg-teal px-8 py-5 text-center min-w-[140px]">
-            <p className="label-text text-cream/50 text-[10px]">Current streak</p>
-            <p className="font-display text-cream text-4xl mt-1">
-              {loading ? '…' : streak}
-            </p>
-            <p className="font-body text-cream/50 text-xs mt-1">days</p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+          <div className="glass-panel px-8 py-5 text-center min-w-[140px]">
+            <p className="eyebrow !text-[0.6rem]">Streak</p>
+            <p className="font-display text-4xl text-[#e9b44c] mt-1">{loading ? '…' : streak}</p>
           </div>
-          <div className="rounded-2xl border border-teal/15 bg-white/40 px-8 py-5 text-center min-w-[180px]">
-            <p className="label-text text-teal/45 text-[10px]">
-              {canClaim ? 'Today’s reward' : 'Next reward'}
-            </p>
-            <p className="font-display text-teal text-2xl mt-1 tracking-wide">
+          <div className="glass-panel px-8 py-5 text-center min-w-[180px]">
+            <p className="eyebrow !text-[0.6rem]">{canClaim ? "Today" : 'Next'}</p>
+            <p className="font-display text-2xl text-white mt-1">
               {status?.todaysReward.label ?? '—'}
-            </p>
-            <p className="font-body text-teal/50 text-xs mt-1">
-              {status?.todaysReward.sublabel ?? ''}
             </p>
           </div>
         </div>
 
-        {/* 7-day track */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 mb-10">
           {(status?.rewards ?? []).map((reward) => {
-            const cycleProgress = streak > 0 ? ((streak - 1) % 7) + 1 : 0
             const completed = reward.day <= cycleProgress
             const isToday = canClaim && reward.day === nextDay
-
             return (
               <div
                 key={reward.day}
-                className="relative rounded-xl border px-3 py-4 text-center transition-colors"
+                className="rounded-xl px-3 py-4 text-center border"
                 style={{
                   borderColor: isToday
-                    ? '#E76F51'
+                    ? 'rgba(232,93,4,0.6)'
                     : completed
-                      ? 'rgba(42,157,143,0.45)'
-                      : 'rgba(8,76,97,0.12)',
+                      ? 'rgba(233,180,76,0.35)'
+                      : 'rgba(255,255,255,0.08)',
                   background: isToday
-                    ? 'rgba(231,111,81,0.12)'
+                    ? 'rgba(232,93,4,0.12)'
                     : completed
-                      ? 'rgba(42,157,143,0.1)'
-                      : 'rgba(255,255,255,0.5)',
+                      ? 'rgba(233,180,76,0.08)'
+                      : 'rgba(255,255,255,0.03)',
                 }}
               >
-                <p
-                  className="label-text text-[10px]"
-                  style={{ color: isToday ? '#E76F51' : '#084C61' }}
-                >
+                <p className="font-ui text-[10px] tracking-widest uppercase text-[#c4b89a]/70">
                   Day {reward.day}
                 </p>
-                <p className="font-ui text-teal text-sm mt-2 tracking-wide leading-tight">
+                <p className="font-ui text-sm text-white mt-2 tracking-wide leading-tight">
                   {reward.label}
                 </p>
-                <p className="font-body text-teal/45 text-[10px] mt-1">{reward.sublabel}</p>
                 {completed && (
-                  <p className="font-ui text-sage text-[10px] mt-2 tracking-wider">CLAIMED</p>
+                  <p className="font-ui text-[10px] text-[#e9b44c] mt-2 tracking-wider">DONE</p>
                 )}
                 {isToday && (
-                  <p className="font-ui text-terracotta text-[10px] mt-2 tracking-wider">TODAY</p>
+                  <p className="font-ui text-[10px] text-[#e85d04] mt-2 tracking-wider">TODAY</p>
                 )}
               </div>
             )
           })}
         </div>
 
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-3">
           <button
             type="button"
             onClick={claim}
             disabled={!canClaim || claiming || loading}
-            className="btn-primary min-w-[240px] justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-primary min-w-[240px]"
           >
             {claiming
               ? 'Claiming…'
@@ -187,23 +162,12 @@ export default function DailyLogin() {
                 ? 'Loading…'
                 : canClaim
                   ? 'Claim daily reward'
-                  : `Next claim in ${formatCountdown(msReset)}`}
+                  : `Next in ${formatCountdown(msReset)}`}
           </button>
-
-          {success && (
-            <p className="font-body text-sage text-sm text-center max-w-md leading-relaxed">
-              {success}
-            </p>
-          )}
-          {error && (
-            <p className="font-body text-[#C0563A] text-sm text-center max-w-md leading-relaxed">
-              {error}
-            </p>
-          )}
-
-          <p className="font-body text-teal/40 text-xs text-center max-w-md leading-relaxed">
-            Rewards are sent to your game account. Open the game to collect them in your inventory.
-            Resets at 00:00 UTC.
+          {success && <p className="text-sm text-[#e9b44c] text-center max-w-md">{success}</p>}
+          {error && <p className="text-sm text-[#ff8a65] text-center max-w-md">{error}</p>}
+          <p className="text-xs text-white/35 text-center max-w-md">
+            Rewards appear in-game after you open the app. Resets 00:00 UTC.
           </p>
         </div>
       </div>

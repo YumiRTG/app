@@ -1,54 +1,44 @@
 import { Link } from 'react-router'
 import DinoMark from '@/components/DinoMark'
 
-const GAME_LINKS = [
+const links = [
   { label: 'Home', to: '/' },
   { label: 'Story', to: '/story' },
   { label: 'Features', to: '/features' },
-  { label: 'Gameplay', to: '/gameplay' },
-  { label: 'Heroes', to: '/heroes' },
-  { label: 'Army', to: '/army' },
-  { label: 'Dinosaurs', to: '/dinos' },
-  { label: 'World', to: '/world' },
-  { label: 'Realms', to: '/realms' },
-  { label: 'Gallery', to: '/gallery' },
-  { label: 'Daily Rewards', to: '/daily' },
-  { label: 'Roulette', to: '/roulette' },
-  { label: 'Download APK', to: '/download' },
+  { label: 'Play', to: '/play' },
+  { label: 'Bestiary', to: '/bestiary' },
+  { label: 'Download', to: '/download' },
 ]
 
 export default function Footer() {
   return (
-    <footer className="section-dark pt-12 pb-8 px-6 md:px-20 border-t border-cream/10">
-      <div className="max-w-[1400px] mx-auto">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
+    <footer className="border-t border-white/[0.06] bg-[#050807]">
+      <div className="max-w-[1200px] mx-auto px-6 py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+        <div className="flex items-center gap-3">
+          <span className="text-[#e9b44c]">
+            <DinoMark className="w-6 h-6" />
+          </span>
           <div>
-            <div className="flex items-center gap-2" style={{ color: '#D4A15A' }}>
-              <DinoMark className="w-7 h-7" />
-              <span className="font-display text-cream text-xl tracking-[0.1em]">
-                DINO DOMINION
-              </span>
-            </div>
-            <p className="font-body text-cream/50 text-sm mt-3 max-w-[260px] leading-relaxed">
-              Tame dinosaurs. Build your tribe. Conquer the age of beasts.
+            <p className="font-display tracking-[0.14em] text-[#f0e6d0]">DINO DOMINION</p>
+            <p className="font-body text-xs text-[#c4b89a]/70 mt-1">
+              Tame. Hunt. Conquer.
             </p>
           </div>
-          <div className="flex flex-wrap gap-x-5 gap-y-2 max-w-[640px]">
-            {GAME_LINKS.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="font-body text-cream/70 text-sm no-underline hover:text-cream"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
         </div>
-        <div className="w-full h-[1px] bg-cream/10 my-8" />
-        <p className="font-body text-cream/40 text-xs">
-          © {new Date().getFullYear()} Dino Dominion. All rights reserved.
-        </p>
+        <div className="flex flex-wrap gap-x-5 gap-y-2">
+          {links.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              className="font-ui text-[11px] uppercase tracking-[0.16em] text-[#c4b89a]/80 no-underline hover:text-[#e9b44c]"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+      <div className="border-t border-white/[0.04] py-4 text-center font-body text-[11px] text-white/30">
+        © {new Date().getFullYear()} Dino Dominion
       </div>
     </footer>
   )

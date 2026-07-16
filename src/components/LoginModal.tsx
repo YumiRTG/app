@@ -46,43 +46,31 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
   }
 
   return (
-    <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={titleId}
-    >
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby={titleId}>
       <button
         type="button"
-        className="absolute inset-0 bg-[#042833]/75 backdrop-blur-sm border-none cursor-pointer"
+        className="absolute inset-0 border-none cursor-pointer"
+        style={{ background: 'rgba(5,8,7,0.82)', backdropFilter: 'blur(8px)' }}
         aria-label="Close login"
         onClick={() => !busy && onClose()}
       />
 
-      <div
-        className="relative w-full max-w-[420px] rounded-[12px] overflow-hidden shadow-2xl"
-        style={{ background: '#FEFAE0' }}
-      >
-        <div
-          className="px-6 pt-6 pb-5"
-          style={{
-            background:
-              'linear-gradient(135deg, #084C61 0%, #0A5E78 55%, #2A9D8F 100%)',
-          }}
-        >
+      <div className="relative w-full max-w-[420px] glass-panel overflow-hidden">
+        <div className="px-6 pt-7 pb-5 border-b border-white/[0.06]">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h2 id={titleId} className="font-display text-cream text-3xl tracking-wide">
+              <p className="eyebrow mb-2">Account</p>
+              <h2 id={titleId} className="font-display text-3xl tracking-wide text-white">
                 LOG IN
               </h2>
-              <p className="font-body text-cream/70 text-sm mt-2 leading-relaxed">
+              <p className="font-body text-sm text-[#c4b89a]/85 mt-2 leading-relaxed">
                 Enter your Account ID from the game.
               </p>
             </div>
             <button
               type="button"
               onClick={() => !busy && onClose()}
-              className="text-cream/70 hover:text-cream bg-transparent border-none cursor-pointer text-2xl leading-none p-1"
+              className="text-[#c4b89a] hover:text-white bg-transparent border-none cursor-pointer text-2xl leading-none p-1"
               aria-label="Close"
             >
               ×
@@ -92,7 +80,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
 
         <form onSubmit={handleLogin} className="p-6 space-y-4">
           <div>
-            <label className="label-text text-teal/55 text-[11px] block mb-2" htmlFor="account-id">
+            <label className="label-text block mb-2" htmlFor="account-id">
               Account ID
             </label>
             <input
@@ -103,31 +91,27 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
               maxLength={128}
               required
               disabled={busy}
-              className="w-full rounded-lg border border-teal/15 bg-white/60 px-4 py-3 font-ui text-teal tracking-[0.06em] outline-none focus:border-terracotta transition-colors disabled:opacity-60"
+              className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3.5 font-ui text-[#f0e6d0] tracking-[0.06em] outline-none focus:border-[#e9b44c]/60 transition-colors disabled:opacity-60"
               autoComplete="username"
               spellCheck={false}
             />
-            <p className="font-body text-teal/45 text-xs mt-2 leading-relaxed">
+            <p className="font-body text-[#c4b89a]/55 text-xs mt-2 leading-relaxed">
               This is your Account player ID from the game. You can find it in the settings.
             </p>
           </div>
 
           {error && (
-            <p className="font-body text-sm text-[#C0563A] bg-[#E76F51]/10 rounded-lg px-3 py-2">
+            <p className="font-body text-sm text-[#ff8a65] bg-[#e85d04]/10 rounded-xl px-3 py-2">
               {error}
             </p>
           )}
           {success && (
-            <p className="font-body text-sm text-sage bg-sage/10 rounded-lg px-3 py-2">
+            <p className="font-body text-sm text-[#e9b44c] bg-[#e9b44c]/10 rounded-xl px-3 py-2">
               {success}
             </p>
           )}
 
-          <button
-            type="submit"
-            disabled={busy}
-            className="btn-primary w-full justify-center mt-2 disabled:opacity-70"
-          >
+          <button type="submit" disabled={busy} className="btn-primary w-full">
             {busy ? 'Logging in…' : 'Log in'}
           </button>
         </form>

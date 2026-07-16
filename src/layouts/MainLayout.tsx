@@ -5,16 +5,15 @@ import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 
 export default function MainLayout() {
-  const location = useLocation()
+  const { pathname } = useLocation()
 
-  // Scroll to top on every page change
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [location.pathname])
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+  }, [pathname])
 
   return (
     <AuthProvider>
-      <div className="relative min-h-screen flex flex-col">
+      <div className="relative min-h-screen flex flex-col bg-[#050807]">
         <div className="grain-overlay" />
         <Navigation />
         <main className="flex-1">
