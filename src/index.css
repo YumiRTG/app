@@ -593,7 +593,7 @@
     z-index: 1;
     pointer-events: none;
     overflow: hidden;
-    opacity: 0.35;
+    opacity: 0.4;
   }
 
   .fx-light-sweep::before {
@@ -606,12 +606,47 @@
     background: linear-gradient(
       105deg,
       transparent 0%,
-      rgba(255, 140, 60, 0.04) 40%,
-      rgba(240, 193, 77, 0.07) 50%,
-      rgba(79, 143, 99, 0.04) 60%,
+      rgba(255, 140, 60, 0.05) 40%,
+      rgba(240, 193, 77, 0.09) 50%,
+      rgba(79, 143, 99, 0.05) 60%,
       transparent 100%
     );
-    animation: light-sweep 14s ease-in-out infinite;
+    animation: light-sweep 12s ease-in-out infinite;
+  }
+
+  /* Drift fog layers (background) */
+  .fx-fog {
+    position: fixed;
+    left: -20%;
+    width: 140%;
+    height: 40vh;
+    z-index: 1;
+    pointer-events: none;
+    filter: blur(40px);
+    opacity: 0.22;
+    will-change: transform;
+  }
+
+  .fx-fog-a {
+    top: 15%;
+    background: radial-gradient(
+      ellipse 60% 50% at 50% 50%,
+      rgba(255, 100, 40, 0.35),
+      transparent 70%
+    );
+    animation: fog-drift-a 28s ease-in-out infinite;
+  }
+
+  .fx-fog-b {
+    bottom: 10%;
+    height: 35vh;
+    background: radial-gradient(
+      ellipse 55% 45% at 50% 50%,
+      rgba(60, 120, 80, 0.32),
+      transparent 70%
+    );
+    animation: fog-drift-b 34s ease-in-out infinite;
+    opacity: 0.18;
   }
 
   /* Infinite pack marquee */
@@ -862,6 +897,16 @@
   50% { opacity: 0.85; }
 }
 
+@keyframes fog-drift-a {
+  0%, 100% { transform: translateX(-8%) translateY(0) scale(1); }
+  50% { transform: translateX(10%) translateY(4%) scale(1.08); }
+}
+
+@keyframes fog-drift-b {
+  0%, 100% { transform: translateX(6%) translateY(0) scale(1.05); }
+  50% { transform: translateX(-12%) translateY(-3%) scale(1); }
+}
+
 .title-glow {
   animation: title-glow 5s ease-in-out infinite;
 }
@@ -930,7 +975,8 @@ html.lenis body {
   .fx-light-sweep::before,
   .btn-primary,
   .site-atmosphere,
-  .fx-particles span {
+  .fx-particles span,
+  .fx-fog {
     animation: none !important;
   }
 }
