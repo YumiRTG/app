@@ -59,6 +59,38 @@
     scroll-behavior: smooth;
   }
 
+  /* Scroll / hero reveal — never stuck black */
+  .reveal-pending {
+    opacity: 0 !important;
+    transform: translateY(36px);
+    transition: none;
+  }
+
+  .reveal-in {
+    opacity: 1 !important;
+    transform: translateY(0) translateX(0) scale(1) !important;
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [data-reveal='left'].reveal-pending {
+    transform: translateX(-40px);
+  }
+
+  [data-reveal='right'].reveal-pending {
+    transform: translateX(40px);
+  }
+
+  [data-reveal='scale'].reveal-pending {
+    transform: translateY(20px) scale(0.94);
+  }
+
+  .hero-pending {
+    opacity: 0 !important;
+    transform: translateY(24px);
+  }
+
   body {
     font-family: 'DM Sans', system-ui, sans-serif;
     font-weight: 400;
@@ -941,6 +973,143 @@
   height: 36px;
   background: linear-gradient(180deg, var(--gold), transparent);
   animation: scroll-cue 1.8s ease-in-out infinite;
+}
+
+/* ═══ Dino running across the site ═══ */
+.dino-runner-layer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  z-index: 90;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.dino-runner-track {
+  position: absolute;
+  inset: 0;
+}
+
+.dino-runner {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  width: 96px;
+  height: 96px;
+  animation: dino-run-across 14s linear infinite;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.55));
+}
+
+.dino-runner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: 8px;
+  animation: dino-bob 0.35s ease-in-out infinite;
+}
+
+.dino-runner-b {
+  width: 72px;
+  height: 72px;
+  bottom: 28px;
+  animation: dino-run-across 18s linear infinite;
+  animation-delay: -7s;
+  opacity: 0.85;
+}
+
+.dino-runner-track-b .dino-runner img {
+  animation-duration: 0.28s;
+}
+
+.dino-runner-dust {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(240, 193, 77, 0.35);
+  animation: dust-puff 0.5s ease-out infinite;
+}
+
+.dino-runner-dust-2 {
+  left: 18px;
+  width: 6px;
+  height: 6px;
+  animation-delay: 0.15s;
+  background: rgba(255, 77, 26, 0.3);
+}
+
+@keyframes dino-run-across {
+  0% {
+    transform: translateX(-120px) scaleX(1);
+  }
+  48% {
+    transform: translateX(calc(100vw + 40px)) scaleX(1);
+  }
+  49% {
+    transform: translateX(calc(100vw + 40px)) scaleX(-1);
+  }
+  98% {
+    transform: translateX(-120px) scaleX(-1);
+  }
+  100% {
+    transform: translateX(-120px) scaleX(1);
+  }
+}
+
+@keyframes dino-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes dust-puff {
+  0% {
+    opacity: 0.6;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-14px, -6px) scale(1.8);
+  }
+}
+
+@media (max-width: 640px) {
+  .dino-runner-layer {
+    height: 88px;
+  }
+  .dino-runner {
+    width: 72px;
+    height: 72px;
+  }
+  .dino-runner-b {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dino-runner,
+  .dino-runner img,
+  .dino-runner-dust {
+    animation: none !important;
+  }
+  .dino-runner-layer {
+    display: none;
+  }
+  .reveal-pending,
+  .hero-pending {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* Lenis smooth scroll base */

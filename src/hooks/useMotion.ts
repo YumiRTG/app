@@ -10,7 +10,8 @@ import {
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 /**
- * Run page enter + scroll reveals + continuous ambient motion on every page.
+ * Page enter + scroll reveals + ambient loops.
+ * Scroll uses IntersectionObserver (reliable). No Lenis — native scroll.
  */
 export function usePageMotion(enabled = true) {
   const ref = useRef<HTMLDivElement>(null)
@@ -27,16 +28,13 @@ export function usePageMotion(enabled = true) {
     const killHero = animateHero(el)
     const killReveal = initReveals(el)
 
-    // Ambient loops after first paint so layout is stable
     let killAmbient: (() => void) | undefined
     const ambientTimer = window.setTimeout(() => {
       killAmbient = initAmbientLoops(el)
       ScrollTrigger.refresh()
-    }, 500)
-
-    const t = window.setTimeout(() => {
-      ScrollTrigger.refresh()
     }, 400)
+
+    const t = window.setTimeout(() => ScrollTrigger.refresh(), 300)
 
     return () => {
       window.clearTimeout(t)
@@ -50,44 +48,9 @@ export function usePageMotion(enabled = true) {
   return ref
 }
 
-/** Smooth scroll via Lenis + ScrollTrigger bridge */
+/** Native smooth scroll only — Lenis broke ScrollTrigger visibility. */
 export function useSmoothScroll() {
   useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced) return
-
-    let destroyed = false
-    let raf = 0
-    let lenis: { raf: (t: number) => void; destroy: () => void; on: (e: string, cb: () => void) => void } | null =
-      null
-
-    ;(async () => {
-      const { default: Lenis } = await import('lenis')
-      if (destroyed) return
-
-      ensureGsap()
-      const instance = new Lenis({
-        duration: 1.1,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-      })
-      lenis = instance
-
-      instance.on('scroll', () => {
-        ScrollTrigger.update()
-      })
-
-      const loop = (time: number) => {
-        instance.raf(time)
-        raf = requestAnimationFrame(loop)
-      }
-      raf = requestAnimationFrame(loop)
-    })()
-
-    return () => {
-      destroyed = true
-      cancelAnimationFrame(raf)
-      lenis?.destroy()
-    }
+    // Keep native scrolling; document already has scroll-behavior: smooth in CSS
   }, [])
 }
