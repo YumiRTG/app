@@ -45,10 +45,8 @@ const features = [
   {
     title: 'Forge alliances',
     text: 'Lone tribes fall. What alliances unlock mid-campaign is still unfolding in beta.',
-    hook: 'Watch the progress log for the next drop.',
     img: asset('campaign-2.png'),
     pos: 'center 35%',
-    to: '/progress',
   },
 ]
 
