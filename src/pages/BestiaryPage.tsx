@@ -41,25 +41,19 @@ export default function BestiaryPage() {
               className="dd-card group no-underline text-inherit"
               data-reveal-item
             >
-              <div className="aspect-[3/4] relative bg-[#0a0810]">
-                <img
-                  src={d.img}
-                  alt={d.name}
-                  className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-110"
-                  style={{ objectFit: 'cover', objectPosition: 'center 15%' }}
-                  loading="lazy"
-                />
-                <div
-                  className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
-                  style={{
-                    background:
-                      'linear-gradient(to top, rgba(7,6,10,0.95), transparent)',
-                  }}
-                />
+              <div className="aspect-[3/4] relative bg-[#0a0810] flex flex-col">
+                <div className="flex-1 flex items-center justify-center p-3 min-h-0">
+                  <img
+                    src={d.img}
+                    alt={d.name}
+                    className="dino-fit w-full h-full max-h-[78%] transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
                 <span className="absolute top-2 right-2 font-ui text-[8px] tracking-wider uppercase px-1.5 py-0.5 rounded bg-black/50 border border-[var(--gold)]/25 text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity">
                   Info
                 </span>
-                <div className="absolute bottom-0 inset-x-0 z-10 p-4">
+                <div className="relative z-10 p-3 pt-0">
                   <p className="font-ui text-[9px] tracking-widest uppercase text-[var(--gold)]">
                     {d.role}
                   </p>

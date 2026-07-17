@@ -523,6 +523,15 @@
     object-position: center center;
   }
 
+  /* Full creature visible — never crop basic dinos */
+  .dino-fit {
+    display: block;
+    object-fit: contain;
+    object-position: center center;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
   /* Stat chip */
   .stat-chip {
     position: relative;

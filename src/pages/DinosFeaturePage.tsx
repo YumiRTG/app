@@ -75,14 +75,13 @@ export default function DinosFeaturePage() {
               key={d.id}
               id={d.id}
               data-reveal-item
-              className="dd-card flex gap-0 overflow-hidden scroll-mt-28"
+              className="dd-card flex flex-col sm:flex-row gap-0 overflow-hidden scroll-mt-28"
             >
-              <div className="relative w-[38%] min-h-[140px] shrink-0 bg-[#0a0810]">
+              <div className="relative w-full sm:w-[42%] min-h-[180px] sm:min-h-[200px] shrink-0 bg-[#0a0810] flex items-center justify-center p-3">
                 <img
                   src={d.img}
                   alt={d.name}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{ objectPosition: 'center 15%' }}
+                  className="dino-fit w-full h-[160px] sm:h-[180px]"
                   loading="lazy"
                 />
               </div>

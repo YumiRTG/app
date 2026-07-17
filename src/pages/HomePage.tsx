@@ -198,24 +198,18 @@ export default function HomePage() {
                     'radial-gradient(circle, rgba(255,77,26,0.45), rgba(79,143,99,0.2), transparent 70%)',
                 }}
               />
-              <div className="media-frame relative aspect-[4/5] overflow-hidden group dino-card-pulse">
-                <img
-                  src={asset('dino-tyranno.png')}
-                  alt="Tyrannosaurus"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  style={{ objectPosition: 'center 18%' }}
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      'linear-gradient(to top, rgba(5,4,10,0.95) 0%, transparent 55%)',
-                  }}
-                />
-                <div className="absolute top-4 left-4 font-ui text-[10px] tracking-[0.25em] uppercase text-[var(--gold)] px-2 py-1 border border-[var(--gold)]/30 bg-black/40">
+              <div className="media-frame relative aspect-[4/5] overflow-hidden group dino-card-pulse bg-[#0a0810]">
+                <div className="absolute inset-0 flex items-center justify-center p-4 pb-20">
+                  <img
+                    src={asset('dino-tyranno.png')}
+                    alt="Tyrannosaurus"
+                    className="dino-fit w-full h-full transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <div className="absolute top-4 left-4 font-ui text-[10px] tracking-[0.25em] uppercase text-[var(--gold)] px-2 py-1 border border-[var(--gold)]/30 bg-black/40 z-10">
                   Apex · Live
                 </div>
-                <div className="absolute bottom-0 inset-x-0 p-6 z-10">
+                <div className="absolute bottom-0 inset-x-0 p-6 z-10 bg-gradient-to-t from-[#0a0810] via-[#0a0810]/90 to-transparent pt-16">
                   <p className="font-ui text-[10px] tracking-[0.28em] uppercase text-[var(--gold)]">
                     Apex attacker
                   </p>
@@ -353,22 +347,16 @@ export default function HomePage() {
                 className="char-rail-item dd-card group no-underline text-inherit"
                 data-reveal-item
               >
-                <div className="aspect-[3/4] relative bg-[#0a0810]">
-                  <img
-                    src={d.img}
-                    alt={d.name}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    style={{ objectPosition: 'center 15%' }}
-                    loading="lazy"
-                  />
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        'linear-gradient(to top, rgba(5,4,10,0.95) 0%, transparent 60%)',
-                    }}
-                  />
-                  <div className="absolute bottom-0 inset-x-0 p-3 z-10">
+                <div className="aspect-[3/4] relative bg-[#0a0810] flex flex-col">
+                  <div className="flex-1 flex items-center justify-center p-2 min-h-0">
+                    <img
+                      src={d.img}
+                      alt={d.name}
+                      className="dino-fit w-full h-full max-h-[75%] transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="relative z-10 p-3 pt-0">
                     <p className="font-ui text-[9px] tracking-[0.2em] uppercase text-[var(--gold)]">
                       {d.role}
                     </p>

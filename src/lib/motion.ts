@@ -209,9 +209,10 @@ export function initAmbientLoops(root: HTMLElement) {
 
   const tweens: gsap.core.Tween[] = []
 
-  // Mild image drift only — no opacity hide
+  // Mild image drift — skip .dino-fit so full creatures stay uncropped
   root.querySelectorAll<HTMLElement>('.media-frame img, .dd-card img').forEach((el, i) => {
     if (el.hasAttribute('data-hero-bg')) return
+    if (el.classList.contains('dino-fit')) return
     const t = gsap.to(el, {
       scale: 1.05,
       duration: 8 + (i % 4),
