@@ -975,135 +975,219 @@
   animation: scroll-cue 1.8s ease-in-out infinite;
 }
 
-/* ═══ Real dinos running across the site ═══ */
-.dino-runner-layer {
+/* ═══ One dino at a time — wanders full screen, looks at camera ═══ */
+.dino-wander-layer {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 140px;
-  z-index: 90;
+  inset: 0;
+  z-index: 85;
   pointer-events: none;
   overflow: hidden;
 }
 
-.dino-runner-track {
+.dino-wander {
   position: absolute;
-  inset: 0;
-}
-
-.dino-runner {
-  position: absolute;
-  bottom: 8px;
+  width: 220px;
+  height: 140px;
   left: 0;
-  width: 200px;
-  height: 120px;
-  animation: dino-run-across 16s linear infinite;
-  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.65));
+  top: 0;
+  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.55));
+  will-change: transform, opacity;
 }
 
-.dino-runner img {
+.dino-wander-body {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+}
+
+.dino-wander img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: center bottom;
-  animation: dino-bob 0.32s ease-in-out infinite;
-  /* face right by default; scaleX flip when returning */
+  display: block;
 }
 
-.dino-runner-b {
-  width: 170px;
-  height: 100px;
-  bottom: 22px;
-  animation: dino-run-across 20s linear infinite;
-  animation-delay: -8s;
-  opacity: 0.95;
-  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.55));
+/* Raptor: visible first half of full cycle */
+.dino-wander-raptor {
+  animation:
+    dino-path 56s linear infinite,
+    dino-visibility-a 112s linear infinite;
 }
 
-.dino-runner-track-b .dino-runner img {
-  animation-duration: 0.28s;
+.dino-wander-raptor .dino-wander-body {
+  animation: dino-look 56s linear infinite;
 }
 
-.dino-runner-dust {
-  position: absolute;
-  bottom: 10px;
-  left: 18px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(240, 193, 77, 0.4);
-  animation: dust-puff 0.45s ease-out infinite;
+.dino-wander-raptor img {
+  animation: dino-stride 0.55s ease-in-out infinite;
 }
 
-.dino-runner-dust-2 {
-  left: 32px;
-  width: 8px;
-  height: 8px;
-  animation-delay: 0.12s;
-  background: rgba(255, 77, 26, 0.35);
+/* Dilo: only second half */
+.dino-wander-dilo {
+  animation:
+    dino-path 56s linear infinite,
+    dino-visibility-b 112s linear infinite;
+  animation-delay: 0s, 0s;
 }
 
-@keyframes dino-run-across {
+.dino-wander-dilo .dino-wander-body {
+  animation: dino-look 56s linear infinite;
+}
+
+.dino-wander-dilo img {
+  animation: dino-stride 0.5s ease-in-out infinite;
+}
+
+/*
+  Path: moves all over the viewport (top / mid / bottom),
+  flips direction, and pauses for “look at screen” moments.
+  Positions use vw/vh so it works on every page size.
+*/
+@keyframes dino-path {
+  /* enter bottom-left → walk mid */
   0% {
-    transform: translateX(-220px) scaleX(1);
+    transform: translate(-20vw, 72vh) scaleX(1);
   }
+  12% {
+    transform: translate(35vw, 68vh) scaleX(1);
+  }
+  /* climb toward mid-right */
+  22% {
+    transform: translate(70vw, 42vh) scaleX(1);
+  }
+  /* pause (look handled on body) */
+  26% {
+    transform: translate(72vw, 40vh) scaleX(1);
+  }
+  30% {
+    transform: translate(72vw, 40vh) scaleX(1);
+  }
+  /* flip, walk left across upper area */
+  32% {
+    transform: translate(72vw, 40vh) scaleX(-1);
+  }
+  44% {
+    transform: translate(18vw, 28vh) scaleX(-1);
+  }
+  /* look again */
   48% {
-    transform: translateX(calc(100vw + 40px)) scaleX(1);
+    transform: translate(16vw, 30vh) scaleX(-1);
   }
-  49% {
-    transform: translateX(calc(100vw + 40px)) scaleX(-1);
+  52% {
+    transform: translate(16vw, 30vh) scaleX(-1);
   }
-  98% {
-    transform: translateX(-220px) scaleX(-1);
+  /* down to bottom-right */
+  54% {
+    transform: translate(16vw, 30vh) scaleX(1);
+  }
+  68% {
+    transform: translate(78vw, 78vh) scaleX(1);
+  }
+  /* look at center screen */
+  72% {
+    transform: translate(55vw, 55vh) scaleX(1);
+  }
+  78% {
+    transform: translate(55vw, 55vh) scaleX(1);
+  }
+  /* exit left, low */
+  80% {
+    transform: translate(55vw, 55vh) scaleX(-1);
+  }
+  94% {
+    transform: translate(-22vw, 80vh) scaleX(-1);
   }
   100% {
-    transform: translateX(-220px) scaleX(1);
+    transform: translate(-22vw, 80vh) scaleX(1);
   }
 }
 
-@keyframes dino-bob {
+/* Face the viewer: tilt + slight scale (3D-ish look) */
+@keyframes dino-look {
+  0%,
+  24%,
+  32%,
+  46%,
+  54%,
+  70%,
+  80%,
+  100% {
+    transform: rotateY(0deg) rotateZ(0deg) scale(1);
+  }
+  /* look #1 */
+  26%,
+  29% {
+    transform: rotateY(-42deg) rotateZ(-4deg) scale(1.08);
+  }
+  /* look #2 */
+  48%,
+  51% {
+    transform: rotateY(38deg) rotateZ(3deg) scale(1.1);
+  }
+  /* look #3 — stronger stare */
+  72%,
+  77% {
+    transform: rotateY(-50deg) rotateZ(-6deg) scale(1.14);
+  }
+}
+
+/* Only one dino visible: raptor 0–50%, dilo 50–100% of 112s */
+@keyframes dino-visibility-a {
+  0%,
+  49.5% {
+    opacity: 1;
+    visibility: visible;
+  }
+  50%,
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes dino-visibility-b {
+  0%,
+  49.5% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  50%,
+  99.5% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes dino-stride {
   0%,
   100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-5px);
   }
 }
 
-@keyframes dust-puff {
-  0% {
-    opacity: 0.65;
-    transform: translate(0, 0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-18px, -8px) scale(2);
-  }
-}
-
-@media (max-width: 640px) {
-  .dino-runner-layer {
-    height: 100px;
-  }
-  .dino-runner {
-    width: 140px;
-    height: 84px;
-  }
-  .dino-runner-b {
-    width: 118px;
-    height: 70px;
+@media (max-width: 768px) {
+  .dino-wander {
+    width: 150px;
+    height: 95px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dino-runner,
-  .dino-runner img,
-  .dino-runner-dust {
+  .dino-wander,
+  .dino-wander-body,
+  .dino-wander img {
     animation: none !important;
   }
-  .dino-runner-layer {
+  .dino-wander-layer {
     display: none;
   }
   .reveal-pending,

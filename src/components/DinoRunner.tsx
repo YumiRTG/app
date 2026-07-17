@@ -1,30 +1,24 @@
 import { asset } from '@/lib/assets'
 
 /**
- * Real Velociraptor + Dilophosaurus run across the site (full creatures, not icons).
+ * One dino at a time: wanders the full viewport (not just the bottom edge),
+ * sometimes pauses and “looks” at the screen, then continues. Slow loop.
+ * Alternates Velociraptor ↔ Dilophosaurus.
  */
 export default function DinoRunner() {
   return (
-    <div className="dino-runner-layer" aria-hidden>
-      <div className="dino-runner-track">
-        <div className="dino-runner">
-          <img
-            src={asset('runner-raptor.png')}
-            alt=""
-            draggable={false}
-          />
-          <span className="dino-runner-dust" />
-          <span className="dino-runner-dust dino-runner-dust-2" />
+    <div className="dino-wander-layer" aria-hidden>
+      {/* Velociraptor — first half of cycle */}
+      <div className="dino-wander dino-wander-raptor">
+        <div className="dino-wander-body">
+          <img src={asset('runner-raptor.png')} alt="" draggable={false} />
         </div>
       </div>
-      <div className="dino-runner-track dino-runner-track-b">
-        <div className="dino-runner dino-runner-b">
-          <img
-            src={asset('runner-dilo.png')}
-            alt=""
-            draggable={false}
-          />
-          <span className="dino-runner-dust" />
+
+      {/* Dilophosaurus — second half of cycle (only one visible) */}
+      <div className="dino-wander dino-wander-dilo">
+        <div className="dino-wander-body">
+          <img src={asset('runner-dilo.png')} alt="" draggable={false} />
         </div>
       </div>
     </div>
