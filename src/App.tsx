@@ -6,6 +6,7 @@ import FeaturesPage from '@/pages/FeaturesPage'
 import BaseFeaturePage from '@/pages/BaseFeaturePage'
 import HeroesFeaturePage from '@/pages/HeroesFeaturePage'
 import DinosFeaturePage from '@/pages/DinosFeaturePage'
+import CampaignFeaturePage from '@/pages/CampaignFeaturePage'
 import PlayPage from '@/pages/PlayPage'
 import BestiaryPage from '@/pages/BestiaryPage'
 import DownloadPage from '@/pages/DownloadPage'
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="features/base" element={<BaseFeaturePage />} />
           <Route path="features/heroes" element={<HeroesFeaturePage />} />
           <Route path="features/dinos" element={<DinosFeaturePage />} />
+          <Route path="features/campaign" element={<CampaignFeaturePage />} />
           <Route path="play" element={<PlayPage />} />
           <Route path="bestiary" element={<BestiaryPage />} />
           <Route path="download" element={<DownloadPage />} />

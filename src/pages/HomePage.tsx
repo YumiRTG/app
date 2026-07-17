@@ -27,8 +27,9 @@ const PILLARS = [
   {
     title: 'Conquer campaigns',
     text: 'Push through jungle, ice, volcano and water stages for legendary loot.',
-    img: asset('campaign-6.png'),
-    pos: 'center 30%',
+    img: asset('feature-campaign-hero.jpg'),
+    pos: 'center 35%',
+    to: '/features/campaign',
   },
 ]
 
