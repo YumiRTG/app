@@ -330,10 +330,10 @@ export default function HomePage() {
               </h2>
             </div>
             <Link
-              to="/bestiary"
+              to="/features/dinos"
               className="font-ui text-xs uppercase tracking-[0.2em] text-[var(--gold)] no-underline hover:text-[var(--magma-glow)]"
             >
-              View full roster →
+              View dino details →
             </Link>
           </div>
 
