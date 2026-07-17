@@ -29,7 +29,7 @@ export default function HeroesFeaturePage() {
               src={asset('feature-heroes-hero.jpg')}
               alt="Command heroes"
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: 'center 25%' }}
+              style={{ objectPosition: 'center center' }}
             />
             <div
               className="absolute inset-0"

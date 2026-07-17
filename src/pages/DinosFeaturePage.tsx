@@ -31,7 +31,7 @@ export default function DinosFeaturePage() {
               src={asset('feature-dinos-hero.jpg')}
               alt="Tame dinosaurs"
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: 'center 45%' }}
+              style={{ objectPosition: 'center center' }}
             />
             <div
               className="absolute inset-0"
