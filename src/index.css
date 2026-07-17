@@ -975,13 +975,13 @@
   animation: scroll-cue 1.8s ease-in-out infinite;
 }
 
-/* ═══ Dino running across the site ═══ */
+/* ═══ Real dinos running across the site ═══ */
 .dino-runner-layer {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 120px;
+  height: 140px;
   z-index: 90;
   pointer-events: none;
   overflow: hidden;
@@ -994,30 +994,31 @@
 
 .dino-runner {
   position: absolute;
-  bottom: 12px;
+  bottom: 8px;
   left: 0;
-  width: 96px;
-  height: 96px;
-  animation: dino-run-across 14s linear infinite;
-  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.55));
+  width: 200px;
+  height: 120px;
+  animation: dino-run-across 16s linear infinite;
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.65));
 }
 
 .dino-runner img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
-  border-radius: 8px;
-  animation: dino-bob 0.35s ease-in-out infinite;
+  object-fit: contain;
+  object-position: center bottom;
+  animation: dino-bob 0.32s ease-in-out infinite;
+  /* face right by default; scaleX flip when returning */
 }
 
 .dino-runner-b {
-  width: 72px;
-  height: 72px;
-  bottom: 28px;
-  animation: dino-run-across 18s linear infinite;
-  animation-delay: -7s;
-  opacity: 0.85;
+  width: 170px;
+  height: 100px;
+  bottom: 22px;
+  animation: dino-run-across 20s linear infinite;
+  animation-delay: -8s;
+  opacity: 0.95;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.55));
 }
 
 .dino-runner-track-b .dino-runner img {
@@ -1026,26 +1027,26 @@
 
 .dino-runner-dust {
   position: absolute;
-  bottom: 8px;
-  left: 8px;
-  width: 10px;
-  height: 10px;
+  bottom: 10px;
+  left: 18px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: rgba(240, 193, 77, 0.35);
-  animation: dust-puff 0.5s ease-out infinite;
+  background: rgba(240, 193, 77, 0.4);
+  animation: dust-puff 0.45s ease-out infinite;
 }
 
 .dino-runner-dust-2 {
-  left: 18px;
-  width: 6px;
-  height: 6px;
-  animation-delay: 0.15s;
-  background: rgba(255, 77, 26, 0.3);
+  left: 32px;
+  width: 8px;
+  height: 8px;
+  animation-delay: 0.12s;
+  background: rgba(255, 77, 26, 0.35);
 }
 
 @keyframes dino-run-across {
   0% {
-    transform: translateX(-120px) scaleX(1);
+    transform: translateX(-220px) scaleX(1);
   }
   48% {
     transform: translateX(calc(100vw + 40px)) scaleX(1);
@@ -1054,10 +1055,10 @@
     transform: translateX(calc(100vw + 40px)) scaleX(-1);
   }
   98% {
-    transform: translateX(-120px) scaleX(-1);
+    transform: translateX(-220px) scaleX(-1);
   }
   100% {
-    transform: translateX(-120px) scaleX(1);
+    transform: translateX(-220px) scaleX(1);
   }
 }
 
@@ -1067,32 +1068,32 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-6px);
+    transform: translateY(-8px);
   }
 }
 
 @keyframes dust-puff {
   0% {
-    opacity: 0.6;
+    opacity: 0.65;
     transform: translate(0, 0) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translate(-14px, -6px) scale(1.8);
+    transform: translate(-18px, -8px) scale(2);
   }
 }
 
 @media (max-width: 640px) {
   .dino-runner-layer {
-    height: 88px;
+    height: 100px;
   }
   .dino-runner {
-    width: 72px;
-    height: 72px;
+    width: 140px;
+    height: 84px;
   }
   .dino-runner-b {
-    width: 56px;
-    height: 56px;
+    width: 118px;
+    height: 70px;
   }
 }
 
