@@ -62,7 +62,7 @@ export default function HomePage() {
           loop
           playsInline
           poster={asset('hero-poster.png')}
-          className="absolute inset-0 w-full h-full object-cover will-change-transform scale-105"
+          className="absolute inset-0 w-full h-full object-cover will-change-transform hero-video-live"
         >
           <source src={asset('hero-intro.mp4')} type="video/mp4" />
         </video>
@@ -78,32 +78,6 @@ export default function HomePage() {
             `,
           }}
         />
-
-        {/* Floating dino silhouettes — ambient pack */}
-        <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden" aria-hidden>
-          <img
-            src={asset('dino-tyranno.png')}
-            alt=""
-            className="dino-float dino-float-a absolute opacity-[0.22] object-contain"
-            style={{ objectPosition: 'center 15%' }}
-          />
-          <img
-            src={asset('dino-raptor.png')}
-            alt=""
-            className="dino-float dino-float-b absolute opacity-[0.18] object-contain"
-            style={{ objectPosition: 'center 15%' }}
-          />
-          <img
-            src={asset('dino-ptera.png')}
-            alt=""
-            className="dino-float dino-float-c absolute opacity-[0.2] object-contain"
-          />
-          <img
-            src={asset('dino-dragon.png')}
-            alt=""
-            className="dino-float dino-float-d absolute opacity-[0.14] object-contain"
-          />
-        </div>
 
         <div className="relative z-10 container-dd pb-16 md:pb-20">
           <div className="max-w-3xl">

@@ -9,11 +9,11 @@ import { useSmoothScroll } from '@/hooks/useMotion'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ensureGsap } from '@/lib/motion'
 
-const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
-  left: `${(i * 17 + 7) % 100}%`,
-  delay: `${(i * 0.7) % 12}s`,
-  duration: `${10 + (i % 8)}s`,
-  size: i % 3 === 0 ? 3 : 2,
+const PARTICLES = Array.from({ length: 36 }, (_, i) => ({
+  left: `${(i * 11 + 3) % 100}%`,
+  delay: `${(i * 0.45) % 14}s`,
+  duration: `${9 + (i % 10)}s`,
+  size: i % 4 === 0 ? 3 : 2,
 }))
 
 export default function MainLayout() {
@@ -64,19 +64,30 @@ export default function MainLayout() {
         />
 
         <div
-          className="glow-orb-magma fixed w-[480px] h-[480px] -top-24 -right-16 z-0 opacity-35 animate-orb-float"
+          className="glow-orb-magma fixed w-[480px] h-[480px] -top-24 -right-16 z-0 opacity-40 animate-orb-float"
           aria-hidden
         />
         <div
-          className="fixed w-[380px] h-[380px] bottom-[8%] -left-20 z-0 opacity-30 animate-orb-float-slow rounded-full pointer-events-none"
+          className="fixed w-[380px] h-[380px] bottom-[8%] -left-20 z-0 opacity-35 animate-orb-float-slow rounded-full pointer-events-none"
           aria-hidden
           style={{
-            background: 'radial-gradient(circle, rgba(79,143,99,0.4), transparent 70%)',
+            background: 'radial-gradient(circle, rgba(79,143,99,0.45), transparent 70%)',
             filter: 'blur(40px)',
           }}
         />
+        <div
+          className="fixed w-[300px] h-[300px] top-[40%] left-[40%] z-0 opacity-20 animate-orb-drift rounded-full pointer-events-none"
+          aria-hidden
+          style={{
+            background: 'radial-gradient(circle, rgba(240,193,77,0.35), transparent 70%)',
+            filter: 'blur(50px)',
+          }}
+        />
 
-        {/* Rising particles */}
+        {/* Continuous light sweep */}
+        <div className="fx-light-sweep" aria-hidden />
+
+        {/* Rising particles — always on */}
         <div className="fx-particles" aria-hidden>
           {PARTICLES.map((p, i) => (
             <span
