@@ -53,8 +53,8 @@ export default function HomePage() {
 
   return (
     <div ref={motionRef} className="relative">
-      {/* ═══ HERO: title centered top, T-rex clear below ═══ */}
-      <section className="relative min-h-[100svh] overflow-hidden pt-28 sm:pt-32">
+      {/* ═══ HERO: title centered, slightly high ═══ */}
+      <section className="relative min-h-[100svh] overflow-hidden pt-24 sm:pt-28">
         <img
           data-hero-bg
           src={asset('hero-poster.png')}
@@ -75,9 +75,9 @@ export default function HomePage() {
           }}
         />
 
-        {/* Title — mittig oben */}
-        <div className="relative z-10 container-dd flex flex-col items-center text-center pt-4 sm:pt-8">
-          <p data-hero data-hero-delay="0.05" className="eyebrow mb-4 justify-center">
+        {/* Title block — mittig, etwas höher */}
+        <div className="relative z-10 container-dd flex flex-col items-center text-center pt-2 sm:pt-3 md:pt-4">
+          <p data-hero data-hero-delay="0.05" className="eyebrow mb-3 sm:mb-4 justify-center">
             Friend beta · Prehistoric strategy
           </p>
 
@@ -94,7 +94,7 @@ export default function HomePage() {
           <div
             data-hero
             data-hero-delay="0.35"
-            className="flex flex-wrap gap-3 mt-8 justify-center"
+            className="flex flex-wrap gap-3 mt-6 sm:mt-7 justify-center"
           >
             <Link
               to="/download"
