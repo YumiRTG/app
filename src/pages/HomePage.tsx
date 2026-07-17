@@ -430,6 +430,44 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ═══ PROGRESS / DEVLOG ═══ */}
+      <section className="section-band">
+        <div className="container-dd">
+          <div
+            className="dd-panel p-6 md:p-10 grid md:grid-cols-2 gap-8 items-center"
+            data-reveal="up"
+          >
+            <div>
+              <p className="eyebrow">Studio transparency</p>
+              <h2 className="display-md text-white mt-4">
+                Progress
+                <span className="text-gradient-magma"> log</span>
+              </h2>
+              <p className="body-lg mt-4">
+                Printscreens from development, a clear log of what shipped, and
+                honest future updates — how we keep the friend beta streamlined.
+              </p>
+              <Link to="/progress" className="btn-primary no-underline mt-8 inline-flex">
+                Open progress log
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { t: 'Screenshots', d: 'Real Unity printscreens' },
+                { t: 'Shipped', d: 'What friends can use now' },
+                { t: 'In progress', d: 'Active development work' },
+                { t: 'Roadmap', d: 'What comes next' },
+              ].map((x) => (
+                <div key={x.t} className="stat-chip">
+                  <p className="font-display text-lg text-[var(--gold)] uppercase">{x.t}</p>
+                  <p className="font-body text-xs text-[var(--bone-dim)] mt-1">{x.d}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ═══ DOWNLOAD CTA ═══ */}
       <section className="section-band pb-24">
         <div className="container-dd">

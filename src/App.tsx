@@ -10,6 +10,7 @@ import CampaignFeaturePage from '@/pages/CampaignFeaturePage'
 import PlayPage from '@/pages/PlayPage'
 import BestiaryPage from '@/pages/BestiaryPage'
 import DownloadPage from '@/pages/DownloadPage'
+import DevlogPage from '@/pages/DevlogPage'
 
 /**
  * Premium multi-page site.
@@ -31,11 +32,13 @@ export default function App() {
           <Route path="play" element={<PlayPage />} />
           <Route path="bestiary" element={<BestiaryPage />} />
           <Route path="download" element={<DownloadPage />} />
+          <Route path="progress" element={<DevlogPage />} />
           {/* Legacy redirects */}
           <Route path="daily" element={<Navigate to="/play" replace />} />
           <Route path="roulette" element={<Navigate to="/play" replace />} />
           <Route path="dinos" element={<Navigate to="/features/dinos" replace />} />
           <Route path="heroes" element={<Navigate to="/features/heroes" replace />} />
+          <Route path="devlog" element={<Navigate to="/progress" replace />} />
           <Route path="apk" element={<Navigate to="/download" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
