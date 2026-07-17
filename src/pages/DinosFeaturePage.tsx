@@ -56,8 +56,8 @@ export default function DinosFeaturePage() {
 
         <div className="max-w-2xl mb-10" data-reveal="up">
           <p className="body-lg">
-            Tame beasts in the wild and add them to your army. Each basic dino has a clear role:
-            damage, tank, speed, or special power. Keep it simple — pick what your squad needs.
+            Basic beasts only — clear roles, no walls of text. How they chain with heroes
+            and troops is something you feel in campaign, not on a website.
           </p>
         </div>
 

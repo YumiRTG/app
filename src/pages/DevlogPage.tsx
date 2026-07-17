@@ -38,15 +38,16 @@ export default function DevlogPage() {
       <div className="container-dd">
         {/* Header */}
         <div className="max-w-2xl mb-12 md:mb-14" data-reveal="up">
-          <p className="eyebrow">Studio · Transparency</p>
+          <p className="eyebrow">Studio · drops over time</p>
           <h1 className="display-lg text-white mt-4">
             Progress
             <br />
             <span className="text-gradient-magma">log</span>
           </h1>
           <p className="body-lg mt-5">
-            Straightforward updates for friends of the beta: real development
-            screenshots, what already shipped, and what comes next. No fluff.
+            You do not get the whole roadmap in one glance. Screenshots, shipped
+            work and future drops are layered here — check back as the beta moves.
+            The full game is still earned in the APK.
           </p>
         </div>
 

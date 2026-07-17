@@ -5,43 +5,50 @@ import { usePageMotion } from '@/hooks/useMotion'
 const features = [
   {
     title: 'Build your base',
-    text: 'Town halls, camps, hospitals and production chains that grow your empire while offline.',
+    text: 'The plaza is only the first layer. Offline production never fully sleeps…',
+    hook: 'Open to see which buildings actually feed the war.',
     img: asset('feature-base-hero.jpg'),
     pos: 'center 35%',
     to: '/features/base',
   },
   {
     title: 'Command heroes',
-    text: 'Nyra Vale and elite allies with unique skill kits that rewrite every battle.',
+    text: 'Nyra is the face — not the whole war. Other legends wait behind the ranks.',
+    hook: 'Open the basic roster and their real roles.',
     img: asset('feature-heroes-hero.jpg'),
     pos: 'center 18%',
     to: '/features/heroes',
   },
   {
     title: 'Tame dinosaurs',
-    text: 'Tyrannosaurus, Dilophosaurus, Raptors and more — each with distinct combat roles.',
+    text: 'You know the names. You do not yet know how they break a line together.',
+    hook: 'Simple roles — full list inside.',
     img: asset('feature-dinos-hero.jpg'),
     pos: 'center 40%',
     to: '/features/dinos',
   },
   {
     title: 'Conquer campaigns',
-    text: 'Push through jungle, ice, volcano and water stages for legendary loot.',
+    text: 'Jungle first. Then ice, fire, water — each realm changes the cost of a mistake.',
+    hook: 'See how stages, squads and loot actually work.',
     img: asset('feature-campaign-hero.jpg'),
     pos: 'center 35%',
     to: '/features/campaign',
   },
   {
     title: 'Train your army',
-    text: 'Infantry, riders and shooters upgrade through tiers for total battlefield control.',
+    text: 'Infantry, riders, shooters… tiers matter. The full formation math is in the build.',
+    hook: 'Teaser only — master it in the APK.',
     img: asset('troop-infantry.png'),
     pos: 'center 15%',
   },
   {
     title: 'Forge alliances',
-    text: 'Team up, trade gifts and defend territory against rival tribes.',
+    text: 'Lone tribes fall. What alliances unlock mid-campaign is still unfolding in beta.',
+    hook: 'Watch the progress log for the next drop.',
     img: asset('campaign-2.png'),
     pos: 'center 35%',
+    to: '/progress',
   },
 ]
 
@@ -52,15 +59,15 @@ export default function FeaturesPage() {
     <div ref={motionRef} className="page-shell">
       <div className="container-dd">
         <div className="max-w-2xl mb-12 md:mb-16" data-reveal="up">
-          <p className="eyebrow">Systems</p>
+          <p className="eyebrow">Systems · layered intel</p>
           <h1 className="display-lg text-white mt-4">
             Built for
             <br />
             <span className="text-gradient-magma">domination</span>
           </h1>
           <p className="body-lg mt-5">
-            Everything you need to rise from outpost to apex power — designed
-            around dinosaurs, heroes and strategic growth. Tap a card for more detail.
+            You only get fragments here. Each card is a door — open it for the next
+            layer. The full loop only closes when you play the beta.
           </p>
         </div>
 
@@ -103,9 +110,14 @@ export default function FeaturesPage() {
                   <p className="font-body text-sm text-[var(--bone-dim)] mt-2 leading-relaxed">
                     {f.text}
                   </p>
+                  {f.hook && (
+                    <p className="font-body text-xs text-[var(--gold)]/85 mt-2 italic leading-relaxed">
+                      {f.hook}
+                    </p>
+                  )}
                   {f.to && (
                     <p className="font-ui text-[10px] tracking-[0.18em] uppercase text-[var(--gold)] mt-3 group-hover:text-[var(--magma-glow)] transition-colors">
-                      Learn more →
+                      Open this layer →
                     </p>
                   )}
                 </div>

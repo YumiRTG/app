@@ -9,7 +9,7 @@ export default function StoryPage() {
     <div ref={motionRef} className="page-shell">
       <div className="container-dd grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div data-reveal="left">
-          <p className="eyebrow">The age awakens</p>
+          <p className="eyebrow">Chapter fragment · I of many</p>
           <h1 className="display-lg text-white mt-4">
             A world where
             <br />
@@ -18,21 +18,20 @@ export default function StoryPage() {
             survive
           </h1>
           <p className="body-lg mt-6">
-            In Dino Dominion you raise a fractured tribe under Nyra Vale.
-            Jungles hide riches. Volcanoes hide death. Every sunrise is a
-            choice — expand, ally, or hunt.
+            Nyra Vale holds a fractured tribe at the edge of a waking age.
+            Jungles hide riches. Volcanoes hide death. Rival clans are already
+            moving — and not everything that hunts has a name on this page.
           </p>
           <p className="body-lg mt-4">
-            Tame prehistoric beasts. Train infantry, riders and shooters.
-            Conquer the campaign map before rival clans claim the last wild
-            frontiers.
+            This is the opening. Beasts, campaigns and the true cost of power
+            sit one layer deeper. The whole picture is in the systems — and in the game.
           </p>
 
           <div className="grid sm:grid-cols-3 gap-3 mt-10" data-reveal-stagger>
             {[
-              { k: 'Tribe', v: 'Rise from ash' },
-              { k: 'Beasts', v: 'Tame the wild' },
-              { k: 'Map', v: 'Claim realms' },
+              { k: 'I', v: 'You are here' },
+              { k: 'II', v: 'Systems next' },
+              { k: 'III', v: 'Play to finish' },
             ].map((s) => (
               <div key={s.k} className="stat-chip" data-reveal-item>
                 <p className="font-display text-lg text-[var(--gold)]">{s.k}</p>
@@ -45,10 +44,13 @@ export default function StoryPage() {
 
           <div className="flex flex-wrap gap-3 mt-10" data-reveal="up" data-reveal-delay="0.1">
             <Link to="/features" className="btn-primary no-underline">
-              See features
+              Uncover systems
             </Link>
-            <Link to="/bestiary" className="btn-secondary no-underline">
-              Meet the beasts
+            <Link to="/features/campaign" className="btn-secondary no-underline">
+              Campaign path
+            </Link>
+            <Link to="/download" className="btn-secondary no-underline">
+              Enter the beta
             </Link>
           </div>
         </div>

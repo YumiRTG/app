@@ -119,16 +119,16 @@ export default function CampaignFeaturePage() {
         </div>
 
         <div className="max-w-2xl mb-12" data-reveal="up">
-          <p className="eyebrow">How it works</p>
+          <p className="eyebrow">How it works · not the full map</p>
           <h2 className="display-md text-white mt-3">
             Simple loop,
             <br />
             <span className="text-gradient-gold">deeper map</span>
           </h2>
           <p className="body-lg mt-4">
-            Campaign is the main PvE path. You pick a stage, fight with your squad, take rewards,
-            then upgrade the base and army for the next node. Realms change the look and pressure —
-            the goal stays the same: clear, grow, push further.
+            Campaign is the main PvE path: stage → fight → loot → upgrade → push.
+            Realms change the pressure. Exact stage lists, bosses and late surprises
+            stay in the build — this page is the hook, not the spoiler dump.
           </p>
         </div>
 

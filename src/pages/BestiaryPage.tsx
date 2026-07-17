@@ -17,7 +17,8 @@ export default function BestiaryPage() {
             <span className="text-gradient-magma">legends</span>
           </h1>
           <p className="body-lg mt-5">
-            Basic dinosaurs and heroes. Tap a card for more info.
+            First glance only — names and faces. Tap a card for roles and tips.
+            The full picture of how they fight together is in the beta.
           </p>
         </div>
 

@@ -5,28 +5,32 @@ import { usePageMotion } from '@/hooks/useMotion'
 const PILLARS = [
   {
     title: 'Build your base',
-    text: 'Town halls, camps, hospitals and production chains that grow your empire while offline.',
+    text: 'The plaza is only the first layer. Offline production feeds a city that never fully sleeps…',
+    hook: 'What you raise first decides how long you last.',
     img: asset('feature-base-hero.jpg'),
     pos: 'center 35%',
     to: '/features/base',
   },
   {
     title: 'Command heroes',
-    text: 'Nyra Vale and elite allies with unique skill kits that rewrite every battle.',
+    text: 'Nyra is the face of the tribe — not the whole war. Other legends wait behind the first ranks.',
+    hook: 'Open the roster. The real kits are deeper.',
     img: asset('feature-heroes-hero.jpg'),
     pos: 'center 18%',
     to: '/features/heroes',
   },
   {
     title: 'Tame dinosaurs',
-    text: 'Tyrannosaurus, Dilophosaurus, Raptors and more — each with distinct combat roles.',
+    text: 'You see the apex names. You do not yet see how they break a formation together.',
+    hook: 'Roles only make sense once you hunt.',
     img: asset('feature-dinos-hero.jpg'),
     pos: 'center 40%',
     to: '/features/dinos',
   },
   {
     title: 'Conquer campaigns',
-    text: 'Push through jungle, ice, volcano and water stages for legendary loot.',
+    text: 'Jungle first. Then ice, fire, water — each realm changes the cost of a mistake.',
+    hook: 'The map does not explain itself on page one.',
     img: asset('feature-campaign-hero.jpg'),
     pos: 'center 35%',
     to: '/features/campaign',
@@ -87,7 +91,7 @@ export default function HomePage() {
 
         <div className="relative z-10 container-dd pb-16 md:pb-24 pt-32">
           <p data-hero data-hero-delay="0.05" className="eyebrow mb-6">
-            Prehistoric strategy survival
+            Friend beta · Not the full map
           </p>
 
           <h1
@@ -101,8 +105,9 @@ export default function HomePage() {
           </h1>
 
           <p data-hero data-hero-delay="0.28" className="body-lg mt-7 max-w-xl">
-            Build your base. Recruit legends. Command apex predators.
-            A living age of dinosaurs awaits your tribe.
+            Something older than empires is waking. You only get the first piece
+            of the picture here — base, beasts, campaign. The rest unlocks when
+            you push deeper… and when you play.
           </p>
 
           <div
@@ -111,13 +116,13 @@ export default function HomePage() {
             className="flex flex-wrap gap-3 mt-10"
           >
             <Link to="/download" className="btn-primary no-underline">
-              Download APK
-            </Link>
-            <Link to="/play" className="btn-secondary no-underline">
-              Daily rewards
+              Claim your place
             </Link>
             <Link to="/story" className="btn-secondary no-underline">
-              Enter the story
+              First chapter
+            </Link>
+            <Link to="/features" className="btn-secondary no-underline">
+              Uncover systems
             </Link>
           </div>
 
@@ -127,12 +132,12 @@ export default function HomePage() {
             className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl"
           >
             {[
-              { k: '50+', v: 'Creatures' },
-              { k: 'Heroes', v: 'Nyra & allies' },
-              { k: 'Campaign', v: 'Live realms' },
-              { k: 'Free', v: 'Beta access' },
+              { k: '???', v: 'Hidden beasts' },
+              { k: 'Nyra', v: 'Only the start' },
+              { k: '4+', v: 'Realms locked' },
+              { k: 'Beta', v: 'Friends first' },
             ].map((s) => (
-              <div key={s.k} className="stat-chip">
+              <div key={s.v} className="stat-chip">
                 <p className="font-display text-2xl md:text-3xl text-gradient-gold">{s.k}</p>
                 <p className="font-ui text-[10px] text-[var(--bone-dim)] mt-1.5 uppercase tracking-[0.18em]">
                   {s.v}
@@ -140,6 +145,13 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+          <p
+            data-hero
+            data-hero-delay="0.62"
+            className="font-ui text-[10px] tracking-[0.22em] uppercase text-[var(--gold)]/70 mt-5"
+          >
+            Scroll · each section reveals more of the picture
+          </p>
         </div>
 
         <div
@@ -197,26 +209,27 @@ export default function HomePage() {
           </div>
 
           <div className="lg:col-span-7 order-1 lg:order-2" data-reveal="right">
-            <p className="eyebrow">The age awakens</p>
+            <p className="eyebrow">Chapter fragment · I</p>
             <h2 className="display-lg text-white mt-4">
               Only the
               <br />
               <span className="text-gradient-magma">adaptable</span> survive
             </h2>
             <p className="body-lg mt-6 max-w-xl">
-              Raise a fractured tribe under Nyra Vale. Jungles hide riches.
-              Volcanoes hide death. Every sunrise is a choice — expand, ally, or hunt.
+              Nyra holds a broken tribe at the edge of something vast. Jungles
+              whisper of riches. Volcanoes do not whisper. What wakes beyond the
+              first camp is not shown here.
             </p>
-            <p className="body-lg mt-4 max-w-xl">
-              Tame prehistoric beasts. Train infantry, riders and shooters.
-              Conquer the campaign map before rival clans claim the last wild frontiers.
+            <p className="body-lg mt-4 max-w-xl text-[var(--gold)]/90">
+              Advance the story. Open the systems. Download the beta.
+              The whole picture is earned — not handed out on the first screen.
             </p>
             <div className="flex flex-wrap gap-3 mt-9">
               <Link to="/story" className="btn-primary no-underline">
-                Full story
+                Next fragment
               </Link>
               <Link to="/bestiary" className="btn-secondary no-underline">
-                Meet the beasts
+                Glimpse the roster
               </Link>
             </div>
           </div>
@@ -237,7 +250,7 @@ export default function HomePage() {
             data-reveal="up"
           >
             <div className="max-w-xl">
-              <p className="eyebrow">Systems</p>
+              <p className="eyebrow">Systems · partial intel</p>
               <h2 className="display-lg text-white mt-4">
                 Built for
                 <br />
@@ -245,7 +258,8 @@ export default function HomePage() {
               </h2>
             </div>
             <p className="body-lg max-w-sm md:text-right">
-              Dinosaurs, heroes and strategic growth — designed for the long hunt.
+              Four doors. Each one opens a deeper layer. Tap a card — the homepage
+              only shows the bait.
             </p>
           </div>
 
@@ -285,9 +299,14 @@ export default function HomePage() {
                     <p className="font-body text-sm text-[var(--bone-dim)] mt-2 leading-relaxed">
                       {f.text}
                     </p>
+                    {'hook' in f && f.hook && (
+                      <p className="font-body text-xs text-[var(--gold)]/80 mt-2 italic leading-relaxed">
+                        {f.hook}
+                      </p>
+                    )}
                     {'to' in f && f.to && (
                       <p className="font-ui text-[10px] tracking-[0.18em] uppercase text-[var(--gold)] mt-3">
-                        Learn more →
+                        Open this layer →
                       </p>
                     )}
                   </div>
@@ -324,17 +343,21 @@ export default function HomePage() {
             data-reveal="up"
           >
             <div>
-              <p className="eyebrow">Bestiary</p>
+              <p className="eyebrow">Bestiary · classified</p>
               <h2 className="display-lg text-white mt-4">
                 Apex
                 <span className="text-gradient-magma"> roster</span>
               </h2>
+              <p className="body-lg mt-3 max-w-md">
+                Six names on the surface. Full roles, tips and the deeper list
+                only open when you advance.
+              </p>
             </div>
             <Link
               to="/features/dinos"
               className="font-ui text-xs uppercase tracking-[0.2em] text-[var(--gold)] no-underline hover:text-[var(--magma-glow)]"
             >
-              View dino details →
+              Unlock dino intel →
             </Link>
           </div>
 
@@ -390,19 +413,19 @@ export default function HomePage() {
 
         <div className="container-dd relative z-10 grid md:grid-cols-2 gap-10 items-center">
           <div data-reveal="left">
-            <p className="eyebrow">Web rewards</p>
+            <p className="eyebrow">Web rewards · for those who return</p>
             <h2 className="display-lg text-white mt-4">
               Daily login
               <br />
               <span className="text-gradient-gold">& roulette</span>
             </h2>
             <p className="body-lg mt-5 max-w-md">
-              Log in with your Account ID. Claim free speed-ups every day and spin
-              the roulette — rewards sync into your game inventory.
+              Streaks and spins are the first edge you can claim without the full
+              campaign. Log in — the inventory feels the difference when you open the app.
             </p>
             <div className="flex flex-wrap gap-3 mt-8">
               <Link to="/play" className="btn-primary no-underline">
-                Open play hub
+                Claim the edge
               </Link>
               <Link to="/play?login=1" className="btn-secondary no-underline">
                 Log in
@@ -438,17 +461,17 @@ export default function HomePage() {
             data-reveal="up"
           >
             <div>
-              <p className="eyebrow">Studio transparency</p>
+              <p className="eyebrow">Studio · classified drops</p>
               <h2 className="display-md text-white mt-4">
                 Progress
                 <span className="text-gradient-magma"> log</span>
               </h2>
               <p className="body-lg mt-4">
-                Printscreens from development, a clear log of what shipped, and
-                honest future updates — how we keep the friend beta streamlined.
+                Screenshots and roadmap pieces land here first. Not everything is
+                public on day one — advance the log to see what is shipping next.
               </p>
               <Link to="/progress" className="btn-primary no-underline mt-8 inline-flex">
-                Open progress log
+                See what is next
               </Link>
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -485,22 +508,22 @@ export default function HomePage() {
               style={{ background: 'radial-gradient(circle, rgba(255,77,26,0.5), transparent 70%)' }}
             />
             <div className="relative z-10 max-w-2xl">
-              <p className="eyebrow">Android beta</p>
+              <p className="eyebrow">The only way to see it all</p>
               <h2 className="display-lg text-white mt-4">
                 Download &
                 <br />
                 <span className="text-gradient-magma">command</span>
               </h2>
               <p className="body-lg mt-5">
-                Private friend beta via APK (~3.5 GB). Wi‑Fi recommended.
-                Free to play — build, tame, conquer.
+                The website is the map sketch. The APK is the territory — base,
+                battles, dinos, campaign. Friend beta · ~3.5 GB · Wi‑Fi recommended.
               </p>
               <div className="flex flex-wrap gap-3 mt-9">
                 <Link to="/download" className="btn-primary no-underline">
                   Download APK
                 </Link>
                 <Link to="/features" className="btn-secondary no-underline">
-                  Explore systems
+                  Still exploring?
                 </Link>
               </div>
             </div>
