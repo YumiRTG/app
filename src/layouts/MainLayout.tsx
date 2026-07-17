@@ -4,7 +4,7 @@ import { AuthProvider } from '@/hooks/useAuth'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 import SupportChat from '@/components/SupportChat'
-import DinoTransition from '@/components/DinoTransition'
+import PageTransition from '@/components/PageTransition'
 import { asset } from '@/lib/assets'
 import { useSmoothScroll } from '@/hooks/useMotion'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -126,7 +126,7 @@ export default function MainLayout() {
             <Outlet />
           </main>
           <Footer />
-          <DinoTransition />
+          <PageTransition />
           <SupportChat />
         </div>
       </div>

@@ -975,197 +975,214 @@
   animation: scroll-cue 1.8s ease-in-out infinite;
 }
 
-/* ═══ Page-change dino scene FX (pop in / out, not permanent fly) ═══ */
-.dino-scene-fx {
+/* ═══ Subtle page transition (no dinos / no icons) ═══ */
+.page-fx {
   position: fixed;
   inset: 0;
-  z-index: 120;
+  z-index: 115;
   pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
-.dino-scene-fx__flash {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 70% 55% at 50% 50%,
-    rgba(255, 100, 40, 0.28),
-    rgba(5, 4, 10, 0.55) 55%,
-    rgba(5, 4, 10, 0.75)
-  );
-  opacity: 0;
-}
-
-.dino-scene-fx__claw {
+.page-fx__veil {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    115deg,
-    transparent 38%,
-    rgba(240, 193, 77, 0.12) 48%,
-    transparent 58%
+    165deg,
+    rgba(5, 4, 10, 0.15) 0%,
+    rgba(20, 12, 10, 0.35) 45%,
+    rgba(5, 4, 10, 0.2) 100%
   );
   opacity: 0;
 }
 
-.dino-scene-fx__creature {
-  position: relative;
-  z-index: 2;
-  width: min(52vw, 420px);
-  height: min(38vh, 280px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  filter: drop-shadow(0 16px 40px rgba(0, 0, 0, 0.65));
+.page-fx__beam {
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  width: 42%;
+  left: -20%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 120, 40, 0.06) 35%,
+    rgba(240, 193, 77, 0.14) 50%,
+    rgba(79, 143, 99, 0.06) 65%,
+    transparent 100%
+  );
+  filter: blur(2px);
+  opacity: 0;
 }
 
-.dino-scene-fx__creature img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center bottom;
+.page-fx__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(240, 193, 77, 0.55),
+    rgba(255, 77, 26, 0.4),
+    transparent
+  );
+  opacity: 0;
+  transform: scaleX(0.2);
 }
 
-.dino-scene-fx__label {
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-top: 0.35rem;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
-  opacity: 0.9;
+.page-fx__line--a {
+  top: 38%;
 }
 
-/* enter */
-.dino-scene-fx--enter .dino-scene-fx__flash {
-  animation: scene-flash-in 0.45s ease-out forwards;
-}
-.dino-scene-fx--enter .dino-scene-fx__claw {
-  animation: scene-claw 0.5s ease-out forwards;
-}
-.dino-scene-fx--enter.dino-scene-fx--v0 .dino-scene-fx__creature {
-  animation: scene-slash-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-.dino-scene-fx--enter.dino-scene-fx--v1 .dino-scene-fx__creature {
-  animation: scene-rise-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-.dino-scene-fx--enter.dino-scene-fx--v2 .dino-scene-fx__creature {
-  animation: scene-side-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+.page-fx__line--b {
+  top: 62%;
+  opacity: 0;
 }
 
-/* hold */
-.dino-scene-fx--hold .dino-scene-fx__flash {
-  opacity: 0.35;
-}
-.dino-scene-fx--hold .dino-scene-fx__creature {
-  animation: scene-breathe 0.9s ease-in-out infinite;
+.page-fx__spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: rgba(240, 193, 77, 0.9);
+  box-shadow:
+    0 0 24px rgba(255, 120, 40, 0.7),
+    0 0 60px rgba(255, 77, 26, 0.35);
+  opacity: 0;
 }
 
-/* exit */
-.dino-scene-fx--exit .dino-scene-fx__flash {
-  animation: scene-flash-out 0.55s ease-in forwards;
+/* IN */
+.page-fx--in .page-fx__veil {
+  animation: page-veil-in 0.28s ease-out forwards;
 }
-.dino-scene-fx--exit .dino-scene-fx__creature {
-  animation: scene-out 0.55s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+.page-fx--in .page-fx__beam {
+  animation: page-beam-in 0.55s ease-out forwards;
+}
+.page-fx--in .page-fx__line--a {
+  animation: page-line-in 0.45s ease-out 0.05s forwards;
+}
+.page-fx--in .page-fx__line--b {
+  animation: page-line-in 0.45s ease-out 0.12s forwards;
+}
+.page-fx--in .page-fx__spark {
+  animation: page-spark-in 0.4s ease-out forwards;
 }
 
-@keyframes scene-flash-in {
+/* variant offsets */
+.page-fx--v1 .page-fx__beam {
+  top: auto;
+  left: auto;
+  right: -15%;
+  width: 55%;
+  height: 70%;
+  bottom: -10%;
+  background: radial-gradient(ellipse at 70% 60%, rgba(240, 193, 77, 0.12), transparent 65%);
+}
+.page-fx--v2 .page-fx__line--a {
+  top: 48%;
+}
+.page-fx--v2 .page-fx__line--b {
+  top: 52%;
+}
+
+/* OUT */
+.page-fx--out .page-fx__veil {
+  animation: page-veil-out 0.4s ease-in forwards;
+}
+.page-fx--out .page-fx__beam {
+  animation: page-beam-out 0.4s ease-in forwards;
+}
+.page-fx--out .page-fx__line {
+  animation: page-line-out 0.35s ease-in forwards;
+}
+.page-fx--out .page-fx__spark {
+  animation: page-spark-out 0.35s ease-in forwards;
+}
+
+@keyframes page-veil-in {
   from {
     opacity: 0;
   }
   to {
-    opacity: 0.55;
+    opacity: 1;
   }
 }
 
-@keyframes scene-flash-out {
+@keyframes page-veil-out {
   from {
-    opacity: 0.4;
+    opacity: 1;
   }
   to {
     opacity: 0;
   }
 }
 
-@keyframes scene-claw {
+@keyframes page-beam-in {
   0% {
     opacity: 0;
-    transform: translateX(-30%) skewX(-12deg);
+    transform: translateX(-40%) skewX(-10deg);
   }
   40% {
     opacity: 1;
   }
   100% {
-    opacity: 0;
-    transform: translateX(30%) skewX(-12deg);
+    opacity: 0.35;
+    transform: translateX(60%) skewX(-10deg);
   }
 }
 
-@keyframes scene-slash-in {
+@keyframes page-beam-out {
+  to {
+    opacity: 0;
+    transform: translateX(100%) skewX(-10deg);
+  }
+}
+
+@keyframes page-line-in {
   from {
     opacity: 0;
-    transform: translateX(-40vw) rotate(-8deg) scale(0.7);
+    transform: scaleX(0.15);
   }
   to {
-    opacity: 1;
-    transform: translateX(0) rotate(0) scale(1);
+    opacity: 0.85;
+    transform: scaleX(1);
   }
 }
 
-@keyframes scene-rise-in {
-  from {
+@keyframes page-line-out {
+  to {
     opacity: 0;
-    transform: translateY(35vh) scale(0.6);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scaleX(1.1);
   }
 }
 
-@keyframes scene-side-in {
-  from {
+@keyframes page-spark-in {
+  0% {
     opacity: 0;
-    transform: translateX(45vw) scaleX(-1) scale(0.75);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scaleX(1) scale(1);
-  }
-}
-
-@keyframes scene-breathe {
-  0%,
-  100% {
-    transform: scale(1) translateY(0);
+    transform: scale(0.4);
   }
   50% {
-    transform: scale(1.04) translateY(-6px);
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
   }
 }
 
-@keyframes scene-out {
+@keyframes page-spark-out {
   to {
     opacity: 0;
-    transform: scale(1.15) translateY(-12vh);
-    filter: blur(4px);
-  }
-}
-
-@media (max-width: 640px) {
-  .dino-scene-fx__creature {
-    width: min(78vw, 280px);
-    height: 180px;
+    transform: scale(2.2);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dino-scene-fx {
+  .page-fx {
     display: none !important;
   }
   .reveal-pending,
