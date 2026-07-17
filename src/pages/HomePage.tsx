@@ -16,7 +16,7 @@ const PILLARS = [
     text: 'Nyra is the face of the tribe — not the whole war. Other legends wait behind the first ranks.',
     hook: 'Open the roster. The real kits are deeper.',
     img: asset('feature-heroes-hero.jpg'),
-    pos: 'center 18%',
+    pos: 'center 22%',
     to: '/features/heroes',
   },
   {
@@ -24,7 +24,7 @@ const PILLARS = [
     text: 'You see the apex names. You do not yet see how they break a formation together.',
     hook: 'Roles only make sense once you hunt.',
     img: asset('feature-dinos-hero.jpg'),
-    pos: 'center 40%',
+    pos: 'center 45%',
     to: '/features/dinos',
   },
   {

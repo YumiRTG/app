@@ -16,7 +16,7 @@ const features = [
     text: 'Nyra is the face — not the whole war. Other legends wait behind the ranks.',
     hook: 'Open the basic roster and their real roles.',
     img: asset('feature-heroes-hero.jpg'),
-    pos: 'center 18%',
+    pos: 'center 22%',
     to: '/features/heroes',
   },
   {
@@ -24,7 +24,7 @@ const features = [
     text: 'You know the names. You do not yet know how they break a line together.',
     hook: 'Simple roles — full list inside.',
     img: asset('feature-dinos-hero.jpg'),
-    pos: 'center 40%',
+    pos: 'center 45%',
     to: '/features/dinos',
   },
   {
