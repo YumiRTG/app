@@ -53,109 +53,68 @@ export default function HomePage() {
 
   return (
     <div ref={motionRef} className="relative">
-      {/* ═══ HERO: T-rex left (clear), title right in a readable panel ═══ */}
-      <section className="relative min-h-[100svh] overflow-hidden flex flex-col justify-end pt-28 sm:pt-32">
+      {/* ═══ HERO: title centered top, T-rex clear below ═══ */}
+      <section className="relative min-h-[100svh] overflow-hidden pt-28 sm:pt-32">
         <img
           data-hero-bg
           src={asset('hero-poster.png')}
           alt="Dino Dominion landscape with apex T-rex"
           className="absolute inset-0 w-full h-full object-cover will-change-transform hero-video-live"
-          style={{ objectPosition: '18% center' }}
+          style={{ objectPosition: 'center center' }}
           draggable={false}
         />
 
-        {/* Soft overlays only — keep left/T-rex bright, darken right/bottom for type */}
+        {/* Light top scrim for title only — bottom stays open for the T-rex */}
         <div
           className="absolute inset-0 z-[1] pointer-events-none"
           style={{
             background: `
-              linear-gradient(to right, transparent 0%, transparent 38%, rgba(5,4,10,0.55) 72%, rgba(5,4,10,0.82) 100%),
-              linear-gradient(to top, rgba(5,4,10,0.92) 0%, rgba(5,4,10,0.35) 38%, transparent 65%),
-              radial-gradient(ellipse 50% 40% at 85% 70%, rgba(232,93,4,0.15), transparent 60%)
+              linear-gradient(to bottom, rgba(5,4,10,0.72) 0%, rgba(5,4,10,0.35) 28%, transparent 48%),
+              linear-gradient(to top, rgba(5,4,10,0.88) 0%, transparent 32%)
             `,
           }}
         />
 
-        {/* Tiny caption on the T-rex side — doesn't cover the silhouette */}
-        <div
-          data-hero
-          data-hero-delay="0.08"
-          className="absolute left-4 sm:left-8 bottom-[38%] sm:bottom-[42%] z-[3] hidden sm:block"
-        >
-          <p className="font-ui text-[10px] tracking-[0.28em] uppercase text-white/70 drop-shadow-lg">
-            Apex · on the ridge
+        {/* Title — mittig oben */}
+        <div className="relative z-10 container-dd flex flex-col items-center text-center pt-4 sm:pt-8">
+          <p data-hero data-hero-delay="0.05" className="eyebrow mb-4 justify-center">
+            Friend beta · Prehistoric strategy
           </p>
-        </div>
 
-        <div className="relative z-10 container-dd pb-16 md:pb-20">
-          <div className="grid lg:grid-cols-12 gap-8 items-end">
-            {/* Spacer: leaves the left image (T-rex) open */}
-            <div className="hidden lg:block lg:col-span-5" aria-hidden />
+          <h1
+            data-hero
+            data-hero-delay="0.12"
+            className="display-xl text-white title-glow drop-shadow-[0_4px_40px_rgba(0,0,0,0.65)]"
+          >
+            DINO
+            <br />
+            <span className="text-gradient-magma">DOMINION</span>
+          </h1>
 
-            {/* Title lives in the open sky / city side */}
-            <div className="lg:col-span-7">
-              <div
-                data-hero
-                data-hero-delay="0.05"
-                className="hero-title-panel rounded-sm p-5 sm:p-7 md:p-8 max-w-xl ml-auto"
-              >
-                <p className="eyebrow mb-4">Friend beta · Prehistoric strategy</p>
-
-                <h1 className="display-xl text-white title-glow">
-                  DINO
-                  <br />
-                  <span className="text-gradient-magma">DOMINION</span>
-                </h1>
-
-                <p className="body-lg mt-5 max-w-md">
-                  Apex predators. Broken tribes. A map that only opens for those who
-                  hunt. First pieces here — the pack waits in the beta.
-                </p>
-
-                <div className="flex flex-wrap gap-3 mt-8">
-                  <Link
-                    to="/download"
-                    className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4"
-                  >
-                    Play free
-                  </Link>
-                  <Link to="/features/dinos" className="btn-secondary no-underline">
-                    Meet the pack
-                  </Link>
-                  <Link to="/features" className="btn-secondary no-underline">
-                    Systems
-                  </Link>
-                </div>
-
-                <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                  {[
-                    { k: '50+', v: 'Creatures' },
-                    { k: 'Apex', v: 'Hunt begins' },
-                    { k: '4+', v: 'Wild realms' },
-                    { k: 'Beta', v: 'Friends first' },
-                  ].map((s) => (
-                    <div key={s.v} className="stat-chip !py-2.5 !px-2.5">
-                      <p className="font-display text-xl sm:text-2xl text-gradient-gold">{s.k}</p>
-                      <p className="font-ui text-[9px] text-[var(--bone-dim)] mt-1 uppercase tracking-[0.16em]">
-                        {s.v}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+          <div
+            data-hero
+            data-hero-delay="0.35"
+            className="flex flex-wrap gap-3 mt-8 justify-center"
+          >
+            <Link
+              to="/download"
+              className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4"
+            >
+              Play free
+            </Link>
+            <Link to="/features/dinos" className="btn-secondary no-underline">
+              Meet the pack
+            </Link>
+            <Link to="/features" className="btn-secondary no-underline">
+              Systems
+            </Link>
           </div>
         </div>
 
         <div
-          className="absolute bottom-0 inset-x-0 h-24 z-[2] pointer-events-none"
-          style={{ background: 'linear-gradient(to top, var(--void), transparent)' }}
-        />
-
-        <div
           data-hero
           data-hero-delay="0.55"
-          className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none"
         >
           <span className="font-ui text-[9px] tracking-[0.35em] uppercase text-white/35">
             Scroll
