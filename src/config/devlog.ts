@@ -144,9 +144,9 @@ export const FUTURE_UPDATES: FutureUpdate[] = [
     status: 'planned',
   },
   {
-    id: 'stores',
-    title: 'Store releases later',
-    body: 'Public store builds after friend beta proves the loop. No fake “coming tomorrow” dates.',
+    id: 'nyra-story-quests',
+    title: 'Nyra Vale Story Quests',
+    body: 'Dedicated story quests for Nyra Vale — full control over her path, choices and command as the campaign deepens.',
     status: 'planned',
   },
 ]
