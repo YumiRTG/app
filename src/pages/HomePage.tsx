@@ -38,12 +38,23 @@ const PILLARS = [
 ]
 
 const DINOS = [
-  { name: 'Tyrannosaurus', img: asset('dino-tyranno.png') },
-  { name: 'Velociraptor', img: asset('dino-raptor.png') },
-  { name: 'Triceratops', img: asset('dino-triceratops.png') },
-  { name: 'Dilophosaurus', img: asset('dino-dilo.png') },
-  { name: 'Stegosaurus', img: asset('dino-stego.png') },
-  { name: 'Fire Dragon', img: asset('dino-dragon.png') },
+  { name: 'Tyrannosaurus', img: asset('dino-tyranno.png'), role: 'Apex' },
+  { name: 'Velociraptor', img: asset('dino-raptor.png'), role: 'Speed' },
+  { name: 'Triceratops', img: asset('dino-triceratops.png'), role: 'Tank' },
+  { name: 'Dilophosaurus', img: asset('dino-dilo.png'), role: 'Control' },
+  { name: 'Stegosaurus', img: asset('dino-stego.png'), role: 'Defense' },
+  { name: 'Allosaurus', img: asset('dino-allo.png'), role: 'Hunter' },
+  { name: 'Pterodactyl', img: asset('dino-ptera.png'), role: 'Air' },
+  { name: 'Fire Dragon', img: asset('dino-dragon.png'), role: 'Special' },
+]
+
+const HEROES_RAIL = [
+  { name: 'Nyra Vale', img: asset('hero-nyra.png'), role: 'Commander' },
+  { name: 'Alyssa Mey', img: asset('hero-alyssa.png'), role: 'Hero' },
+  { name: 'Carina Vale', img: asset('hero-carina.png'), role: 'Hero' },
+  { name: 'Elara Veyn', img: asset('hero-elara.png'), role: 'Hero' },
+  { name: 'Ronan', img: asset('hero-ronan.png'), role: 'Hero' },
+  { name: 'Kailina', img: asset('hero-kailina.png'), role: 'Hero' },
 ]
 
 export default function HomePage() {
@@ -51,8 +62,8 @@ export default function HomePage() {
 
   return (
     <div ref={motionRef} className="relative">
-      {/* ═══ HERO ═══ */}
-      <section className="relative min-h-[100svh] overflow-hidden flex flex-col justify-end">
+      {/* ═══ CINEMATIC HERO (SL-style full bleed + character) ═══ */}
+      <section className="relative min-h-[100svh] overflow-hidden flex flex-col justify-end pt-28 sm:pt-32">
         <video
           data-hero-video
           autoPlay
@@ -60,7 +71,7 @@ export default function HomePage() {
           loop
           playsInline
           poster={asset('hero-poster.png')}
-          className="absolute inset-0 w-full h-full object-cover will-change-transform"
+          className="absolute inset-0 w-full h-full object-cover will-change-transform scale-105"
         >
           <source src={asset('hero-intro.mp4')} type="video/mp4" />
         </video>
@@ -69,146 +80,123 @@ export default function HomePage() {
           className="absolute inset-0"
           style={{
             background: `
-              linear-gradient(105deg, rgba(7,6,10,0.92) 0%, rgba(7,6,10,0.55) 42%, rgba(7,6,10,0.25) 70%),
-              linear-gradient(to top, rgba(7,6,10,0.95) 0%, rgba(7,6,10,0.4) 42%, transparent 70%),
-              radial-gradient(ellipse 50% 40% at 75% 30%, rgba(255,77,26,0.22), transparent 60%)
+              linear-gradient(105deg, rgba(5,4,10,0.94) 0%, rgba(5,4,10,0.55) 42%, rgba(5,4,10,0.15) 72%),
+              linear-gradient(to top, rgba(5,4,10,0.98) 0%, rgba(5,4,10,0.35) 42%, transparent 70%),
+              radial-gradient(ellipse 50% 45% at 78% 40%, rgba(123,92,255,0.2), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 70% 55%, rgba(255,77,26,0.18), transparent 55%)
             `,
           }}
         />
 
+        {/* Floating character spotlight — right side (desktop) */}
         <div
+          className="hidden lg:block absolute right-0 bottom-0 top-24 w-[46%] z-[3] pointer-events-none"
           data-hero
-          data-hero-delay="0"
-          className="absolute top-24 left-0 right-0 z-10 container-dd flex items-center justify-between opacity-70"
+          data-hero-delay="0.2"
         >
-          <p className="font-ui text-[10px] tracking-[0.35em] uppercase text-[var(--gold)]">
-            Friend beta · Android
-          </p>
-          <p className="hidden sm:block font-ui text-[10px] tracking-[0.28em] uppercase text-[var(--bone)]/50">
-            Tame · Hunt · Conquer
-          </p>
+          <div className="char-spotlight absolute inset-x-0 bottom-0 h-full flex items-end justify-center">
+            <img
+              src={asset('spotlight-nyra.jpg')}
+              alt="Nyra Vale"
+              className="h-[min(92%,880px)] w-auto max-w-full object-contain object-bottom select-none"
+              draggable={false}
+            />
+          </div>
         </div>
 
-        <div className="relative z-10 container-dd pb-16 md:pb-24 pt-32">
-          <p data-hero data-hero-delay="0.05" className="eyebrow mb-6">
-            Friend beta · Not the full map
-          </p>
+        <div className="relative z-10 container-dd pb-16 md:pb-20 grid lg:grid-cols-12 gap-8 items-end">
+          <div className="lg:col-span-7">
+            <p data-hero data-hero-delay="0.05" className="eyebrow mb-5">
+              Friend beta · Arise the wild
+            </p>
 
-          <h1
-            data-hero
-            data-hero-delay="0.12"
-            className="display-xl text-white max-w-5xl"
-          >
-            DINO
-            <br />
-            <span className="text-gradient-magma">DOMINION</span>
-          </h1>
+            <h1
+              data-hero
+              data-hero-delay="0.12"
+              className="display-xl text-white max-w-4xl title-glow"
+            >
+              DINO
+              <br />
+              <span className="text-gradient-magma">DOMINION</span>
+            </h1>
 
-          <p data-hero data-hero-delay="0.28" className="body-lg mt-7 max-w-xl">
-            Something older than empires is waking. You only get the first piece
-            of the picture here — base, beasts, campaign. The rest unlocks when
-            you push deeper… and when you play.
-          </p>
+            <p data-hero data-hero-delay="0.28" className="body-lg mt-7 max-w-lg">
+              Something older than empires is waking. First pieces only —
+              base, beasts, campaign. The rest unlocks when you push deeper…
+              and when you play.
+            </p>
 
-          <div
-            data-hero
-            data-hero-delay="0.4"
-            className="flex flex-wrap gap-3 mt-10"
-          >
-            <Link to="/download" className="btn-primary no-underline">
-              Claim your place
-            </Link>
-            <Link to="/story" className="btn-secondary no-underline">
-              First chapter
-            </Link>
-            <Link to="/features" className="btn-secondary no-underline">
-              Uncover systems
-            </Link>
+            <div
+              data-hero
+              data-hero-delay="0.4"
+              className="flex flex-wrap gap-3 mt-10"
+            >
+              <Link to="/download" className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4">
+                Play free
+              </Link>
+              <Link to="/story" className="btn-secondary no-underline">
+                First chapter
+              </Link>
+              <Link to="/features" className="btn-secondary no-underline">
+                Systems
+              </Link>
+            </div>
+
+            <div
+              data-hero
+              data-hero-delay="0.52"
+              className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl"
+            >
+              {[
+                { k: '???', v: 'Hidden beasts' },
+                { k: 'Nyra', v: 'Only the start' },
+                { k: '4+', v: 'Realms locked' },
+                { k: 'Beta', v: 'Friends first' },
+              ].map((s) => (
+                <div key={s.v} className="stat-chip">
+                  <p className="font-display text-2xl md:text-3xl text-gradient-gold">{s.k}</p>
+                  <p className="font-ui text-[10px] text-[var(--bone-dim)] mt-1.5 uppercase tracking-[0.18em]">
+                    {s.v}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-
-          <div
-            data-hero
-            data-hero-delay="0.52"
-            className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl"
-          >
-            {[
-              { k: '???', v: 'Hidden beasts' },
-              { k: 'Nyra', v: 'Only the start' },
-              { k: '4+', v: 'Realms locked' },
-              { k: 'Beta', v: 'Friends first' },
-            ].map((s) => (
-              <div key={s.v} className="stat-chip">
-                <p className="font-display text-2xl md:text-3xl text-gradient-gold">{s.k}</p>
-                <p className="font-ui text-[10px] text-[var(--bone-dim)] mt-1.5 uppercase tracking-[0.18em]">
-                  {s.v}
-                </p>
-              </div>
-            ))}
-          </div>
-          <p
-            data-hero
-            data-hero-delay="0.62"
-            className="font-ui text-[10px] tracking-[0.22em] uppercase text-[var(--gold)]/70 mt-5"
-          >
-            Scroll · each section reveals more of the picture
-          </p>
         </div>
 
         <div
-          className="absolute bottom-0 inset-x-0 h-24 z-[2] pointer-events-none"
-          style={{
-            background: 'linear-gradient(to top, var(--void), transparent)',
-          }}
+          className="absolute bottom-0 inset-x-0 h-32 z-[2] pointer-events-none"
+          style={{ background: 'linear-gradient(to top, var(--void), transparent)' }}
         />
 
-        {/* Scroll cue */}
         <div
           data-hero
           data-hero-delay="0.7"
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none"
         >
-          <span className="font-ui text-[9px] tracking-[0.3em] uppercase text-[var(--bone)]/40">
+          <span className="font-ui text-[9px] tracking-[0.35em] uppercase text-white/35">
             Scroll
           </span>
           <span className="scroll-cue-line" />
         </div>
       </section>
 
-      {/* ═══ STORY STRIP ═══ */}
-      <section className="section-band relative">
-        <div className="container-dd grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          <div className="lg:col-span-5 order-2 lg:order-1" data-reveal="left">
-            <div className="media-frame relative aspect-[3/4] max-w-md mx-auto lg:mx-0 overflow-hidden group">
-              <img
-                data-parallax="0.12"
-                src={asset('hero-nyra.png')}
-                alt="Nyra Vale"
-                className="absolute inset-0 w-full h-[115%] object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform"
-                style={{ objectPosition: 'center 12%' }}
-              />
-              <div
-                className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
-                style={{
-                  background: 'linear-gradient(to top, rgba(7,6,10,0.95), transparent)',
-                }}
-              />
-              <div className="absolute bottom-0 inset-x-0 p-6 z-10">
-                <p className="font-ui text-[10px] tracking-[0.25em] uppercase text-[var(--gold)]">
-                  Chapter I · Commander
-                </p>
-                <p className="font-display text-3xl text-white mt-1">Nyra Vale</p>
+      {/* ═══ CHARACTER SPOTLIGHT (SL key art block) ═══ */}
+      <section className="section-band relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-40 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse 60% 80% at 20% 50%, rgba(255,77,26,0.15), transparent 60%), radial-gradient(ellipse 50% 70% at 80% 40%, rgba(123,92,255,0.12), transparent 55%)',
+          }}
+        />
+        <div className="container-dd relative grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div data-reveal="left" className="order-2 lg:order-1">
+            <div className="sec-title mb-6">
+              <div className="sec-ornament">
+                <span>Commander</span>
               </div>
-              <div
-                className="absolute -inset-8 -z-10 opacity-50 blur-3xl"
-                style={{
-                  background:
-                    'radial-gradient(circle at 50% 40%, rgba(255,77,26,0.35), transparent 65%)',
-                }}
-              />
             </div>
-          </div>
-
-          <div className="lg:col-span-7 order-1 lg:order-2" data-reveal="right">
             <p className="eyebrow">Chapter fragment · I</p>
             <h2 className="display-lg text-white mt-4">
               Only the
@@ -228,20 +216,112 @@ export default function HomePage() {
               <Link to="/story" className="btn-primary no-underline">
                 Next fragment
               </Link>
-              <Link to="/bestiary" className="btn-secondary no-underline">
-                Glimpse the roster
+              <Link to="/features/heroes" className="btn-secondary no-underline">
+                Hero roster
               </Link>
+            </div>
+          </div>
+
+          <div data-reveal="right" className="order-1 lg:order-2 relative">
+            <div className="relative mx-auto max-w-md">
+              <div
+                className="absolute -inset-8 rounded-full opacity-60 blur-3xl animate-pulse-glow"
+                style={{
+                  background:
+                    'radial-gradient(circle, rgba(255,77,26,0.4), rgba(123,92,255,0.2), transparent 70%)',
+                }}
+              />
+              <div className="media-frame relative aspect-[3/4] overflow-hidden group border-[var(--violet)]/20">
+                <img
+                  src={asset('hero-nyra.png')}
+                  alt="Nyra Vale"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  style={{ objectPosition: 'center 12%' }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      'linear-gradient(to top, rgba(5,4,10,0.95) 0%, transparent 50%)',
+                  }}
+                />
+                <div className="absolute bottom-0 inset-x-0 p-6 z-10">
+                  <p className="font-ui text-[10px] tracking-[0.28em] uppercase text-[var(--violet-glow)]">
+                    Main commander
+                  </p>
+                  <p className="font-display text-3xl text-white mt-1 tracking-wide">
+                    NYRA VALE
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══ FEATURES BENTO ═══ */}
+      {/* ═══ HERO RAIL ═══ */}
+      <section className="pb-6">
+        <div className="container-dd">
+          <div className="flex items-end justify-between gap-4 mb-6" data-reveal="up">
+            <div>
+              <div className="sec-ornament mb-3 max-w-[200px]">
+                <span>Heroes</span>
+              </div>
+              <h2 className="display-md text-white">
+                Command the <span className="text-gradient-gold">legends</span>
+              </h2>
+            </div>
+            <Link
+              to="/features/heroes"
+              className="font-ui text-[11px] tracking-[0.2em] uppercase text-[var(--gold)] no-underline hover:text-[var(--magma-glow)] shrink-0"
+            >
+              Full roster →
+            </Link>
+          </div>
+          <div className="char-rail" data-reveal-stagger>
+            {HEROES_RAIL.map((h) => (
+              <Link
+                key={h.name}
+                to="/features/heroes"
+                className="char-rail-item dd-card group no-underline text-inherit"
+                data-reveal-item
+              >
+                <div className="aspect-[3/4] relative bg-[#0a0810]">
+                  <img
+                    src={h.img}
+                    alt={h.name}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    style={{ objectPosition: 'center 12%' }}
+                    loading="lazy"
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        'linear-gradient(to top, rgba(5,4,10,0.95) 0%, transparent 55%)',
+                    }}
+                  />
+                  <div className="absolute bottom-0 inset-x-0 p-3 z-10">
+                    <p className="font-ui text-[9px] tracking-[0.2em] uppercase text-[var(--violet-glow)]">
+                      {h.role}
+                    </p>
+                    <p className="font-display text-sm text-white uppercase tracking-wide mt-0.5">
+                      {h.name}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ FEATURES ═══ */}
       <section
-        className="section-band section-band-cut relative"
+        className="section-band relative"
         style={{
           background:
-            'linear-gradient(180deg, rgba(20,12,16,0.65) 0%, rgba(12,10,18,0.4) 100%)',
+            'linear-gradient(180deg, rgba(18,12,32,0.55) 0%, rgba(8,6,16,0.35) 100%)',
         }}
       >
         <div className="container-dd">
@@ -250,22 +330,24 @@ export default function HomePage() {
             data-reveal="up"
           >
             <div className="max-w-xl">
-              <p className="eyebrow">Systems · partial intel</p>
-              <h2 className="display-lg text-white mt-4">
+              <div className="sec-ornament mb-4 max-w-[220px]">
+                <span>Systems</span>
+              </div>
+              <h2 className="display-lg text-white">
                 Built for
                 <br />
                 <span className="text-gradient-gold">domination</span>
               </h2>
             </div>
             <p className="body-lg max-w-sm md:text-right">
-              Four doors. Each one opens a deeper layer. Tap a card — the homepage
+              Four doors. Each opens a deeper layer. Tap a card — the homepage
               only shows the bait.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" data-reveal-stagger>
             {PILLARS.map((f, i) => {
-              const className = `dd-card group no-underline text-inherit ${i === 0 ? 'sm:col-span-2 lg:col-span-2 lg:row-span-1' : ''}`
+              const className = `dd-card group no-underline text-inherit ${i === 0 ? 'sm:col-span-2 lg:col-span-2' : ''}`
               const body = (
                 <>
                   <div
@@ -283,14 +365,12 @@ export default function HomePage() {
                       className="absolute inset-0 opacity-60"
                       style={{
                         background:
-                          'linear-gradient(to top, rgba(7,6,10,0.85) 0%, transparent 55%)',
+                          'linear-gradient(to top, rgba(5,4,10,0.9) 0%, transparent 55%)',
                       }}
                     />
-                    {'to' in f && f.to && (
-                      <span className="absolute top-3 right-3 font-ui text-[9px] tracking-[0.18em] uppercase px-2.5 py-1 rounded-full bg-black/45 border border-[var(--gold)]/30 text-[var(--gold)]">
-                        More info
-                      </span>
-                    )}
+                    <span className="absolute top-3 right-3 font-ui text-[9px] tracking-[0.18em] uppercase px-2.5 py-1 rounded-sm bg-black/50 border border-[var(--gold)]/30 text-[var(--gold)]">
+                      Open
+                    </span>
                   </div>
                   <div className="px-5 py-5">
                     <h3 className="font-display text-xl text-white tracking-wide uppercase">
@@ -299,93 +379,80 @@ export default function HomePage() {
                     <p className="font-body text-sm text-[var(--bone-dim)] mt-2 leading-relaxed">
                       {f.text}
                     </p>
-                    {'hook' in f && f.hook && (
-                      <p className="font-body text-xs text-[var(--gold)]/80 mt-2 italic leading-relaxed">
-                        {f.hook}
-                      </p>
-                    )}
-                    {'to' in f && f.to && (
-                      <p className="font-ui text-[10px] tracking-[0.18em] uppercase text-[var(--gold)] mt-3">
-                        Open this layer →
-                      </p>
-                    )}
+                    <p className="font-body text-xs text-[var(--gold)]/80 mt-2 italic leading-relaxed">
+                      {f.hook}
+                    </p>
+                    <p className="font-ui text-[10px] tracking-[0.18em] uppercase text-[var(--gold)] mt-3">
+                      Open this layer →
+                    </p>
                   </div>
                 </>
               )
-              if ('to' in f && f.to) {
-                return (
-                  <Link key={f.title} to={f.to} data-reveal-item className={className}>
-                    {body}
-                  </Link>
-                )
-              }
               return (
-                <article key={f.title} data-reveal-item className={className}>
+                <Link key={f.title} to={f.to} data-reveal-item className={className}>
                   {body}
-                </article>
+                </Link>
               )
             })}
-          </div>
-
-          <div className="mt-10" data-reveal="up">
-            <Link to="/features" className="btn-secondary no-underline">
-              All features
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* ═══ BESTIARY STRIP ═══ */}
+      {/* ═══ DINO RAIL ═══ */}
       <section className="section-band">
         <div className="container-dd">
-          <div
-            className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10"
-            data-reveal="up"
-          >
+          <div className="flex items-end justify-between gap-4 mb-6" data-reveal="up">
             <div>
-              <p className="eyebrow">Bestiary · classified</p>
-              <h2 className="display-lg text-white mt-4">
-                Apex
-                <span className="text-gradient-magma"> roster</span>
+              <div className="sec-ornament mb-3 max-w-[200px]">
+                <span>Bestiary</span>
+              </div>
+              <h2 className="display-md text-white">
+                Apex <span className="text-gradient-magma">roster</span>
               </h2>
               <p className="body-lg mt-3 max-w-md">
-                Six names on the surface. Full roles, tips and the deeper list
-                only open when you advance.
+                Surface names only. Full roles unlock when you advance.
               </p>
             </div>
             <Link
               to="/features/dinos"
-              className="font-ui text-xs uppercase tracking-[0.2em] text-[var(--gold)] no-underline hover:text-[var(--magma-glow)]"
+              className="font-ui text-[11px] tracking-[0.2em] uppercase text-[var(--gold)] no-underline hover:text-[var(--magma-glow)] shrink-0"
             >
-              Unlock dino intel →
+              Unlock intel →
             </Link>
           </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" data-reveal-stagger>
+          <div className="char-rail" data-reveal-stagger>
             {DINOS.map((d) => (
-              <article key={d.name} className="dd-card group" data-reveal-item>
+              <Link
+                key={d.name}
+                to="/features/dinos"
+                className="char-rail-item dd-card group no-underline text-inherit"
+                data-reveal-item
+              >
                 <div className="aspect-[3/4] relative bg-[#0a0810]">
                   <img
                     src={d.img}
                     alt={d.name}
-                    className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-110"
-                    style={{ objectFit: 'cover', objectPosition: 'center 15%' }}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    style={{ objectPosition: 'center 15%' }}
                     loading="lazy"
                   />
                   <div
-                    className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none"
+                    className="absolute inset-0"
                     style={{
                       background:
-                        'linear-gradient(to top, rgba(7,6,10,0.95) 0%, transparent 70%)',
+                        'linear-gradient(to top, rgba(5,4,10,0.95) 0%, transparent 60%)',
                     }}
                   />
                   <div className="absolute bottom-0 inset-x-0 p-3 z-10">
-                    <p className="font-display text-sm sm:text-base text-white uppercase tracking-wide">
+                    <p className="font-ui text-[9px] tracking-[0.2em] uppercase text-[var(--gold)]">
+                      {d.role}
+                    </p>
+                    <p className="font-display text-sm text-white uppercase tracking-wide mt-0.5">
                       {d.name}
                     </p>
                   </div>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         </div>
@@ -394,34 +461,36 @@ export default function HomePage() {
       {/* ═══ PLAY / REWARDS ═══ */}
       <section className="section-band relative overflow-hidden">
         <div
-          className="absolute inset-0 opacity-30 pointer-events-none"
+          className="absolute inset-0 opacity-25 pointer-events-none"
           data-parallax="0.08"
           style={{
             backgroundImage: `url(${asset('banner-bg.png')})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            filter: 'brightness(0.5)',
+            filter: 'brightness(0.45) saturate(1.1)',
           }}
         />
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              'linear-gradient(90deg, rgba(7,6,10,0.95) 0%, rgba(7,6,10,0.7) 50%, rgba(7,6,10,0.9) 100%)',
+              'linear-gradient(90deg, rgba(5,4,10,0.95) 0%, rgba(5,4,10,0.7) 50%, rgba(5,4,10,0.92) 100%)',
           }}
         />
 
         <div className="container-dd relative z-10 grid md:grid-cols-2 gap-10 items-center">
           <div data-reveal="left">
-            <p className="eyebrow">Web rewards · for those who return</p>
-            <h2 className="display-lg text-white mt-4">
+            <div className="sec-ornament mb-4 max-w-[200px]">
+              <span>Rewards</span>
+            </div>
+            <h2 className="display-lg text-white mt-2">
               Daily login
               <br />
               <span className="text-gradient-gold">& roulette</span>
             </h2>
             <p className="body-lg mt-5 max-w-md">
-              Streaks and spins are the first edge you can claim without the full
-              campaign. Log in — the inventory feels the difference when you open the app.
+              Streaks and spins — the first edge you can claim without the full
+              campaign. Log in; the inventory feels it when you open the app.
             </p>
             <div className="flex flex-wrap gap-3 mt-8">
               <Link to="/play" className="btn-primary no-underline">
@@ -453,33 +522,41 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ PROGRESS / DEVLOG ═══ */}
+      {/* ═══ PROGRESS ═══ */}
       <section className="section-band">
         <div className="container-dd">
           <div
-            className="dd-panel p-6 md:p-10 grid md:grid-cols-2 gap-8 items-center"
+            className="dd-panel p-6 md:p-10 grid md:grid-cols-2 gap-8 items-center relative overflow-hidden"
             data-reveal="up"
           >
-            <div>
-              <p className="eyebrow">Studio · classified drops</p>
-              <h2 className="display-md text-white mt-4">
+            <div
+              className="absolute -right-20 -top-20 w-64 h-64 rounded-full opacity-40 blur-3xl pointer-events-none"
+              style={{
+                background: 'radial-gradient(circle, rgba(123,92,255,0.4), transparent 70%)',
+              }}
+            />
+            <div className="relative">
+              <div className="sec-ornament mb-4 max-w-[200px]">
+                <span>Studio</span>
+              </div>
+              <h2 className="display-md text-white mt-2">
                 Progress
                 <span className="text-gradient-magma"> log</span>
               </h2>
               <p className="body-lg mt-4">
-                Screenshots and roadmap pieces land here first. Not everything is
-                public on day one — advance the log to see what is shipping next.
+                Screenshots and roadmap pieces land here first. Advance the log
+                to see what is shipping next.
               </p>
               <Link to="/progress" className="btn-primary no-underline mt-8 inline-flex">
                 See what is next
               </Link>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 relative">
               {[
                 { t: 'Screenshots', d: 'Real Unity printscreens' },
                 { t: 'Shipped', d: 'What friends can use now' },
                 { t: 'In progress', d: 'Active development work' },
-                { t: 'Roadmap', d: 'What comes next' },
+                { t: 'Roadmap', d: 'Nyra story quests & more' },
               ].map((x) => (
                 <div key={x.t} className="stat-chip">
                   <p className="font-display text-lg text-[var(--gold)] uppercase">{x.t}</p>
@@ -492,34 +569,40 @@ export default function HomePage() {
       </section>
 
       {/* ═══ DOWNLOAD CTA ═══ */}
-      <section className="section-band pb-24">
+      <section className="section-band pb-28">
         <div className="container-dd">
           <div
             data-reveal="scale"
-            className="relative overflow-hidden rounded-xl border border-[var(--gold)]/20 px-6 py-12 md:px-14 md:py-16"
+            className="relative overflow-hidden rounded-sm border border-[var(--gold)]/25 px-6 py-14 md:px-16 md:py-20"
             style={{
               background:
-                'linear-gradient(125deg, rgba(255,77,26,0.12) 0%, rgba(20,12,16,0.9) 40%, rgba(12,10,18,0.95) 100%)',
-              boxShadow: '0 40px 100px rgba(0,0,0,0.4), 0 0 80px rgba(255,77,26,0.08)',
+                'linear-gradient(125deg, rgba(255,77,26,0.16) 0%, rgba(18,12,32,0.92) 35%, rgba(8,6,16,0.96) 100%)',
+              boxShadow:
+                '0 40px 120px rgba(0,0,0,0.5), 0 0 100px rgba(255,77,26,0.12), 0 0 80px rgba(123,92,255,0.1)',
             }}
           >
             <div
-              className="absolute -right-20 -top-20 w-72 h-72 rounded-full opacity-40 blur-3xl pointer-events-none animate-pulse-glow"
-              style={{ background: 'radial-gradient(circle, rgba(255,77,26,0.5), transparent 70%)' }}
+              className="absolute -right-16 -top-16 w-80 h-80 rounded-full opacity-50 blur-3xl pointer-events-none animate-pulse-glow"
+              style={{
+                background:
+                  'radial-gradient(circle, rgba(255,77,26,0.55), rgba(123,92,255,0.25), transparent 70%)',
+              }}
             />
             <div className="relative z-10 max-w-2xl">
-              <p className="eyebrow">The only way to see it all</p>
-              <h2 className="display-lg text-white mt-4">
+              <div className="sec-ornament mb-4 max-w-[240px]">
+                <span>Enter the wild</span>
+              </div>
+              <h2 className="display-lg text-white mt-2">
                 Download &
                 <br />
                 <span className="text-gradient-magma">command</span>
               </h2>
               <p className="body-lg mt-5">
-                The website is the map sketch. The APK is the territory — base,
-                battles, dinos, campaign. Friend beta · ~3.5 GB · Wi‑Fi recommended.
+                The website is the map sketch. The APK is the territory —
+                base, battles, dinos, campaign. Friend beta · ~3.5 GB · Wi‑Fi recommended.
               </p>
-              <div className="flex flex-wrap gap-3 mt-9">
-                <Link to="/download" className="btn-primary no-underline">
+              <div className="flex flex-wrap gap-3 mt-10">
+                <Link to="/download" className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4">
                   Download APK
                 </Link>
                 <Link to="/features" className="btn-secondary no-underline">

@@ -9,6 +9,13 @@ import { useSmoothScroll } from '@/hooks/useMotion'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ensureGsap } from '@/lib/motion'
 
+const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
+  left: `${(i * 17 + 7) % 100}%`,
+  delay: `${(i * 0.7) % 12}s`,
+  duration: `${10 + (i % 8)}s`,
+  size: i % 3 === 0 ? 3 : 2,
+}))
+
 export default function MainLayout() {
   const { pathname } = useLocation()
   useSmoothScroll()
@@ -16,7 +23,6 @@ export default function MainLayout() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
     ensureGsap()
-    // refresh triggers after route paint
     const t = window.setTimeout(() => ScrollTrigger.refresh(), 100)
     return () => window.clearTimeout(t)
   }, [pathname])
@@ -26,14 +32,26 @@ export default function MainLayout() {
       <div className="relative min-h-screen flex flex-col bg-[var(--void)]">
         <div className="site-atmosphere" aria-hidden />
 
+        {/* Premium void texture */}
         <div
-          className="fixed inset-0 z-0 pointer-events-none opacity-[0.22] animate-bg-drift"
+          className="fixed inset-0 z-0 pointer-events-none opacity-[0.35] animate-bg-drift"
+          aria-hidden
+          style={{
+            backgroundImage: `url(${asset('fx-void-bg.jpg')})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            mixBlendMode: 'screen',
+            filter: 'brightness(0.55) saturate(1.2)',
+          }}
+        />
+        <div
+          className="fixed inset-0 z-0 pointer-events-none opacity-[0.12]"
           aria-hidden
           style={{
             backgroundImage: `url(${asset('env-loading-scene-6.png')})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            filter: 'saturate(0.85) brightness(0.4) contrast(1.1)',
+            filter: 'saturate(0.7) brightness(0.35)',
           }}
         />
         <div
@@ -41,18 +59,38 @@ export default function MainLayout() {
           aria-hidden
           style={{
             background:
-              'linear-gradient(180deg, rgba(7,6,10,0.5) 0%, rgba(7,6,10,0.72) 40%, rgba(7,6,10,0.92) 100%)',
+              'linear-gradient(180deg, rgba(5,4,10,0.35) 0%, rgba(5,4,10,0.65) 40%, rgba(5,4,10,0.92) 100%)',
           }}
         />
 
         <div
-          className="glow-orb-magma fixed w-[420px] h-[420px] -top-20 -right-20 z-0 opacity-40 animate-orb-float"
+          className="glow-orb-magma fixed w-[480px] h-[480px] -top-24 -right-16 z-0 opacity-35 animate-orb-float"
           aria-hidden
         />
         <div
-          className="glow-orb-gold fixed w-[320px] h-[320px] bottom-[10%] -left-24 z-0 opacity-30 animate-orb-float-slow"
+          className="fixed w-[380px] h-[380px] bottom-[8%] -left-20 z-0 opacity-30 animate-orb-float-slow rounded-full pointer-events-none"
           aria-hidden
+          style={{
+            background: 'radial-gradient(circle, rgba(123,92,255,0.45), transparent 70%)',
+            filter: 'blur(40px)',
+          }}
         />
+
+        {/* Rising particles */}
+        <div className="fx-particles" aria-hidden>
+          {PARTICLES.map((p, i) => (
+            <span
+              key={i}
+              style={{
+                left: p.left,
+                width: p.size,
+                height: p.size,
+                animationDelay: p.delay,
+                animationDuration: p.duration,
+              }}
+            />
+          ))}
+        </div>
 
         <div className="grain-overlay" />
         <div className="site-vignette" />
