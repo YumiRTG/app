@@ -1,10 +1,16 @@
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router'
-import { animateHero, initReveals, pageEnter, ensureGsap } from '@/lib/motion'
+import {
+  animateHero,
+  initAmbientLoops,
+  initReveals,
+  pageEnter,
+  ensureGsap,
+} from '@/lib/motion'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 /**
- * Run page enter + scroll reveals whenever the route or container remounts.
+ * Run page enter + scroll reveals + continuous ambient motion on every page.
  */
 export function usePageMotion(enabled = true) {
   const ref = useRef<HTMLDivElement>(null)
@@ -18,19 +24,26 @@ export function usePageMotion(enabled = true) {
     ensureGsap()
     pageEnter(el)
 
-    // slight delay so layout is ready
     const killHero = animateHero(el)
     const killReveal = initReveals(el)
 
-    // refresh after images/video settle
+    // Ambient loops after first paint so layout is stable
+    let killAmbient: (() => void) | undefined
+    const ambientTimer = window.setTimeout(() => {
+      killAmbient = initAmbientLoops(el)
+      ScrollTrigger.refresh()
+    }, 500)
+
     const t = window.setTimeout(() => {
       ScrollTrigger.refresh()
     }, 400)
 
     return () => {
       window.clearTimeout(t)
+      window.clearTimeout(ambientTimer)
       killHero()
       killReveal()
+      killAmbient?.()
     }
   }, [pathname, enabled])
 

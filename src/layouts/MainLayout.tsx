@@ -9,11 +9,11 @@ import { useSmoothScroll } from '@/hooks/useMotion'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ensureGsap } from '@/lib/motion'
 
-const PARTICLES = Array.from({ length: 36 }, (_, i) => ({
-  left: `${(i * 11 + 3) % 100}%`,
-  delay: `${(i * 0.45) % 14}s`,
-  duration: `${9 + (i % 10)}s`,
-  size: i % 4 === 0 ? 3 : 2,
+const PARTICLES = Array.from({ length: 48 }, (_, i) => ({
+  left: `${(i * 9 + 2) % 100}%`,
+  delay: `${(i * 0.35) % 16}s`,
+  duration: `${8 + (i % 12)}s`,
+  size: i % 5 === 0 ? 3 : 2,
 }))
 
 export default function MainLayout() {

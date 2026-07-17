@@ -152,13 +152,87 @@ export function animateHero(root: HTMLElement) {
     )
   })
 
-  const video = root.querySelector<HTMLElement>('[data-hero-video]')
-  if (video) {
-    gsap.fromTo(video, { scale: 1.1 }, { scale: 1, duration: 2.4, ease: EASE_SOFT })
+  const bg = root.querySelector<HTMLElement>('[data-hero-bg], [data-hero-video]')
+  if (bg) {
+    gsap.fromTo(bg, { scale: 1.12 }, { scale: 1.06, duration: 2.6, ease: EASE_SOFT })
   }
 
   return () => {
     tl.kill()
+  }
+}
+
+/**
+ * Continuous ambient motion for cards/images across any page.
+ * Avoids fighting CSS hover transforms — uses glow/opacity/image scale only.
+ */
+export function initAmbientLoops(root: HTMLElement) {
+  ensureGsap()
+  const prefersReduced =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (prefersReduced) return () => {}
+
+  const tweens: gsap.core.Tween[] = []
+
+  // Glow pulse on cards / panels (no layout transform)
+  root.querySelectorAll<HTMLElement>('.dd-card, .dd-panel, .stat-chip').forEach((el, i) => {
+    const t = gsap.to(el, {
+      boxShadow:
+        i % 2 === 0
+          ? '0 0 28px rgba(255,77,26,0.18), 0 20px 50px rgba(0,0,0,0.35)'
+          : '0 0 24px rgba(240,193,77,0.14), 0 18px 44px rgba(0,0,0,0.32)',
+      duration: 2.8 + (i % 5) * 0.35,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: (i % 7) * 0.12,
+    })
+    tweens.push(t)
+  })
+
+  // Slow ken-burns on images (not the main hero bg — CSS handles that)
+  root.querySelectorAll<HTMLElement>('.media-frame img, .dd-card img').forEach((el, i) => {
+    if (el.hasAttribute('data-hero-bg')) return
+    const t = gsap.to(el, {
+      scale: 1.07,
+      duration: 7 + (i % 5),
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: (i % 6) * 0.18,
+    })
+    tweens.push(t)
+  })
+
+  // Labels breathe
+  root.querySelectorAll<HTMLElement>('.eyebrow, .label-text, .sec-ornament span').forEach((el, i) => {
+    const t = gsap.to(el, {
+      opacity: 0.7,
+      duration: 2 + (i % 3) * 0.35,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: i * 0.1,
+    })
+    tweens.push(t)
+  })
+
+  // Headings subtle glow
+  root.querySelectorAll<HTMLElement>('h1, h2.display-lg, h2.display-md').forEach((el, i) => {
+    const t = gsap.to(el, {
+      textShadow: '0 0 48px rgba(255,77,26,0.22), 0 0 80px rgba(240,193,77,0.1)',
+      duration: 3.5 + (i % 3),
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: i * 0.2,
+    })
+    tweens.push(t)
+  })
+
+  return () => {
+    tweens.forEach((t) => t.kill())
   }
 }
 

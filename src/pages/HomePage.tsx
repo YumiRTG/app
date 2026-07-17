@@ -55,17 +55,13 @@ export default function HomePage() {
     <div ref={motionRef} className="relative">
       {/* ═══ CINEMATIC HERO (SL-style full bleed + character) ═══ */}
       <section className="relative min-h-[100svh] overflow-hidden flex flex-col justify-end pt-28 sm:pt-32">
-        <video
-          data-hero-video
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster={asset('hero-poster.png')}
+        <img
+          data-hero-bg
+          src={asset('hero-poster.png')}
+          alt=""
           className="absolute inset-0 w-full h-full object-cover will-change-transform hero-video-live"
-        >
-          <source src={asset('hero-intro.mp4')} type="video/mp4" />
-        </video>
+          draggable={false}
+        />
 
         <div
           className="absolute inset-0"
