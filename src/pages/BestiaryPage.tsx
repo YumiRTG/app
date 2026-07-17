@@ -1,20 +1,7 @@
 import { Link } from 'react-router'
-import { asset } from '@/lib/assets'
+import { BASIC_DINOS } from '@/lib/dinos'
 import { BASIC_HEROES } from '@/lib/heroes'
 import { usePageMotion } from '@/hooks/useMotion'
-
-const DINOS = [
-  { name: 'Tyrannosaurus', img: asset('dino-tyranno.png') },
-  { name: 'Velociraptor', img: asset('dino-raptor.png') },
-  { name: 'Triceratops', img: asset('dino-triceratops.png') },
-  { name: 'Dilophosaurus', img: asset('dino-dilo.png') },
-  { name: 'Stegosaurus', img: asset('dino-stego.png') },
-  { name: 'Allosaurus', img: asset('dino-allo.png') },
-  { name: 'Pterodactyl', img: asset('dino-ptera.png') },
-  { name: 'Mammoth', img: asset('dino-mammoth.png') },
-  { name: 'Smilodon', img: asset('dino-smilodon.png') },
-  { name: 'Fire Dragon', img: asset('dino-dragon.png') },
-]
 
 export default function BestiaryPage() {
   const motionRef = usePageMotion()
@@ -30,19 +17,29 @@ export default function BestiaryPage() {
             <span className="text-gradient-magma">legends</span>
           </h1>
           <p className="body-lg mt-5">
-            Creatures and commanders from Dino Dominion — the roster that shapes
-            every victory. Tap a hero for more info.
+            Basic dinosaurs and heroes. Tap a card for more info.
           </p>
         </div>
 
         <div className="flex items-center gap-4 mb-6" data-reveal="up">
           <h2 className="font-display text-2xl text-white tracking-wide">DINOSAURS</h2>
           <div className="hud-line flex-1 opacity-50" />
+          <Link
+            to="/features/dinos"
+            className="font-ui text-[10px] tracking-[0.18em] uppercase text-[var(--gold)] no-underline hover:text-[var(--magma-glow)] shrink-0"
+          >
+            All details →
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-16" data-reveal-stagger>
-          {DINOS.map((d) => (
-            <article key={d.name} className="dd-card group" data-reveal-item>
+          {BASIC_DINOS.map((d) => (
+            <Link
+              key={d.id}
+              to={`/features/dinos#${d.id}`}
+              className="dd-card group no-underline text-inherit"
+              data-reveal-item
+            >
               <div className="aspect-[3/4] relative bg-[#0a0810]">
                 <img
                   src={d.img}
@@ -58,13 +55,19 @@ export default function BestiaryPage() {
                       'linear-gradient(to top, rgba(7,6,10,0.95), transparent)',
                   }}
                 />
+                <span className="absolute top-2 right-2 font-ui text-[8px] tracking-wider uppercase px-1.5 py-0.5 rounded bg-black/50 border border-[var(--gold)]/25 text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity">
+                  Info
+                </span>
                 <div className="absolute bottom-0 inset-x-0 z-10 p-4">
-                  <p className="font-display text-base md:text-lg text-white uppercase tracking-wide">
+                  <p className="font-ui text-[9px] tracking-widest uppercase text-[var(--gold)]">
+                    {d.role}
+                  </p>
+                  <p className="font-display text-base md:text-lg text-white uppercase tracking-wide mt-0.5">
                     {d.name}
                   </p>
                 </div>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
 
@@ -119,7 +122,10 @@ export default function BestiaryPage() {
         </div>
 
         <div className="mt-14 flex flex-wrap gap-3" data-reveal="up">
-          <Link to="/features/heroes" className="btn-primary no-underline">
+          <Link to="/features/dinos" className="btn-primary no-underline">
+            Dino details
+          </Link>
+          <Link to="/features/heroes" className="btn-secondary no-underline">
             Hero details
           </Link>
           <Link to="/download" className="btn-secondary no-underline">

@@ -20,9 +20,9 @@ const features = [
   {
     title: 'Tame dinosaurs',
     text: 'Tyrannosaurus, Dilophosaurus, Raptors and more — each with distinct combat roles.',
-    img: asset('dino-tyranno.png'),
-    pos: 'center 18%',
-    to: '/bestiary',
+    img: asset('feature-dinos-hero.jpg'),
+    pos: 'center 40%',
+    to: '/features/dinos',
   },
   {
     title: 'Conquer campaigns',
