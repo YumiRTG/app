@@ -71,7 +71,7 @@ export default function MainLayout() {
           className="fixed w-[380px] h-[380px] bottom-[8%] -left-20 z-0 opacity-30 animate-orb-float-slow rounded-full pointer-events-none"
           aria-hidden
           style={{
-            background: 'radial-gradient(circle, rgba(123,92,255,0.45), transparent 70%)',
+            background: 'radial-gradient(circle, rgba(79,143,99,0.4), transparent 70%)',
             filter: 'blur(40px)',
           }}
         />

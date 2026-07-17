@@ -46,9 +46,9 @@ export default function Navigation() {
         {/* Top news ticker — AAA game sites style */}
         <div className="news-strip hidden sm:block">
           <div className="container-dd flex items-center justify-between h-8 text-[10px] font-ui tracking-[0.2em] uppercase">
-            <span className="text-[var(--violet-glow)]">Friend beta</span>
+            <span className="text-[var(--magma-glow)]">Friend beta</span>
             <span className="text-[var(--bone)]/50 truncate px-4">
-              New APK · Daily rewards · Progress log · Tame · Hunt · Conquer
+              Apex pack · Campaign realms · Daily rewards · Tame · Hunt · Conquer
             </span>
             <Link
               to="/progress"
@@ -92,8 +92,8 @@ export default function Navigation() {
                 <span className="font-display text-[1rem] sm:text-lg tracking-[0.16em] text-white block">
                   DINO DOMINION
                 </span>
-                <span className="hidden sm:block font-ui text-[9px] tracking-[0.32em] text-[var(--violet-glow)]/80 uppercase mt-1">
-                  Arise the wild
+                <span className="hidden sm:block font-ui text-[9px] tracking-[0.32em] text-[var(--gold)]/70 uppercase mt-1">
+                  Tame · Hunt · Conquer
                 </span>
               </div>
             </Link>
@@ -117,7 +117,7 @@ export default function Navigation() {
               {ready && session ? (
                 <>
                   <div className="text-right max-w-[140px] px-2">
-                    <p className="font-ui text-[10px] tracking-wider uppercase text-[var(--violet-glow)]/80">
+                    <p className="font-ui text-[10px] tracking-wider uppercase text-[var(--gold)]/80">
                       Commander
                     </p>
                     <p className="font-ui text-[12px] tracking-wider uppercase text-[var(--bone)] truncate">

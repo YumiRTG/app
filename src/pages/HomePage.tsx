@@ -48,15 +48,6 @@ const DINOS = [
   { name: 'Fire Dragon', img: asset('dino-dragon.png'), role: 'Special' },
 ]
 
-const HEROES_RAIL = [
-  { name: 'Nyra Vale', img: asset('hero-nyra.png'), role: 'Commander' },
-  { name: 'Alyssa Mey', img: asset('hero-alyssa.png'), role: 'Hero' },
-  { name: 'Carina Vale', img: asset('hero-carina.png'), role: 'Hero' },
-  { name: 'Elara Veyn', img: asset('hero-elara.png'), role: 'Hero' },
-  { name: 'Ronan', img: asset('hero-ronan.png'), role: 'Hero' },
-  { name: 'Kailina', img: asset('hero-kailina.png'), role: 'Hero' },
-]
-
 export default function HomePage() {
   const motionRef = usePageMotion()
 
@@ -80,40 +71,50 @@ export default function HomePage() {
           className="absolute inset-0"
           style={{
             background: `
-              linear-gradient(105deg, rgba(5,4,10,0.94) 0%, rgba(5,4,10,0.55) 42%, rgba(5,4,10,0.15) 72%),
-              linear-gradient(to top, rgba(5,4,10,0.98) 0%, rgba(5,4,10,0.35) 42%, transparent 70%),
-              radial-gradient(ellipse 50% 45% at 78% 40%, rgba(123,92,255,0.2), transparent 55%),
-              radial-gradient(ellipse 45% 40% at 70% 55%, rgba(255,77,26,0.18), transparent 55%)
+              linear-gradient(105deg, rgba(5,4,10,0.9) 0%, rgba(5,4,10,0.45) 48%, rgba(5,4,10,0.2) 75%),
+              linear-gradient(to top, rgba(5,4,10,0.98) 0%, rgba(5,4,10,0.4) 45%, transparent 72%),
+              radial-gradient(ellipse 55% 45% at 75% 50%, rgba(232,93,4,0.2), transparent 55%),
+              radial-gradient(ellipse 40% 35% at 20% 70%, rgba(79,143,99,0.18), transparent 50%)
             `,
           }}
         />
 
-        {/* Floating character spotlight — right side (desktop) */}
-        <div
-          className="hidden lg:block absolute right-0 bottom-0 top-24 w-[46%] z-[3] pointer-events-none"
-          data-hero
-          data-hero-delay="0.2"
-        >
-          <div className="char-spotlight absolute inset-x-0 bottom-0 h-full flex items-end justify-center">
-            <img
-              src={asset('spotlight-nyra.jpg')}
-              alt="Nyra Vale"
-              className="h-[min(92%,880px)] w-auto max-w-full object-contain object-bottom select-none"
-              draggable={false}
-            />
-          </div>
+        {/* Floating dino silhouettes — ambient pack */}
+        <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden" aria-hidden>
+          <img
+            src={asset('dino-tyranno.png')}
+            alt=""
+            className="dino-float dino-float-a absolute opacity-[0.22] object-contain"
+            style={{ objectPosition: 'center 15%' }}
+          />
+          <img
+            src={asset('dino-raptor.png')}
+            alt=""
+            className="dino-float dino-float-b absolute opacity-[0.18] object-contain"
+            style={{ objectPosition: 'center 15%' }}
+          />
+          <img
+            src={asset('dino-ptera.png')}
+            alt=""
+            className="dino-float dino-float-c absolute opacity-[0.2] object-contain"
+          />
+          <img
+            src={asset('dino-dragon.png')}
+            alt=""
+            className="dino-float dino-float-d absolute opacity-[0.14] object-contain"
+          />
         </div>
 
-        <div className="relative z-10 container-dd pb-16 md:pb-20 grid lg:grid-cols-12 gap-8 items-end">
-          <div className="lg:col-span-7">
+        <div className="relative z-10 container-dd pb-16 md:pb-20">
+          <div className="max-w-3xl">
             <p data-hero data-hero-delay="0.05" className="eyebrow mb-5">
-              Friend beta · Arise the wild
+              Friend beta · Prehistoric strategy
             </p>
 
             <h1
               data-hero
               data-hero-delay="0.12"
-              className="display-xl text-white max-w-4xl title-glow"
+              className="display-xl text-white title-glow"
             >
               DINO
               <br />
@@ -121,9 +122,8 @@ export default function HomePage() {
             </h1>
 
             <p data-hero data-hero-delay="0.28" className="body-lg mt-7 max-w-lg">
-              Something older than empires is waking. First pieces only —
-              base, beasts, campaign. The rest unlocks when you push deeper…
-              and when you play.
+              Apex predators. Broken tribes. A map that only opens for those who
+              hunt. First pieces here — the pack waits in the beta.
             </p>
 
             <div
@@ -134,8 +134,8 @@ export default function HomePage() {
               <Link to="/download" className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4">
                 Play free
               </Link>
-              <Link to="/story" className="btn-secondary no-underline">
-                First chapter
+              <Link to="/features/dinos" className="btn-secondary no-underline">
+                Meet the pack
               </Link>
               <Link to="/features" className="btn-secondary no-underline">
                 Systems
@@ -148,9 +148,9 @@ export default function HomePage() {
               className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl"
             >
               {[
-                { k: '???', v: 'Hidden beasts' },
-                { k: 'Nyra', v: 'Only the start' },
-                { k: '4+', v: 'Realms locked' },
+                { k: '50+', v: 'Creatures' },
+                { k: 'Apex', v: 'Hunt begins' },
+                { k: '4+', v: 'Wild realms' },
                 { k: 'Beta', v: 'Friends first' },
               ].map((s) => (
                 <div key={s.v} className="stat-chip">
@@ -181,32 +181,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ CHARACTER SPOTLIGHT (SL key art block) ═══ */}
+      {/* ═══ STORY + APEX BEAST ═══ */}
       <section className="section-band relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-40 pointer-events-none"
           style={{
             background:
-              'radial-gradient(ellipse 60% 80% at 20% 50%, rgba(255,77,26,0.15), transparent 60%), radial-gradient(ellipse 50% 70% at 80% 40%, rgba(123,92,255,0.12), transparent 55%)',
+              'radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255,77,26,0.18), transparent 60%), radial-gradient(ellipse 50% 70% at 15% 40%, rgba(79,143,99,0.14), transparent 55%)',
           }}
         />
         <div className="container-dd relative grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div data-reveal="left" className="order-2 lg:order-1">
-            <div className="sec-title mb-6">
-              <div className="sec-ornament">
-                <span>Commander</span>
-              </div>
+          <div data-reveal="left">
+            <div className="sec-ornament mb-4 max-w-[220px]">
+              <span>The hunt</span>
             </div>
             <p className="eyebrow">Chapter fragment · I</p>
             <h2 className="display-lg text-white mt-4">
               Only the
               <br />
-              <span className="text-gradient-magma">adaptable</span> survive
+              <span className="text-gradient-magma">apex</span> survive
             </h2>
             <p className="body-lg mt-6 max-w-xl">
-              Nyra holds a broken tribe at the edge of something vast. Jungles
-              whisper of riches. Volcanoes do not whisper. What wakes beyond the
-              first camp is not shown here.
+              Jungles hide riches. Volcanoes hide death. Rival clans move —
+              and the pack that answers first claims the map.
             </p>
             <p className="body-lg mt-4 max-w-xl text-[var(--gold)]/90">
               Advance the story. Open the systems. Download the beta.
@@ -216,41 +213,44 @@ export default function HomePage() {
               <Link to="/story" className="btn-primary no-underline">
                 Next fragment
               </Link>
-              <Link to="/features/heroes" className="btn-secondary no-underline">
-                Hero roster
+              <Link to="/features/dinos" className="btn-secondary no-underline">
+                Pack intel
               </Link>
             </div>
           </div>
 
-          <div data-reveal="right" className="order-1 lg:order-2 relative">
-            <div className="relative mx-auto max-w-md">
+          <div data-reveal="right" className="relative">
+            <div className="relative mx-auto max-w-lg">
               <div
-                className="absolute -inset-8 rounded-full opacity-60 blur-3xl animate-pulse-glow"
+                className="absolute -inset-10 rounded-full opacity-70 blur-3xl animate-pulse-glow"
                 style={{
                   background:
-                    'radial-gradient(circle, rgba(255,77,26,0.4), rgba(123,92,255,0.2), transparent 70%)',
+                    'radial-gradient(circle, rgba(255,77,26,0.45), rgba(79,143,99,0.2), transparent 70%)',
                 }}
               />
-              <div className="media-frame relative aspect-[3/4] overflow-hidden group border-[var(--violet)]/20">
+              <div className="media-frame relative aspect-[4/5] overflow-hidden group dino-card-pulse">
                 <img
-                  src={asset('hero-nyra.png')}
-                  alt="Nyra Vale"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  style={{ objectPosition: 'center 12%' }}
+                  src={asset('dino-tyranno.png')}
+                  alt="Tyrannosaurus"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  style={{ objectPosition: 'center 18%' }}
                 />
                 <div
                   className="absolute inset-0"
                   style={{
                     background:
-                      'linear-gradient(to top, rgba(5,4,10,0.95) 0%, transparent 50%)',
+                      'linear-gradient(to top, rgba(5,4,10,0.95) 0%, transparent 55%)',
                   }}
                 />
+                <div className="absolute top-4 left-4 font-ui text-[10px] tracking-[0.25em] uppercase text-[var(--gold)] px-2 py-1 border border-[var(--gold)]/30 bg-black/40">
+                  Apex · Live
+                </div>
                 <div className="absolute bottom-0 inset-x-0 p-6 z-10">
-                  <p className="font-ui text-[10px] tracking-[0.28em] uppercase text-[var(--violet-glow)]">
-                    Main commander
+                  <p className="font-ui text-[10px] tracking-[0.28em] uppercase text-[var(--gold)]">
+                    Apex attacker
                   </p>
                   <p className="font-display text-3xl text-white mt-1 tracking-wide">
-                    NYRA VALE
+                    TYRANNOSAURUS
                   </p>
                 </div>
               </div>
@@ -259,62 +259,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ HERO RAIL ═══ */}
-      <section className="pb-6">
-        <div className="container-dd">
-          <div className="flex items-end justify-between gap-4 mb-6" data-reveal="up">
-            <div>
-              <div className="sec-ornament mb-3 max-w-[200px]">
-                <span>Heroes</span>
-              </div>
-              <h2 className="display-md text-white">
-                Command the <span className="text-gradient-gold">legends</span>
-              </h2>
-            </div>
-            <Link
-              to="/features/heroes"
-              className="font-ui text-[11px] tracking-[0.2em] uppercase text-[var(--gold)] no-underline hover:text-[var(--magma-glow)] shrink-0"
-            >
-              Full roster →
-            </Link>
-          </div>
-          <div className="char-rail" data-reveal-stagger>
-            {HEROES_RAIL.map((h) => (
-              <Link
-                key={h.name}
-                to="/features/heroes"
-                className="char-rail-item dd-card group no-underline text-inherit"
-                data-reveal-item
-              >
-                <div className="aspect-[3/4] relative bg-[#0a0810]">
-                  <img
-                    src={h.img}
-                    alt={h.name}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    style={{ objectPosition: 'center 12%' }}
-                    loading="lazy"
-                  />
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        'linear-gradient(to top, rgba(5,4,10,0.95) 0%, transparent 55%)',
-                    }}
-                  />
-                  <div className="absolute bottom-0 inset-x-0 p-3 z-10">
-                    <p className="font-ui text-[9px] tracking-[0.2em] uppercase text-[var(--violet-glow)]">
-                      {h.role}
-                    </p>
-                    <p className="font-display text-sm text-white uppercase tracking-wide mt-0.5">
-                      {h.name}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+      {/* ═══ MARQUEE PACK ═══ */}
+      <div className="dino-marquee-wrap relative py-4 border-y border-[var(--gold)]/10 overflow-hidden" aria-hidden>
+        <div className="dino-marquee">
+          {[...DINOS, ...DINOS].map((d, i) => (
+            <span key={d.name + i} className="dino-marquee-item">
+              <img src={d.img} alt="" />
+              <span>{d.name}</span>
+            </span>
+          ))}
         </div>
-      </section>
+      </div>
 
       {/* ═══ FEATURES ═══ */}
       <section

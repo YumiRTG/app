@@ -551,14 +551,14 @@
       linear-gradient(90deg, rgba(5, 4, 10, 0.65) 0%, transparent 15%, transparent 85%, rgba(5, 4, 10, 0.65) 100%);
   }
 
-  /* Floating particles */
+  /* Floating particles — amber ash + jungle sparks */
   .fx-particles {
     position: fixed;
     inset: 0;
     z-index: 1;
     pointer-events: none;
     overflow: hidden;
-    opacity: 0.55;
+    opacity: 0.6;
   }
 
   .fx-particles span {
@@ -566,14 +566,126 @@
     width: 2px;
     height: 2px;
     border-radius: 50%;
-    background: rgba(240, 193, 77, 0.7);
-    box-shadow: 0 0 6px rgba(240, 193, 77, 0.6);
+    background: rgba(240, 193, 77, 0.75);
+    box-shadow: 0 0 6px rgba(240, 193, 77, 0.65);
     animation: particle-rise linear infinite;
   }
 
   .fx-particles span:nth-child(odd) {
-    background: rgba(167, 139, 250, 0.75);
-    box-shadow: 0 0 8px rgba(123, 92, 255, 0.55);
+    background: rgba(107, 191, 122, 0.7);
+    box-shadow: 0 0 8px rgba(79, 143, 99, 0.55);
+  }
+
+  .fx-particles span:nth-child(3n) {
+    background: rgba(255, 122, 61, 0.65);
+    box-shadow: 0 0 8px rgba(255, 77, 26, 0.45);
+  }
+
+  /* Ambient floating dinos on hero */
+  .dino-float {
+    filter: saturate(0.85) brightness(0.7);
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  .dino-float-a {
+    width: min(42vw, 480px);
+    height: min(55vh, 560px);
+    right: -4%;
+    bottom: 2%;
+    animation: dino-sway-a 14s ease-in-out infinite;
+  }
+
+  .dino-float-b {
+    width: min(28vw, 300px);
+    height: min(38vh, 360px);
+    right: 28%;
+    bottom: 8%;
+    animation: dino-sway-b 11s ease-in-out infinite;
+  }
+
+  .dino-float-c {
+    width: min(22vw, 240px);
+    height: min(22vh, 220px);
+    right: 12%;
+    top: 18%;
+    animation: dino-fly 16s ease-in-out infinite;
+  }
+
+  .dino-float-d {
+    width: min(34vw, 380px);
+    height: min(40vh, 400px);
+    left: -6%;
+    bottom: -4%;
+    opacity: 0.12 !important;
+    animation: dino-sway-a 18s ease-in-out infinite reverse;
+  }
+
+  @media (max-width: 900px) {
+    .dino-float-a {
+      width: 55vw;
+      height: 40vh;
+      right: -10%;
+      opacity: 0.16 !important;
+    }
+    .dino-float-b,
+    .dino-float-d {
+      display: none;
+    }
+    .dino-float-c {
+      width: 30vw;
+      top: 22%;
+      right: 4%;
+    }
+  }
+
+  /* Infinite pack marquee */
+  .dino-marquee-wrap {
+    background: linear-gradient(
+      90deg,
+      rgba(5, 4, 10, 0.95),
+      rgba(20, 40, 28, 0.35),
+      rgba(5, 4, 10, 0.95)
+    );
+  }
+
+  .dino-marquee {
+    display: flex;
+    gap: 2.5rem;
+    width: max-content;
+    animation: marquee-x 40s linear infinite;
+  }
+
+  .dino-marquee:hover {
+    animation-play-state: paused;
+  }
+
+  .dino-marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(242, 235, 224, 0.55);
+  }
+
+  .dino-marquee-item img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid rgba(240, 193, 77, 0.25);
+    object-position: center 15%;
+  }
+
+  .dino-card-pulse {
+    animation: dino-card-breathe 5s ease-in-out infinite;
+  }
+
+  .dino-card-pulse:hover {
+    animation: none;
   }
 
   /* Horizontal character rail (SL roster style) */
@@ -602,31 +714,17 @@
     }
   }
 
-  /* Spotlight character float */
-  .char-spotlight {
-    position: relative;
-    filter: drop-shadow(0 20px 60px rgba(255, 77, 26, 0.35))
-      drop-shadow(0 0 40px rgba(123, 92, 255, 0.25));
-    animation: float-soft 7s ease-in-out infinite;
-  }
-
-  .char-spotlight::after {
-    content: '';
-    position: absolute;
-    left: 15%;
-    right: 15%;
-    bottom: 4%;
-    height: 18%;
-    background: radial-gradient(ellipse, rgba(255, 77, 26, 0.45), transparent 70%);
-    filter: blur(16px);
-    z-index: -1;
-  }
-
-  /* News ticker strip */
+  /* News ticker strip — prehistoric */
   .news-strip {
-    border-top: 1px solid rgba(167, 139, 250, 0.15);
+    border-top: 1px solid rgba(79, 143, 99, 0.2);
     border-bottom: 1px solid rgba(245, 193, 93, 0.12);
-    background: linear-gradient(90deg, rgba(123, 92, 255, 0.08), rgba(5, 4, 10, 0.85) 20%, rgba(5, 4, 10, 0.85) 80%, rgba(255, 77, 26, 0.08));
+    background: linear-gradient(
+      90deg,
+      rgba(255, 77, 26, 0.1),
+      rgba(5, 4, 10, 0.88) 18%,
+      rgba(5, 4, 10, 0.88) 82%,
+      rgba(79, 143, 99, 0.12)
+    );
     backdrop-filter: blur(12px);
   }
 
@@ -735,8 +833,38 @@
 }
 
 @keyframes title-glow {
-  0%, 100% { text-shadow: 0 0 40px rgba(255, 77, 26, 0.25), 0 0 80px rgba(123, 92, 255, 0.15); }
-  50% { text-shadow: 0 0 60px rgba(255, 77, 26, 0.4), 0 0 100px rgba(123, 92, 255, 0.25); }
+  0%, 100% { text-shadow: 0 0 40px rgba(255, 77, 26, 0.28), 0 0 70px rgba(79, 143, 99, 0.12); }
+  50% { text-shadow: 0 0 70px rgba(255, 77, 26, 0.45), 0 0 100px rgba(240, 193, 77, 0.2); }
+}
+
+@keyframes dino-sway-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-18px, -14px) scale(1.03); }
+}
+
+@keyframes dino-sway-b {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(-1deg); }
+  50% { transform: translate(14px, -20px) scale(1.05) rotate(1deg); }
+}
+
+@keyframes dino-fly {
+  0%, 100% { transform: translate(0, 0) rotate(-2deg); }
+  50% { transform: translate(-30px, 18px) rotate(3deg); }
+}
+
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes dino-card-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 77, 26, 0.15), 0 24px 70px rgba(0, 0, 0, 0.45); }
+  50% { box-shadow: 0 0 40px 4px rgba(255, 77, 26, 0.28), 0 28px 80px rgba(0, 0, 0, 0.5); }
+}
+
+@keyframes claw-scan {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
 .title-glow {
@@ -790,7 +918,11 @@ html.lenis body {
   .animate-orb-float,
   .animate-orb-float-slow,
   .animate-bg-drift,
-  .scroll-cue-line {
+  .scroll-cue-line,
+  .dino-float,
+  .dino-marquee,
+  .dino-card-pulse,
+  .title-glow {
     animation: none !important;
   }
 }
