@@ -53,96 +53,109 @@ export default function HomePage() {
 
   return (
     <div ref={motionRef} className="relative">
-      {/* ═══ CINEMATIC HERO (SL-style full bleed + character) ═══ */}
+      {/* ═══ HERO: T-rex left (clear), title right in a readable panel ═══ */}
       <section className="relative min-h-[100svh] overflow-hidden flex flex-col justify-end pt-28 sm:pt-32">
         <img
           data-hero-bg
           src={asset('hero-poster.png')}
-          alt=""
+          alt="Dino Dominion landscape with apex T-rex"
           className="absolute inset-0 w-full h-full object-cover will-change-transform hero-video-live"
+          style={{ objectPosition: '18% center' }}
           draggable={false}
         />
 
+        {/* Soft overlays only — keep left/T-rex bright, darken right/bottom for type */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 z-[1] pointer-events-none"
           style={{
             background: `
-              linear-gradient(105deg, rgba(5,4,10,0.9) 0%, rgba(5,4,10,0.45) 48%, rgba(5,4,10,0.2) 75%),
-              linear-gradient(to top, rgba(5,4,10,0.98) 0%, rgba(5,4,10,0.4) 45%, transparent 72%),
-              radial-gradient(ellipse 55% 45% at 75% 50%, rgba(232,93,4,0.2), transparent 55%),
-              radial-gradient(ellipse 40% 35% at 20% 70%, rgba(79,143,99,0.18), transparent 50%)
+              linear-gradient(to right, transparent 0%, transparent 38%, rgba(5,4,10,0.55) 72%, rgba(5,4,10,0.82) 100%),
+              linear-gradient(to top, rgba(5,4,10,0.92) 0%, rgba(5,4,10,0.35) 38%, transparent 65%),
+              radial-gradient(ellipse 50% 40% at 85% 70%, rgba(232,93,4,0.15), transparent 60%)
             `,
           }}
         />
 
+        {/* Tiny caption on the T-rex side — doesn't cover the silhouette */}
+        <div
+          data-hero
+          data-hero-delay="0.08"
+          className="absolute left-4 sm:left-8 bottom-[38%] sm:bottom-[42%] z-[3] hidden sm:block"
+        >
+          <p className="font-ui text-[10px] tracking-[0.28em] uppercase text-white/70 drop-shadow-lg">
+            Apex · on the ridge
+          </p>
+        </div>
+
         <div className="relative z-10 container-dd pb-16 md:pb-20">
-          <div className="max-w-3xl">
-            <p data-hero data-hero-delay="0.05" className="eyebrow mb-5">
-              Friend beta · Prehistoric strategy
-            </p>
+          <div className="grid lg:grid-cols-12 gap-8 items-end">
+            {/* Spacer: leaves the left image (T-rex) open */}
+            <div className="hidden lg:block lg:col-span-5" aria-hidden />
 
-            <h1
-              data-hero
-              data-hero-delay="0.12"
-              className="display-xl text-white title-glow"
-            >
-              DINO
-              <br />
-              <span className="text-gradient-magma">DOMINION</span>
-            </h1>
+            {/* Title lives in the open sky / city side */}
+            <div className="lg:col-span-7">
+              <div
+                data-hero
+                data-hero-delay="0.05"
+                className="hero-title-panel rounded-sm p-5 sm:p-7 md:p-8 max-w-xl ml-auto"
+              >
+                <p className="eyebrow mb-4">Friend beta · Prehistoric strategy</p>
 
-            <p data-hero data-hero-delay="0.28" className="body-lg mt-7 max-w-lg">
-              Apex predators. Broken tribes. A map that only opens for those who
-              hunt. First pieces here — the pack waits in the beta.
-            </p>
+                <h1 className="display-xl text-white title-glow">
+                  DINO
+                  <br />
+                  <span className="text-gradient-magma">DOMINION</span>
+                </h1>
 
-            <div
-              data-hero
-              data-hero-delay="0.4"
-              className="flex flex-wrap gap-3 mt-10"
-            >
-              <Link to="/download" className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4">
-                Play free
-              </Link>
-              <Link to="/features/dinos" className="btn-secondary no-underline">
-                Meet the pack
-              </Link>
-              <Link to="/features" className="btn-secondary no-underline">
-                Systems
-              </Link>
-            </div>
+                <p className="body-lg mt-5 max-w-md">
+                  Apex predators. Broken tribes. A map that only opens for those who
+                  hunt. First pieces here — the pack waits in the beta.
+                </p>
 
-            <div
-              data-hero
-              data-hero-delay="0.52"
-              className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl"
-            >
-              {[
-                { k: '50+', v: 'Creatures' },
-                { k: 'Apex', v: 'Hunt begins' },
-                { k: '4+', v: 'Wild realms' },
-                { k: 'Beta', v: 'Friends first' },
-              ].map((s) => (
-                <div key={s.v} className="stat-chip">
-                  <p className="font-display text-2xl md:text-3xl text-gradient-gold">{s.k}</p>
-                  <p className="font-ui text-[10px] text-[var(--bone-dim)] mt-1.5 uppercase tracking-[0.18em]">
-                    {s.v}
-                  </p>
+                <div className="flex flex-wrap gap-3 mt-8">
+                  <Link
+                    to="/download"
+                    className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4"
+                  >
+                    Play free
+                  </Link>
+                  <Link to="/features/dinos" className="btn-secondary no-underline">
+                    Meet the pack
+                  </Link>
+                  <Link to="/features" className="btn-secondary no-underline">
+                    Systems
+                  </Link>
                 </div>
-              ))}
+
+                <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  {[
+                    { k: '50+', v: 'Creatures' },
+                    { k: 'Apex', v: 'Hunt begins' },
+                    { k: '4+', v: 'Wild realms' },
+                    { k: 'Beta', v: 'Friends first' },
+                  ].map((s) => (
+                    <div key={s.v} className="stat-chip !py-2.5 !px-2.5">
+                      <p className="font-display text-xl sm:text-2xl text-gradient-gold">{s.k}</p>
+                      <p className="font-ui text-[9px] text-[var(--bone-dim)] mt-1 uppercase tracking-[0.16em]">
+                        {s.v}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <div
-          className="absolute bottom-0 inset-x-0 h-32 z-[2] pointer-events-none"
+          className="absolute bottom-0 inset-x-0 h-24 z-[2] pointer-events-none"
           style={{ background: 'linear-gradient(to top, var(--void), transparent)' }}
         />
 
         <div
           data-hero
-          data-hero-delay="0.7"
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none"
+          data-hero-delay="0.55"
+          className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none"
         >
           <span className="font-ui text-[9px] tracking-[0.35em] uppercase text-white/35">
             Scroll
