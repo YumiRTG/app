@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
+import { BASIC_HEROES } from '@/lib/heroes'
 import { usePageMotion } from '@/hooks/useMotion'
 
 const DINOS = [
@@ -13,15 +14,6 @@ const DINOS = [
   { name: 'Mammoth', img: asset('dino-mammoth.png') },
   { name: 'Smilodon', img: asset('dino-smilodon.png') },
   { name: 'Fire Dragon', img: asset('dino-dragon.png') },
-]
-
-const HEROES = [
-  { name: 'Nyra Vale', img: asset('hero-nyra.png'), role: 'Commander' },
-  { name: 'Alyssa Mey', img: asset('hero-alyssa.png'), role: 'Hero' },
-  { name: 'Carina Vale', img: asset('hero-carina.png'), role: 'Hero' },
-  { name: 'Elara Veyn', img: asset('hero-elara.png'), role: 'Hero' },
-  { name: 'Ronan', img: asset('hero-ronan.png'), role: 'Hero' },
-  { name: 'Kailina', img: asset('hero-kailina.png'), role: 'Hero' },
 ]
 
 export default function BestiaryPage() {
@@ -39,7 +31,7 @@ export default function BestiaryPage() {
           </h1>
           <p className="body-lg mt-5">
             Creatures and commanders from Dino Dominion — the roster that shapes
-            every victory.
+            every victory. Tap a hero for more info.
           </p>
         </div>
 
@@ -79,11 +71,22 @@ export default function BestiaryPage() {
         <div className="flex items-center gap-4 mb-6" data-reveal="up">
           <h2 className="font-display text-2xl text-white tracking-wide">HEROES</h2>
           <div className="hud-line flex-1 opacity-50" />
+          <Link
+            to="/features/heroes"
+            className="font-ui text-[10px] tracking-[0.18em] uppercase text-[var(--gold)] no-underline hover:text-[var(--magma-glow)] shrink-0"
+          >
+            All details →
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4" data-reveal-stagger>
-          {HEROES.map((h) => (
-            <article key={h.name} className="dd-card group" data-reveal-item>
+          {BASIC_HEROES.map((h) => (
+            <Link
+              key={h.id}
+              to={`/features/heroes#${h.id}`}
+              className="dd-card group no-underline text-inherit"
+              data-reveal-item
+            >
               <div className="aspect-[3/4] relative bg-[#0a0810]">
                 <img
                   src={h.img}
@@ -99,6 +102,9 @@ export default function BestiaryPage() {
                       'linear-gradient(to top, rgba(7,6,10,0.95), transparent)',
                   }}
                 />
+                <span className="absolute top-2 right-2 font-ui text-[8px] tracking-wider uppercase px-1.5 py-0.5 rounded bg-black/50 border border-[var(--gold)]/25 text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity">
+                  Info
+                </span>
                 <div className="absolute bottom-0 inset-x-0 z-10 p-3">
                   <p className="font-ui text-[10px] tracking-widest uppercase text-[var(--gold)]">
                     {h.role}
@@ -108,12 +114,15 @@ export default function BestiaryPage() {
                   </p>
                 </div>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
 
-        <div className="mt-14" data-reveal="up">
-          <Link to="/download" className="btn-primary no-underline">
+        <div className="mt-14 flex flex-wrap gap-3" data-reveal="up">
+          <Link to="/features/heroes" className="btn-primary no-underline">
+            Hero details
+          </Link>
+          <Link to="/download" className="btn-secondary no-underline">
             Play free
           </Link>
         </div>

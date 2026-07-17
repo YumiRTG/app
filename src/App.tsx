@@ -3,6 +3,8 @@ import MainLayout from '@/layouts/MainLayout'
 import HomePage from '@/pages/HomePage'
 import StoryPage from '@/pages/StoryPage'
 import FeaturesPage from '@/pages/FeaturesPage'
+import BaseFeaturePage from '@/pages/BaseFeaturePage'
+import HeroesFeaturePage from '@/pages/HeroesFeaturePage'
 import PlayPage from '@/pages/PlayPage'
 import BestiaryPage from '@/pages/BestiaryPage'
 import DownloadPage from '@/pages/DownloadPage'
@@ -20,6 +22,8 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="story" element={<StoryPage />} />
           <Route path="features" element={<FeaturesPage />} />
+          <Route path="features/base" element={<BaseFeaturePage />} />
+          <Route path="features/heroes" element={<HeroesFeaturePage />} />
           <Route path="play" element={<PlayPage />} />
           <Route path="bestiary" element={<BestiaryPage />} />
           <Route path="download" element={<DownloadPage />} />
@@ -27,7 +31,7 @@ export default function App() {
           <Route path="daily" element={<Navigate to="/play" replace />} />
           <Route path="roulette" element={<Navigate to="/play" replace />} />
           <Route path="dinos" element={<Navigate to="/bestiary" replace />} />
-          <Route path="heroes" element={<Navigate to="/bestiary" replace />} />
+          <Route path="heroes" element={<Navigate to="/features/heroes" replace />} />
           <Route path="apk" element={<Navigate to="/download" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>

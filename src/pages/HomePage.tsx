@@ -6,20 +6,23 @@ const PILLARS = [
   {
     title: 'Build your base',
     text: 'Town halls, camps, hospitals and production chains that grow your empire while offline.',
-    img: asset('env-base.png'),
-    pos: 'center 40%',
+    img: asset('feature-base-hero.jpg'),
+    pos: 'center 35%',
+    to: '/features/base',
   },
   {
     title: 'Command heroes',
     text: 'Nyra Vale and elite allies with unique skill kits that rewrite every battle.',
-    img: asset('hero-nyra.png'),
-    pos: 'center 12%',
+    img: asset('feature-heroes-hero.jpg'),
+    pos: 'center 18%',
+    to: '/features/heroes',
   },
   {
     title: 'Tame dinosaurs',
     text: 'Tyrannosaurus, Dilophosaurus, Raptors and more — each with distinct combat roles.',
     img: asset('dino-tyranno.png'),
     pos: 'center 18%',
+    to: '/bestiary',
   },
   {
     title: 'Conquer campaigns',
@@ -246,41 +249,62 @@ export default function HomePage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" data-reveal-stagger>
-            {PILLARS.map((f, i) => (
-              <article
-                key={f.title}
-                data-reveal-item
-                className={`dd-card group ${i === 0 ? 'sm:col-span-2 lg:col-span-2 lg:row-span-1' : ''}`}
-              >
-                <div
-                  className="relative overflow-hidden bg-[#0a0810]"
-                  style={{ aspectRatio: i === 0 ? '16 / 9' : '16 / 11' }}
-                >
-                  <img
-                    src={f.img}
-                    alt={f.title}
-                    className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-[1.06]"
-                    style={{ objectFit: 'cover', objectPosition: f.pos }}
-                    loading="lazy"
-                  />
+            {PILLARS.map((f, i) => {
+              const className = `dd-card group no-underline text-inherit ${i === 0 ? 'sm:col-span-2 lg:col-span-2 lg:row-span-1' : ''}`
+              const body = (
+                <>
                   <div
-                    className="absolute inset-0 opacity-60"
-                    style={{
-                      background:
-                        'linear-gradient(to top, rgba(7,6,10,0.85) 0%, transparent 55%)',
-                    }}
-                  />
-                </div>
-                <div className="px-5 py-5">
-                  <h3 className="font-display text-xl text-white tracking-wide uppercase">
-                    {f.title}
-                  </h3>
-                  <p className="font-body text-sm text-[var(--bone-dim)] mt-2 leading-relaxed">
-                    {f.text}
-                  </p>
-                </div>
-              </article>
-            ))}
+                    className="relative overflow-hidden bg-[#0a0810]"
+                    style={{ aspectRatio: i === 0 ? '16 / 9' : '16 / 11' }}
+                  >
+                    <img
+                      src={f.img}
+                      alt={f.title}
+                      className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-[1.06]"
+                      style={{ objectFit: 'cover', objectPosition: f.pos }}
+                      loading="lazy"
+                    />
+                    <div
+                      className="absolute inset-0 opacity-60"
+                      style={{
+                        background:
+                          'linear-gradient(to top, rgba(7,6,10,0.85) 0%, transparent 55%)',
+                      }}
+                    />
+                    {'to' in f && f.to && (
+                      <span className="absolute top-3 right-3 font-ui text-[9px] tracking-[0.18em] uppercase px-2.5 py-1 rounded-full bg-black/45 border border-[var(--gold)]/30 text-[var(--gold)]">
+                        More info
+                      </span>
+                    )}
+                  </div>
+                  <div className="px-5 py-5">
+                    <h3 className="font-display text-xl text-white tracking-wide uppercase">
+                      {f.title}
+                    </h3>
+                    <p className="font-body text-sm text-[var(--bone-dim)] mt-2 leading-relaxed">
+                      {f.text}
+                    </p>
+                    {'to' in f && f.to && (
+                      <p className="font-ui text-[10px] tracking-[0.18em] uppercase text-[var(--gold)] mt-3">
+                        Learn more →
+                      </p>
+                    )}
+                  </div>
+                </>
+              )
+              if ('to' in f && f.to) {
+                return (
+                  <Link key={f.title} to={f.to} data-reveal-item className={className}>
+                    {body}
+                  </Link>
+                )
+              }
+              return (
+                <article key={f.title} data-reveal-item className={className}>
+                  {body}
+                </article>
+              )
+            })}
           </div>
 
           <div className="mt-10" data-reveal="up">
