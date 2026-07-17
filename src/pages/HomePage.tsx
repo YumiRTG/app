@@ -75,16 +75,16 @@ export default function HomePage() {
           }}
         />
 
-        {/* Title block — horizontal center, vertically higher (~22% from top) */}
-        <div className="absolute z-10 left-0 right-0 top-[18%] sm:top-[16%] md:top-[15%] container-dd flex flex-col items-center text-center">
-          <p data-hero data-hero-delay="0.05" className="eyebrow mb-3 sm:mb-4 justify-center">
+        {/* Title + CTAs higher so buttons don't sit on dinos */}
+        <div className="absolute z-10 left-0 right-0 top-[12%] sm:top-[11%] md:top-[10%] container-dd flex flex-col items-center text-center">
+          <p data-hero data-hero-delay="0.05" className="eyebrow mb-2 sm:mb-3 justify-center">
             Friend beta · Prehistoric strategy
           </p>
 
           <h1
             data-hero
             data-hero-delay="0.12"
-            className="display-xl text-white title-glow drop-shadow-[0_4px_40px_rgba(0,0,0,0.65)]"
+            className="display-xl text-white title-glow drop-shadow-[0_4px_40px_rgba(0,0,0,0.65)] !text-[clamp(2.75rem,9vw,6.5rem)]"
           >
             DINO
             <br />
@@ -94,7 +94,7 @@ export default function HomePage() {
           <div
             data-hero
             data-hero-delay="0.35"
-            className="flex flex-wrap gap-3 mt-6 sm:mt-7 justify-center"
+            className="flex flex-wrap gap-3 mt-4 sm:mt-5 justify-center"
           >
             <Link
               to="/download"
