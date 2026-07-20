@@ -484,7 +484,7 @@ export default function HomePage() {
               </h2>
               <p className="body-lg mt-5">
                 The website is the map sketch. The APK is the territory —
-                base, battles, dinos, campaign. Friend beta · ~3.5 GB · Wi‑Fi recommended.
+                base, battles, dinos, campaign. Friend beta · ~2.6 GB · Wi‑Fi recommended.
               </p>
               <div className="flex flex-wrap gap-3 mt-10">
                 <Link to="/download" className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4">

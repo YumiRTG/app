@@ -20,9 +20,9 @@ const KB: KbEntry[] = [
   {
     keys: ['download', 'apk', 'install', 'android', 'herunterladen', 'installation', 'laden'],
     answerEn:
-      'Open the Download page on your phone → tap Download APK → allow install from the browser if asked. The file is large (~3.5 GB), use Wi‑Fi. Then launch Dino Dominion.',
+      'Open the Download page on your phone → tap Download APK → allow install from the browser if asked. The file is large (~2.6 GB), use Wi‑Fi. Then launch Dino Dominion.',
     answerDe:
-      'Öffne die Download-Seite auf dem Handy → Download APK tippen → Installation aus dem Browser erlauben, falls gefragt. Die Datei ist groß (~3,5 GB), am besten per WLAN. Danach Dino Dominion starten.',
+      'Öffne die Download-Seite auf dem Handy → Download APK tippen → Installation aus dem Browser erlauben, falls gefragt. Die Datei ist groß (~2,6 GB), am besten per WLAN. Danach Dino Dominion starten.',
   },
   {
     keys: ['login', 'account', 'account id', 'anmelden', 'accountid', 'player id', 'settings', 'einstellungen'],

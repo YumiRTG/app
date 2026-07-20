@@ -78,7 +78,7 @@ export const PROGRESS_LOG: ProgressEntry[] = [
     id: 'apk-beta',
     date: '2026-07',
     title: 'Android APK friend beta',
-    body: 'Private beta APK hosted for friends (~3.5 GB). Install from the Download page; Wi‑Fi recommended.',
+    body: 'Private beta APK hosted for friends (~2.6 GB). Install from the Download page; Wi‑Fi recommended.',
     tag: 'shipped',
   },
   {
