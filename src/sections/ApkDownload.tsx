@@ -95,6 +95,8 @@ export default function ApkDownload() {
             <a
               href={APK_DOWNLOAD.apkUrl}
               download={APK_DOWNLOAD.fileName}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-primary w-full no-underline"
             >
               Download APK
