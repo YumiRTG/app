@@ -22,10 +22,12 @@ export const APK_DOWNLOAD = {
   apkUrl: 'https://gofile.io/d/kDQEbW',
 
   fileName: 'DinoDominion.apk',
-  version: '0.1.0-beta',
+  version: '0.1.1-beta',
   sizeLabel: '~2.6 GB',
   platform: 'Android',
   minAndroid: 'Android 8.0+',
+  /** Shown under the button so friends know where the file is hosted */
+  hostLabel: 'Gofile',
   notes:
-    'Private friend beta. Opens a download page — tap Download there for DinoDominion.apk (~2.6 GB). Wi‑Fi recommended. On Android, allow install from this browser/source when prompted.',
+    'Private friend beta. Opens Gofile (not Google Drive) — tap Download there for DinoDominion.apk (~2.6 GB). Wi‑Fi recommended. On Android, allow install from this browser/source when prompted.',
 } as const

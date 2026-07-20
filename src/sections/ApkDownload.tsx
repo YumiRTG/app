@@ -92,15 +92,20 @@ export default function ApkDownload() {
           )}
 
           {isReady ? (
-            <a
-              href={APK_DOWNLOAD.apkUrl}
-              download={APK_DOWNLOAD.fileName}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary w-full no-underline"
-            >
-              Download APK
-            </a>
+            <>
+              <a
+                href={APK_DOWNLOAD.apkUrl}
+                download={APK_DOWNLOAD.fileName}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary w-full no-underline"
+              >
+                Download APK
+              </a>
+              <p className="mt-3 text-center font-ui text-[10px] tracking-[0.16em] uppercase text-[var(--bone-dim)]">
+                Host · {APK_DOWNLOAD.hostLabel} · not Google Drive
+              </p>
+            </>
           ) : (
             <button type="button" disabled className="btn-primary w-full">
               APK coming soon
@@ -109,7 +114,8 @@ export default function ApkDownload() {
 
           <ol className="mt-8 space-y-2 font-body text-sm text-[var(--bone-dim)] list-decimal list-inside leading-relaxed">
             <li>Open this page on your Android phone.</li>
-            <li>Tap Download APK and wait for the file.</li>
+            <li>Tap Download APK — you land on Gofile (not Drive).</li>
+            <li>Tap Download again on Gofile and wait for the file.</li>
             <li>Allow install from this source if asked.</li>
             <li>Launch Dino Dominion and play.</li>
           </ol>
