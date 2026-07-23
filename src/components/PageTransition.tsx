@@ -21,12 +21,14 @@ export default function PageTransition() {
   useEffect(() => {
     if (!ready) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    // Skip heavy wipe on small screens — felt like flicker during navigation
+    if (window.matchMedia('(max-width: 768px)').matches) return
 
     setVariant(Math.floor(Math.random() * 3))
     setPhase('in')
 
-    const t1 = window.setTimeout(() => setPhase('out'), 280)
-    const t2 = window.setTimeout(() => setPhase('idle'), 700)
+    const t1 = window.setTimeout(() => setPhase('out'), 220)
+    const t2 = window.setTimeout(() => setPhase('idle'), 520)
 
     return () => {
       window.clearTimeout(t1)

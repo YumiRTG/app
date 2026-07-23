@@ -292,10 +292,6 @@
     transform: translateX(120%);
   }
 
-  .btn-primary {
-    animation: btn-glow-pulse 3.2s ease-in-out infinite;
-  }
-
   .btn-primary:hover {
     filter: brightness(1.12);
     transform: translateY(-2px);
@@ -566,13 +562,12 @@
     padding-bottom: calc(clamp(4rem, 10vw, 7rem) + 3vw);
   }
 
-  /* Atmosphere — deep void + violet energy (AAA landing) */
+  /* Atmosphere — static (opacity-pulse caused whole-page flicker on some GPUs) */
   .site-atmosphere {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    animation: atmosphere-breathe 10s ease-in-out infinite;
     background:
       radial-gradient(ellipse 70% 45% at 50% -5%, rgba(255, 77, 26, 0.14), transparent 55%),
       radial-gradient(ellipse 55% 40% at 90% 20%, rgba(240, 193, 77, 0.1), transparent 50%),
@@ -627,14 +622,14 @@
     box-shadow: 0 0 8px rgba(255, 77, 26, 0.45);
   }
 
-  /* Continuous light sweep across the site */
+  /* Soft light sweep — lower opacity, slower (was a common flicker source) */
   .fx-light-sweep {
     position: fixed;
     inset: 0;
     z-index: 1;
     pointer-events: none;
     overflow: hidden;
-    opacity: 0.4;
+    opacity: 0.22;
   }
 
   .fx-light-sweep::before {
@@ -642,17 +637,17 @@
     position: absolute;
     top: -20%;
     left: -40%;
-    width: 45%;
+    width: 40%;
     height: 140%;
     background: linear-gradient(
       105deg,
       transparent 0%,
-      rgba(255, 140, 60, 0.05) 40%,
-      rgba(240, 193, 77, 0.09) 50%,
-      rgba(79, 143, 99, 0.05) 60%,
+      rgba(255, 140, 60, 0.03) 40%,
+      rgba(240, 193, 77, 0.05) 50%,
+      rgba(79, 143, 99, 0.03) 60%,
       transparent 100%
     );
-    animation: light-sweep 12s ease-in-out infinite;
+    animation: light-sweep 22s ease-in-out infinite;
   }
 
   /* Drift fog layers (background) */
@@ -816,8 +811,8 @@
   inset: 0;
   z-index: 9998;
   pointer-events: none;
-  opacity: 0.045;
-  mix-blend-mode: soft-light;
+  /* Lower opacity; no mix-blend (blend layers often flicker on mobile GPUs) */
+  opacity: 0.028;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 200px;
 }
@@ -949,15 +944,34 @@
 }
 
 .title-glow {
-  animation: title-glow 5s ease-in-out infinite;
+  /* Static soft glow — animated text-shadow caused shimmer/flicker for some */
+  text-shadow: 0 0 48px rgba(255, 77, 26, 0.32), 0 0 80px rgba(79, 143, 99, 0.14);
 }
 
 .animate-orb-drift {
   animation: orb-drift 22s ease-in-out infinite;
 }
 
+/* Slow ken-burns only on desktop; static on touch devices */
 .hero-video-live {
-  animation: video-kenburns 22s ease-in-out infinite;
+  transform: scale(1.04);
+  transform-origin: center center;
+}
+
+@media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+  .hero-video-live {
+    animation: video-kenburns 28s ease-in-out infinite;
+  }
+}
+
+/* Hide expensive continuous FX on phones / small tablets */
+@media (max-width: 768px) {
+  .fx-desktop-only {
+    display: none !important;
+  }
+  .grain-overlay {
+    opacity: 0.016;
+  }
 }
 
 

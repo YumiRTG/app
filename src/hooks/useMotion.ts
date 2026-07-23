@@ -10,8 +10,9 @@ import {
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 /**
- * Page enter + scroll reveals + ambient loops.
- * Scroll uses IntersectionObserver (reliable). No Lenis — native scroll.
+ * Page enter + scroll reveals.
+ * Ambient image scale loops removed (caused flicker).
+ * Scroll uses IntersectionObserver. No Lenis.
  */
 export function usePageMotion(enabled = true) {
   const ref = useRef<HTMLDivElement>(null)
@@ -26,21 +27,23 @@ export function usePageMotion(enabled = true) {
     pageEnter(el)
 
     const killHero = animateHero(el)
-    const killReveal = initReveals(el)
-
+    // Wait one frame so layout is stable before measuring reveals (reduces flash)
+    let killReveal: (() => void) | undefined
     let killAmbient: (() => void) | undefined
-    const ambientTimer = window.setTimeout(() => {
-      killAmbient = initAmbientLoops(el)
-      ScrollTrigger.refresh()
-    }, 400)
+    let raf = 0
+    let refreshTimer = 0
 
-    const t = window.setTimeout(() => ScrollTrigger.refresh(), 300)
+    raf = window.requestAnimationFrame(() => {
+      killReveal = initReveals(el)
+      killAmbient = initAmbientLoops(el)
+      refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 200)
+    })
 
     return () => {
-      window.clearTimeout(t)
-      window.clearTimeout(ambientTimer)
+      window.cancelAnimationFrame(raf)
+      window.clearTimeout(refreshTimer)
       killHero()
-      killReveal()
+      killReveal?.()
       killAmbient?.()
     }
   }, [pathname, enabled])

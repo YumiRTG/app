@@ -14,31 +14,51 @@ export function ensureGsap() {
 export const EASE = 'power3.out'
 export const EASE_SOFT = 'power2.out'
 
+function prefersReducedMotion() {
+  return (
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+}
+
 function forceVisible(el: HTMLElement) {
-  gsap.set(el, { opacity: 1, x: 0, y: 0, scale: 1, clearProps: 'transform' })
+  el.classList.remove('reveal-pending', 'hero-pending')
+  el.classList.add('reveal-in')
+  gsap.set(el, { opacity: 1, x: 0, y: 0, scale: 1, clearProps: 'transform,opacity' })
+}
+
+function isInViewport(el: HTMLElement) {
+  const r = el.getBoundingClientRect()
+  const vh = window.innerHeight || 0
+  // Already on screen (with small margin) → show immediately, no fade-in flash
+  return r.top < vh * 0.92 && r.bottom > 0
 }
 
 /**
  * Reliable scroll reveals — never leave black empty boxes.
- * Uses IntersectionObserver (works without Lenis/ScrollTrigger quirks).
+ * Above-the-fold items skip the hide frame (prevents flicker).
  */
 export function initReveals(root: HTMLElement | Document = document) {
-  const prefersReduced =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
   const targets = Array.from(
     root.querySelectorAll<HTMLElement>('[data-reveal], [data-reveal-item]')
   )
 
-  if (prefersReduced) {
+  if (prefersReducedMotion()) {
     targets.forEach(forceVisible)
     return () => {}
   }
 
-  // Initial hidden state via class (CSS), not only GSAP
+  const delayed: HTMLElement[] = []
+
   targets.forEach((el) => {
+    if (isInViewport(el)) {
+      // No opacity:0 frame — was a major flicker source for some users
+      el.classList.remove('reveal-pending')
+      el.classList.add('reveal-in')
+      return
+    }
     el.classList.add('reveal-pending')
+    delayed.push(el)
   })
 
   const observer = new IntersectionObserver(
@@ -51,20 +71,20 @@ export function initReveals(root: HTMLElement | Document = document) {
         observer.unobserve(el)
       })
     },
-    { root: null, rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+    { root: null, rootMargin: '0px 0px -6% 0px', threshold: 0.06 }
   )
 
-  targets.forEach((el) => observer.observe(el))
+  delayed.forEach((el) => observer.observe(el))
 
   // Safety net: never stay invisible
   const safety = window.setTimeout(() => {
-    targets.forEach((el) => {
+    delayed.forEach((el) => {
       if (el.classList.contains('reveal-pending')) {
         el.classList.remove('reveal-pending')
         el.classList.add('reveal-in')
       }
     })
-  }, 2500)
+  }, 2200)
 
   // Optional GSAP parallax only (does not hide content)
   ensureGsap()
@@ -74,7 +94,7 @@ export function initReveals(root: HTMLElement | Document = document) {
   root.querySelectorAll<HTMLElement>('[data-parallax]').forEach((el) => {
     const speed = parseFloat(el.getAttribute('data-parallax') || '0.12') || 0.12
     const tween = gsap.to(el, {
-      yPercent: speed * 30,
+      yPercent: speed * 22,
       ease: 'none',
       scrollTrigger: {
         trigger: el.parentElement || el,
@@ -97,10 +117,10 @@ export function initReveals(root: HTMLElement | Document = document) {
 
 export function initBackgroundScroll() {
   ensureGsap()
-  const prefersReduced =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (prefersReduced) return () => {}
+  if (prefersReducedMotion()) return () => {}
+
+  // Skip scrubbed full-screen layers on small screens (jank/flicker)
+  if (window.matchMedia('(max-width: 768px)').matches) return () => {}
 
   const triggers: ScrollTrigger[] = []
   const tweens: gsap.core.Tween[] = []
@@ -108,12 +128,12 @@ export function initBackgroundScroll() {
   document.querySelectorAll<HTMLElement>('[data-bg-scroll]').forEach((el) => {
     const speed = parseFloat(el.getAttribute('data-bg-scroll') || '0.2') || 0.2
     const tween = gsap.to(el, {
-      y: () => Math.min(window.innerHeight * speed * 0.25, 120),
+      y: () => Math.min(window.innerHeight * speed * 0.18, 80),
       ease: 'none',
       scrollTrigger: {
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 1,
+        scrub: 1.2,
       },
     })
     tweens.push(tween)
@@ -123,12 +143,12 @@ export function initBackgroundScroll() {
   document.querySelectorAll<HTMLElement>('[data-bg-orb]').forEach((el, i) => {
     const dir = i % 2 === 0 ? 1 : -1
     const tween = gsap.to(el, {
-      y: dir * 80,
+      y: dir * 48,
       ease: 'none',
       scrollTrigger: {
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 1.2,
+        scrub: 1.4,
       },
     })
     tweens.push(tween)
@@ -143,19 +163,15 @@ export function initBackgroundScroll() {
 
 export function animateHero(root: HTMLElement) {
   ensureGsap()
-  const prefersReduced =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
   const targets = root.querySelectorAll<HTMLElement>('[data-hero]')
   if (!targets.length) return () => {}
 
-  if (prefersReduced) {
-    gsap.set(targets, { opacity: 1, y: 0, clearProps: 'all' })
+  if (prefersReducedMotion()) {
+    targets.forEach(forceVisible)
     return () => {}
   }
 
-  // CSS class based — always ends visible
+  // Only hide hero bits that aren't already painted visible
   targets.forEach((el) => {
     el.classList.add('hero-pending')
   })
@@ -168,30 +184,31 @@ export function animateHero(root: HTMLElement) {
       {
         opacity: 1,
         y: 0,
-        duration: 0.85,
+        duration: 0.7,
         onStart: () => {
           el.classList.remove('hero-pending')
         },
         onComplete: () => {
           el.classList.remove('hero-pending')
-          gsap.set(el, { clearProps: 'transform' })
+          gsap.set(el, { clearProps: 'transform,opacity' })
         },
       },
-      0.08 + delay
+      0.06 + delay
     )
   })
 
-  // Force visible if something goes wrong
   const safety = window.setTimeout(() => {
-    targets.forEach((el) => {
-      el.classList.remove('hero-pending')
-      gsap.set(el, { opacity: 1, y: 0, clearProps: 'transform' })
-    })
-  }, 2000)
+    targets.forEach(forceVisible)
+  }, 1600)
 
+  // Subtle bg settle only — no continuous ken-burns from GSAP (CSS handles static frame)
   const bg = root.querySelector<HTMLElement>('[data-hero-bg]')
-  if (bg) {
-    gsap.fromTo(bg, { scale: 1.1 }, { scale: 1.04, duration: 2.2, ease: EASE_SOFT })
+  if (bg && !window.matchMedia('(max-width: 768px)').matches) {
+    gsap.fromTo(
+      bg,
+      { scale: 1.06 },
+      { scale: 1.02, duration: 1.6, ease: EASE_SOFT, clearProps: 'transform' }
+    )
   }
 
   return () => {
@@ -200,47 +217,24 @@ export function animateHero(root: HTMLElement) {
   }
 }
 
-export function initAmbientLoops(root: HTMLElement) {
-  ensureGsap()
-  const prefersReduced =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (prefersReduced) return () => {}
-
-  const tweens: gsap.core.Tween[] = []
-
-  // Mild image drift — skip .dino-fit so full creatures stay uncropped
-  root.querySelectorAll<HTMLElement>('.media-frame img, .dd-card img').forEach((el, i) => {
-    if (el.hasAttribute('data-hero-bg')) return
-    if (el.classList.contains('dino-fit')) return
-    const t = gsap.to(el, {
-      scale: 1.05,
-      duration: 8 + (i % 4),
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-      delay: (i % 5) * 0.2,
-    })
-    tweens.push(t)
-  })
-
-  return () => {
-    tweens.forEach((t) => t.kill())
-  }
+/**
+ * Ambient loops used to scale every card image forever — that fought CSS hover
+ * transforms and caused visible flicker on many devices. Disabled on purpose.
+ */
+export function initAmbientLoops(_root: HTMLElement) {
+  return () => {}
 }
 
+/** Soft page enter — never flash opacity on the whole page. */
 export function pageEnter(el: HTMLElement) {
-  ensureGsap()
-  const prefersReduced =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (prefersReduced) {
-    gsap.set(el, { opacity: 1, y: 0 })
+  if (prefersReducedMotion()) {
+    gsap.set(el, { opacity: 1, y: 0, clearProps: 'transform,opacity' })
     return
   }
+  // Translate only (no opacity) so content never dims/flickers on route change
   gsap.fromTo(
     el,
-    { opacity: 0.4, y: 12 },
-    { opacity: 1, y: 0, duration: 0.45, ease: EASE_SOFT }
+    { y: 10 },
+    { y: 0, duration: 0.35, ease: EASE_SOFT, clearProps: 'transform' }
   )
 }
