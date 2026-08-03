@@ -5,6 +5,7 @@ import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 import SupportChat from '@/components/SupportChat'
 import PageTransition from '@/components/PageTransition'
+import Reticle from '@/components/Reticle'
 import { asset } from '@/lib/assets'
 import { useSmoothScroll } from '@/hooks/useMotion'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -134,6 +135,7 @@ export default function MainLayout() {
           <Footer />
           <PageTransition />
           <SupportChat />
+          <Reticle />
         </div>
       </div>
     </AuthProvider>

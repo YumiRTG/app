@@ -2030,6 +2030,510 @@
   }
 }
 
+/* ═══════════════════════════════════════════════════════════
+   LIVE SERVER — war room, ladders, alliances, simulation
+   ═══════════════════════════════════════════════════════════ */
+
+.war-room {
+  position: relative;
+  overflow: hidden;
+  padding: 1.75rem 0;
+  border-top: 1px solid rgba(240, 193, 77, 0.16);
+  border-bottom: 1px solid rgba(240, 193, 77, 0.16);
+  background:
+    linear-gradient(90deg, rgba(255, 77, 26, 0.07), rgba(5, 4, 10, 0.9) 22%, rgba(5, 4, 10, 0.9) 78%, rgba(61, 255, 181, 0.06));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* A slow sweep, like a radar line crossing a console */
+.war-room__scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(61, 255, 181, 0.07), transparent);
+  width: 30%;
+  animation: war-scan 9s linear infinite;
+}
+
+@keyframes war-scan {
+  0% { transform: translateX(-40%); }
+  100% { transform: translateX(400%); }
+}
+
+.war-room__grid {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+@media (min-width: 1100px) {
+  .war-room__grid {
+    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) minmax(0, 17rem);
+    gap: 2rem;
+  }
+}
+
+.war-room__title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #fff;
+  margin-top: 0.7rem;
+  line-height: 1;
+}
+
+.war-room__note {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.75rem;
+  color: var(--bone-dim);
+  margin-top: 0.4rem;
+}
+
+.war-room__readouts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+@media (min-width: 640px) {
+  .war-room__readouts {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.readout {
+  background: rgba(9, 7, 15, 0.85);
+  padding: 0.8rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.readout__value {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.readout__suffix {
+  font-size: 0.7em;
+  opacity: 0.7;
+  margin-left: 0.1em;
+}
+
+.readout__label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.season-clock {
+  border: 1px solid rgba(255, 77, 26, 0.28);
+  background: rgba(255, 77, 26, 0.05);
+  padding: 0.75rem 0.9rem;
+}
+
+.season-clock__label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--magma-glow);
+}
+
+.season-clock__cells {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.season-clock__cell {
+  text-align: center;
+  background: rgba(5, 4, 10, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.35rem 0.15rem;
+}
+
+.season-clock__num {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.season-clock__unit {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  margin-top: 0.2rem;
+}
+
+/* ─── Arena ladder ─── */
+.fighter-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  background: linear-gradient(160deg, rgba(26, 21, 36, 0.92), rgba(8, 6, 14, 0.96));
+  transition: border-color 0.35s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fighter-card:hover {
+  border-color: color-mix(in srgb, var(--mode-accent, var(--gold)) 45%, transparent);
+  transform: translateY(-3px);
+}
+
+.fighter-card__bar {
+  display: grid;
+  grid-template-columns: 2rem 2.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.fighter-card__rank {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: color-mix(in srgb, var(--mode-accent, var(--gold)) 70%, transparent);
+}
+
+.fighter-card__avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.fighter-card__name {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fighter-card__tag {
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  padding: 0.1rem 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--bone-dim);
+  flex-shrink: 0;
+}
+
+.fighter-card__meta {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.72rem;
+  color: var(--bone-dim);
+  margin-top: 0.15rem;
+}
+
+.fighter-card__points {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--gold);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.fighter-card__points span {
+  display: block;
+  font-size: 0.5rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  margin-top: 0.2rem;
+}
+
+.fighter-card__squad {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+@media (min-width: 900px) {
+  .fighter-card__squad:has(> * + * + *) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.fighter-card__teamlabel {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--mode-accent, var(--gold)) 75%, transparent);
+  margin-bottom: 0.5rem;
+}
+
+.fighter-card__heroes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.hero-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.hero-chip__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    radial-gradient(ellipse at 50% 115%, color-mix(in srgb, var(--mode-accent, var(--gold)) 22%, transparent), rgba(7, 6, 13, 0.95) 68%);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  transition: border-color 0.3s ease;
+}
+
+.hero-chip:hover .hero-chip__frame {
+  border-color: color-mix(in srgb, var(--mode-accent, var(--gold)) 60%, transparent);
+}
+
+.hero-chip__frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center 42%;
+  transform: scale(1.08);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-chip:hover .hero-chip__frame img {
+  transform: scale(1.16);
+}
+
+.hero-chip__name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone);
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hero-chip__power {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--mode-accent, var(--gold)) 80%, transparent);
+}
+
+/* ─── Alliance board ─── */
+.alliance-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid var(--crest, var(--gold));
+  border-radius: 3px;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--crest, var(--gold)) 10%, transparent), rgba(10, 8, 16, 0.95) 45%);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.alliance-card:hover {
+  transform: translateX(4px);
+}
+
+.alliance-card__crest {
+  flex-shrink: 0;
+  width: 2.8rem;
+  height: 3.1rem;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--crest, var(--gold)) 22%, rgba(5, 4, 10, 0.9));
+  border: 1px solid color-mix(in srgb, var(--crest, var(--gold)) 60%, transparent);
+  clip-path: polygon(50% 0, 100% 22%, 100% 74%, 50% 100%, 0 74%, 0 22%);
+}
+
+.alliance-card__crest span {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
+
+.alliance-card__name {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.alliance-card__meta {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.72rem;
+  color: var(--bone-dim);
+  margin-top: 0.15rem;
+}
+
+.alliance-card__power {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.alliance-card__power span {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--crest, var(--gold));
+  line-height: 1;
+}
+
+.alliance-card__power small {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.alliance-card__rank {
+  position: absolute;
+  right: 0.6rem;
+  top: 0.1rem;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--crest, var(--gold)) 30%, transparent);
+  pointer-events: none;
+}
+
+/* ─── Defense simulation ─── */
+.td-sim {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 3px;
+  background: radial-gradient(ellipse at 50% 40%, rgba(61, 255, 181, 0.05), transparent 70%);
+}
+
+.td-sim__canvas {
+  display: block;
+  width: 100%;
+}
+
+/* ─── Pointer reticle ─── */
+.reticle {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9997;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.reticle[data-on='true'] {
+  opacity: 1;
+}
+
+.reticle__ring {
+  position: absolute;
+  left: -17px;
+  top: -17px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(240, 193, 77, 0.5);
+  border-radius: 50%;
+  transition: width 0.28s ease, height 0.28s ease, left 0.28s ease, top 0.28s ease,
+    border-color 0.28s ease, transform 0.28s ease;
+}
+
+.reticle[data-lock='true'] .reticle__ring {
+  left: -13px;
+  top: -13px;
+  width: 26px;
+  height: 26px;
+  border-color: var(--magma);
+  transform: rotate(45deg);
+}
+
+.reticle__tick {
+  position: absolute;
+  background: rgba(240, 193, 77, 0.7);
+  transition: background 0.28s ease;
+}
+
+.reticle[data-lock='true'] .reticle__tick {
+  background: var(--magma);
+}
+
+.reticle__tick--n { left: -0.5px; top: -24px; width: 1px; height: 6px; }
+.reticle__tick--s { left: -0.5px; top: 18px; width: 1px; height: 6px; }
+.reticle__tick--e { left: 18px; top: -0.5px; width: 6px; height: 1px; }
+.reticle__tick--w { left: -24px; top: -0.5px; width: 6px; height: 1px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .war-room__scan {
+    animation: none !important;
+  }
+  .reticle {
+    display: none !important;
+  }
+}
+
+@media (pointer: coarse) {
+  .reticle {
+    display: none !important;
+  }
+}
+
 /* Lenis smooth scroll base */
 html.lenis,
 html.lenis body {

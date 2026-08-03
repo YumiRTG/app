@@ -9,7 +9,7 @@ import {
   SectionHead,
   SpecRail,
 } from '@/components/ModeKit'
-import { TdPathDiagram } from '@/components/ModeDiagrams'
+import TdSimulation from '@/components/TdSimulation'
 
 const mode = MODE_BY_KEY['tower-defense']
 
@@ -77,7 +77,7 @@ export default function TowerDefensePage() {
 
         <section className="mt-16 md:mt-20 grid lg:grid-cols-2 gap-8 items-center">
           <div data-reveal="left">
-            <TdPathDiagram />
+            <TdSimulation />
           </div>
           <div data-reveal="right">
             <div className="sec-ornament mb-4 max-w-[220px]">

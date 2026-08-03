@@ -3,6 +3,7 @@ import { asset } from '@/lib/assets'
 import { usePageMotion } from '@/hooks/useMotion'
 import { MODES } from '@/config/modes'
 import TopCommanders from '@/sections/TopCommanders'
+import WarRoom from '@/sections/WarRoom'
 
 const PILLARS = [
   {
@@ -124,6 +125,9 @@ export default function HomePage() {
           <span className="scroll-cue-line" />
         </div>
       </section>
+
+      {/* ═══ LIVE SERVER STRIP ═══ */}
+      <WarRoom />
 
       {/* ═══ STORY + APEX BEAST ═══ */}
       <section className="section-band relative overflow-hidden">

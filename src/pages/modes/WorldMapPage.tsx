@@ -10,6 +10,7 @@ import {
   SpecRail,
 } from '@/components/ModeKit'
 import { WorldZoneDiagram } from '@/components/ModeDiagrams'
+import AllianceStandings from '@/sections/AllianceStandings'
 
 const mode = MODE_BY_KEY['world-map']
 
@@ -141,6 +142,8 @@ export default function WorldMapPage() {
           />
           <FactGrid items={WM_SYSTEMS} />
         </section>
+
+        <AllianceStandings />
 
         <ModeFooterCta mode={mode} line="Claim your ground" />
       </div>

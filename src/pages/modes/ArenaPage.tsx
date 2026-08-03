@@ -10,6 +10,7 @@ import {
   SpecRail,
 } from '@/components/ModeKit'
 import { ArenaBracketDiagram } from '@/components/ModeDiagrams'
+import ArenaLadder from '@/sections/ArenaLadder'
 
 const mode = MODE_BY_KEY.arena
 
@@ -152,6 +153,8 @@ export default function ArenaPage() {
             <ArenaBracketDiagram />
           </div>
         </section>
+
+        <ArenaLadder />
 
         <section className="mt-16 md:mt-20">
           <SectionHead ornament="A match" title="From line-up" accentWord="to rating" />
