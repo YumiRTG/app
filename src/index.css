@@ -2466,72 +2466,14 @@
   width: 100%;
 }
 
-/* ─── Pointer reticle ─── */
-.reticle {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 9997;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.reticle[data-on='true'] {
-  opacity: 1;
-}
-
-.reticle__ring {
-  position: absolute;
-  left: -17px;
-  top: -17px;
-  width: 34px;
-  height: 34px;
-  border: 1px solid rgba(240, 193, 77, 0.5);
-  border-radius: 50%;
-  transition: width 0.28s ease, height 0.28s ease, left 0.28s ease, top 0.28s ease,
-    border-color 0.28s ease, transform 0.28s ease;
-}
-
-.reticle[data-lock='true'] .reticle__ring {
-  left: -13px;
-  top: -13px;
-  width: 26px;
-  height: 26px;
-  border-color: var(--magma);
-  transform: rotate(45deg);
-}
-
-.reticle__tick {
-  position: absolute;
-  background: rgba(240, 193, 77, 0.7);
-  transition: background 0.28s ease;
-}
-
-.reticle[data-lock='true'] .reticle__tick {
-  background: var(--magma);
-}
-
-.reticle__tick--n { left: -0.5px; top: -24px; width: 1px; height: 6px; }
-.reticle__tick--s { left: -0.5px; top: 18px; width: 1px; height: 6px; }
-.reticle__tick--e { left: 18px; top: -0.5px; width: 6px; height: 1px; }
-.reticle__tick--w { left: -24px; top: -0.5px; width: 6px; height: 1px; }
 
 @media (prefers-reduced-motion: reduce) {
   .war-room__scan {
     animation: none !important;
   }
-  .reticle {
-    display: none !important;
-  }
 }
 
 @media (pointer: coarse) {
-  .reticle {
-    display: none !important;
-  }
 }
 
 /* Lenis smooth scroll base */
