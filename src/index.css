@@ -2780,6 +2780,130 @@ a.rank-list__name:hover .rank-list__detail {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   GIFT CODE REDEMPTION
+   ═══════════════════════════════════════════════════════════ */
+
+.redeem-card {
+  position: relative;
+  overflow: hidden;
+  padding: 1.75rem 1.6rem 1.85rem;
+  border: 1px solid rgba(240, 193, 77, 0.28);
+  border-radius: 4px;
+  background: linear-gradient(160deg, rgba(34, 26, 18, 0.9), rgba(9, 7, 15, 0.97));
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+}
+
+.redeem-card::before {
+  content: '';
+  position: absolute;
+  right: -5rem;
+  top: -5rem;
+  width: 16rem;
+  height: 16rem;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.4;
+  background: radial-gradient(circle, rgba(240, 193, 77, 0.4), transparent 70%);
+  pointer-events: none;
+}
+
+.redeem-label {
+  position: relative;
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.55rem;
+}
+
+.redeem-input {
+  position: relative;
+  width: 100%;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.92rem;
+  color: var(--bone);
+  background: rgba(5, 4, 10, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  padding: 0.8rem 0.9rem;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.redeem-input::placeholder {
+  color: rgba(168, 160, 154, 0.5);
+}
+
+.redeem-input:focus {
+  border-color: rgba(240, 193, 77, 0.6);
+  box-shadow: 0 0 0 3px rgba(240, 193, 77, 0.12);
+}
+
+.redeem-input--code {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.redeem-msg {
+  position: relative;
+  margin-top: 1.25rem;
+  padding: 0.95rem 1rem;
+  border-radius: 3px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.redeem-msg--bad {
+  color: #ffb4a0;
+  border: 1px solid rgba(255, 77, 26, 0.35);
+  background: rgba(255, 77, 26, 0.08);
+}
+
+.redeem-msg--good {
+  border: 1px solid rgba(61, 255, 181, 0.35);
+  background: rgba(61, 255, 181, 0.07);
+}
+
+.redeem-rewards {
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.redeem-rewards li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(9, 7, 15, 0.9);
+}
+
+.redeem-rewards span {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.redeem-rewards strong {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--gold);
+}
+
+/* ═══════════════════════════════════════════════════════════
    PROGRESS LOG
    ═══════════════════════════════════════════════════════════ */
 

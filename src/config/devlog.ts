@@ -76,11 +76,13 @@ export const DEV_SCREENSHOTS: DevShot[] = [
     pos: 'center 45%',
   },
   {
-    src: asset('spotlight-nyra.jpg'),
+    // Not spotlight-nyra.jpg: that file has "Nyra Vale" printed on it but shows
+    // a different character entirely. hero-nyra.png is the real one.
+    src: asset('hero-nyra.png'),
     caption: 'Nyra Vale',
     note: 'The tribe leader, and the hero the campaign is written around.',
     date: 'Current build',
-    pos: 'center 25%',
+    pos: 'center 18%',
   },
   {
     src: asset('env-base-2.png'),

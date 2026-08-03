@@ -13,6 +13,7 @@ import DownloadPage from '@/pages/DownloadPage'
 import DevlogPage from '@/pages/DevlogPage'
 import ModesPage from '@/pages/ModesPage'
 import CommanderPage from '@/pages/CommanderPage'
+import RedeemPage from '@/pages/RedeemPage'
 import AlliancePage from '@/pages/AlliancePage'
 import TowerDefensePage from '@/pages/modes/TowerDefensePage'
 import ArenaPage from '@/pages/modes/ArenaPage'
@@ -46,6 +47,7 @@ export default function App() {
           <Route path="bestiary" element={<BestiaryPage />} />
           <Route path="download" element={<DownloadPage />} />
           <Route path="progress" element={<DevlogPage />} />
+          <Route path="redeem" element={<RedeemPage />} />
           {/* Public profiles */}
           <Route path="commander/:id" element={<CommanderPage />} />
           <Route path="alliance/:id" element={<AlliancePage />} />

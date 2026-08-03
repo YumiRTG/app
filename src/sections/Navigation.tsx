@@ -10,6 +10,7 @@ const navItems = [
   { label: 'Modes', to: '/modes' },
   { label: 'Features', to: '/features' },
   { label: 'Play', to: '/play' },
+  { label: 'Redeem', to: '/redeem' },
   { label: 'Bestiary', to: '/bestiary' },
   { label: 'Progress', to: '/progress' },
   { label: 'Download', to: '/download' },
