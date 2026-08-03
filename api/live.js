@@ -124,9 +124,14 @@ export default async function handler(req, res) {
     const db = await getDb()
     const players = collection(db, 'players')
 
-    const [playerAgg, allianceAgg, topDoc, seenDoc, ranks, arena, teamArena, alliances] =
+    // count() and sum() must be separate queries. Combined into one aggregation,
+    // Firestore restricts the whole result to documents that have the summed
+    // field, so the player count silently dropped from 13 to 9 because four
+    // accounts have never recorded a troopKills value.
+    const [playerCount, killsAgg, allianceAgg, topDoc, seenDoc, ranks, arena, teamArena, alliances] =
       await Promise.all([
-        getAggregateFromServer(players, { n: count(), kills: sum('troopKills') }),
+        getAggregateFromServer(players, { n: count() }),
+        getAggregateFromServer(players, { kills: sum('troopKills') }),
         getAggregateFromServer(collection(db, 'alliances'), { n: count() }),
         getDocs(query(players, orderBy('totalScore', 'desc'), limit(1))),
         getDocs(query(players, orderBy('lastOnline', 'desc'), limit(1))),
@@ -142,9 +147,9 @@ export default async function handler(req, res) {
     res.status(200).json({
       generatedAt: Date.now(),
       pulse: {
-        commanders: playerAgg.data().n,
+        commanders: playerCount.data().n,
         alliances: allianceAgg.data().n,
-        troopKills: num(playerAgg.data().kills),
+        troopKills: num(killsAgg.data().kills),
         topPower: Math.max(num(top?.totalScore), num(top?.powerScore)),
         lastSeenMinutes: seenAt
           ? Math.max(0, Math.round((Date.now() - seenAt * 1000) / 60000))
