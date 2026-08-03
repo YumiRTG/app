@@ -1,24 +1,107 @@
-import {
-  collection,
-  count,
-  getAggregateFromServer,
-  getDocs,
-  limit as fbLimit,
-  orderBy,
-  query,
-  sum,
-} from 'firebase/firestore'
-import { getFirebase } from '@/lib/firebase'
-import { ensureAnonymousAuth } from '@/lib/firebaseAccounts'
 import { asset } from '@/lib/assets'
 
 /**
- * Live reads of the running game server.
+ * Live game data for the website.
  *
- * Everything here comes out of collections the Unity client already writes and
- * that anonymous clients may read: `players`, `alliances`, `arena`, `teamarena`.
- * Nothing is computed on a server, so the site stays on the free Firebase tier.
+ * The browser no longer talks to Firestore for any of this. It fetches a single
+ * snapshot from /api/live, which is cached at Vercel's edge for twenty minutes,
+ * so the database is read at most once per twenty minutes for the whole world
+ * however many people load the page. Refreshing, crawlers and anyone holding F5
+ * all hit the CDN, not the bill.
+ *
+ * A second cache in sessionStorage means a refresh in the same tab does not even
+ * make the network call.
  */
+
+const SNAPSHOT_URL = '/api/live'
+const CACHE_KEY = 'dd_live_snapshot_v1'
+const CACHE_MS = 20 * 60 * 1000
+
+type RawHero = { id: string; name: string; power: number }
+type RawFighter = {
+  uid: string
+  name: string
+  points: number
+  wins: number
+  losses: number
+  defensePower: number
+  isBot: boolean
+  avatar: number
+  heroes: RawHero[]
+  teamPower: number[]
+}
+type RawRank = { uid: string; name: string; value: number; detail?: string; avatar: number }
+
+type Snapshot = {
+  generatedAt: number
+  error?: string
+  pulse: {
+    commanders: number
+    alliances: number
+    troopKills: number
+    topPower: number
+    lastSeenMinutes: number | null
+  }
+  ranks: Record<string, RawRank[]>
+  arena: RawFighter[]
+  teamArena: RawFighter[]
+  alliances: {
+    id: string
+    name: string
+    tag: string
+    power: number
+    members: number
+    level: number
+    exp: number
+    color: string
+  }[]
+}
+
+let inflight: Promise<Snapshot> | null = null
+
+function readCache(): Snapshot | null {
+  try {
+    const raw = sessionStorage.getItem(CACHE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as { at: number; data: Snapshot }
+    if (Date.now() - parsed.at > CACHE_MS) return null
+    return parsed.data
+  } catch {
+    return null
+  }
+}
+
+/** One snapshot per page load, and per tab within the cache window. */
+export function getSnapshot(): Promise<Snapshot> {
+  if (inflight) return inflight
+
+  const cached = readCache()
+  if (cached) {
+    inflight = Promise.resolve(cached)
+    return inflight
+  }
+
+  inflight = fetch(SNAPSHOT_URL)
+    .then((r) => {
+      if (!r.ok) throw new Error(`live snapshot ${r.status}`)
+      return r.json() as Promise<Snapshot>
+    })
+    .then((data) => {
+      if (data.error) throw new Error(data.error)
+      try {
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), data }))
+      } catch {
+        // Private mode or a full quota; the in-memory cache still holds.
+      }
+      return data
+    })
+    .catch((err) => {
+      inflight = null // let a later section retry
+      throw err
+    })
+
+  return inflight
+}
 
 // ─── Season clock ───────────────────────────────────────────────────────────
 // Mirrors ArenaService.SeasonEpoch: Monday 05.01.2026 00:00 UTC, one week each.
@@ -84,20 +167,6 @@ function avatarPath(iconId: unknown, fallbackSeed: string): string {
   return asset(`avatars/avatar${(hash % 10) + 1}.jpg`)
 }
 
-function num(v: unknown): number {
-  if (typeof v === 'number' && Number.isFinite(v)) return v
-  if (typeof v === 'string' && v.trim() && !Number.isNaN(Number(v))) return Number(v)
-  return 0
-}
-
-function strArray(v: unknown): string[] {
-  return Array.isArray(v) ? v.map((x) => String(x)) : []
-}
-
-function numArray(v: unknown): number[] {
-  return Array.isArray(v) ? v.map((x) => num(x)) : []
-}
-
 // ─── Server pulse ───────────────────────────────────────────────────────────
 
 export type ServerPulse = {
@@ -109,42 +178,9 @@ export type ServerPulse = {
   lastSeenMinutes: number | null
 }
 
-/**
- * Server pulse in a constant number of reads.
- *
- * The first version of this pulled every player and alliance document on every
- * page load. That is fine at thirteen players and ruinous at a thousand, where
- * each visitor would have cost ~1,000 reads. Firestore bills a count() or sum()
- * aggregation as one read per 1,000 index entries scanned, and a limit(1) query
- * as one read, so this is four reads whatever the player count.
- */
 export async function getServerPulse(): Promise<ServerPulse> {
-  await ensureAnonymousAuth()
-  const { db } = getFirebase()
-
-  const players = collection(db, 'players')
-
-  const [playerAgg, allianceAgg, topDoc, seenDoc] = await Promise.all([
-    getAggregateFromServer(players, { n: count(), kills: sum('troopKills') }),
-    getAggregateFromServer(collection(db, 'alliances'), { n: count() }),
-    getDocs(query(players, orderBy('totalScore', 'desc'), fbLimit(1))),
-    getDocs(query(players, orderBy('lastOnline', 'desc'), fbLimit(1))),
-  ])
-
-  const top = topDoc.docs[0]?.data() as Record<string, unknown> | undefined
-  const seen = seenDoc.docs[0]?.data() as Record<string, unknown> | undefined
-  const lastOnline = (seen?.lastOnline as { seconds?: number } | undefined)?.seconds
-
-  return {
-    commanders: playerAgg.data().n,
-    alliances: allianceAgg.data().n,
-    troopKills: num(playerAgg.data().kills),
-    topPower: Math.max(num(top?.totalScore), num(top?.powerScore)),
-    season: currentSeason(),
-    lastSeenMinutes: lastOnline
-      ? Math.max(0, Math.round((Date.now() - lastOnline * 1000) / 60000))
-      : null,
-  }
+  const s = await getSnapshot()
+  return { ...s.pulse, season: currentSeason() }
 }
 
 // ─── Arena ladders ──────────────────────────────────────────────────────────
@@ -165,42 +201,23 @@ export type ArenaFighter = {
   teamPower: number[]
 }
 
-async function readLadder(col: 'arena' | 'teamarena', count: number): Promise<ArenaFighter[]> {
-  await ensureAnonymousAuth()
-  const { db } = getFirebase()
-
-  const snap = await getDocs(
-    query(collection(db, col), orderBy('points', 'desc'), fbLimit(count)),
-  )
-
-  return snap.docs.map((d) => {
-    const x = d.data() as Record<string, unknown>
-    const ids = strArray(x.heroIds)
-    const names = strArray(x.heroNames)
-    const powers = numArray(x.heroPower)
-
-    return {
-      uid: d.id,
-      name: (typeof x.name === 'string' && x.name.trim()) || 'Commander',
-      points: num(x.points),
-      wins: num(x.wins),
-      losses: num(x.losses),
-      defensePower: num(x.defensePower) || num(x.totalPower),
-      isBot: x.isBot === true,
-      avatar: avatarPath(x.avatarIconId, d.id),
-      heroes: ids.map((id, i) => ({
-        id,
-        name: names[i] ?? id,
-        power: powers[i] ?? 0,
-        art: heroArt(id),
-      })),
-      teamPower: numArray(x.teamPower),
-    }
-  })
+function toFighter(f: RawFighter): ArenaFighter {
+  return {
+    ...f,
+    avatar: avatarPath(f.avatar, f.uid),
+    heroes: f.heroes.map((h) => ({ ...h, art: heroArt(h.id) })),
+  }
 }
 
-export const getArenaLadder = (count = 5) => readLadder('arena', count)
-export const getTeamArenaLadder = (count = 5) => readLadder('teamarena', count)
+export async function getArenaLadder(count = 5): Promise<ArenaFighter[]> {
+  const s = await getSnapshot()
+  return s.arena.slice(0, count).map(toFighter)
+}
+
+export async function getTeamArenaLadder(count = 5): Promise<ArenaFighter[]> {
+  const s = await getSnapshot()
+  return s.teamArena.slice(0, count).map(toFighter)
+}
 
 // ─── Alliances ──────────────────────────────────────────────────────────────
 
@@ -216,29 +233,18 @@ export type AllianceEntry = {
 }
 
 export async function getTopAlliances(count = 6): Promise<AllianceEntry[]> {
-  await ensureAnonymousAuth()
-  const { db } = getFirebase()
+  const s = await getSnapshot()
+  return s.alliances.slice(0, count)
+}
 
-  const snap = await getDocs(
-    query(collection(db, 'alliances'), orderBy('totalPower', 'desc'), fbLimit(count)),
-  )
+/** Leaderboard rows, straight from the cached snapshot. */
+export async function getRankRows(categoryId: string): Promise<RawRank[]> {
+  const s = await getSnapshot()
+  return s.ranks[categoryId] ?? []
+}
 
-  return snap.docs.map((d) => {
-    const x = d.data() as Record<string, unknown>
-    return {
-      id: d.id,
-      name: (typeof x.name === 'string' && x.name.trim()) || 'Unnamed',
-      tag: (typeof x.tag === 'string' && x.tag.trim()) || '???',
-      power: num(x.totalPower),
-      members: num(x.memberCount),
-      level: Math.max(1, num(x.level)),
-      exp: num(x.allianceExp),
-      color:
-        typeof x.territoryColor === 'string' && /^#[0-9a-f]{6}$/i.test(x.territoryColor)
-          ? x.territoryColor
-          : '#f0c14d',
-    }
-  })
+export function avatarUrl(iconIndex: number, seed: string): string {
+  return avatarPath(iconIndex, seed)
 }
 
 // ─── Formatting ─────────────────────────────────────────────────────────────
