@@ -1,4 +1,13 @@
-import { collection, getDocs, limit as fbLimit, orderBy, query } from 'firebase/firestore'
+import {
+  collection,
+  count,
+  getAggregateFromServer,
+  getDocs,
+  limit as fbLimit,
+  orderBy,
+  query,
+  sum,
+} from 'firebase/firestore'
 import { getFirebase } from '@/lib/firebase'
 import { ensureAnonymousAuth } from '@/lib/firebaseAccounts'
 import { asset } from '@/lib/assets'
@@ -100,35 +109,40 @@ export type ServerPulse = {
   lastSeenMinutes: number | null
 }
 
+/**
+ * Server pulse in a constant number of reads.
+ *
+ * The first version of this pulled every player and alliance document on every
+ * page load. That is fine at thirteen players and ruinous at a thousand, where
+ * each visitor would have cost ~1,000 reads. Firestore bills a count() or sum()
+ * aggregation as one read per 1,000 index entries scanned, and a limit(1) query
+ * as one read, so this is four reads whatever the player count.
+ */
 export async function getServerPulse(): Promise<ServerPulse> {
   await ensureAnonymousAuth()
   const { db } = getFirebase()
 
-  const [players, alliances] = await Promise.all([
-    getDocs(collection(db, 'players')),
-    getDocs(collection(db, 'alliances')),
+  const players = collection(db, 'players')
+
+  const [playerAgg, allianceAgg, topDoc, seenDoc] = await Promise.all([
+    getAggregateFromServer(players, { n: count(), kills: sum('troopKills') }),
+    getAggregateFromServer(collection(db, 'alliances'), { n: count() }),
+    getDocs(query(players, orderBy('totalScore', 'desc'), fbLimit(1))),
+    getDocs(query(players, orderBy('lastOnline', 'desc'), fbLimit(1))),
   ])
 
-  let troopKills = 0
-  let topPower = 0
-  let newestOnline = 0
-
-  players.docs.forEach((d) => {
-    const x = d.data() as Record<string, unknown>
-    troopKills += num(x.troopKills)
-    topPower = Math.max(topPower, num(x.totalScore), num(x.powerScore))
-    const t = x.lastOnline as { seconds?: number } | undefined
-    if (t?.seconds) newestOnline = Math.max(newestOnline, t.seconds * 1000)
-  })
+  const top = topDoc.docs[0]?.data() as Record<string, unknown> | undefined
+  const seen = seenDoc.docs[0]?.data() as Record<string, unknown> | undefined
+  const lastOnline = (seen?.lastOnline as { seconds?: number } | undefined)?.seconds
 
   return {
-    commanders: players.size,
-    alliances: alliances.size,
-    troopKills,
-    topPower,
+    commanders: playerAgg.data().n,
+    alliances: allianceAgg.data().n,
+    troopKills: num(playerAgg.data().kills),
+    topPower: Math.max(num(top?.totalScore), num(top?.powerScore)),
     season: currentSeason(),
-    lastSeenMinutes: newestOnline
-      ? Math.max(0, Math.round((Date.now() - newestOnline) / 60000))
+    lastSeenMinutes: lastOnline
+      ? Math.max(0, Math.round((Date.now() - lastOnline * 1000) / 60000))
       : null,
   }
 }
