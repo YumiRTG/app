@@ -217,8 +217,9 @@ export default function CommanderPage() {
           </section>
         </div>
 
-        {/* Research + city */}
-        <div className="grid lg:grid-cols-2 gap-4 mt-4">
+        {/* Research + city. Start-aligned: the research panel is short and was
+            being stretched to match the building list. */}
+        <div className="grid lg:grid-cols-2 gap-4 mt-4 items-start">
           <section className="rank-panel p-5 md:p-6" data-reveal="up">
             <div className="flex items-baseline justify-between gap-3">
               <h2 className="font-display text-xl text-white uppercase tracking-wide">Research</h2>

@@ -2296,10 +2296,13 @@
   margin-bottom: 0.5rem;
 }
 
+/* Cap the portraits. Left to fill a full-width card they render enormous,
+   because a solo squad is a single group spanning the whole row. */
 .fighter-card__heroes {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(3, minmax(0, 6.5rem));
+  justify-content: start;
+  gap: 0.6rem;
 }
 
 .hero-chip {
@@ -2693,18 +2696,18 @@
   border: 1px solid color-mix(in srgb, var(--crest, var(--gold)) 30%, transparent);
   border-left: 4px solid var(--crest, var(--gold));
   border-radius: 4px;
-  background: linear-gradient(115deg, color-mix(in srgb, var(--crest, var(--gold)) 14%, transparent), rgba(9, 7, 15, 0.97) 50%);
+  background: linear-gradient(115deg, color-mix(in srgb, var(--crest, var(--gold)) 10%, transparent), rgba(9, 7, 15, 0.97) 38%);
 }
 
 .alliance-hero__wash {
   position: absolute;
-  left: -10%;
-  top: -60%;
-  width: 22rem;
-  height: 22rem;
+  left: -14%;
+  top: -75%;
+  width: 26rem;
+  height: 26rem;
   border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.32;
+  filter: blur(90px);
+  opacity: 0.22;
   background: radial-gradient(circle, var(--crest, var(--gold)), transparent 70%);
   pointer-events: none;
 }
