@@ -45,7 +45,6 @@ export const DEV_SCREENSHOTS: DevShot[] = [
     caption: 'Hero combat',
     note: 'Turn-based hero battle running in the Unity client, with skills and ultimates firing.',
     date: 'Current build',
-    featured: true,
   },
   {
     src: asset('gameplay-troops.mp4'),
@@ -60,6 +59,7 @@ export const DEV_SCREENSHOTS: DevShot[] = [
     note: 'Your base, where production, research and training all live.',
     date: 'Current build',
     pos: 'center 45%',
+    featured: true,
   },
   {
     src: asset('campaign-map.png'),

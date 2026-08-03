@@ -15,38 +15,52 @@ const STATUS_STYLE: Record<string, { label: string; color: string }> = {
   soon: { label: 'Soon', color: '#3dffb5' },
 }
 
+/** Still capture. Landscape tile, wide slot when featured. */
 function Shot({ shot }: { shot: DevShot }) {
   return (
     <figure className={`shot ${shot.featured ? 'shot--wide' : ''}`} data-reveal-item>
       <div className="shot__media">
-        {shot.video ? (
-          <video
-            src={shot.src}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="shot__img"
-            style={{ objectPosition: shot.pos }}
-          />
-        ) : (
-          <img
-            src={shot.src}
-            alt={shot.caption}
-            className="shot__img"
-            style={{ objectPosition: shot.pos ?? 'center center' }}
-            loading="lazy"
-          />
-        )}
+        <img
+          src={shot.src}
+          alt={shot.caption}
+          className="shot__img"
+          style={{ objectPosition: shot.pos ?? 'center center' }}
+          loading="lazy"
+        />
         <div className="shot__scrim" />
-        {shot.video && <span className="shot__live">Clip</span>}
         <figcaption className="shot__cap">
           {shot.date && <span className="shot__date">{shot.date}</span>}
           <span className="shot__title">{shot.caption}</span>
           <span className="shot__note">{shot.note}</span>
         </figcaption>
       </div>
+    </figure>
+  )
+}
+
+/**
+ * The clips are phone captures, 382x850. Cropping them into a landscape tile
+ * throws away most of the frame, so they get a portrait frame instead.
+ */
+function Clip({ shot }: { shot: DevShot }) {
+  return (
+    <figure className="clip" data-reveal-item>
+      <div className="clip__frame">
+        <video
+          src={shot.src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          className="clip__video"
+        />
+        <span className="shot__live">Live capture</span>
+      </div>
+      <figcaption className="clip__cap">
+        <span className="shot__title">{shot.caption}</span>
+        <span className="shot__note">{shot.note}</span>
+      </figcaption>
     </figure>
   )
 }
@@ -117,8 +131,14 @@ export default function DevlogPage() {
             </div>
           </div>
 
-          <div className="shot-grid" data-reveal-stagger>
-            {DEV_SCREENSHOTS.map((s) => (
+          <div className="clip-row" data-reveal-stagger>
+            {DEV_SCREENSHOTS.filter((s) => s.video).map((s) => (
+              <Clip key={s.src} shot={s} />
+            ))}
+          </div>
+
+          <div className="shot-grid mt-4" data-reveal-stagger>
+            {DEV_SCREENSHOTS.filter((s) => !s.video).map((s) => (
               <Shot key={s.src} shot={s} />
             ))}
           </div>
