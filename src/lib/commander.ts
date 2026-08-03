@@ -1,4 +1,5 @@
 import { asset } from '@/lib/assets'
+import { clearSnapshotCache } from '@/lib/live'
 
 /**
  * Public commander and alliance profiles.
@@ -60,7 +61,12 @@ export type Commander = {
 
 export async function getCommander(token: string): Promise<Commander | null> {
   const res = await fetch(`/api/commander?token=${encodeURIComponent(token)}`)
-  if (!res.ok) return null
+  if (!res.ok) {
+    // Most likely a token minted before the server secret was rotated. Drop the
+    // cached snapshot so the next page load gets links that actually work.
+    if (res.status === 404) clearSnapshotCache()
+    return null
+  }
   const d = (await res.json()) as Record<string, unknown>
   if (!d || d.error) return null
 

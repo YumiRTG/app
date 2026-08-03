@@ -14,7 +14,7 @@ import { asset } from '@/lib/assets'
  */
 
 const SNAPSHOT_URL = '/api/live'
-const CACHE_KEY = 'dd_live_snapshot_v1'
+const CACHE_KEY = 'dd_live_snapshot_v2'
 const CACHE_MS = 20 * 60 * 1000
 
 type RawHero = { id: string; name: string; power: number }
@@ -68,6 +68,23 @@ function readCache(): Snapshot | null {
     return parsed.data
   } catch {
     return null
+  }
+}
+
+/**
+ * Throw the cached snapshot away.
+ *
+ * Profile tokens are derived from a server-side secret. If that secret is
+ * rotated, every token already sitting in a cache stops decoding and profile
+ * links 404. Rather than make people wait out the cache, a failed lookup can
+ * clear this and pull a fresh snapshot with valid tokens.
+ */
+export function clearSnapshotCache(): void {
+  inflight = null
+  try {
+    sessionStorage.removeItem(CACHE_KEY)
+  } catch {
+    // Nothing to clear.
   }
 }
 
