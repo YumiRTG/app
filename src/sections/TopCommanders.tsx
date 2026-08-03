@@ -133,7 +133,12 @@ export default function TopCommanders() {
                   </>
                 ) : champion ? (
                   <>
-                    <p className="champion-card__name">{champion.name}</p>
+                    <Link
+                      to={`/commander/${champion.uid}`}
+                      className="champion-card__name no-underline block"
+                    >
+                      {champion.name}
+                    </Link>
                     <p className="champion-card__value">{formatRankValue(champion.value)}</p>
                     <p className="font-ui text-[10px] tracking-[0.22em] uppercase text-[var(--bone-dim)] mt-1.5">
                       {cat.unit}
@@ -169,10 +174,10 @@ export default function TopCommanders() {
                         className="rank-list__avatar"
                         loading="lazy"
                       />
-                      <span className="rank-list__name">
+                      <Link to={`/commander/${r.uid}`} className="rank-list__name no-underline">
                         {r.name}
                         {r.detail && <span className="rank-list__detail">{r.detail}</span>}
-                      </span>
+                      </Link>
                       <span className="rank-list__value">{formatRankValue(r.value)}</span>
                     </li>
                   ))}

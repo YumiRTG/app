@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 import { compact, getTopAlliances, type AllianceEntry } from '@/lib/live'
 
 /**
@@ -46,9 +47,10 @@ export default function AllianceStandings() {
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-reveal-stagger>
           {list.map((a, i) => (
-            <article
+            <Link
               key={a.id}
-              className="alliance-card"
+              to={`/alliance/${a.id}`}
+              className="alliance-card no-underline text-inherit"
               data-reveal-item
               style={{ ['--crest' as string]: a.color }}
             >
@@ -66,7 +68,7 @@ export default function AllianceStandings() {
                 <small>power</small>
               </div>
               <span className="alliance-card__rank">{String(i + 1).padStart(2, '0')}</span>
-            </article>
+            </Link>
           ))}
         </div>
       )}

@@ -12,6 +12,8 @@ import BestiaryPage from '@/pages/BestiaryPage'
 import DownloadPage from '@/pages/DownloadPage'
 import DevlogPage from '@/pages/DevlogPage'
 import ModesPage from '@/pages/ModesPage'
+import CommanderPage from '@/pages/CommanderPage'
+import AlliancePage from '@/pages/AlliancePage'
 import TowerDefensePage from '@/pages/modes/TowerDefensePage'
 import ArenaPage from '@/pages/modes/ArenaPage'
 import WorldMapPage from '@/pages/modes/WorldMapPage'
@@ -44,6 +46,9 @@ export default function App() {
           <Route path="bestiary" element={<BestiaryPage />} />
           <Route path="download" element={<DownloadPage />} />
           <Route path="progress" element={<DevlogPage />} />
+          {/* Public profiles */}
+          <Route path="commander/:id" element={<CommanderPage />} />
+          <Route path="alliance/:id" element={<AlliancePage />} />
           {/* Short aliases */}
           <Route path="tower-defense" element={<Navigate to="/modes/tower-defense" replace />} />
           <Route path="arena" element={<Navigate to="/modes/arena" replace />} />

@@ -2473,7 +2473,307 @@
   }
 }
 
-@media (pointer: coarse) {
+/* ═══════════════════════════════════════════════════════════
+   PUBLIC PROFILES — commander and alliance pages
+   ═══════════════════════════════════════════════════════════ */
+
+.cmd-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 17rem;
+  overflow: hidden;
+  padding: 1.75rem;
+  border: 1px solid rgba(240, 193, 77, 0.24);
+  border-radius: 4px;
+  background: linear-gradient(150deg, rgba(32, 24, 16, 0.95), rgba(8, 6, 14, 0.98));
+}
+
+.cmd-hero__glow {
+  position: absolute;
+  right: -8%;
+  top: -30%;
+  width: 26rem;
+  height: 26rem;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.5;
+  background: radial-gradient(circle, rgba(255, 77, 26, 0.5), transparent 70%);
+  pointer-events: none;
+}
+
+.cmd-hero__art {
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15rem;
+  height: 15rem;
+  object-fit: cover;
+  border-radius: 50%;
+  opacity: 0.45;
+  mask-image: radial-gradient(circle at 50% 50%, #000 50%, transparent 72%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 50%, transparent 72%);
+}
+
+.cmd-hero__body {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.cmd-hero__name {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 5.5vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  color: #fff;
+  margin-top: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.cmd-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: 0.75rem;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.cmd-hero__alliance {
+  color: var(--crest, var(--gold));
+  border-bottom: 1px solid color-mix(in srgb, var(--crest, var(--gold)) 45%, transparent);
+}
+
+.cmd-hero__power {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 3.75rem);
+  line-height: 1;
+  margin-top: 1.1rem;
+  background: linear-gradient(90deg, #fff3c4, #f5c15d 55%, #c49a3c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pbar__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pbar__label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.pbar__value {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.pbar__track {
+  margin-top: 0.4rem;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.pbar__fill {
+  display: block;
+  height: 100%;
+  transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tier-strip {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 3px;
+  height: 2.75rem;
+  margin-top: 0.55rem;
+}
+
+.tier-strip__cell {
+  display: flex;
+  align-items: flex-end;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.tier-strip__cell > span {
+  display: block;
+  width: 100%;
+  background: linear-gradient(180deg, var(--gold), var(--magma));
+  opacity: 0.3;
+}
+
+.tier-strip__cell[data-filled='true'] > span {
+  opacity: 1;
+}
+
+.node-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(1.5rem, 1fr));
+  gap: 4px;
+}
+
+.node {
+  display: flex;
+  align-items: flex-end;
+  height: 2.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.node > span {
+  display: block;
+  width: 100%;
+  background: linear-gradient(180deg, var(--cyan), rgba(56, 232, 255, 0.25));
+}
+
+.build-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.build-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.build-list li:last-child {
+  border-bottom: 0;
+}
+
+.build-list__name {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.85rem;
+  color: var(--bone);
+}
+
+.build-list__name em {
+  font-style: normal;
+  color: var(--bone-dim);
+  font-size: 0.78rem;
+}
+
+.build-list__lvl {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--gold);
+}
+
+.alliance-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  overflow: hidden;
+  padding: 1.75rem;
+  border: 1px solid color-mix(in srgb, var(--crest, var(--gold)) 30%, transparent);
+  border-left: 4px solid var(--crest, var(--gold));
+  border-radius: 4px;
+  background: linear-gradient(115deg, color-mix(in srgb, var(--crest, var(--gold)) 14%, transparent), rgba(9, 7, 15, 0.97) 50%);
+}
+
+.alliance-hero__wash {
+  position: absolute;
+  left: -10%;
+  top: -60%;
+  width: 22rem;
+  height: 22rem;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.32;
+  background: radial-gradient(circle, var(--crest, var(--gold)), transparent 70%);
+  pointer-events: none;
+}
+
+.alliance-hero__crest {
+  position: relative;
+  flex-shrink: 0;
+  width: 4.5rem;
+  height: 5rem;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--crest, var(--gold)) 26%, rgba(5, 4, 10, 0.9));
+  border: 1px solid color-mix(in srgb, var(--crest, var(--gold)) 65%, transparent);
+  clip-path: polygon(50% 0, 100% 22%, 100% 74%, 50% 100%, 0 74%, 0 22%);
+}
+
+.alliance-hero__crest span {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.alliance-hero__name {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1.85rem, 4.5vw, 3rem);
+  line-height: 1;
+  color: #fff;
+  margin-top: 0.7rem;
+  overflow-wrap: anywhere;
+}
+
+.alliance-hero__meta {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  margin-top: 0.6rem;
+}
+
+.alliance-hero__power {
+  position: relative;
+  margin-left: auto;
+  text-align: right;
+}
+
+.alliance-hero__power span {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1;
+  color: var(--crest, var(--gold));
+}
+
+.alliance-hero__power small {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+a.rank-list__name:hover,
+a.rank-list__name:hover .rank-list__detail {
+  color: var(--gold);
 }
 
 /* Lenis smooth scroll base */
