@@ -19,7 +19,7 @@ const CACHE_MS = 20 * 60 * 1000
 
 type RawHero = { id: string; name: string; power: number }
 type RawFighter = {
-  uid: string
+  token: string
   name: string
   points: number
   wins: number
@@ -30,7 +30,7 @@ type RawFighter = {
   heroes: RawHero[]
   teamPower: number[]
 }
-type RawRank = { uid: string; name: string; value: number; detail?: string; avatar: number }
+type RawRank = { token: string; name: string; value: number; detail?: string; avatar: number }
 
 type Snapshot = {
   generatedAt: number
@@ -188,7 +188,8 @@ export async function getServerPulse(): Promise<ServerPulse> {
 export type ArenaHero = { id: string; name: string; power: number; art: string }
 
 export type ArenaFighter = {
-  uid: string
+  /** Opaque profile token. The Account ID never reaches the browser. */
+  token: string
   name: string
   points: number
   wins: number
@@ -204,7 +205,7 @@ export type ArenaFighter = {
 function toFighter(f: RawFighter): ArenaFighter {
   return {
     ...f,
-    avatar: avatarPath(f.avatar, f.uid),
+    avatar: avatarPath(f.avatar, f.token),
     heroes: f.heroes.map((h) => ({ ...h, art: heroArt(h.id) })),
   }
 }

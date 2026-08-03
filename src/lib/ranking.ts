@@ -53,7 +53,8 @@ export const RANK_CATEGORIES: RankCategory[] = [
 ]
 
 export type RankEntry = {
-  uid: string
+  /** Opaque profile token, not the Account ID. */
+  token: string
   name: string
   value: number
   detail?: string
@@ -64,11 +65,11 @@ export type RankEntry = {
 export async function getTopPlayers(cat: RankCategory, count = 10): Promise<RankEntry[]> {
   const rows = await getRankRows(cat.id)
   return rows.slice(0, count).map((r) => ({
-    uid: r.uid,
+    token: r.token,
     name: r.name,
     value: r.value,
     detail: r.detail,
-    avatar: avatarUrl(r.avatar, r.uid),
+    avatar: avatarUrl(r.avatar, r.token),
   }))
 }
 

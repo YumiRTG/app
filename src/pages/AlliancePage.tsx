@@ -95,10 +95,10 @@ export default function AlliancePage() {
           <div className="rank-panel" data-reveal="up">
             <ol className="rank-list">
               {a.members.map((m, i) => (
-                <li key={m.uid} className="rank-list__row">
+                <li key={m.token} className="rank-list__row">
                   <span className="rank-list__pos">{String(i + 1).padStart(2, '0')}</span>
                   <img src={m.avatar} alt="" className="rank-list__avatar" loading="lazy" />
-                  <Link to={`/commander/${m.uid}`} className="rank-list__name no-underline">
+                  <Link to={`/commander/${m.token}`} className="rank-list__name no-underline">
                     {m.name}
                     <span className="rank-list__detail">
                       {m.role}

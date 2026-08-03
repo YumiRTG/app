@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { usePageMotion } from '@/hooks/useMotion'
-import { getAlliance, getCommander, type Alliance, type Commander } from '@/lib/commander'
+import { getCommander, type Commander } from '@/lib/commander'
 import { compact } from '@/lib/live'
 
 /**
@@ -40,13 +40,12 @@ export default function CommanderPage() {
   const motionRef = usePageMotion()
   const [state, setState] = useState<'loading' | 'ready' | 'missing'>('loading')
   const [c, setC] = useState<Commander | null>(null)
-  const [alliance, setAlliance] = useState<Alliance | null>(null)
 
   useEffect(() => {
     let alive = true
 
     getCommander(id)
-      .then(async (found) => {
+      .then((found) => {
         if (!alive) return
         if (!found) {
           setState('missing')
@@ -54,10 +53,6 @@ export default function CommanderPage() {
         }
         setC(found)
         setState('ready')
-        if (found.allianceId) {
-          const a = await getAlliance(found.allianceId).catch(() => null)
-          if (alive) setAlliance(a)
-        }
       })
       .catch(() => alive && setState('missing'))
 
@@ -118,13 +113,13 @@ export default function CommanderPage() {
                   <h1 className="cmd-hero__name">{c.name}</h1>
                   <div className="cmd-hero__meta">
                     <span>Town Hall {c.townHallLevel}</span>
-                    {alliance && (
+                    {c.alliance && (
                       <Link
-                        to={`/alliance/${alliance.id}`}
+                        to={`/alliance/${c.alliance.id}`}
                         className="cmd-hero__alliance no-underline"
-                        style={{ ['--crest' as string]: alliance.color }}
+                        style={{ ['--crest' as string]: c.alliance.color }}
                       >
-                        [{alliance.tag}] {alliance.name}
+                        [{c.alliance.tag}] {c.alliance.name}
                       </Link>
                     )}
                     {c.seenLabel && <span>{c.seenLabel}</span>}

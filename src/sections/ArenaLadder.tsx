@@ -154,7 +154,7 @@ export default function ArenaLadder() {
       ) : (
         <div className="grid gap-3" data-reveal-stagger>
           {rows.map((f, i) => (
-            <FighterCard key={f.uid} f={f} rank={i + 1} teams={tab === 'team'} />
+            <FighterCard key={f.token} f={f} rank={i + 1} teams={tab === 'team'} />
           ))}
         </div>
       )}

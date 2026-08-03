@@ -134,7 +134,7 @@ export default function TopCommanders() {
                 ) : champion ? (
                   <>
                     <Link
-                      to={`/commander/${champion.uid}`}
+                      to={`/commander/${champion.token}`}
                       className="champion-card__name no-underline block"
                     >
                       {champion.name}
@@ -166,7 +166,7 @@ export default function TopCommanders() {
               {!loading && rest.length > 0 && (
                 <ol className="rank-list">
                   {rest.map((r, i) => (
-                    <li key={r.uid} className="rank-list__row">
+                    <li key={r.token} className="rank-list__row">
                       <span className="rank-list__pos">{String(i + 2).padStart(2, '0')}</span>
                       <img
                         src={asset(r.avatar)}
@@ -174,7 +174,7 @@ export default function TopCommanders() {
                         className="rank-list__avatar"
                         loading="lazy"
                       />
-                      <Link to={`/commander/${r.uid}`} className="rank-list__name no-underline">
+                      <Link to={`/commander/${r.token}`} className="rank-list__name no-underline">
                         {r.name}
                         {r.detail && <span className="rank-list__detail">{r.detail}</span>}
                       </Link>

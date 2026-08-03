@@ -12,6 +12,7 @@
  * in the background, so nobody ever waits on Firestore.
  */
 
+import { encodeUid } from './_token.js'
 import { initializeApp, getApps } from 'firebase/app'
 import { getAuth, signInAnonymously } from 'firebase/auth'
 import {
@@ -78,7 +79,8 @@ async function topBy(db, field, detail, n) {
     .map((d) => {
       const x = d.data()
       return {
-        uid: d.id,
+        // Never the raw Account ID: that is the website login credential.
+        token: encodeUid(d.id),
         name: str(x.displayName) || 'Unnamed commander',
         value: num(x[field]),
         detail: detail ? str(x[detail]) || undefined : undefined,
@@ -96,7 +98,7 @@ async function ladder(db, col, n) {
     const names = Array.isArray(x.heroNames) ? x.heroNames : []
     const powers = Array.isArray(x.heroPower) ? x.heroPower : []
     return {
-      uid: d.id,
+      token: encodeUid(d.id),
       name: str(x.name) || 'Commander',
       points: num(x.points),
       wins: num(x.wins),
