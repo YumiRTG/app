@@ -42,16 +42,16 @@ export const DEV_SCREENSHOTS: DevShot[] = [
   {
     src: asset('gameplay-heroes.mp4'),
     video: true,
-    caption: 'Hero combat',
-    note: 'Turn-based hero battle running in the Unity client, with skills and ultimates firing.',
-    date: 'Current build',
+    caption: 'The tribe',
+    note: 'Cinematic from the world the campaign is set in.',
+    date: 'Cinematic',
   },
   {
     src: asset('gameplay-troops.mp4'),
     video: true,
-    caption: 'Troops on the field',
-    note: 'Infantry, shooters and riders moving as formations.',
-    date: 'Current build',
+    caption: 'The war band',
+    note: 'Cinematic. Infantry, shooters and riders are the three branches you actually field.',
+    date: 'Cinematic',
   },
   {
     src: asset('env-base.png'),

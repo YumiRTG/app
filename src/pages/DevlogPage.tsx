@@ -55,7 +55,7 @@ function Clip({ shot }: { shot: DevShot }) {
           preload="none"
           className="clip__video"
         />
-        <span className="shot__live">Live capture</span>
+        <span className="shot__live">Cinematic</span>
       </div>
       <figcaption className="clip__cap">
         <span className="shot__title">{shot.caption}</span>
@@ -125,8 +125,8 @@ export default function DevlogPage() {
                 The game <span className="text-gradient-gold">as it stands</span>
               </h2>
               <p className="body-lg mt-4">
-                Clips and captures from the current client. These get replaced as builds
-                move, so what is here is what is running.
+                Cinematics and art from the world of Dino Dominion, alongside stills of
+                the build. All of it gets replaced as the game moves.
               </p>
             </div>
           </div>

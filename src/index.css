@@ -2924,6 +2924,11 @@ a.rank-list__name:hover .rank-list__detail {
   height: 100%;
   object-fit: cover;
   display: block;
+  /* The source clips carry a generator watermark in the top-right corner.
+     Anchoring to the bottom and scaling up pushes the whole top band out of
+     the frame; the subject sits low enough that nothing important is lost. */
+  transform: scale(1.2);
+  transform-origin: 50% 100%;
 }
 
 .clip__cap {
