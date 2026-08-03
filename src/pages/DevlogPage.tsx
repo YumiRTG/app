@@ -1,254 +1,230 @@
 import { Link } from 'react-router'
-import {
-  DEV_SCREENSHOTS,
-  FUTURE_UPDATES,
-  PROGRESS_LOG,
-} from '@/config/devlog'
+import { DEV_SCREENSHOTS, FUTURE_UPDATES, PROGRESS_LOG, type DevShot } from '@/config/devlog'
 import { usePageMotion } from '@/hooks/useMotion'
+import { asset } from '@/lib/assets'
 
-const TAG_STYLE: Record<string, { label: string; color: string; border: string }> = {
-  shipped: {
-    label: 'Shipped',
-    color: '#3dffb5',
-    border: 'rgba(61,255,181,0.35)',
-  },
-  wip: {
-    label: 'In progress',
-    color: '#f5c15d',
-    border: 'rgba(245,193,93,0.35)',
-  },
-  milestone: {
-    label: 'Milestone',
-    color: '#ff7a3d',
-    border: 'rgba(255,122,61,0.35)',
-  },
+const TAG_STYLE: Record<string, { label: string; color: string }> = {
+  shipped: { label: 'Shipped', color: '#3dffb5' },
+  wip: { label: 'In progress', color: '#f5c15d' },
+  milestone: { label: 'Milestone', color: '#ff7a3d' },
 }
 
 const STATUS_STYLE: Record<string, { label: string; color: string }> = {
-  planned: { label: 'Planned', color: '#b8aea0' },
-  'in-progress': { label: 'In progress', color: '#f5c15d' },
+  planned: { label: 'Planned', color: '#a8a09a' },
+  'in-progress': { label: 'Building', color: '#f5c15d' },
   soon: { label: 'Soon', color: '#3dffb5' },
+}
+
+function Shot({ shot }: { shot: DevShot }) {
+  return (
+    <figure className={`shot ${shot.featured ? 'shot--wide' : ''}`} data-reveal-item>
+      <div className="shot__media">
+        {shot.video ? (
+          <video
+            src={shot.src}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="shot__img"
+            style={{ objectPosition: shot.pos }}
+          />
+        ) : (
+          <img
+            src={shot.src}
+            alt={shot.caption}
+            className="shot__img"
+            style={{ objectPosition: shot.pos ?? 'center center' }}
+            loading="lazy"
+          />
+        )}
+        <div className="shot__scrim" />
+        {shot.video && <span className="shot__live">Clip</span>}
+        <figcaption className="shot__cap">
+          {shot.date && <span className="shot__date">{shot.date}</span>}
+          <span className="shot__title">{shot.caption}</span>
+          <span className="shot__note">{shot.note}</span>
+        </figcaption>
+      </div>
+    </figure>
+  )
 }
 
 export default function DevlogPage() {
   const motionRef = usePageMotion()
 
+  const shipped = PROGRESS_LOG.filter((e) => e.tag === 'shipped').length
+  const building = PROGRESS_LOG.filter((e) => e.tag === 'wip').length
+
   return (
-    <div ref={motionRef} className="page-shell">
-      <div className="container-dd">
-        {/* Header */}
-        <div className="max-w-2xl mb-12 md:mb-14" data-reveal="up">
-          <p className="eyebrow">Studio · drops over time</p>
+    <div ref={motionRef} className="devlog">
+      {/* Cinematic header */}
+      <header className="devlog-hero" data-reveal="scale">
+        <img src={asset('banner-bg.png')} alt="" className="devlog-hero__img" />
+        <div className="devlog-hero__scrim" />
+        <div className="container-dd relative z-10">
+          <p className="live-badge">
+            <span className="live-badge__dot" />
+            Friend beta
+          </p>
           <h1 className="display-lg text-white mt-4">
             Progress
             <br />
             <span className="text-gradient-magma">log</span>
           </h1>
-          <p className="body-lg mt-5">
-            You do not get the whole roadmap in one glance. Screenshots, shipped
-            work and future drops are layered here — check back as the beta moves.
-            The full game is still earned in the APK.
+          <p className="body-lg mt-5 max-w-xl">
+            What has actually landed, what is being built, and what is still only a plan.
+            No marketing dates and no promises we have not kept yet.
           </p>
-        </div>
 
-        {/* How this page works */}
-        <div
-          className="dd-panel p-5 md:p-6 mb-14 grid sm:grid-cols-3 gap-4"
-          data-reveal="up"
-        >
-          {[
-            {
-              t: '1 · Screenshots',
-              d: 'Printscreens from the Unity client so you see the real game, not only art.',
-            },
-            {
-              t: '2 · Progression log',
-              d: 'Dated notes of what landed — website, APK, systems, milestones.',
-            },
-            {
-              t: '3 · Future updates',
-              d: 'Honest roadmap: planned, in progress, or coming soon.',
-            },
-          ].map((x) => (
-            <div key={x.t}>
-              <p className="font-display text-lg text-[var(--gold)] uppercase tracking-wide">
-                {x.t}
-              </p>
-              <p className="font-body text-sm text-[var(--bone-dim)] mt-2 leading-relaxed">
-                {x.d}
+          <div className="devlog-hero__stats">
+            <div>
+              <span>{shipped}</span>
+              <small>Shipped</small>
+            </div>
+            <div>
+              <span>{building}</span>
+              <small>Building</small>
+            </div>
+            <div>
+              <span>{FUTURE_UPDATES.length}</span>
+              <small>On the roadmap</small>
+            </div>
+            <div>
+              <span>4</span>
+              <small>Modes live</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="container-dd pb-24">
+        {/* Gallery */}
+        <section className="mt-14 md:mt-20">
+          <div className="flex items-end justify-between gap-4 mb-7" data-reveal="up">
+            <div className="max-w-xl">
+              <div className="sec-ornament mb-4 max-w-[220px]">
+                <span>From the build</span>
+              </div>
+              <h2 className="display-md text-white">
+                The game <span className="text-gradient-gold">as it stands</span>
+              </h2>
+              <p className="body-lg mt-4">
+                Clips and captures from the current client. These get replaced as builds
+                move, so what is here is what is running.
               </p>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* Screenshots */}
-        <div className="flex items-center gap-4 mb-6" data-reveal="up">
-          <h2 className="font-display text-2xl text-white tracking-wide">
-            DEV SCREENSHOTS
-          </h2>
-          <div className="hud-line flex-1 opacity-50" />
-        </div>
-        <p className="body-lg max-w-xl mb-6" data-reveal="up">
-          Current captures from development. Newer printscreens replace these as builds move.
-        </p>
+          <div className="shot-grid" data-reveal-stagger>
+            {DEV_SCREENSHOTS.map((s) => (
+              <Shot key={s.src} shot={s} />
+            ))}
+          </div>
+        </section>
 
-        <div
-          className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 mb-16"
-          data-reveal-stagger
-        >
-          {DEV_SCREENSHOTS.map((shot) => (
-            <figure key={shot.caption + shot.src} className="dd-card group" data-reveal-item>
-              <div className="relative aspect-[16/11] overflow-hidden bg-[#0a0810]">
-                <img
-                  src={shot.src}
-                  alt={shot.caption}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                  style={{ objectPosition: 'center top' }}
-                  loading="lazy"
-                />
-                <div
-                  className="absolute inset-0 opacity-50"
-                  style={{
-                    background:
-                      'linear-gradient(to top, rgba(7,6,10,0.85), transparent 50%)',
-                  }}
-                />
-              </div>
-              <figcaption className="px-4 py-3 border-t border-[var(--gold)]/10">
-                <p className="font-display text-sm text-white uppercase tracking-wide">
-                  {shot.caption}
-                </p>
-                {shot.date && (
-                  <p className="font-ui text-[10px] tracking-[0.16em] uppercase text-[var(--bone-dim)] mt-1">
-                    {shot.date}
-                  </p>
-                )}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        {/* Timeline */}
+        <section className="mt-16 md:mt-24">
+          <div className="max-w-xl mb-8" data-reveal="up">
+            <div className="sec-ornament mb-4 max-w-[220px]">
+              <span>Changelog</span>
+            </div>
+            <h2 className="display-md text-white">
+              What has <span className="text-gradient-magma">landed</span>
+            </h2>
+          </div>
 
-        {/* Progression log */}
-        <div className="flex items-center gap-4 mb-6" data-reveal="up">
-          <h2 className="font-display text-2xl text-white tracking-wide">
-            PROGRESSION LOG
-          </h2>
-          <div className="hud-line flex-1 opacity-50" />
-        </div>
-
-        <div className="relative mb-16 pl-0 md:pl-2">
-          <div
-            className="hidden md:block absolute left-[11px] top-2 bottom-2 w-px"
-            style={{
-              background:
-                'linear-gradient(180deg, var(--magma), rgba(245,193,93,0.2))',
-            }}
-            aria-hidden
-          />
-          <div className="space-y-4">
+          <ol className="timeline" data-reveal-stagger>
             {PROGRESS_LOG.map((entry) => {
               const tag = entry.tag ? TAG_STYLE[entry.tag] : null
+              const color = tag?.color ?? 'var(--gold)'
               return (
-                <article
+                <li
                   key={entry.id}
-                  className="dd-panel relative md:ml-8 p-5 md:p-6"
-                  data-reveal="up"
+                  className="timeline__row"
+                  data-reveal-item
+                  style={{ ['--dot' as string]: color }}
                 >
-                  <div
-                    className="hidden md:block absolute -left-[29px] top-7 w-3 h-3 rounded-full border-2"
-                    style={{
-                      borderColor: tag?.color || 'var(--gold)',
-                      background: 'var(--void)',
-                      boxShadow: `0 0 12px ${tag?.color || 'var(--gold)'}`,
-                    }}
-                    aria-hidden
-                  />
-                  <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="font-ui text-[10px] tracking-[0.2em] uppercase text-[var(--gold)]">
-                      {entry.date}
-                    </span>
+                  <div className="timeline__when">
+                    <span className="timeline__date">{entry.date}</span>
                     {tag && (
-                      <span
-                        className="font-ui text-[9px] tracking-[0.16em] uppercase px-2 py-0.5 rounded-full"
-                        style={{
-                          color: tag.color,
-                          border: `1px solid ${tag.border}`,
-                          background: 'rgba(0,0,0,0.25)',
-                        }}
-                      >
+                      <span className="timeline__tag" style={{ color }}>
                         {tag.label}
                       </span>
                     )}
                   </div>
-                  <h3 className="font-display text-xl text-white uppercase tracking-wide">
-                    {entry.title}
-                  </h3>
-                  <p className="font-body text-sm text-[var(--bone-dim)] mt-2 leading-relaxed">
-                    {entry.body}
-                  </p>
+                  <div className="timeline__mark" aria-hidden>
+                    <span />
+                  </div>
+                  <div className="timeline__body">
+                    <h3 className="timeline__title">{entry.title}</h3>
+                    <p className="timeline__text">{entry.body}</p>
+                  </div>
+                </li>
+              )
+            })}
+          </ol>
+        </section>
+
+        {/* Roadmap */}
+        <section className="mt-16 md:mt-24">
+          <div className="max-w-xl mb-8" data-reveal="up">
+            <div className="sec-ornament mb-4 max-w-[220px]">
+              <span>Ahead</span>
+            </div>
+            <h2 className="display-md text-white">
+              Still <span className="text-gradient-gold">to come</span>
+            </h2>
+            <p className="body-lg mt-4">
+              Planned means not built yet. It stays on this list until it is.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-reveal-stagger>
+            {FUTURE_UPDATES.map((u) => {
+              const st = STATUS_STYLE[u.status]!
+              return (
+                <article
+                  key={u.id}
+                  className="road-card"
+                  data-reveal-item
+                  style={{ ['--road' as string]: st.color }}
+                >
+                  <span className="road-card__status">{st.label}</span>
+                  <h3 className="road-card__title">{u.title}</h3>
+                  <p className="road-card__text">{u.body}</p>
                 </article>
               )
             })}
           </div>
-        </div>
-
-        {/* Future updates */}
-        <div className="flex items-center gap-4 mb-6" data-reveal="up">
-          <h2 className="font-display text-2xl text-white tracking-wide">
-            FUTURE UPDATES
-          </h2>
-          <div className="hud-line flex-1 opacity-50" />
-        </div>
-        <p className="body-lg max-w-xl mb-6" data-reveal="up">
-          Roadmap for the beta. Status stays honest — planned means not built yet.
-        </p>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-14" data-reveal-stagger>
-          {FUTURE_UPDATES.map((u) => {
-            const st = STATUS_STYLE[u.status]
-            return (
-              <article key={u.id} className="dd-card p-5" data-reveal-item>
-                <p
-                  className="font-ui text-[10px] tracking-[0.2em] uppercase"
-                  style={{ color: st.color }}
-                >
-                  {st.label}
-                </p>
-                <h3 className="font-display text-lg text-white uppercase tracking-wide mt-2">
-                  {u.title}
-                </h3>
-                <p className="font-body text-sm text-[var(--bone-dim)] mt-2 leading-relaxed">
-                  {u.body}
-                </p>
-              </article>
-            )
-          })}
-        </div>
+        </section>
 
         {/* CTA */}
-        <div
-          className="dd-panel p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
-          data-reveal="scale"
-        >
-          <div>
-            <p className="eyebrow">Friend beta</p>
-            <h2 className="font-display text-2xl md:text-3xl text-white uppercase tracking-wide mt-2">
-              Play the current build
-            </h2>
-            <p className="font-body text-sm text-[var(--bone-dim)] mt-2 max-w-md leading-relaxed">
-              Download the APK, log in with your Account ID, and tell us what breaks —
-              that feedback steers the next log entries.
-            </p>
+        <section className="mt-16" data-reveal="up">
+          <div className="mode-cta" style={{ ['--mode-accent-soft' as string]: 'rgba(255,77,26,0.16)' }}>
+            <div
+              className="mode-cta__glow"
+              style={{ background: 'radial-gradient(circle, rgba(255,77,26,0.4), transparent 70%)' }}
+            />
+            <div className="relative z-10 max-w-2xl">
+              <p className="eyebrow">Friend beta</p>
+              <h2 className="display-md text-white mt-3">Play the current build</h2>
+              <p className="body-lg mt-4">
+                Download the APK, log in with your Account ID, and tell us what breaks.
+                That feedback is what steers the next entries on this page.
+              </p>
+              <div className="flex flex-wrap gap-3 mt-8">
+                <Link to="/download" className="btn-primary no-underline">
+                  Download APK
+                </Link>
+                <Link to="/modes" className="btn-secondary no-underline">
+                  See the four modes
+                </Link>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-3 shrink-0">
-            <Link to="/download" className="btn-primary no-underline">
-              Download APK
-            </Link>
-            <Link to="/play" className="btn-secondary no-underline">
-              Web rewards
-            </Link>
-          </div>
-        </div>
+        </section>
       </div>
     </div>
   )
