@@ -7,6 +7,7 @@ import DinoMark from '@/components/DinoMark'
 const navItems = [
   { label: 'Home', to: '/' },
   { label: 'Story', to: '/story' },
+  { label: 'Modes', to: '/modes' },
   { label: 'Features', to: '/features' },
   { label: 'Play', to: '/play' },
   { label: 'Bestiary', to: '/bestiary' },
@@ -48,7 +49,7 @@ export default function Navigation() {
           <div className="container-dd flex items-center justify-between h-8 text-[10px] font-ui tracking-[0.2em] uppercase">
             <span className="text-[var(--magma-glow)]">Friend beta</span>
             <span className="text-[var(--bone)]/50 truncate px-4">
-              Apex pack · Campaign realms · Daily rewards · Tame · Hunt · Conquer
+              Four modes live · Primeval Defense · Arena 1v1 &amp; 3×3 · Shared world map · 78-stage campaign
             </span>
             <Link
               to="/progress"

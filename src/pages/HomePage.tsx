@@ -1,6 +1,8 @@
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
 import { usePageMotion } from '@/hooks/useMotion'
+import { MODES } from '@/config/modes'
+import TopCommanders from '@/sections/TopCommanders'
 
 const PILLARS = [
   {
@@ -102,11 +104,11 @@ export default function HomePage() {
             >
               Play free
             </Link>
+            <Link to="/modes" className="btn-secondary no-underline">
+              Game modes
+            </Link>
             <Link to="/features/dinos" className="btn-secondary no-underline">
               Meet the pack
-            </Link>
-            <Link to="/features" className="btn-secondary no-underline">
-              Systems
             </Link>
           </div>
         </div>
@@ -207,6 +209,86 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* ═══ MAJOR MODES ═══ */}
+      <section className="section-band relative overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none opacity-60"
+          style={{
+            background:
+              'radial-gradient(ellipse 60% 50% at 20% 0%, rgba(56,232,255,0.10), transparent 60%), radial-gradient(ellipse 55% 45% at 85% 90%, rgba(255,77,26,0.12), transparent 58%)',
+          }}
+        />
+        <div className="container-dd relative">
+          <div
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 md:mb-12"
+            data-reveal="up"
+          >
+            <div className="max-w-xl">
+              <div className="sec-ornament mb-4 max-w-[240px]">
+                <span>Major modes</span>
+              </div>
+              <h2 className="display-lg text-white">
+                Four ways
+                <br />
+                <span className="text-gradient-magma">to fight</span>
+              </h2>
+            </div>
+            <p className="body-lg max-w-sm md:text-right">
+              A real-time defense, two competitive ladders, a shared world that never
+              stops, and a 78-stage campaign. One army has to cover all four.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" data-reveal-stagger>
+            {MODES.map((m, i) => (
+              <Link
+                key={m.key}
+                to={m.to}
+                className="mode-tile no-underline text-inherit"
+                data-reveal-item
+                style={{
+                  ['--tile-accent' as string]: m.accent,
+                  ['--tile-soft' as string]: m.accentSoft,
+                  minHeight: '20rem',
+                }}
+              >
+                <img
+                  src={m.img}
+                  alt=""
+                  className="mode-tile__img"
+                  style={{ objectPosition: m.pos }}
+                  loading="lazy"
+                />
+                <div className="mode-tile__scrim" />
+                <div className="mode-tile__body">
+                  <span className="mode-tile__index">{String(i + 1).padStart(2, '0')}</span>
+                  <p className="mode-tile__tag">{m.short}</p>
+                  <h3 className="font-display text-2xl text-white uppercase tracking-wide mt-1.5 leading-none">
+                    {m.name}
+                  </h3>
+                  <p className="font-body text-sm text-[var(--bone-dim)] mt-2.5 leading-relaxed">
+                    {m.tagline}
+                  </p>
+                  <div className="mode-tile__chips">
+                    {m.specs.slice(0, 2).map((s) => (
+                      <span key={s.label} className="mode-tile__chip">
+                        {s.value}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-9 flex flex-wrap gap-3" data-reveal="up">
+            <Link to="/modes" className="btn-secondary no-underline">
+              Compare all four modes
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ═══ FEATURES ═══ */}
       <section
         className="section-band relative"
@@ -288,6 +370,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ═══ LIVE LEADERBOARD ═══ */}
+      <TopCommanders />
 
       {/* ═══ DINO RAIL ═══ */}
       <section className="section-band">
