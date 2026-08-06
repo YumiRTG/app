@@ -91,7 +91,7 @@ export default function HomePage() {
           >
             DINO
             <br />
-            <span className="text-gradient-magma">DOMINION</span>
+            <span className="text-gradient-magma">WARFRONT</span>
           </h1>
 
           <div
