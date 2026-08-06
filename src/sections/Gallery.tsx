@@ -135,7 +135,7 @@ export default function Gallery() {
               lineHeight: 1.6,
             }}
           >
-            Official campaign scenes from Dino Dominion — the battles and milestones that define your rise.
+            Official campaign scenes from Dino Warfront — the battles and milestones that define your rise.
           </p>
 
           <div

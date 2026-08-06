@@ -175,7 +175,7 @@ export const PROGRESS_LOG: ProgressEntry[] = [
   {
     id: 'vision',
     date: 'The start',
-    title: 'Dino Dominion begins',
+    title: 'Dino Warfront begins',
     body: 'Prehistoric strategy survival: raise a tribe under Nyra Vale, command apex predators, and take the map.',
     tag: 'milestone',
   },

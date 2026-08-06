@@ -125,7 +125,7 @@ export default function DevlogPage() {
                 The game <span className="text-gradient-gold">as it stands</span>
               </h2>
               <p className="body-lg mt-4">
-                Cinematics and art from the world of Dino Dominion, alongside stills of
+                Cinematics and art from the world of Dino Warfront, alongside stills of
                 the build. All of it gets replaced as the game moves.
               </p>
             </div>

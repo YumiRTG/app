@@ -49,7 +49,7 @@ export default function BaseFeaturePage() {
           </div>
           <div className="lg:col-span-7 space-y-4">
             <p className="body-lg">
-              Your base is the heart of Dino Dominion. Start as a fragile camp on the plaza —
+              Your base is the heart of Dino Warfront. Start as a fragile camp on the plaza —
               raise halls, production lines and defenses until the wild itself respects your walls.
             </p>
             <p className="body-lg">

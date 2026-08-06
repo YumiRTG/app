@@ -80,7 +80,7 @@ export default function DawnAtmosphere() {
             lineHeight: 1.6,
           }}
         >
-          Expand your base across jungle, ice, volcano, and water realms. Every region in Dino Dominion holds unique resources, threats, and legendary beasts.
+          Expand your base across jungle, ice, volcano, and water realms. Every region in Dino Warfront holds unique resources, threats, and legendary beasts.
         </p>
         <button className="btn-secondary mt-8 animate-in">
           EXPLORE THE WORLD

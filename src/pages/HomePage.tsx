@@ -61,7 +61,7 @@ export default function HomePage() {
         <img
           data-hero-bg
           src={asset('hero-poster.png')}
-          alt="Dino Dominion landscape with apex T-rex"
+          alt="Dino Warfront landscape with apex T-rex"
           className="absolute inset-0 w-full h-full object-cover will-change-transform hero-video-live"
           style={{ objectPosition: 'center center' }}
           draggable={false}

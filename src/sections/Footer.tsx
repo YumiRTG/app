@@ -38,7 +38,7 @@ export default function Footer() {
           </span>
           <div>
             <p className="font-display tracking-[0.16em] text-[var(--bone)] text-lg">
-              DINO DOMINION
+              DINO WARFRONT
             </p>
             <p className="font-body text-sm text-[var(--bone-dim)] mt-2 leading-relaxed max-w-xs">
               Prehistoric strategy survival. Build your base, recruit heroes,
@@ -121,7 +121,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/[0.04] py-4 text-center font-body text-[11px] text-white/25 tracking-wide">
-        © {new Date().getFullYear()} Dino Dominion · Friend beta
+        © {new Date().getFullYear()} Dino Warfront · Friend beta
       </div>
     </footer>
   )

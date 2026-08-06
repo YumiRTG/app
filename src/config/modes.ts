@@ -44,8 +44,8 @@ export const MODES: Mode[] = [
     tagline: 'Hold the line, or lose the herd',
     blurb:
       'A proper real-time defense mode with its own 3D arena. Wild packs come down one path and you decide what stands in their way. There are twelve stages to work through, plus a daily map that everyone in the world plays on the same day, under the same rules.',
-    img: asset('feat-battle.png'),
-    pos: 'center 40%',
+    img: asset('modes/mode-defense.jpg'),
+    pos: 'center center',
     accent: '#3dffb5',
     accentSoft: 'rgba(61,255,181,0.16)',
     specs: [
@@ -66,7 +66,7 @@ export const MODES: Mode[] = [
     tagline: 'Two ladders, one reputation',
     blurb:
       'Hero versus hero against real players, on your own schedule. The Tactical Arena is one squad of three against somebody else’s defense. The Team Arena is bigger: nine heroes split into three teams, played as a best of three. Both reset every Monday and each keeps its own rating.',
-    img: asset('env-jungle-arena.jpg'),
+    img: asset('modes/mode-arena.jpg'),
     pos: 'center center',
     accent: '#ff4d1a',
     accentSoft: 'rgba(255,77,26,0.18)',
@@ -88,7 +88,7 @@ export const MODES: Mode[] = [
     tagline: 'Everyone out there is real',
     blurb:
       'One shared world, 8000 by 8000, where every base you can see belongs to a player. Five rings run from the quiet edge to the dangerous middle, and the rally boss sits right in the centre. You get there by sending marches: to farm, to hunt, to scout, to raid, to reinforce a friend, or to hold a piece of ground nobody has claimed.',
-    img: asset('campaign-map.png'),
+    img: asset('modes/mode-world.jpg'),
     pos: 'center 45%',
     accent: '#38e8ff',
     accentSoft: 'rgba(56,232,255,0.16)',
@@ -110,8 +110,8 @@ export const MODES: Mode[] = [
     tagline: 'Nine regions, seventy-eight stages',
     blurb:
       'The solo road through the prehistoric world. Nine regions, each with its own terrain and its own enemies, each ending on a boss. Four difficulties sit on the same map, and the stars start over on every one of them, so clearing it once is really only the first pass.',
-    img: asset('feature-campaign-hero.jpg'),
-    pos: 'center 35%',
+    img: asset('hero-dino-volcano.jpg'),
+    pos: 'center center',
     accent: '#f0c14d',
     accentSoft: 'rgba(240,193,77,0.16)',
     specs: [

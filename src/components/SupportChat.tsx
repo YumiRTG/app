@@ -197,7 +197,7 @@ export default function SupportChat() {
       // Fallback: open the player's mail app pre-filled to support
       const supportTo = COMMUNITY.supportEmail || 'andre.miethke74@gmail.com'
       const mailto = `mailto:${encodeURIComponent(supportTo)}?subject=${encodeURIComponent(
-        '[Support] Dino Dominion'
+        '[Support] Dino Warfront'
       )}&body=${encodeURIComponent(
         `Name: ${formName.trim() || '-'}\nEmail: ${email}\nAccount ID: ${formAccountId.trim() || '-'}\n\n${message}\n\n---\nLast question: ${lastQuestion || '-'}`
       )}`
@@ -415,7 +415,7 @@ export default function SupportChat() {
                   </button>
                   <a
                     href={`mailto:${COMMUNITY.supportEmail || 'andre.miethke74@gmail.com'}?subject=${encodeURIComponent(
-                      '[Support] Dino Dominion'
+                      '[Support] Dino Warfront'
                     )}&body=${encodeURIComponent(
                       `Name: ${formName.trim() || '-'}\nEmail: ${formEmail.trim() || '-'}\nAccount ID: ${formAccountId.trim() || '-'}\n\n${formMessage.trim() || ''}\n\n---\nLast question: ${lastQuestion || '-'}`
                     )}`}

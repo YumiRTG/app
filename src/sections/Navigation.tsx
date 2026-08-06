@@ -92,7 +92,7 @@ export default function Navigation() {
               </span>
               <div className="leading-none">
                 <span className="font-display text-[1rem] sm:text-lg tracking-[0.16em] text-white block">
-                  DINO DOMINION
+                  DINO WARFRONT
                 </span>
                 <span className="hidden sm:block font-ui text-[9px] tracking-[0.32em] text-[var(--gold)]/70 uppercase mt-1">
                   Tame · Hunt · Conquer

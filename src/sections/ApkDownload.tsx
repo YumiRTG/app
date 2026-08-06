@@ -45,14 +45,14 @@ export default function ApkDownload() {
             >
               <img
                 src={asset('dino-tyranno.png')}
-                alt="Dino Dominion"
+                alt="Dino Warfront"
                 className="w-full h-full"
                 style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
               />
             </div>
             <div className="min-w-0 pb-0.5">
               <p className="font-display text-2xl md:text-3xl text-white tracking-wide">
-                DINO DOMINION
+                DINO WARFRONT
               </p>
               <p className="font-ui text-[11px] tracking-[0.18em] uppercase text-[var(--gold)] mt-1">
                 Android APK · Beta
@@ -117,7 +117,7 @@ export default function ApkDownload() {
             <li>Tap Download APK — you land on Gofile (not Drive).</li>
             <li>Tap Download again on Gofile and wait for the file.</li>
             <li>Allow install from this source if asked.</li>
-            <li>Launch Dino Dominion and play.</li>
+            <li>Launch Dino Warfront and play.</li>
           </ol>
         </div>
       </div>

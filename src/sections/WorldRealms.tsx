@@ -94,7 +94,7 @@ export default function WorldRealms() {
             style={{ fontSize: 'clamp(16px, 1.8vw, 18px)', lineHeight: 1.6 }}
           >
             Progress through campaign stages, unlock new biomes, and claim territory
-            across the living world of Dino Dominion.
+            across the living world of Dino Warfront.
           </p>
         </div>
 
