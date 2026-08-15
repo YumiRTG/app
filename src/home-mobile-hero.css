@@ -60,7 +60,7 @@
     background: linear-gradient(90deg, var(--magma), var(--gold)) !important;
   }
 
-  /* Match the pre-mobile-optimization hero: clean white DINO + bright magma/gold WARFRONT. */
+  /* Match the pre-mobile-optimization hero: clean white DINO + orange magma WARFRONT. */
   main > .relative:has(> section:first-child img[data-hero-bg]) > section:first-child h1 {
     color: #ffffff !important;
     font-size: clamp(2.85rem, 14.5vw, 4rem) !important;
@@ -71,7 +71,7 @@
   }
 
   main > .relative:has(> section:first-child img[data-hero-bg]) > section:first-child h1 .text-gradient-magma {
-    background: linear-gradient(105deg, #ffe08a 0%, #f5c15d 28%, #ff4d1a 72%, #ff8c42 100%) !important;
+    background: linear-gradient(105deg, #ff9a4a 0%, #ff7a3d 34%, #ff4d1a 68%, #c9360d 100%) !important;
     -webkit-background-clip: text !important;
     background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
