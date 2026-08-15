@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
+import HomeIntro from '@/components/HomeIntro'
 import MainLayout from '@/layouts/MainLayout'
 import HomePage from '@/pages/HomePage'
 
@@ -33,6 +34,7 @@ const deferred = (node: React.ReactNode) => (
 export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <HomeIntro />
       <Routes>
         <Route element={<MainLayout />}>
           <Route index element={<HomePage />} />
