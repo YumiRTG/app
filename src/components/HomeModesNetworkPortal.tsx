@@ -70,7 +70,7 @@ const FEATURES = [
     stat: 'BABY → APEX',
     text: 'Choose your partner as a baby and raise it beside your empire. Feed it, pet it, strengthen the bond, watch it grow and bring it with you on marches as a true companion.',
     hook: 'You do not unlock a pet. You raise a partner.',
-    img: asset('promo/partner-system-promo.jpg'),
+    img: asset('promo/partner-system-promo.webp'),
     pos: 'center center',
     accent: '#b86cff',
     to: '/features/partner-system',
