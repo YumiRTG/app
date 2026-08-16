@@ -1,0 +1,58 @@
+name: Restore Partner Artwork
+
+on:
+  push:
+    paths:
+      - '.github/workflows/restore-partner-artwork.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout production
+        uses: actions/checkout@v4
+        with:
+          path: production
+          fetch-depth: 0
+
+      - name: Checkout staged artwork
+        uses: actions/checkout@v4
+        with:
+          ref: fix/partner-artwork-binary
+          path: staged
+
+      - name: Rebuild verified partner artwork
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat staged/.tmp/partner/chunk*.b64 | tr -d '\n\r' | base64 -d > production/public/promo/partner-system-promo.webp
+          test "$(stat -c%s production/public/promo/partner-system-promo.webp)" -eq 62718
+          echo "0860898588a972dadda5b00b1c84bb45eb8db1ef2068a2369de619fa76c23643  production/public/promo/partner-system-promo.webp" | sha256sum -c -
+          sed -i 's#promo/partner-system-promo.jpg#promo/partner-system-promo.webp#g' \
+            production/src/components/HomeModesNetworkPortal.tsx \
+            production/src/pages/PartnerSystemPage.tsx
+          rm -f production/public/promo/partner-system-promo.jpg
+
+      - name: Verify production build
+        working-directory: production
+        run: |
+          npm ci
+          npm run build
+
+      - name: Commit verified artwork
+        working-directory: production
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -f .github/workflows/restore-partner-artwork.yml
+          git add public/promo/partner-system-promo.webp public/promo/partner-system-promo.jpg \
+            src/components/HomeModesNetworkPortal.tsx src/pages/PartnerSystemPage.tsx || true
+          git add -A
+          git commit -m "Restore verified Partner System artwork"
+          git push origin HEAD:main
+          git push origin --delete fix/partner-artwork-binary || true
