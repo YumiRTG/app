@@ -1,6 +1,5 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
-import HomeIntro from '@/components/HomeIntro'
 import MainLayout from '@/layouts/MainLayout'
 import HomePage from '@/pages/HomePage'
 
@@ -10,6 +9,8 @@ const BaseFeaturePage = lazy(() => import('@/pages/BaseFeaturePage'))
 const HeroesFeaturePage = lazy(() => import('@/pages/HeroesFeaturePage'))
 const DinosFeaturePage = lazy(() => import('@/pages/DinosFeaturePage'))
 const CampaignFeaturePage = lazy(() => import('@/pages/CampaignFeaturePage'))
+const PartnerSystemPage = lazy(() => import('@/pages/PartnerSystemPage'))
+const WorldBossPage = lazy(() => import('@/pages/WorldBossPage'))
 const PlayPage = lazy(() => import('@/pages/PlayPage'))
 const BestiaryPage = lazy(() => import('@/pages/BestiaryPage'))
 const DownloadPage = lazy(() => import('@/pages/DownloadPage'))
@@ -34,7 +35,6 @@ const deferred = (node: React.ReactNode) => (
 export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <HomeIntro />
       <Routes>
         <Route element={<MainLayout />}>
           <Route index element={<HomePage />} />
@@ -44,6 +44,8 @@ export default function App() {
           <Route path="features/heroes" element={deferred(<HeroesFeaturePage />)} />
           <Route path="features/dinos" element={deferred(<DinosFeaturePage />)} />
           <Route path="features/campaign" element={deferred(<CampaignFeaturePage />)} />
+          <Route path="features/partner-system" element={deferred(<PartnerSystemPage />)} />
+          <Route path="features/world-boss" element={deferred(<WorldBossPage />)} />
           <Route path="modes" element={deferred(<ModesPage />)} />
           <Route path="modes/tower-defense" element={deferred(<TowerDefensePage />)} />
           <Route path="modes/arena" element={deferred(<ArenaPage />)} />
@@ -60,6 +62,8 @@ export default function App() {
           <Route path="arena" element={<Navigate to="/modes/arena" replace />} />
           <Route path="world-map" element={<Navigate to="/modes/world-map" replace />} />
           <Route path="campaign" element={<Navigate to="/modes/campaign" replace />} />
+          <Route path="partner-system" element={<Navigate to="/features/partner-system" replace />} />
+          <Route path="world-boss" element={<Navigate to="/features/world-boss" replace />} />
           <Route path="daily" element={<Navigate to="/play" replace />} />
           <Route path="roulette" element={<Navigate to="/play" replace />} />
           <Route path="dinos" element={<Navigate to="/features/dinos" replace />} />

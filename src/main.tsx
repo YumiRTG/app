@@ -4,10 +4,12 @@ import '@fontsource/oswald/700.css'
 import '@fontsource/dm-sans/400.css'
 import '@fontsource/dm-sans/500.css'
 import './index.css'
-import './home-mobile.css'
-import './home-mobile-hero.css'
 import App from './App.tsx'
+import HomeModesNetworkPortal from './components/HomeModesNetworkPortal.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <App />
+  <>
+    <App />
+    <HomeModesNetworkPortal />
+  </>
 )

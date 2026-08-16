@@ -1,0 +1,121 @@
+.home-feature-node .home-command-node__shade::after {
+  background: linear-gradient(
+    115deg,
+    transparent 34%,
+    color-mix(in srgb, var(--node-accent) 44%, transparent) 49%,
+    color-mix(in srgb, var(--node-accent) 16%, transparent) 54%,
+    transparent 66%
+  );
+  opacity: .72;
+}
+
+.home-feature-node[data-active='true'] .home-command-node__shade::after {
+  opacity: .9;
+}
+
+/*
+ * Shared Partner artwork safety layer.
+ * Firefox can turn a filtered / transformed JPEG layer white after it is
+ * promoted to a compositor layer. Every Partner artwork surface uses this
+ * class so the fix is not limited to the small radar card.
+ */
+.partner-artwork-safe,
+.partner-artwork-safe:hover,
+.partner-artwork-safe:focus,
+.partner-artwork-safe:focus-visible,
+.partner-artwork-safe:focus-within,
+.partner-artwork-safe[data-active='true'] {
+  filter: none !important;
+  backface-visibility: visible !important;
+  -webkit-backface-visibility: visible !important;
+  will-change: auto !important;
+}
+
+.partner-artwork-safe > img,
+.partner-artwork-safe img,
+.partner-artwork-safe:hover > img,
+.partner-artwork-safe:hover img,
+.partner-artwork-safe:focus-visible > img,
+.partner-artwork-safe:focus-visible img,
+.partner-artwork-safe:focus-within > img,
+.partner-artwork-safe:focus-within img,
+.partner-artwork-safe[data-active='true'] > img,
+.partner-artwork-safe[data-active='true'] img {
+  filter: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+  will-change: auto !important;
+  backface-visibility: visible !important;
+  -webkit-backface-visibility: visible !important;
+  mix-blend-mode: normal !important;
+}
+
+/* The radar card itself must not enter the generic 3D transform path. */
+.partner-artwork-safe.home-feature-node,
+.partner-artwork-safe.home-feature-node:hover,
+.partner-artwork-safe.home-feature-node:focus-visible,
+.partner-artwork-safe.home-feature-node[data-active='true'] {
+  transform: none !important;
+}
+
+/* No bright sweep over Partner artwork. Violet frame/radar still shows state. */
+.partner-artwork-safe.home-feature-node .home-command-node__shade::after {
+  display: none !important;
+}
+
+/*
+ * The large Partner description preview deliberately uses the same plain img
+ * path as the working radar card. Do not use the CSS background compositor.
+ */
+.partner-artwork-safe.home-feature-detail__image {
+  background: #080710 !important;
+  overflow: hidden;
+}
+
+.partner-artwork-safe.home-feature-detail__image > img {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  filter: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+.partner-artwork-safe.home-feature-detail__image::after,
+.partner-artwork-safe.home-feature-detail__image > span {
+  display: none !important;
+}
+
+/* Partner feature-page hero follows the same static img rules. */
+.partner-artwork-safe.partner-system-hero-media {
+  background: #080710 !important;
+  overflow: hidden;
+  transform: none !important;
+  filter: none !important;
+}
+
+.partner-artwork-safe.partner-system-hero-media > img {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  filter: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+.home-feature-detail--partner .home-feature-detail__copy h3 {
+  color: var(--detail-accent);
+  text-shadow: 0 0 24px color-mix(in srgb, var(--detail-accent) 28%, transparent);
+}
