@@ -28,7 +28,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cat staged/.tmp/partner/chunk*.b64 | tr -d '\n\r' | base64 -d > production/public/promo/partner-system-promo.webp
+          {
+            cat staged/.tmp/partner/head00.b64 staged/.tmp/partner/head01.b64 staged/.tmp/partner/head02.b64 staged/.tmp/partner/head03.b64
+            tail -c +4001 staged/.tmp/partner/chunk00.b64
+            cat staged/.tmp/partner/chunk{01..11}.b64
+          } | tr -d '\n\r' | base64 -d > production/public/promo/partner-system-promo.webp
           test "$(stat -c%s production/public/promo/partner-system-promo.webp)" -eq 62718
           echo "0860898588a972dadda5b00b1c84bb45eb8db1ef2068a2369de619fa76c23643  production/public/promo/partner-system-promo.webp" | sha256sum -c -
           sed -i 's#promo/partner-system-promo.jpg#promo/partner-system-promo.webp#g' \
@@ -50,8 +54,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm -f .github/workflows/restore-partner-artwork.yml
-          git add public/promo/partner-system-promo.webp public/promo/partner-system-promo.jpg \
-            src/components/HomeModesNetworkPortal.tsx src/pages/PartnerSystemPage.tsx || true
           git add -A
           git commit -m "Restore verified Partner System artwork"
           git push origin HEAD:main
