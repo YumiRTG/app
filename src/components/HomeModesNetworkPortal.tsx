@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
 import './HomeModesNetworkPortal.css'
 import './HomeModesNetworkPortalFix.css'
@@ -104,12 +105,6 @@ function prefersReducedMotion() {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
-function pageHref(path: string) {
-  const base = import.meta.env.BASE_URL.endsWith('/')
-    ? import.meta.env.BASE_URL.slice(0, -1)
-    : import.meta.env.BASE_URL
-  return `${base}${path}`
-}
 
 function normalizedHeading(section: HTMLElement) {
   return section.querySelector('h2')?.textContent?.replace(/\s+/g, ' ').trim().toLowerCase() || ''
@@ -310,9 +305,9 @@ export default function HomeModesNetworkPortal() {
           </div>
 
           {FEATURES.map((item, index) => (
-            <a
+            <Link
               key={item.key}
-              href={pageHref(item.to)}
+              to={item.to}
               className={`home-command-node home-feature-node home-feature-node--${item.slot}${item.key === 'partner' ? ' partner-artwork-safe' : ''}`}
               data-active={active === index ? 'true' : undefined}
               aria-label={`${item.label}: ${item.title}`}
@@ -338,7 +333,7 @@ export default function HomeModesNetworkPortal() {
                 <small>{item.stat}</small>
               </div>
               <b className="home-command-node__open">OPEN ↗</b>
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -360,7 +355,7 @@ export default function HomeModesNetworkPortal() {
             {feature.chips.map((chip) => (
               <span key={chip}>{chip}</span>
             ))}
-            <a href={pageHref(feature.to)}>ENTER FEATURE ↗</a>
+            <Link to={feature.to}>ENTER FEATURE ↗</Link>
           </div>
         </div>
 

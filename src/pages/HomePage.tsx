@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
 import { usePageMotion } from '@/hooks/useMotion'
@@ -21,12 +20,11 @@ const DINOS = [
 
 export default function HomePage() {
   const motionRef = usePageMotion()
-  const [introToken, setIntroToken] = useState(0)
 
   return (
     <div ref={motionRef} className="relative home-exp-home">
       <HomeExperienceFx />
-      <HomeIntro replayToken={introToken} />
+      <HomeIntro replayToken={0} />
 
       <section className="relative min-h-[100svh] overflow-hidden home-exp-hero">
         <img
@@ -85,14 +83,6 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-
-        <button
-          type="button"
-          className="home-exp-replay"
-          onClick={() => setIntroToken((value) => value + 1)}
-        >
-          Replay intro
-        </button>
 
         <div
           data-hero

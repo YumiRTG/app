@@ -16,7 +16,7 @@ export default function PartnerSystemPage() {
   const partnerArtwork = asset('promo/partner-system-promo.jpg')
 
   return (
-    <div ref={motionRef} className="page-shell">
+    <div ref={motionRef} className="page-shell partner-system-page">
       <div className="container-dd">
         <section className="dd-card overflow-hidden">
           <div

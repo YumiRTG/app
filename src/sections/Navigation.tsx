@@ -6,7 +6,6 @@ import DinoMark from '@/components/DinoMark'
 
 const navItems = [
   { label: 'Home', to: '/' },
-  { label: 'Story', to: '/story' },
   { label: 'Modes', to: '/modes' },
   { label: 'Features', to: '/features' },
   { label: 'Play', to: '/play' },
