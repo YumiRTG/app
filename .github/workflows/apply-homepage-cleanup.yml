@@ -17,172 +17,44 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Apply tested cleanup
+      - name: Apply cleanup
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
           import re
 
-          # 1) Replay Intro test control: keep the normal one-time intro, remove replay UI/state.
           p = Path('src/pages/HomePage.tsx')
           s = p.read_text()
           s = s.replace("import { useState } from 'react'\n", "")
           s = s.replace("  const [introToken, setIntroToken] = useState(0)\n", "")
           s = s.replace("<HomeIntro replayToken={introToken} />", "<HomeIntro replayToken={0} />")
-          s = re.sub(
-              r'\n\s*<button\n\s*type="button"\n\s*className="home-exp-replay"\n\s*onClick=\{\(\) => setIntroToken\(\(value\) => value \+ 1\)\}\n\s*>\n\s*Replay intro\n\s*</button>\n',
-              '\n',
-              s,
-          )
+          s = re.sub(r'\n\s*<button\s+type="button"\s+className="home-exp-replay".*?</button>\n', '\n', s, flags=re.S)
           p.write_text(s)
 
-          # 2) Story remains addressable, but is no longer a top navigation tab.
           p = Path('src/sections/Navigation.tsx')
           s = p.read_text().replace("  { label: 'Story', to: '/story' },\n", "")
           p.write_text(s)
 
-          # 3) Feature cards/detail CTA use SPA navigation: no full-page white flash on click.
           p = Path('src/components/HomeModesNetworkPortal.tsx')
           s = p.read_text()
           if "import { Link } from 'react-router'" not in s:
               s = s.replace("import { createPortal } from 'react-dom'\n", "import { createPortal } from 'react-dom'\nimport { Link } from 'react-router'\n")
           s = re.sub(r'\nfunction pageHref\(path: string\) \{.*?\n\}\n', '\n', s, flags=re.S)
-          s = s.replace(
-              "            <a\n              key={item.key}\n              href={pageHref(item.to)}",
-              "            <Link\n              key={item.key}\n              to={item.to}",
-          )
-          s = s.replace(
-              "              <b className=\"home-command-node__open\">OPEN ↗</b>\n            </a>\n          ))}",
-              "              <b className=\"home-command-node__open\">OPEN ↗</b>\n            </Link>\n          ))}",
-          )
-          s = s.replace(
-              '<a href={pageHref(feature.to)}>ENTER FEATURE ↗</a>',
-              '<Link to={feature.to}>ENTER FEATURE ↗</Link>',
-          )
+          s = s.replace("            <a\n              key={item.key}\n              href={pageHref(item.to)}", "            <Link\n              key={item.key}\n              to={item.to}")
+          s = s.replace("              <b className=\"home-command-node__open\">OPEN ↗</b>\n            </a>\n          ))}", "              <b className=\"home-command-node__open\">OPEN ↗</b>\n            </Link>\n          ))}")
+          s = s.replace('<a href={pageHref(feature.to)}>ENTER FEATURE ↗</a>', '<Link to={feature.to}>ENTER FEATURE ↗</Link>')
           p.write_text(s)
 
-          # 4) Give the clicked Partner page its own styling scope.
           p = Path('src/pages/PartnerSystemPage.tsx')
           s = p.read_text().replace('className="page-shell"', 'className="page-shell partner-system-page"', 1)
           p.write_text(s)
-
-          # 5) Final Partner state override: violet, never white/washed-out.
-          p = Path('src/components/HomeModesNetworkPortalFix.css')
-          s = p.read_text()
-          marker = '/* FINAL PARTNER STATE: violet, no white active/click treatment */'
-          block = r'''
-
-/* FINAL PARTNER STATE: violet, no white active/click treatment */
-.home-feature-node--partner,
-.home-feature-node--partner:hover,
-.home-feature-node--partner:focus,
-.home-feature-node--partner:focus-visible,
-.home-feature-node--partner[data-active='true'] {
-  border-color: #c78cff !important;
-  background: linear-gradient(155deg, rgba(184,108,255,.18), #090812 58%) !important;
-  box-shadow:
-    0 28px 80px rgba(0,0,0,.50),
-    0 0 38px rgba(184,108,255,.28),
-    inset 0 0 34px rgba(184,108,255,.10) !important;
-}
-
-.home-feature-node--partner .home-command-node__shade {
-  background:
-    linear-gradient(to top, rgba(8,4,14,.97) 0%, rgba(18,8,30,.62) 46%, rgba(184,108,255,.08) 100%),
-    linear-gradient(120deg, transparent 42%, rgba(184,108,255,.18)) !important;
-}
-
-.home-feature-node--partner .home-command-node__copy span,
-.home-feature-node--partner .home-command-node__copy strong,
-.home-feature-node--partner:hover .home-command-node__copy strong,
-.home-feature-node--partner[data-active='true'] .home-command-node__copy strong,
-.home-feature-node--partner .home-command-node__open,
-.home-feature-node--partner:hover .home-command-node__open,
-.home-feature-node--partner[data-active='true'] .home-command-node__open {
-  color: #d9b5ff !important;
-}
-
-.home-feature-node--partner .home-command-node__copy small {
-  color: rgba(225,196,255,.72) !important;
-}
-
-/* Keep the large partner backdrop deliberately dark. The generic safety rule
-   used opacity:1, which made this one feature look washed out compared with the others. */
-.home-command-showcase__backdrop.partner-artwork-safe > img {
-  opacity: .16 !important;
-  filter: none !important;
-  transform: none !important;
-  animation: none !important;
-}
-
-.home-feature-detail--partner {
-  border-color: rgba(199,140,255,.55) !important;
-  background: linear-gradient(105deg, rgba(184,108,255,.16), rgba(8,7,16,.97) 55%) !important;
-  box-shadow: inset 3px 0 0 #c78cff, 0 24px 70px rgba(0,0,0,.32), 0 0 34px rgba(184,108,255,.10) !important;
-}
-
-.home-feature-detail--partner .home-feature-detail__image > img {
-  opacity: .78 !important;
-  filter: none !important;
-  transform: none !important;
-  animation: none !important;
-}
-
-.home-feature-detail--partner .home-feature-detail__image::after {
-  display: block !important;
-  background: linear-gradient(90deg, rgba(8,7,16,.08) 24%, rgba(8,7,16,.92) 100%) !important;
-}
-
-.home-feature-detail--partner .home-feature-detail__copy h3,
-.home-feature-detail--partner .home-feature-detail__copy p,
-.home-feature-detail--partner .home-feature-detail__copy > strong {
-  color: #d9b5ff !important;
-}
-
-.home-feature-detail--partner .home-feature-detail__copy > div {
-  color: rgba(229,209,255,.78) !important;
-}
-
-.home-feature-detail--partner .home-feature-detail__chips span,
-.home-feature-detail--partner .home-feature-detail__chips a {
-  border-color: rgba(199,140,255,.42) !important;
-  color: #d9b5ff !important;
-  background: rgba(184,108,255,.10) !important;
-}
-
-.home-feature-detail--partner .home-feature-detail__chips a:hover,
-.home-feature-detail--partner .home-feature-detail__chips a:focus-visible {
-  border-color: #c78cff !important;
-  background: rgba(184,108,255,.22) !important;
-  box-shadow: 0 0 26px rgba(184,108,255,.24) !important;
-}
-
-/* Clicked Partner page: keep the identity violet instead of falling back to the
-   generic white feature-page treatment. */
-.partner-system-page .partner-system-hero-media > img {
-  opacity: .82 !important;
-  filter: none !important;
-  transform: none !important;
-  animation: none !important;
-  transition: none !important;
-}
-
-.partner-system-page .display-lg,
-.partner-system-page .display-md,
-.partner-system-page h3,
-.partner-system-page .dd-card > strong {
-  color: #d9b5ff !important;
-}
-
-.partner-system-page .dd-card {
-  border-color: rgba(199,140,255,.18);
-}
-'''
-          if marker not in s:
-              s += block
-          p.write_text(s)
           PY
+
+          MARKER='/* FINAL PARTNER STATE: violet, no white active/click treatment */'
+          if ! grep -Fq "$MARKER" src/components/HomeModesNetworkPortalFix.css; then
+            echo 'Ci8qIEZJTkFMIFBBUlRORVIgU1RBVEU6IHZpb2xldCwgbm8gd2hpdGUgYWN0aXZlL2NsaWNrIHRyZWF0bWVudCAqLwouaG9tZS1mZWF0dXJlLW5vZGUtLXBhcnRuZXIsCi5ob21lLWZlYXR1cmUtbm9kZS0tcGFydG5lcjpob3ZlciwKLmhvbWUtZmVhdHVyZS1ub2RlLS1wYXJ0bmVyOmZvY3VzLAouaG9tZS1mZWF0dXJlLW5vZGUtLXBhcnRuZXI6Zm9jdXMtdmlzaWJsZSwKLmhvbWUtZmVhdHVyZS1ub2RlLS1wYXJ0bmVyW2RhdGEtYWN0aXZlPSd0cnVlJ10gewogIGJvcmRlci1jb2xvcjogI2M3OGNmZiAhaW1wb3J0YW50OwogIGJhY2tncm91bmQ6IGxpbmVhci1ncmFkaWVudCgxNTVkZWcsIHJnYmEoMTg0LDEwOCwyNTUsLjE4KSwgIzA5MDgxMiA1OCUpICFpbXBvcnRhbnQ7CiAgYm94LXNoYWRvdzoKICAgIDAgMjhweCA4MHB4IHJnYmEoMCwwLDAsLjUwKSwKICAgIDAgMCAzOHB4IHJnYmEoMTg0LDEwOCwyNTUsLjI4KSwKICAgIGluc2V0IDAgMCAzNHB4IHJnYmEoMTg0LDEwOCwyNTUsLjEwKSAhaW1wb3J0YW50Owp9CgouaG9tZS1mZWF0dXJlLW5vZGUtLXBhcnRuZXIgLmhvbWUtY29tbWFuZC1ub2RlX19zaGFkZSB7CiAgYmFja2dyb3VuZDoKICAgIGxpbmVhci1ncmFkaWVudCh0byB0b3AsIHJnYmEoOCw0LDE0LC45NykgMCUsIHJnYmEoMTgsOCwzMCwuNjIpIDQ2JSwgcmdiYSgxODQsMTA4LDI1NSwuMDgpIDEwMCUpLAogICAgbGluZWFyLWdyYWRpZW50KDEyMGRlZywgdHJhbnNwYXJlbnQgNDIlLCByZ2JhKDE4NCwxMDgsMjU1LC4xOCkpICFpbXBvcnRhbnQ7Cn0KCi5ob21lLWZlYXR1cmUtbm9kZS0tcGFydG5lciAuaG9tZS1jb21tYW5kLW5vZGVfX2NvcHkgc3BhbiwKLmhvbWUtZmVhdHVyZS1ub2RlLS1wYXJ0bmVyIC5ob21lLWNvbW1hbmQtbm9kZV9fY29weSBzdHJvbmcsCi5ob21lLWZlYXR1cmUtbm9kZS0tcGFydG5lcjpob3ZlciAuaG9tZS1jb21tYW5kLW5vZGVfX2NvcHkgc3Ryb25nLAouaG9tZS1mZWF0dXJlLW5vZGUtLXBhcnRuZXJbZGF0YS1hY3RpdmU9J3RydWUnXSAuaG9tZS1jb21tYW5kLW5vZGVfX2NvcHkgc3Ryb25nLAouaG9tZS1mZWF0dXJlLW5vZGUtLXBhcnRuZXIgLmhvbWUtY29tbWFuZC1ub2RlX19vcGVuLAouaG9tZS1mZWF0dXJlLW5vZGUtLXBhcnRuZXI6aG92ZXIgLmhvbWUtY29tbWFuZC1ub2RlX19vcGVuLAouaG9tZS1mZWF0dXJlLW5vZGUtLXBhcnRuZXJbZGF0YS1hY3RpdmU9J3RydWUnXSAuaG9tZS1jb21tYW5kLW5vZGVfX29wZW4gewogIGNvbG9yOiAjZDliNWZmICFpbXBvcnRhbnQ7Cn0KCi5ob21lLWZlYXR1cmUtbm9kZS0tcGFydG5lciAuaG9tZS1jb21tYW5kLW5vZGVfX2NvcHkgc21hbGwgewogIGNvbG9yOiByZ2JhKDIyNSwxOTYsMjU1LC43MikgIWltcG9ydGFudDsKfQoKLyogS2VlcCB0aGUgbGFyZ2UgcGFydG5lciBiYWNrZHJvcCBkZWxpYmVyYXRlbHkgZGFyay4gKi8KLmhvbWUtY29tbWFuZC1zaG93Y2FzZV9fYmFja2Ryb3AucGFydG5lci1hcnR3b3JrLXNhZmUgPiBpbWcgewogIG9wYWNpdHk6IC4xNiAhaW1wb3J0YW50OwogIGZpbHRlcjogbm9uZSAhaW1wb3J0YW50OwogIHRyYW5zZm9ybTogbm9uZSAhaW1wb3J0YW50OwogIGFuaW1hdGlvbjogbm9uZSAhaW1wb3J0YW50Owp9CgouaG9tZS1mZWF0dXJlLWRldGFpbC0tcGFydG5lciB7CiAgYm9yZGVyLWNvbG9yOiByZ2JhKDE5OSwxNDAsMjU1LC41NSkgIWltcG9ydGFudDsKICBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQoMTA1ZGVnLCByZ2JhKDE4NCwxMDgsMjU1LC4xNiksIHJnYmEoOCw3LDE2LC45NykgNTUlKSAhaW1wb3J0YW50OwogIGJveC1zaGFkb3c6IGluc2V0IDNweCAwIDAgI2M3OGNmZiwgMCAyNHB4IDcwcHggcmdiYSgwLDAsMCwuMzIpLCAwIDAgMzRweCByZ2JhKDE4NCwxMDgsMjU1LC4xMCkgIWltcG9ydGFudDsKfQoKLmhvbWUtZmVhdHVyZS1kZXRhaWwtLXBhcnRuZXIgLmhvbWUtZmVhdHVyZS1kZXRhaWxfX2ltYWdlID4gaW1nIHsKICBvcGFjaXR5OiAuNzggIWltcG9ydGFudDsKICBmaWx0ZXI6IG5vbmUgIWltcG9ydGFudDsKICB0cmFuc2Zvcm06IG5vbmUgIWltcG9ydGFudDsKICBhbmltYXRpb246IG5vbmUgIWltcG9ydGFudDsKfQoKLmhvbWUtZmVhdHVyZS1kZXRhaWwtLXBhcnRuZXIgLmhvbWUtZmVhdHVyZS1kZXRhaWxfX2ltYWdlOjphZnRlciB7CiAgZGlzcGxheTogYmxvY2sgIWltcG9ydGFudDsKICBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQoOTBkZWcsIHJnYmEoOCw3LDE2LC4wOCkgMjQlLCByZ2JhKDgsNywxNiwuOTIpIDEwMCUpICFpbXBvcnRhbnQ7Cn0KCi5ob21lLWZlYXR1cmUtZGV0YWlsLS1wYXJ0bmVyIC5ob21lLWZlYXR1cmUtZGV0YWlsX19jb3B5IGgzLAouaG9tZS1mZWF0dXJlLWRldGFpbC0tcGFydG5lciAuaG9tZS1mZWF0dXJlLWRldGFpbF9fY29weSBwLAouaG9tZS1mZWF0dXJlLWRldGFpbC0tcGFydG5lciAuaG9tZS1mZWF0dXJlLWRldGFpbF9fY29weSA+IHN0cm9uZyB7CiAgY29sb3I6ICNkOWI1ZmYgIWltcG9ydGFudDsKfQoKLmhvbWUtZmVhdHVyZS1kZXRhaWwtLXBhcnRuZXIgLmhvbWUtZmVhdHVyZS1kZXRhaWxfX2NvcHkgPiBkaXYgewogIGNvbG9yOiByZ2JhKDIyOSwyMDksMjU1LC43OCkgIWltcG9ydGFudDsKfQoKLmhvbWUtZmVhdHVyZS1kZXRhaWwtLXBhcnRuZXIgLmhvbWUtZmVhdHVyZS1kZXRhaWxfX2NoaXBzIHNwYW4sCi5ob21lLWZlYXR1cmUtZGV0YWlsLS1wYXJ0bmVyIC5ob21lLWZlYXR1cmUtZGV0YWlsX19jaGlwcyBhIHsKICBib3JkZXItY29sb3I6IHJnYmEoMTk5LDE0MCwyNTUsLjQyKSAhaW1wb3J0YW50OwogIGNvbG9yOiAjZDliNWZmICFpbXBvcnRhbnQ7CiAgYmFja2dyb3VuZDogcmdiYSgxODQsMTA4LDI1NSwuMTApICFpbXBvcnRhbnQ7Cn0KCi5ob21lLWZlYXR1cmUtZGV0YWlsLS1wYXJ0bmVyIC5ob21lLWZlYXR1cmUtZGV0YWlsX19jaGlwcyBhOmhvdmVyLAouaG9tZS1mZWF0dXJlLWRldGFpbC0tcGFydG5lciAuaG9tZS1mZWF0dXJlLWRldGFpbF9fY2hpcHMgYTpmb2N1cy12aXNpYmxlIHsKICBib3JkZXItY29sb3I6ICNjNzhjZmYgIWltcG9ydGFudDsKICBiYWNrZ3JvdW5kOiByZ2JhKDE4NCwxMDgsMjU1LC4yMikgIWltcG9ydGFudDsKICBib3gtc2hhZG93OiAwIDAgMjZweCByZ2JhKDE4NCwxMDgsMjU1LC4yNCkgIWltcG9ydGFudDsKfQoKLnBhcnRuZXItc3lzdGVtLXBhZ2UgLnBhcnRuZXItc3lzdGVtLWhlcm8tbWVkaWEgPiBpbWcgewogIG9wYWNpdHk6IC44MiAhaW1wb3J0YW50OwogIGZpbHRlcjogbm9uZSAhaW1wb3J0YW50OwogIHRyYW5zZm9ybTogbm9uZSAhaW1wb3J0YW50OwogIGFuaW1hdGlvbjogbm9uZSAhaW1wb3J0YW50OwogIHRyYW5zaXRpb246IG5vbmUgIWltcG9ydGFudDsKfQoKLnBhcnRuZXItc3lzdGVtLXBhZ2UgLmRpc3BsYXktbGcsCi5wYXJ0bmVyLXN5c3RlbS1wYWdlIC5kaXNwbGF5LW1kLAoucGFydG5lci1zeXN0ZW0tcGFnZSBoMywKLnBhcnRuZXItc3lzdGVtLXBhZ2UgLmRkLWNhcmQgPiBzdHJvbmcgewogIGNvbG9yOiAjZDliNWZmICFpbXBvcnRhbnQ7Cn0KCi5wYXJ0bmVyLXN5c3RlbS1wYWdlIC5kZC1jYXJkIHsKICBib3JkZXItY29sb3I6IHJnYmEoMTk5LDE0MCwyNTUsLjE4KTsKfQo=' | base64 -d >> src/components/HomeModesNetworkPortalFix.css
+          fi
 
       - name: Verify production build
         run: |
@@ -196,8 +68,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm .github/workflows/apply-homepage-cleanup.yml
-          git add src/pages/HomePage.tsx src/sections/Navigation.tsx \
-            src/components/HomeModesNetworkPortal.tsx src/components/HomeModesNetworkPortalFix.css \
-            src/pages/PartnerSystemPage.tsx
+          git add src/pages/HomePage.tsx src/sections/Navigation.tsx src/components/HomeModesNetworkPortal.tsx src/components/HomeModesNetworkPortalFix.css src/pages/PartnerSystemPage.tsx
           git commit -m "Clean homepage nav and stabilize Partner states"
           git push origin HEAD:main
