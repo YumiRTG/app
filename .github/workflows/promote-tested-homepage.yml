@@ -1,0 +1,76 @@
+name: Promote Tested Homepage
+
+on:
+  push:
+    paths:
+      - '.github/workflows/promote-tested-homepage.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout production
+        uses: actions/checkout@v4
+        with:
+          path: production
+          fetch-depth: 0
+
+      - name: Checkout tested homepage
+        uses: actions/checkout@v4
+        with:
+          repository: YumiRTG/dino-warfront-test
+          ref: de7de4bfdadcff2127e0fecaf78250a782524724
+          path: test-source
+
+      - name: Copy tested homepage and feature files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p production/src/components production/src/pages production/src/sections production/src/lib production/public/promo
+
+          cp test-source/src/App.tsx production/src/App.tsx
+          cp test-source/src/main.tsx production/src/main.tsx
+          cp test-source/src/pages/HomePage.tsx production/src/pages/HomePage.tsx
+          cp test-source/src/pages/HomePage.css production/src/pages/HomePage.css
+          cp test-source/src/pages/HomeTransitionsLab.css production/src/pages/HomeTransitionsLab.css
+          cp test-source/src/components/HomeExperience.tsx production/src/components/HomeExperience.tsx
+          cp test-source/src/components/HomeModesNetworkPortal.tsx production/src/components/HomeModesNetworkPortal.tsx
+          cp test-source/src/components/HomeModesNetworkPortal.css production/src/components/HomeModesNetworkPortal.css
+          cp test-source/src/components/HomeModesNetworkPortalFix.css production/src/components/HomeModesNetworkPortalFix.css
+          cp test-source/src/pages/PartnerSystemPage.tsx production/src/pages/PartnerSystemPage.tsx
+          cp test-source/src/pages/WorldBossPage.tsx production/src/pages/WorldBossPage.tsx
+          cp test-source/src/sections/Navigation.tsx production/src/sections/Navigation.tsx
+          cp test-source/src/lib/heroes.ts production/src/lib/heroes.ts
+          cp test-source/src/lib/dinos.ts production/src/lib/dinos.ts
+          cp test-source/public/promo/partner-system-promo.jpg production/public/promo/partner-system-promo.jpg
+          cp test-source/public/promo/tower-defense-promo.jpg production/public/promo/tower-defense-promo.jpg
+          cp test-source/public/promo/worldboss-promo.jpg production/public/promo/worldboss-promo.jpg
+
+      - name: Verify production build
+        working-directory: production
+        run: |
+          npm ci
+          npm run build
+
+      - name: Commit tested homepage
+        working-directory: production
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/App.tsx src/main.tsx src/pages/HomePage.tsx src/pages/HomePage.css src/pages/HomeTransitionsLab.css \
+            src/components/HomeExperience.tsx src/components/HomeModesNetworkPortal.tsx \
+            src/components/HomeModesNetworkPortal.css src/components/HomeModesNetworkPortalFix.css \
+            src/pages/PartnerSystemPage.tsx src/pages/WorldBossPage.tsx src/sections/Navigation.tsx \
+            src/lib/heroes.ts src/lib/dinos.ts public/promo/partner-system-promo.jpg \
+            public/promo/tower-defense-promo.jpg public/promo/worldboss-promo.jpg
+          if git diff --cached --quiet; then
+            echo "Production already matches the tested homepage."
+            exit 0
+          fi
+          git commit -m "Promote tested homepage experience"
+          git push origin HEAD:main
