@@ -30,7 +30,7 @@ jobs:
           set -euo pipefail
           {
             cat staged/.tmp/partner/head00.b64 staged/.tmp/partner/head01.b64 staged/.tmp/partner/head02.b64 staged/.tmp/partner/head03.b64
-            tail -c +4001 staged/.tmp/partner/chunk00.b64
+            cat staged/.tmp/partner/tail00.b64 staged/.tmp/partner/tail01.b64 staged/.tmp/partner/tail02.b64 staged/.tmp/partner/tail03.b64 staged/.tmp/partner/tail04.b64 staged/.tmp/partner/tail05.b64 staged/.tmp/partner/tail06.b64 staged/.tmp/partner/tail07.b64 staged/.tmp/partner/tail08.b64 staged/.tmp/partner/tail09a.b64 staged/.tmp/partner/tail09b.b64 staged/.tmp/partner/tail09c.b64
             cat staged/.tmp/partner/chunk{01..11}.b64
           } | tr -d '\n\r' | base64 -d > production/public/promo/partner-system-promo.webp
           test "$(stat -c%s production/public/promo/partner-system-promo.webp)" -eq 62718
