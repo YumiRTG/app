@@ -1,6 +1,6 @@
 import { asset } from '@/lib/assets'
 
-/** Basic launch roster — same heroes as Bestiary */
+/** Shared hero roster for the hero details and Bestiary. */
 export type HeroInfo = {
   id: string
   name: string
@@ -24,6 +24,20 @@ export const BASIC_HEROES: HeroInfo[] = [
       'Unlock and level her early — she anchors your first squads.',
       'Pair with tanky dinos or infantry to keep her skills online.',
       'Story and web rewards revolve around her rise as commander.',
+    ],
+  },
+  {
+    id: 'tweak-vale',
+    name: 'Tweak Vale',
+    role: 'Legendary Infantry',
+    img: asset('hero-tweak-vale.webp'),
+    focus: 'Area damage · Bleed · Last stand',
+    blurb:
+      'A legendary infantry damage dealer who pressures enemy squads with sweeping attacks and bleeding damage. His once-per-battle last stand keeps him fighting at exactly 1 HP after a lethal hit.',
+    tips: [
+      'Use his sweeping bleed attack to pressure multiple enemies.',
+      'Save his stronger area attack for dangerous enemy groups.',
+      'His last stand triggers once per battle, leaves exactly 1 HP and grants no shield.',
     ],
   },
   {

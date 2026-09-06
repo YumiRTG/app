@@ -93,7 +93,7 @@ export default function HeroesFeaturePage() {
 
         {/* Basic heroes */}
         <div className="flex items-center gap-4 mb-8" data-reveal="up">
-          <h2 className="font-display text-2xl text-white tracking-wide">BASIC HEROES</h2>
+          <h2 className="font-display text-2xl text-white tracking-wide">HERO ROSTER</h2>
           <div className="hud-line flex-1 opacity-50" />
           <span className="font-ui text-[10px] tracking-[0.2em] uppercase text-[var(--gold)]/80">
             {BASIC_HEROES.length} legends
