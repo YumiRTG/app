@@ -20,9 +20,9 @@ const KB: KbEntry[] = [
   {
     keys: ['download', 'apk', 'install', 'android', 'herunterladen', 'installation', 'laden'],
     answerEn:
-      'Open the Download page on your phone → tap Download APK → allow install from the browser if asked. The file is large (~2.6 GB), use Wi‑Fi. Then launch Dino Warfront.',
+      'Open the Download page on your phone → tap Download APK → allow install from the browser if asked. Check the Download page for availability and the current file size. Use Wi-Fi for large downloads. Then launch Dino Warfront.',
     answerDe:
-      'Öffne die Download-Seite auf dem Handy → Download APK tippen → Installation aus dem Browser erlauben, falls gefragt. Die Datei ist groß (~2,6 GB), am besten per WLAN. Danach Dino Warfront starten.',
+      'Öffne die Download-Seite auf dem Handy → Download APK tippen → Installation aus dem Browser erlauben, falls gefragt. Verfügbarkeit und aktuelle Dateigröße stehen auf der Download-Seite. Für große Downloads WLAN verwenden. Danach Dino Warfront starten.',
   },
   {
     keys: ['login', 'account', 'account id', 'anmelden', 'accountid', 'player id', 'settings', 'einstellungen'],

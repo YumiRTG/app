@@ -121,7 +121,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/[0.04] py-4 text-center font-body text-[11px] text-white/25 tracking-wide">
-        © {new Date().getFullYear()} Dino Warfront · Friend beta
+        © {new Date().getFullYear()} Dino Warfront · Android beta
       </div>
     </footer>
   )

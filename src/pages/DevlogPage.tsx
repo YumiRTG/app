@@ -80,7 +80,7 @@ export default function DevlogPage() {
         <div className="container-dd relative z-10">
           <p className="live-badge">
             <span className="live-badge__dot" />
-            Friend beta
+            Android beta
           </p>
           <h1 className="display-lg text-white mt-4">
             Progress
@@ -228,7 +228,7 @@ export default function DevlogPage() {
               style={{ background: 'radial-gradient(circle, rgba(255,77,26,0.4), transparent 70%)' }}
             />
             <div className="relative z-10 max-w-2xl">
-              <p className="eyebrow">Friend beta</p>
+              <p className="eyebrow">Android beta</p>
               <h2 className="display-md text-white mt-3">Play the current build</h2>
               <p className="body-lg mt-4">
                 Download the APK, log in with your Account ID, and tell us what breaks.

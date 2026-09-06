@@ -161,7 +161,7 @@ export const PROGRESS_LOG: ProgressEntry[] = [
   {
     id: 'apk-beta',
     date: 'May 2026',
-    title: 'Android friend beta',
+    title: 'Android beta',
     body: 'Private beta APK for friends. Install from the Download page; Wi-Fi recommended.',
     tag: 'shipped',
   },

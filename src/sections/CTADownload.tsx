@@ -90,7 +90,7 @@ export default function CTADownload() {
             lineHeight: 1.6,
           }}
         >
-          Download the Android beta APK for friends testing, or get the game on the stores later.
+          Download the Android beta APK for beta testing, or get the game on the stores later.
         </p>
 
         <div
@@ -125,7 +125,7 @@ export default function CTADownload() {
         </div>
 
         <p className="font-body text-cream/40 text-xs mt-8 uppercase tracking-wider">
-          Friend beta via APK · Free to play · Strategy survival
+          Android beta via APK · Free to play · Strategy survival
         </p>
       </div>
     </section>

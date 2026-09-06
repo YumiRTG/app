@@ -21,15 +21,15 @@ const features = [
   {
     title: 'Discover the dinosaurs', category: 'Prehistoric roster',
     text: 'Explore the dinosaur roster, from Velociraptor and Triceratops to Tyrannosaurus. Get to know the creatures and their combat roles as you build your prehistoric force.',
-    tags: ['Raptors', 'Armored beasts', 'Apex predators'], image: 'dinosaurs', contain: true,
-    alt: 'Velociraptor portrait from the dinosaur roster',
+    tags: ['Raptors', 'Armored beasts', 'Apex predators'], image: 'dinosaurs-scene',
+    alt: 'Tyrannosaurus, Triceratops and Velociraptors in a lush prehistoric valley',
     to: '/features/dinos', link: 'Explore the dinosaur roster',
   },
   {
     title: 'Train your army', category: 'Troops & formations',
     text: 'Train Infantry, Shooters and Riders in their camps. Unlock stronger troop tiers and plan around the counter cycle: Infantry beat Shooters, Shooters beat Riders, and Riders beat Infantry.',
-    tags: ['Three troop types', 'Training', 'Counters'], image: 'army',
-    alt: 'Infantry, Rider and Shooter troop emblems',
+    tags: ['Three troop types', 'Training', 'Counters'], image: 'army-scene',
+    alt: 'Infantry, archers and dinosaur riders training in a fortified settlement',
     to: '/features/base', link: 'Explore camps & buildings',
   },
   {
@@ -42,8 +42,8 @@ const features = [
   {
     title: 'Grow an alliance', category: 'Cooperative play',
     text: 'Join other commanders, help with upgrades and contribute to alliance research and quests. Coordinate rallies and build a shared presence on the world map.',
-    tags: ['Member help', 'Alliance research', 'Rallies'], image: 'alliance', contain: true,
-    alt: 'Alliance emblem with a dinosaur skull and crossed weapons',
+    tags: ['Member help', 'Alliance research', 'Rallies'], image: 'alliance-scene',
+    alt: 'Allied commanders planning together around a stone campaign table',
     to: '/modes/world-map', link: 'Explore shared-world play',
   },
   {
@@ -69,10 +69,9 @@ const features = [
   },
 ]
 
-function FeatureImage({ name, alt, contain = false, eager = false }: {
+function FeatureImage({ name, alt, eager = false }: {
   name: string
   alt: string
-  contain?: boolean
   eager?: boolean
 }) {
   return (
@@ -81,7 +80,7 @@ function FeatureImage({ name, alt, contain = false, eager = false }: {
       srcSet={`${asset(`features/${name}-480.webp`)} 480w, ${asset(`features/${name}-960.webp`)} 960w`}
       sizes="(min-width: 1024px) 440px, (min-width: 640px) 50vw, 100vw"
       alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async"
-      className={`absolute inset-0 h-full w-full transition-transform duration-500 motion-reduce:transition-none ${contain ? 'object-contain p-5' : 'object-cover'} motion-safe:group-hover:scale-[1.035]`}
+      className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none motion-safe:group-hover:scale-[1.035]"
     />
   )
 }
@@ -135,15 +134,7 @@ export default function FeaturesPage() {
             {features.map((feature, index) => (
               <Link key={feature.title} to={feature.to} className="dd-card group flex flex-col overflow-hidden no-underline text-inherit focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--gold)]">
                 <div className="relative aspect-[3/2] overflow-hidden bg-[radial-gradient(ellipse_at_center,#292434_0%,#0d0b13_75%)]">
-                  {feature.image === 'army' ? (
-                    <div className="absolute inset-0 flex items-center justify-center gap-3 px-5">
-                      {['infantry', 'riders', 'shooters'].map((troop) => (
-                        <img key={troop} src={asset(`features/${troop}-480.webp`)} alt={`${troop[0].toUpperCase()}${troop.slice(1)} emblem`} loading="lazy" decoding="async" className="w-[28%] object-contain" width={160} height={160} />
-                      ))}
-                    </div>
-                  ) : (
-                    <FeatureImage name={feature.image} alt={feature.alt} contain={feature.contain} />
-                  )}
+                  <FeatureImage name={feature.image} alt={feature.alt} />
                   <span className="absolute top-3 left-3 rounded-sm border border-white/20 bg-black/65 px-2 py-1 font-ui text-[10px] tracking-widest text-white" aria-hidden="true">
                     {String(index + 1).padStart(2, '0')}
                   </span>

@@ -45,7 +45,7 @@ export default function HomePage() {
 
         <div className="absolute z-10 left-0 right-0 top-[18%] sm:top-[17%] md:top-[16%] container-dd flex flex-col items-center text-center">
           <p data-hero data-hero-delay="0.05" className="eyebrow mb-2 sm:mb-3 justify-center">
-            Friend beta · Prehistoric strategy
+            Android beta · Prehistoric strategy
           </p>
 
           <h1
@@ -104,7 +104,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <section className="section-band relative overflow-hidden">
+      <section data-home-gameplay="" className="section-band relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none opacity-60"
           style={{
@@ -122,14 +122,14 @@ export default function HomePage() {
                 <span>Major modes</span>
               </div>
               <h2 className="display-lg text-white">
-                Four ways
+                Four core
                 <br />
-                <span className="text-gradient-magma">to fight</span>
+                <span className="text-gradient-magma">game modes</span>
               </h2>
             </div>
             <p className="body-lg max-w-sm md:text-right">
-              A real-time defense, two competitive ladders, a shared world that never
-              stops, and a 78-stage campaign. One army has to cover all four.
+              All four core modes are active: tower defense, Arena, the shared world map
+              and a 78-stage campaign. Choose your challenge and build a team for it.
             </p>
           </div>
 
@@ -215,12 +215,12 @@ export default function HomePage() {
               <span className="text-gradient-gold">& roulette</span>
             </h2>
             <p className="body-lg mt-5 max-w-md">
-              Streaks and spins — the first edge you can claim without the full
-              campaign. Log in; the inventory feels it when you open the app.
+              Claim your first reward with a daily login bonus or a free roulette spin.
+              Connect your character, then open the game to collect your rewards.
             </p>
             <div className="flex flex-wrap gap-3 mt-8">
               <Link to="/play" className="btn-primary no-underline">
-                Claim the edge
+                Claim reward
               </Link>
               <Link to="/play?login=1" className="btn-secondary no-underline">
                 Log in
@@ -269,8 +269,8 @@ export default function HomePage() {
                 <span className="text-gradient-magma"> log</span>
               </h2>
               <p className="body-lg mt-4">
-                Screenshots and roadmap pieces land here first. Advance the log
-                to see what is shipping next.
+                See game screenshots, recent updates and the features currently
+                in development.
               </p>
               <Link to="/progress" className="btn-primary no-underline mt-8 inline-flex">
                 See what is next
@@ -278,8 +278,8 @@ export default function HomePage() {
             </div>
             <div className="grid grid-cols-2 gap-3 relative">
               {[
-                { t: 'Screenshots', d: 'Real Unity printscreens' },
-                { t: 'Shipped', d: 'What friends can use now' },
+                { t: 'Screenshots', d: 'In-game screenshots' },
+                { t: 'Shipped', d: 'Features available now' },
                 { t: 'In progress', d: 'Active development work' },
                 { t: 'Roadmap', d: 'Nyra story quests & more' },
               ].map((x) => (
@@ -319,18 +319,18 @@ export default function HomePage() {
               <h2 className="display-lg text-white mt-2">
                 Download &
                 <br />
-                <span className="text-gradient-magma">command</span>
+                <span className="text-gradient-magma">play</span>
               </h2>
               <p className="body-lg mt-5">
-                The website is the map sketch. The APK is the territory —
-                base, battles, dinos, campaign. Friend beta · ~2.6 GB · Wi‑Fi recommended.
+                Build your base, recruit heroes and discover the prehistoric world.
+                Get the Android beta on the download page. Wi-Fi recommended.
               </p>
               <div className="flex flex-wrap gap-3 mt-10">
                 <Link to="/download" className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4">
                   Download APK
                 </Link>
                 <Link to="/features" className="btn-secondary no-underline">
-                  Still exploring?
+                  Explore features
                 </Link>
               </div>
             </div>

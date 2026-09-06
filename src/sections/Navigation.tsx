@@ -55,7 +55,7 @@ export default function Navigation() {
         {/* Top news ticker — AAA game sites style */}
         <div className="news-strip hidden sm:block">
           <div className="container-dd flex items-center justify-between h-8 text-[10px] font-ui tracking-[0.2em] uppercase">
-            <span className="text-[var(--magma-glow)]">Friend beta</span>
+            <span className="text-[var(--magma-glow)]">Android beta</span>
             <span className="text-[var(--bone)]/50 truncate px-4">
               Four modes live · Primeval Defense · Arena 1v1 &amp; 3×3 · Shared world map · 78-stage campaign
             </span>

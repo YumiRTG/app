@@ -21,3 +21,13 @@ for (const [name, source] of images) {
   }
 }
 console.log('Feature artwork prepared from 12 existing project assets.')
+
+// Full-scene replacements generated with the built-in Imagegen tool.
+for (const name of ['alliance-scene', 'army-scene', 'dinosaurs-scene']) {
+  for (const width of [480, 960]) {
+    await sharp(fileURLToPath(new URL(`../artwork/features/${name}.png`, import.meta.url)))
+      .resize({ width }).webp({ quality: 82 })
+      .toFile(fileURLToPath(new URL(`${name}-${width}.webp`, output)))
+  }
+}
+console.log('Three full-scene replacements prepared.')

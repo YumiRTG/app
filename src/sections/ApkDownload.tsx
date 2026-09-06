@@ -9,12 +9,12 @@ export default function ApkDownload() {
   return (
     <section id="apk" className="max-w-[920px] mx-auto">
       <div className="text-center mb-10">
-        <p className="eyebrow justify-center">Friend beta</p>
+        <p className="eyebrow justify-center">Android beta</p>
         <h1 className="display-lg text-white mt-4">
           Down<span className="text-gradient-magma">load</span>
         </h1>
         <p className="body-lg mt-4 max-w-lg mx-auto">
-          Install the Android beta directly — share the link with friends.
+          Find the Android beta download and installation instructions here.
         </p>
       </div>
 
@@ -65,8 +65,10 @@ export default function ApkDownload() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {[
               { label: 'Platform', value: APK_DOWNLOAD.platform },
-              { label: 'Version', value: APK_DOWNLOAD.version },
-              { label: 'Size', value: APK_DOWNLOAD.sizeLabel },
+              ...(isReady ? [
+                { label: 'Version', value: APK_DOWNLOAD.version },
+                { label: 'Size', value: APK_DOWNLOAD.sizeLabel },
+              ] : []),
               { label: 'Requires', value: APK_DOWNLOAD.minAndroid },
             ].map((item) => (
               <div key={item.label} className="stat-chip text-center !pl-3">
@@ -103,22 +105,22 @@ export default function ApkDownload() {
                 Download APK
               </a>
               <p className="mt-3 text-center font-ui text-[10px] tracking-[0.16em] uppercase text-[var(--bone-dim)]">
-                Host · {APK_DOWNLOAD.hostLabel} · not Google Drive
+                Host · {APK_DOWNLOAD.hostLabel}
               </p>
             </>
           ) : (
             <button type="button" disabled className="btn-primary w-full">
-              APK coming soon
+              Download temporarily unavailable
             </button>
           )}
 
-          <ol className="mt-8 space-y-2 font-body text-sm text-[var(--bone-dim)] list-decimal list-inside leading-relaxed">
+          {isReady && <ol className="mt-8 space-y-2 font-body text-sm text-[var(--bone-dim)] list-decimal list-inside leading-relaxed">
             <li>Open this page on your Android phone.</li>
-            <li>Tap Download APK — you land on Gofile (not Drive).</li>
-            <li>Tap Download again on Gofile and wait for the file.</li>
+            <li>Tap Download APK to open the download host.</li>
+            <li>Follow the host's download instructions and wait for the file.</li>
             <li>Allow install from this source if asked.</li>
             <li>Launch Dino Warfront and play.</li>
-          </ol>
+          </ol>}
         </div>
       </div>
     </section>

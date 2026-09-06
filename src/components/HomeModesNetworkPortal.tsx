@@ -142,10 +142,7 @@ export default function HomeModesNetworkPortal() {
       }
 
       const sections = Array.from(home.querySelectorAll<HTMLElement>(':scope > section'))
-      const section = sections.find((candidate) => {
-        const heading = normalizedHeading(candidate)
-        return heading.includes('four ways') && heading.includes('to fight')
-      })
+      const section = home.querySelector<HTMLElement>(':scope > [data-home-gameplay]')
 
       if (!section) {
         if (currentSection) detachCurrent()
@@ -268,12 +265,12 @@ export default function HomeModesNetworkPortal() {
         onMouseLeave={() => setPaused(false)}
       >
         <header className="home-command-showcase__header home-feature-header">
-          <p>WARFRONT SYSTEMS // 06 EXPERIENCES ONLINE</p>
+          <p>FOUR CORE MODES · PARTNER DINOSAURS · WORLD BOSS</p>
           <h2>
-            Six ways to fight.
-            <span> One empire to rule.</span>
+            Four core modes.
+            <span> More to explore.</span>
           </h2>
-          <small>Every mode rewards progress. Every victory strengthens your empire.</small>
+          <small>Play campaign, tower defense, Arena and the world map. Raise a dinosaur partner and join world-boss events along the way.</small>
         </header>
 
         <div className="home-command-board home-feature-command-board">
