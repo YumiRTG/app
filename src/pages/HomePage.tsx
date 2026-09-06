@@ -5,6 +5,7 @@ import { MODES } from '@/config/modes'
 import TopCommanders from '@/sections/TopCommanders'
 import WarRoom from '@/sections/WarRoom'
 import { HomeCinematicSequence, HomeExperienceFx, HomeIntro } from '@/components/HomeExperience'
+import ResponsiveHero from '@/components/ResponsiveHero'
 import './HomePage.css'
 
 const DINOS = [
@@ -27,14 +28,7 @@ export default function HomePage() {
       <HomeIntro replayToken={0} />
 
       <section className="relative min-h-[100svh] overflow-hidden home-exp-hero">
-        <img
-          data-hero-bg
-          src={asset('hero-poster.png')}
-          alt="Dino Warfront landscape with apex T-rex"
-          className="absolute inset-0 w-full h-full object-cover will-change-transform hero-video-live"
-          style={{ objectPosition: 'center center' }}
-          draggable={false}
-        />
+        <ResponsiveHero />
         <div className="home-exp-hero-grid" aria-hidden />
         <div className="home-exp-hero-sweep" aria-hidden />
         <div className="home-exp-hero-pulse" aria-hidden />

@@ -5,10 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "predev": "node scripts/build-hero-images.mjs",
     "build": "vite build",
+    "prebuild": "node scripts/build-hero-images.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:reports": "node --test tests/player-report.test.mjs"
+    "test:reports": "node --test tests/player-report.test.mjs",
+    "test:mobile": "node --test tests/hero-images.test.mjs"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.2.8",

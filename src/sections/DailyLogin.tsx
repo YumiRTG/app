@@ -87,25 +87,25 @@ export default function DailyLogin() {
 
   return (
     <section className="py-12 md:py-16 px-5 md:px-8">
-      <div className="max-w-[1000px] mx-auto">
+      <div className="max-w-[1000px] mx-auto min-w-0">
         <div className="text-center mb-10">
           <p className="eyebrow">Login bonus</p>
           <h2 className="font-display text-3xl md:text-5xl text-white mt-3 uppercase">
             Daily login
           </h2>
-          <p className="body-lg mt-3">
+          <p className="body-lg mt-3 break-words">
             Welcome, <span className="text-[#e9b44c]">{session.displayName}</span>
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-          <div className="glass-panel px-8 py-5 text-center min-w-[140px]">
+          <div className="glass-panel px-6 sm:px-8 py-5 text-center w-full sm:w-auto sm:min-w-[140px]">
             <p className="eyebrow !text-[0.6rem]">Streak</p>
             <p className="font-display text-4xl text-[#e9b44c] mt-1">{loading ? '…' : streak}</p>
           </div>
-          <div className="glass-panel px-8 py-5 text-center min-w-[180px]">
+          <div className="glass-panel px-6 sm:px-8 py-5 text-center w-full sm:w-auto sm:min-w-[180px]">
             <p className="eyebrow !text-[0.6rem]">{canClaim ? "Today" : 'Next'}</p>
-            <p className="font-display text-2xl text-white mt-1">
+            <p className="font-display text-2xl text-white mt-1 break-words">
               {status?.todaysReward.label ?? '—'}
             </p>
           </div>
@@ -118,7 +118,7 @@ export default function DailyLogin() {
             return (
               <div
                 key={reward.day}
-                className="rounded-xl px-3 py-4 text-center border"
+                className="rounded-xl min-w-0 px-3 py-4 text-center border"
                 style={{
                   borderColor: isToday
                     ? 'rgba(232,93,4,0.6)'
@@ -135,7 +135,7 @@ export default function DailyLogin() {
                 <p className="font-ui text-[10px] tracking-widest uppercase text-[#c4b89a]/70">
                   Day {reward.day}
                 </p>
-                <p className="font-ui text-sm text-white mt-2 tracking-wide leading-tight">
+                <p className="font-ui text-sm text-white mt-2 tracking-wide leading-tight break-words">
                   {reward.label}
                 </p>
                 {completed && (
@@ -154,7 +154,7 @@ export default function DailyLogin() {
             type="button"
             onClick={claim}
             disabled={!canClaim || claiming || loading}
-            className="btn-primary min-w-[240px]"
+            className="btn-primary w-full sm:w-auto sm:min-w-[240px] min-h-11"
           >
             {claiming
               ? 'Claiming…'

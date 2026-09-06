@@ -120,7 +120,7 @@ export default function Roulette() {
   return (
     <section className="py-12 md:py-16 px-5 md:px-8">
       <div className="max-w-[1000px] mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-        <div className="relative w-[min(88vw,340px)] h-[min(88vw,340px)] shrink-0">
+        <div className="relative w-full max-w-[340px] aspect-square shrink-0">
           <div
             className="absolute left-1/2 -translate-x-1/2 -top-1 z-20"
             style={{
@@ -165,10 +165,10 @@ export default function Roulette() {
           </div>
         </div>
 
-        <div className="w-full max-w-[360px] text-center lg:text-left">
+        <div className="w-full min-w-0 max-w-[360px] text-center lg:text-left">
           <p className="eyebrow">Daily spin</p>
           <h2 className="font-display text-3xl text-white mt-2 uppercase">Roulette</h2>
-          <p className="body-lg mt-3 text-sm">
+          <p className="body-lg mt-3 text-sm break-words">
             One free spin every 24 hours for{' '}
             <span className="text-[#e9b44c]">{session.displayName}</span>.
           </p>
@@ -177,7 +177,7 @@ export default function Roulette() {
             type="button"
             onClick={spin}
             disabled={spinning || !canSpin || loadingStatus}
-            className="btn-primary w-full mt-6"
+            className="btn-primary w-full min-h-11 mt-6"
           >
             {spinning
               ? 'Spinning…'
