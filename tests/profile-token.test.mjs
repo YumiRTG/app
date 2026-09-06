@@ -2,6 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import crypto from 'node:crypto'
 import {encodeUid,decodeToken} from '../api/_token.js'
+import commander from '../api/commander.js'
 test('missing, short and public fallback secrets fail closed only on use',()=>{
  for(const secret of ['', 'short', 'dino-dominion-profile-fallback-key']) {
   process.env.PROFILE_TOKEN_SECRET=secret
@@ -20,4 +21,12 @@ test('suitable existing secret keeps old deterministic links valid',()=>{
  assert.equal(decodeToken(old),uid)
  const corrupt=Buffer.from(old,'base64url');corrupt[15]^=1
  assert.equal(decodeToken(corrupt.toString('base64url')),null)
+})
+test('profile endpoint returns a safe, uncached configuration error instead of crashing',async()=>{
+ delete process.env.PROFILE_TOKEN_SECRET
+ const res={headers:{},setHeader(k,v){this.headers[k]=v},status(s){this.statusCode=s;return this},json(v){this.body=v}}
+ await commander({query:{token:'invalid'}},res)
+ assert.equal(res.statusCode,503)
+ assert.equal(res.headers['Cache-Control'],'no-store')
+ assert.equal(res.body.error,'profile_configuration_unavailable')
 })

@@ -105,7 +105,12 @@ const ROLE_LABEL = {
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', `public, s-maxage=${CACHE_SECONDS}, stale-while-revalidate=${STALE_SECONDS}`)
 
-  const uid = decodeToken(req.query?.token)
+  let uid
+  try { uid = decodeToken(req.query?.token) } catch {
+    res.setHeader('Cache-Control', 'no-store')
+    res.status(503).json({ error: 'profile_configuration_unavailable' })
+    return
+  }
   if (!uid) { res.status(404).json({ error: 'not-found' }); return }
 
   try {
