@@ -18,7 +18,7 @@ const HEROES = [
   { src: asset('hero-carina.png'), name: 'Carina Vale', role: 'Hero' },
   { src: asset('hero-elara.png'), name: 'Elara Veyn', role: 'Hero' },
   { src: asset('hero-ronan.png'), name: 'Ronan', role: 'Hero' },
-  { src: asset('hero-kailina.png'), name: 'Kailina', role: 'Hero' },
+  { src: asset('hero-tweak-vale.webp'), name: 'Tweak Vale', role: 'Legendary Infantry' },
   { src: asset('hero-warrior.png'), name: 'Warrior', role: 'Hero' },
   { src: asset('dino-dragon-hero.png'), name: 'Fire Dragon', role: 'Beast' },
 ]

@@ -96,20 +96,6 @@ export const BASIC_HEROES: HeroInfo[] = [
       'Invest when rival tribes hit harder mid-campaign.',
     ],
   },
-  {
-    id: 'kailina',
-    name: 'Kailina',
-    role: 'Hero',
-    img: asset('hero-kailina.png'),
-    focus: 'Wild bond · Versatility',
-    blurb:
-      'Closely tied to the prehistoric wild. Kailina shines when your dino roster is growing and you need flexible skill cover.',
-    tips: [
-      'Pairs well once you start taming stronger beasts.',
-      'Flexible pick for mixed armies.',
-      'Level her as your bestiary depth increases.',
-    ],
-  },
 ]
 
 export function heroById(id: string) {

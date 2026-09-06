@@ -165,7 +165,7 @@ const HERO_ART: Record<string, string> = {
   carina_vale: 'hero-carina.png',
   alissa_mey: 'hero-alyssa.png',
   elara_veyn: 'hero-elara.png',
-  kailina: 'hero-kailina.png',
+  bloodfang_warlord: 'hero-tweak-vale.webp',
   ronan: 'hero-ronan.png',
 }
 
