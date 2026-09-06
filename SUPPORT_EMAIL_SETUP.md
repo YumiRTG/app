@@ -1,5 +1,33 @@
 # Support email setup (so tickets reach your Gmail)
 
+## Player reports from the game
+
+The game opens `/report#ticket=...` from a player's profile. Firebase creates a
+30-minute ticket tied to the signed-in reporter, the selected player and any
+verified chat message. The website never receives the game account's login token.
+
+`/api/player-report` forwards that ticket and the chosen reason/comment to
+`profileReportWeb` in Firebase project `dinodominion-289b0` (europe-west1).
+Firebase permanently allows one report per target player across all reporters;
+subsequent attempts show **Spieler bereits gemeldet.** A successful submission
+queues delivery even if the mail provider is temporarily unavailable.
+
+The scheduled `deliverPlayerReports` function calls `/api/player-report-delivery`
+using a Google-signed OIDC token. That endpoint accepts only the configured runtime
+service account (`143942581338-compute@developer.gserviceaccount.com`) and audience
+`https://app-dino-dominion.vercel.app/api/player-report-delivery`. If the production
+domain or runtime identity changes, update both sides together.
+
+Delivery reuses the existing Vercel `GMAIL_USER` / `GMAIL_APP_PASSWORD` configuration
+(or the existing Resend alternative) and fixes the recipient to
+`andre.miethke74@gmail.com`. No additional shared secret or client email credentials
+are needed. Report data is stored server-side; the player's browser cannot select
+an arbitrary recipient or impersonate another reporter.
+
+Run `npm run test:reports` for isolated API checks. These tests mock the delivery
+provider and never send real emails. The Firebase-side tests cover global report
+deduplication, ticket expiry, message access and retry handling.
+
 The chat form posts to `/api/support-email`. Without SMTP config it falls back to FormSubmit (needs a one-time activation that often lands in **Spam**).
 
 ## Recommended: Gmail App Password (reliable)

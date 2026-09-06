@@ -86,7 +86,7 @@ function getMailer() {
   return nm
 }
 
-async function sendViaGmail({ to, replyTo, subject, text }) {
+export async function sendViaGmail({ to, replyTo, subject, text, messageId }) {
   const user = clean(process.env.GMAIL_USER, 120)
   const pass = clean(process.env.GMAIL_APP_PASSWORD, 120).replace(/\s+/g, '')
 
@@ -108,6 +108,9 @@ async function sendViaGmail({ to, replyTo, subject, text }) {
     port: 465,
     secure: true,
     auth: { user, pass },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 20000,
   })
 
   // Verify credentials first (clearer errors)
@@ -119,11 +122,12 @@ async function sendViaGmail({ to, replyTo, subject, text }) {
     replyTo,
     subject,
     text,
+    messageId,
   })
   return { ok: true, via: 'gmail' }
 }
 
-async function sendViaResend({ to, replyTo, subject, text }) {
+export async function sendViaResend({ to, replyTo, subject, text }) {
   const key = process.env.RESEND_API_KEY
   if (!key) return { ok: false, skip: true, error: 'RESEND_API_KEY not set' }
 

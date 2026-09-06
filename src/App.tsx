@@ -19,6 +19,7 @@ const DevlogPage = lazy(() => import('@/pages/DevlogPage'))
 const ModesPage = lazy(() => import('@/pages/ModesPage'))
 const CommanderPage = lazy(() => import('@/pages/CommanderPage'))
 const RedeemPage = lazy(() => import('@/pages/RedeemPage'))
+const ReportPlayerPage = lazy(() => import('@/pages/ReportPlayerPage'))
 const AlliancePage = lazy(() => import('@/pages/AlliancePage'))
 const TowerDefensePage = lazy(() => import('@/pages/modes/TowerDefensePage'))
 const ArenaPage = lazy(() => import('@/pages/modes/ArenaPage'))
@@ -57,6 +58,7 @@ export default function App() {
           <Route path="download" element={deferred(<DownloadPage />)} />
           <Route path="progress" element={deferred(<DevlogPage />)} />
           <Route path="redeem" element={deferred(<RedeemPage />)} />
+          <Route path="report" element={deferred(<ReportPlayerPage />)} />
           <Route path="commander/:id" element={deferred(<CommanderPage />)} />
           <Route path="alliance/:id" element={deferred(<AlliancePage />)} />
           <Route path="tower-defense" element={<Navigate to="/modes/tower-defense" replace />} />

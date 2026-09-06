@@ -119,9 +119,9 @@ export default function MainLayout() {
           </main>
           <Footer />
           <PageTransition />
-          <Suspense fallback={null}>
+          {pathname !== '/report' && <Suspense fallback={null}>
             <SupportChat />
-          </Suspense>
+          </Suspense>}
         </div>
       </div>
     </AuthProvider>
