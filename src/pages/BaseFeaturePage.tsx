@@ -12,8 +12,8 @@ export default function BaseFeaturePage() {
         <div className="dd-card overflow-hidden mb-12 md:mb-16" data-reveal="scale">
           <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16 / 10', minHeight: 240 }}>
             <img
-              src={asset('feature-base-hero.jpg')}
-              alt="Build your base"
+              src={asset('features/base-960.webp')}
+              alt="A fortified settlement surrounded by jungle and mountains"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ objectPosition: 'center 35%' }}
             />

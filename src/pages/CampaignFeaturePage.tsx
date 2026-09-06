@@ -92,8 +92,8 @@ export default function CampaignFeaturePage() {
             style={{ aspectRatio: '16 / 10', minHeight: 240 }}
           >
             <img
-              src={asset('feature-campaign-hero.jpg')}
-              alt="Conquer campaigns"
+              src={asset('features/campaign-960.webp')}
+              alt="Campaign regions with jungle, ice, volcanoes and coastlines"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ objectPosition: 'center 35%' }}
             />
