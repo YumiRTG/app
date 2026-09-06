@@ -1,34 +1,6 @@
-/**
- * Vercel Serverless Function — all live game data for the website, in one
- * response, cached at the edge.
- *
- * Why this exists: every visitor used to hit Firestore directly. A refresh, a
- * crawler or someone holding F5 turned straight into billable reads. Now the
- * CDN answers instead, and Firestore is touched at most once per CACHE_SECONDS
- * for the whole world, no matter how many people load the page.
- *
- * s-maxage tells Vercel's CDN how long to serve the cached copy.
- * stale-while-revalidate lets it keep serving the old copy while it refreshes
- * in the background, so nobody ever waits on Firestore.
- */
-
-import { encodeUid } from './_token.js'
-import { initializeApp, getApps } from 'firebase/app'
-import { getAuth, signInAnonymously } from 'firebase/auth'
-import {
-  collection,
-  count,
-  getAggregateFromServer,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  sum,
-} from 'firebase/firestore'
-
-const CACHE_SECONDS = 1200 // 20 minutes
-const STALE_SECONDS = 600
-
+import {encodeUid} from './_token.js'
+import {initializeApp,getApps} from 'firebase/app'
+import {getAuth,signInAnonymously} from 'firebase/auth'
 const firebaseConfig = {
   apiKey: 'AIzaSyA67N3HcTbJT1f-I3gGelYuwhSxSa85M38',
   authDomain: 'dinodominion-289b0.firebaseapp.com',
@@ -38,142 +10,32 @@ const firebaseConfig = {
   appId: '1:143942581338:android:cdf4c0bb076c21550e2c63',
 }
 
-let dbPromise = null
-
-async function getDb() {
-  if (!dbPromise) {
-    dbPromise = (async () => {
-      const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
-      await signInAnonymously(getAuth(app))
-      const { getFirestore } = await import('firebase/firestore')
-      return getFirestore(app)
-    })()
-  }
-  return dbPromise
+let session=null
+async function token(){
+ session ??= (async()=>{const app=getApps().length?getApps()[0]:initializeApp(firebaseConfig);return (await signInAnonymously(getAuth(app))).user})().catch(e=>{session=null;throw e})
+ return (await session).getIdToken()
 }
-
-const num = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : Number(v) || 0)
-const str = (v) => (typeof v === 'string' ? v.trim() : '')
-
-function avatarId(raw, seed) {
-  const digits = typeof raw === 'string' ? raw.replace(/\D+/g, '') : String(raw ?? '')
-  const n = Number(digits)
-  if (Number.isFinite(n) && n >= 1 && n <= 10) return Math.trunc(n)
-  let hash = 0
-  for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0
-  return (hash % 10) + 1
+function avatarId(raw,seed){
+ const n=Number(typeof raw==='string'?raw.replace(/\D+/g,''):raw)
+ if(Number.isInteger(n)&&n>=1&&n<=10)return n
+ let hash=0;for(const c of seed)hash=(hash*31+c.charCodeAt(0))>>>0
+ return hash%10+1
 }
-
-const RANK_FIELDS = [
-  { id: 'power', field: 'totalScore' },
-  { id: 'hero', field: 'heroPowerBest', detail: 'heroBestName' },
-  { id: 'townhall', field: 'townHallLevel' },
-  { id: 'kills', field: 'troopKills' },
-]
-
-async function topBy(db, field, detail, n) {
-  const snap = await getDocs(
-    query(collection(db, 'players'), orderBy(field, 'desc'), limit(n)),
-  )
-  return snap.docs
-    .map((d) => {
-      const x = d.data()
-      return {
-        // Never the raw Account ID: that is the website login credential.
-        token: encodeUid(d.id),
-        name: str(x.displayName) || 'Unnamed commander',
-        value: num(x[field]),
-        detail: detail ? str(x[detail]) || undefined : undefined,
-        avatar: avatarId(x.avatarIconId, d.id),
-      }
-    })
-    .filter((e) => e.value > 0)
+export function publicSnapshot(data){
+ const row=({id,avatar,...rest})=>({...rest,token:encodeUid(id),avatar:avatarId(avatar,id)})
+ return {...data,ranks:Object.fromEntries(Object.entries(data.ranks).map(([key,rows])=>[key,rows.map(row)])),arena:data.arena.map(row),teamArena:data.teamArena.map(row)}
 }
-
-async function ladder(db, col, n) {
-  const snap = await getDocs(query(collection(db, col), orderBy('points', 'desc'), limit(n)))
-  return snap.docs.map((d) => {
-    const x = d.data()
-    const ids = Array.isArray(x.heroIds) ? x.heroIds : []
-    const names = Array.isArray(x.heroNames) ? x.heroNames : []
-    const powers = Array.isArray(x.heroPower) ? x.heroPower : []
-    return {
-      token: encodeUid(d.id),
-      name: str(x.name) || 'Commander',
-      points: num(x.points),
-      wins: num(x.wins),
-      losses: num(x.losses),
-      defensePower: num(x.defensePower) || num(x.totalPower),
-      isBot: x.isBot === true,
-      avatar: avatarId(x.avatarIconId, d.id),
-      heroes: ids.map((id, i) => ({
-        id: String(id),
-        name: str(names[i]) || String(id),
-        power: num(powers[i]),
-      })),
-      teamPower: Array.isArray(x.teamPower) ? x.teamPower.map(num) : [],
-    }
-  })
+export function createLiveHandler(request=fetch,getToken=token){
+ return async(req,res)=>{
+  res.setHeader('Cache-Control','no-store')
+  if(req.method!=='GET')return res.status(405).json({error:'method_not_allowed'})
+  try{
+   const response=await request('https://europe-west1-dinodominion-289b0.cloudfunctions.net/websiteLive',{headers:{Authorization:'Bearer '+await getToken()},signal:AbortSignal.timeout(25000)})
+   if(!response.ok)throw Error('live_unavailable')
+   const data=publicSnapshot(await response.json())
+   res.setHeader('Cache-Control','public, s-maxage=1200, stale-while-revalidate=600')
+   return res.status(200).json(data)
+  }catch{return res.status(503).json({error:'live_unavailable'})}
+ }
 }
-
-export default async function handler(req, res) {
-  res.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${CACHE_SECONDS}, stale-while-revalidate=${STALE_SECONDS}`,
-  )
-
-  try {
-    const db = await getDb()
-    const players = collection(db, 'players')
-
-    // count() and sum() stay as aggregation queries: they transmit only the
-    // aggregate result and avoid downloading every player document.
-    // The power leaderboard already contains the strongest player, so the old
-    // extra top-1 totalScore query was redundant and has been removed.
-    const [playerCount, killsAgg, allianceAgg, seenDoc, ranks, arena, teamArena, alliances] =
-      await Promise.all([
-        getAggregateFromServer(players, { n: count() }),
-        getAggregateFromServer(players, { kills: sum('troopKills') }),
-        getAggregateFromServer(collection(db, 'alliances'), { n: count() }),
-        getDocs(query(players, orderBy('lastOnline', 'desc'), limit(1))),
-        Promise.all(RANK_FIELDS.map((c) => topBy(db, c.field, c.detail, 10))),
-        ladder(db, 'arena', 5),
-        ladder(db, 'teamarena', 4),
-        getDocs(query(collection(db, 'alliances'), orderBy('totalPower', 'desc'), limit(6))),
-      ])
-
-    const seenAt = seenDoc.docs[0]?.data()?.lastOnline?.seconds
-    const topPower = num(ranks[0]?.[0]?.value)
-
-    res.status(200).json({
-      generatedAt: Date.now(),
-      pulse: {
-        commanders: playerCount.data().n,
-        alliances: allianceAgg.data().n,
-        troopKills: num(killsAgg.data().kills),
-        topPower,
-        lastSeenMinutes: seenAt
-          ? Math.max(0, Math.round((Date.now() - seenAt * 1000) / 60000))
-          : null,
-      },
-      ranks: Object.fromEntries(RANK_FIELDS.map((c, i) => [c.id, ranks[i]])),
-      arena,
-      teamArena,
-      alliances: alliances.docs.map((d) => {
-        const x = d.data()
-        return {
-          id: d.id,
-          name: str(x.name) || 'Unnamed',
-          tag: str(x.tag) || '???',
-          power: num(x.totalPower),
-          members: num(x.memberCount),
-          level: Math.max(1, num(x.level)),
-          exp: num(x.allianceExp),
-          color: /^#[0-9a-f]{6}$/i.test(str(x.territoryColor)) ? x.territoryColor : '#f0c14d',
-        }
-      }),
-    })
-  } catch (err) {
-    res.status(200).json({ error: String(err?.code || err?.message || err) })
-  }
-}
+export default createLiveHandler()

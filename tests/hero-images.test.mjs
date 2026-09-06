@@ -28,9 +28,9 @@ test('image pipeline requests portrait dimensions without overwriting the source
   await buildHeroImages({ sharpImpl, root: '/test-repo', mkdirImpl: async () => {} })
   assert.equal(writes.length, 6)
   for (const write of writes) {
-    assert.equal(write.input, '/test-repo/public/hero-poster.png')
+    assert.equal(write.input.replaceAll('\\', '/'), '/test-repo/public/hero-poster.png')
     assert.notEqual(write.input, write.output)
-    assert.match(write.output, /\/public\/optimized\/.*\.webp$/)
+    assert.match(write.output.replaceAll('\\', '/'), /\/public\/optimized\/.*\.webp$/)
     assert.equal(write.webp.quality, 82)
     assert.equal(write.resize.position, 'centre')
     if (write.output.includes('mobile')) assert.ok(write.resize.height > write.resize.width)

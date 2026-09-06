@@ -17,12 +17,15 @@ import crypto from 'node:crypto'
  * an identical IV can only ever mean an identical uid.
  */
 
-const KEY = crypto.createHash('sha256')
-  .update(process.env.PROFILE_TOKEN_SECRET || 'dino-dominion-profile-fallback-key')
-  .digest()
+function key() {
+  const secret=process.env.PROFILE_TOKEN_SECRET
+  if(typeof secret!=='string'||secret.length<32||secret==='dino-dominion-profile-fallback-key') throw new Error('profile_configuration_unavailable')
+  return crypto.createHash('sha256').update(secret).digest()
+}
 
 export function encodeUid(uid) {
   if (!uid) return ''
+  const KEY=key()
   const iv = crypto.createHmac('sha256', KEY).update(String(uid)).digest().subarray(0, 12)
   const cipher = crypto.createCipheriv('aes-256-gcm', KEY, iv)
   const body = Buffer.concat([cipher.update(String(uid), 'utf8'), cipher.final()])
@@ -30,6 +33,7 @@ export function encodeUid(uid) {
 }
 
 export function decodeToken(token) {
+  const KEY=key()
   try {
     const raw = Buffer.from(String(token), 'base64url')
     if (raw.length < 29) return null

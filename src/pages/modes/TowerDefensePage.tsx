@@ -21,8 +21,8 @@ const DIFFICULTY = [
 
 const PROGRESSION = [
   {
-    title: 'The daily map',
-    text: 'One map built from the date, the same for everyone in the world that day. Difficulty is fixed on it, because a chosen difficulty would make the scores worthless. It is the only run in the mode that costs a ticket, and it feeds a shared leaderboard.',
+    title: 'The weekly map',
+    text: 'One map built from the ISO week, the same for everyone that week. It resets on Monday at 00:00 UTC. The weekly goal can be claimed once per week. Difficulty is fixed on it, because a chosen difficulty would make the scores worthless. It is the only run in the mode that costs a ticket, and it feeds a shared leaderboard.',
   },
   {
     title: 'Tickets',
@@ -30,7 +30,7 @@ const PROGRESSION = [
   },
   {
     title: 'Defense marks',
-    text: 'You earn them per star on a first clear, and per wave survived on the daily map. There is a daily cap so nobody grinds their way up the board. They pay for the defense shop and the manager skill tree.',
+    text: 'You earn them per star on a first clear, and per wave survived on the weekly map. There is a daily cap so nobody grinds their way up the board. They pay for the defense shop and the manager skill tree.',
   },
   {
     title: 'Manager skill tree',

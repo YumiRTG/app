@@ -43,13 +43,13 @@ export const MODES: Mode[] = [
     kicker: 'Mode 01 · Real-time tower defense',
     tagline: 'Hold the line, or lose the herd',
     blurb:
-      'A proper real-time defense mode with its own 3D arena. Wild packs come down one path and you decide what stands in their way. There are twelve stages to work through, plus a daily map that everyone in the world plays on the same day, under the same rules.',
+      'A proper real-time defense mode with its own 3D arena. Wild packs come down one path and you decide what stands in their way. There are twelve stages to work through, plus a weekly map that everyone in the world plays on the same week, under the same rules.',
     img: asset('modes/mode-defense.jpg'),
     pos: 'center center',
     accent: '#3dffb5',
     accentSoft: 'rgba(61,255,181,0.16)',
     specs: [
-      { label: 'Stages', value: '12 + daily' },
+      { label: 'Stages', value: '12 + weekly' },
       { label: 'Tower types', value: '5 × 3 tiers' },
       { label: 'Start lives', value: '20' },
       { label: 'Battle speed', value: '1× / 2× / 3×' },
