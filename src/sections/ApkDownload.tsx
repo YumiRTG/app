@@ -1,3 +1,4 @@
+import { COMMUNITY } from '@/config/community'
 import { asset } from '@/lib/assets'
 import { APK_DOWNLOAD } from '@/config/download'
 import { useAuth } from '@/hooks/useAuth'
@@ -11,10 +12,10 @@ export default function ApkDownload() {
       <div className="text-center mb-10">
         <p className="eyebrow justify-center">Android beta</p>
         <h1 className="display-lg text-white mt-4">
-          Down<span className="text-gradient-magma">load</span>
+          {isReady ? <>Down<span className="text-gradient-magma">load</span></> : <>Coming <span className="text-gradient-magma">soon</span></>}
         </h1>
         <p className="body-lg mt-4 max-w-lg mx-auto">
-          Find the Android beta download and installation instructions here.
+          {isReady ? 'Find the Android beta download and installation instructions here.' : 'The next Android build is on its way. Follow the project on Discord for updates.'}
         </p>
       </div>
 
@@ -55,7 +56,7 @@ export default function ApkDownload() {
                 DINO WARFRONT
               </p>
               <p className="font-ui text-[11px] tracking-[0.18em] uppercase text-[var(--gold)] mt-1">
-                Android APK · Beta
+                {isReady ? 'Android APK · Beta' : 'Android · Coming soon'}
               </p>
             </div>
           </div>
@@ -109,8 +110,19 @@ export default function ApkDownload() {
             </>
           ) : (
             <button type="button" disabled className="btn-primary w-full">
-              Download temporarily unavailable
+              Coming soon
             </button>
+          )}
+
+          {!isReady && COMMUNITY.discordUrl && (
+            <a
+              href={COMMUNITY.discordUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary w-full no-underline mt-4"
+            >
+              Join Discord
+            </a>
           )}
 
           {isReady && <ol className="mt-8 space-y-2 font-body text-sm text-[var(--bone-dim)] list-decimal list-inside leading-relaxed">

@@ -1,3 +1,4 @@
+import DownloadLink from '@/components/DownloadLink'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { usePageMotion } from '@/hooks/useMotion'
@@ -121,9 +122,9 @@ export default function AlliancePage() {
         )}
 
         <div className="mt-10 flex flex-wrap gap-3" data-reveal="up">
-          <Link to="/download" className="btn-primary no-underline">
+          <DownloadLink className="btn-primary no-underline">
             Start your own
-          </Link>
+          </DownloadLink>
           <Link to="/modes/world-map" className="btn-secondary no-underline">
             How territory works
           </Link>

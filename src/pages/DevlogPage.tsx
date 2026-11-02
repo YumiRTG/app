@@ -1,3 +1,5 @@
+import { APK_DOWNLOAD } from '@/config/download'
+import DownloadLink from '@/components/DownloadLink'
 import { Link } from 'react-router'
 import { DEV_SCREENSHOTS, FUTURE_UPDATES, PROGRESS_LOG, type DevShot } from '@/config/devlog'
 import { usePageMotion } from '@/hooks/useMotion'
@@ -229,15 +231,14 @@ export default function DevlogPage() {
             />
             <div className="relative z-10 max-w-2xl">
               <p className="eyebrow">Android beta</p>
-              <h2 className="display-md text-white mt-3">Play the current build</h2>
+              <h2 className="display-md text-white mt-3">{APK_DOWNLOAD.available ? 'Play the current build' : 'Android release coming soon'}</h2>
               <p className="body-lg mt-4">
-                Download the APK, log in with your Account ID, and tell us what breaks.
-                That feedback is what steers the next entries on this page.
+                {APK_DOWNLOAD.available ? 'Download the APK, log in with your Account ID, and tell us what breaks. That feedback steers the next entries on this page.' : 'The next Android download is coming soon. Join our Discord for news and share your feedback with the community.'}
               </p>
               <div className="flex flex-wrap gap-3 mt-8">
-                <Link to="/download" className="btn-primary no-underline">
+                <DownloadLink className="btn-primary no-underline">
                   Download APK
-                </Link>
+                </DownloadLink>
                 <Link to="/modes" className="btn-secondary no-underline">
                   See the four modes
                 </Link>

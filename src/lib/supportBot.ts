@@ -1,3 +1,6 @@
+import { APK_DOWNLOAD } from '@/config/download'
+import { COMMUNITY } from '@/config/community'
+
 /**
  * Free on-site support assistant — no API keys, no credits, no server costs.
  * Keyword knowledge base for Dino Warfront website + game basics.
@@ -20,9 +23,13 @@ const KB: KbEntry[] = [
   {
     keys: ['download', 'apk', 'install', 'android', 'herunterladen', 'installation', 'laden'],
     answerEn:
-      'Open the Download page on your phone → tap Download APK → allow install from the browser if asked. Check the Download page for availability and the current file size. Use Wi-Fi for large downloads. Then launch Dino Warfront.',
+      APK_DOWNLOAD.available
+        ? 'Open the Download page on your phone → tap Download APK → allow install from the browser if asked. Check the Download page for availability and the current file size. Use Wi-Fi for large downloads. Then launch Dino Warfront.'
+        : 'The Android download is coming soon. The old APK link is no longer available. Join Discord using the link in this chat or the footer for release updates.',
     answerDe:
-      'Öffne die Download-Seite auf dem Handy → Download APK tippen → Installation aus dem Browser erlauben, falls gefragt. Verfügbarkeit und aktuelle Dateigröße stehen auf der Download-Seite. Für große Downloads WLAN verwenden. Danach Dino Warfront starten.',
+      APK_DOWNLOAD.available
+        ? 'Öffne die Download-Seite auf dem Handy → Download APK tippen → Installation aus dem Browser erlauben, falls gefragt. Verfügbarkeit und aktuelle Dateigröße stehen auf der Download-Seite. Für große Downloads WLAN verwenden. Danach Dino Warfront starten.'
+        : 'Der Android-Download kommt bald (Coming soon). Der alte APK-Link ist nicht mehr verfügbar. Neuigkeiten zum Release findest du auf Discord über den Link hier im Chat oder im Footer.',
   },
   {
     keys: ['login', 'account', 'account id', 'anmelden', 'accountid', 'player id', 'settings', 'einstellungen'],
@@ -55,9 +62,9 @@ const KB: KbEntry[] = [
   {
     keys: ['discord', 'community', 'chat server'],
     answerEn:
-      'Discord is “coming soon” in the footer. For now use this Support chat — I’m free and always available on the site.',
+      `Join our Discord community: ${COMMUNITY.discordUrl} — use the Discord link in this chat or the footer for news, feedback and squad talk.`,
     answerDe:
-      'Discord steht im Footer noch auf „coming soon“. Bis dahin hilft dieser Support-Chat — kostenlos und immer auf der Seite verfügbar.',
+      `Unser Discord ist da: ${COMMUNITY.discordUrl} — über den Discord-Link hier im Chat oder im Footer findest du Neuigkeiten, Feedback und Mitspieler.`,
   },
   {
     keys: ['forum', 'board'],

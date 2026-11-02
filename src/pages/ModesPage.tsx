@@ -1,3 +1,4 @@
+import DownloadLink from '@/components/DownloadLink'
 import { Link } from 'react-router'
 import { usePageMotion } from '@/hooks/useMotion'
 import { MODES } from '@/config/modes'
@@ -140,9 +141,9 @@ export default function ModesPage() {
         </div>
 
         <div className="mt-14 flex flex-wrap gap-3" data-reveal="up">
-          <Link to="/download" className="btn-primary no-underline">
+          <DownloadLink className="btn-primary no-underline">
             Download the beta
-          </Link>
+          </DownloadLink>
           <Link to="/features" className="btn-secondary no-underline">
             The systems behind them
           </Link>

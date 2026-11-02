@@ -1,3 +1,4 @@
+import { APK_DOWNLOAD } from '@/config/download'
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -90,7 +91,7 @@ export default function CTADownload() {
             lineHeight: 1.6,
           }}
         >
-          Download the Android beta APK for beta testing, or get the game on the stores later.
+          {APK_DOWNLOAD.available ? 'Download the Android beta APK for beta testing, or get the game on the stores later.' : 'The next Android download is coming soon. Follow the project on Discord for updates.'}
         </p>
 
         <div
@@ -99,10 +100,11 @@ export default function CTADownload() {
         >
           <button
             type="button"
+            disabled={!APK_DOWNLOAD.available}
             onClick={() => document.getElementById('apk')?.scrollIntoView({ behavior: 'smooth' })}
             className="btn-primary"
           >
-            Android APK
+            {APK_DOWNLOAD.available ? 'Android APK' : 'Coming soon'}
           </button>
 
           <button

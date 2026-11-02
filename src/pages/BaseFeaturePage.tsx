@@ -1,3 +1,4 @@
+import DownloadLink from '@/components/DownloadLink'
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
 import { BASE_BUILDINGS } from '@/lib/buildings'
@@ -100,9 +101,9 @@ export default function BaseFeaturePage() {
         </div>
 
         <div className="flex flex-wrap gap-3" data-reveal="up">
-          <Link to="/download" className="btn-primary no-underline">
+          <DownloadLink className="btn-primary no-underline">
             Download & build
-          </Link>
+          </DownloadLink>
           <Link to="/features/heroes" className="btn-secondary no-underline">
             Command heroes
           </Link>

@@ -1,3 +1,4 @@
+import DownloadLink from '@/components/DownloadLink'
 import { ArrowUpRight } from 'lucide-react'
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
@@ -162,7 +163,7 @@ export default function FeaturesPage() {
             <h2 className="font-display text-2xl text-white uppercase">Your next move starts in the city.</h2>
             <p className="font-body text-sm text-[var(--bone-dim)] mt-2">Download the Android beta and build your first dominion.</p>
           </div>
-          <Link to="/download" className="btn-primary no-underline">Download the game <ArrowUpRight size={18} aria-hidden="true" /></Link>
+          <DownloadLink className="btn-primary no-underline">Download the game <ArrowUpRight size={18} aria-hidden="true" /></DownloadLink>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import DownloadLink from '@/components/DownloadLink'
 import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router'
 import { asset } from '@/lib/assets'
@@ -101,9 +102,9 @@ export default function DinosFeaturePage() {
         </div>
 
         <div className="flex flex-wrap gap-3" data-reveal="up">
-          <Link to="/download" className="btn-primary no-underline">
+          <DownloadLink className="btn-primary no-underline">
             Download & play
-          </Link>
+          </DownloadLink>
           <Link to="/bestiary" className="btn-secondary no-underline">
             Full bestiary
           </Link>

@@ -1,3 +1,4 @@
+import DownloadLink from '@/components/DownloadLink'
 import { useState } from 'react'
 import { Link } from 'react-router'
 import { usePageMotion } from '@/hooks/useMotion'
@@ -156,9 +157,9 @@ export default function RedeemPage() {
         </div>
 
         <div className="mt-14 flex flex-wrap gap-3" data-reveal="up">
-          <Link to="/download" className="btn-secondary no-underline">
+          <DownloadLink className="btn-secondary no-underline">
             Get the game
-          </Link>
+          </DownloadLink>
           <Link to="/progress" className="btn-secondary no-underline">
             Where codes get announced
           </Link>

@@ -6,7 +6,7 @@
  * Set SUPPORT_TO_EMAIL in Vercel env to override the default inbox.
  */
 export const COMMUNITY = {
-  discordUrl: '', // e.g. 'https://discord.gg/your-invite'
+  discordUrl: 'https://discord.gg/3NKrfgBvZ',
   forumUrl: '', // e.g. 'https://forum.example.com'
   /** Public contact label only — real delivery uses server SUPPORT_TO_EMAIL */
   supportEmail: 'andre.miethke74@gmail.com',

@@ -1,3 +1,5 @@
+import { APK_DOWNLOAD } from '@/config/download'
+import DownloadLink from '@/components/DownloadLink'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
@@ -12,7 +14,7 @@ const navItems = [
   { label: 'Redeem', to: '/redeem' },
   { label: 'Bestiary', to: '/bestiary' },
   { label: 'Progress', to: '/progress' },
-  { label: 'Download', to: '/download' },
+  { label: APK_DOWNLOAD.available ? 'Download' : 'Coming soon', to: '/download' },
 ]
 
 export default function Navigation() {
@@ -143,12 +145,11 @@ export default function Navigation() {
                   Log in
                 </button>
               )}
-              <Link
-                to="/download"
+              <DownloadLink
                 className="btn-primary !py-2.5 !px-5 !text-[0.72rem] no-underline"
               >
                 Play free
-              </Link>
+              </DownloadLink>
             </div>
 
             <button
@@ -225,13 +226,12 @@ export default function Navigation() {
                   Log in
                 </button>
               )}
-              <Link
-                to="/download"
+              <DownloadLink
                 onClick={() => setOpen(false)}
                 className="btn-primary no-underline w-full"
               >
                 Play free
-              </Link>
+              </DownloadLink>
             </div>
           </div>
         </div>

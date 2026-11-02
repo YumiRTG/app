@@ -1,3 +1,4 @@
+import DownloadLink from '@/components/DownloadLink'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
@@ -196,9 +197,9 @@ export default function TopCommanders() {
         )}
 
         <div className="mt-8 flex flex-wrap items-center gap-4" data-reveal="up">
-          <Link to="/download" className="btn-primary no-underline">
+          <DownloadLink className="btn-primary no-underline">
             Get on the board
-          </Link>
+          </DownloadLink>
           <p className="font-ui text-[10px] tracking-[0.2em] uppercase text-[var(--bone-dim)]">
             Same standings the in-game ranking screen shows
           </p>
