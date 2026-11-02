@@ -7,6 +7,8 @@
  */
 export const COMMUNITY = {
   discordUrl: 'https://discord.gg/3NKrfgBvZ',
+  youtubeUrl: 'https://www.youtube.com/channel/UCOohnqUmO45iR1Lla4iHCBw',
+  instagramUrl: 'https://www.instagram.com/dinowarfront/',
   forumUrl: '', // e.g. 'https://forum.example.com'
   /** Public contact label only — real delivery uses server SUPPORT_TO_EMAIL */
   supportEmail: 'andre.miethke74@gmail.com',

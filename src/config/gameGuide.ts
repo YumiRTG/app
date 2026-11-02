@@ -6,6 +6,8 @@
  * Languages: Assets/Scripts/Core/Loc.cs, Supported (Arabic remains planned).
  */
 export const GAME_GUIDE = {
+  releaseTarget: 'December 2026',
+  liveArena: { townHall: 21, heroes: 9, teamSize: 3, turnSeconds: 20, finalists: 64 },
   unlock: { campaign: 2, partner: 2, towerDefense: 3, horde: 10, worldMap: 10, arena: 13, teamArena: 21, campaignHard: 24, campaignExtreme: 30 },
   defense: { maps: 13, towerTypes: 13, maxTowerLevel: 6, capstoneMastery: 2 },
   horde: { areas: 300, chapters: 30 },

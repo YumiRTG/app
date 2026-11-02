@@ -17,6 +17,7 @@ const BestiaryPage = lazy(() => import('@/pages/BestiaryPage'))
 const DownloadPage = lazy(() => import('@/pages/DownloadPage'))
 const DevlogPage = lazy(() => import('@/pages/DevlogPage'))
 const ModesPage = lazy(() => import('@/pages/ModesPage'))
+const EventsPage = lazy(() => import('@/pages/EventsPage'))
 const CommanderPage = lazy(() => import('@/pages/CommanderPage'))
 const RedeemPage = lazy(() => import('@/pages/RedeemPage'))
 const ReportPlayerPage = lazy(() => import('@/pages/ReportPlayerPage'))
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="features/partner-system" element={deferred(<PartnerSystemPage />)} />
           <Route path="features/world-boss" element={deferred(<WorldBossPage />)} />
           <Route path="modes" element={deferred(<ModesPage />)} />
+          <Route path="events" element={deferred(<EventsPage />)} />
           <Route path="modes/tower-defense" element={deferred(<TowerDefensePage />)} />
           <Route path="modes/arena" element={deferred(<ArenaPage />)} />
           <Route path="modes/world-map" element={deferred(<WorldMapPage />)} />

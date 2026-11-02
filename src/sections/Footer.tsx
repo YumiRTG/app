@@ -3,11 +3,13 @@ import DownloadLink from '@/components/DownloadLink'
 import { Link } from 'react-router'
 import DinoMark from '@/components/DinoMark'
 import { COMMUNITY } from '@/config/community'
+import { GAME_GUIDE } from '@/config/gameGuide'
 
 const links = [
   { label: 'Home', to: '/' },
   { label: 'Story', to: '/story' },
   { label: 'Features', to: '/features' },
+  { label: 'Tournaments & events', to: '/events' },
   { label: 'Play', to: '/play' },
   { label: 'Bestiary', to: '/bestiary' },
   { label: 'Progress', to: '/progress' },
@@ -97,6 +99,13 @@ export default function Footer() {
               </span>
             )}
 
+            {[
+              { label: 'YouTube', href: COMMUNITY.youtubeUrl },
+              { label: 'Instagram', href: COMMUNITY.instagramUrl },
+            ].map(link => (
+              <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="font-ui text-[11px] uppercase tracking-[0.16em] text-[var(--bone-dim)] no-underline hover:text-[var(--gold)]">{link.label}</a>
+            ))}
+
             {COMMUNITY.forumUrl ? (
               <a
                 href={COMMUNITY.forumUrl}
@@ -122,7 +131,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/[0.04] py-4 text-center font-body text-[11px] text-white/25 tracking-wide">
-        © {new Date().getFullYear()} Dino Warfront · Android beta
+        © {new Date().getFullYear()} Dino Warfront · {APK_DOWNLOAD.available ? 'Android beta' : `Android · planned ${GAME_GUIDE.releaseTarget}`}
       </div>
     </footer>
   )

@@ -2,6 +2,8 @@ import { COMMUNITY } from '@/config/community'
 import { asset } from '@/lib/assets'
 import { APK_DOWNLOAD } from '@/config/download'
 import { useAuth } from '@/hooks/useAuth'
+import { GAME_GUIDE } from '@/config/gameGuide'
+import { GAMEPLAY_TRAILER_URL } from '@/config/showcase'
 
 export default function ApkDownload() {
   const isReady = APK_DOWNLOAD.available && Boolean(APK_DOWNLOAD.apkUrl)
@@ -10,13 +12,14 @@ export default function ApkDownload() {
   return (
     <section id="apk" className="max-w-[920px] mx-auto">
       <div className="text-center mb-10">
-        <p className="eyebrow justify-center">Android beta</p>
+        <p className="eyebrow justify-center">{isReady ? 'Android beta' : `Android · Planned for ${GAME_GUIDE.releaseTarget}`}</p>
         <h1 className="display-lg text-white mt-4">
           {isReady ? <>Down<span className="text-gradient-magma">load</span></> : <>Coming <span className="text-gradient-magma">soon</span></>}
         </h1>
         <p className="body-lg mt-4 max-w-lg mx-auto">
           {isReady ? 'Find the Android beta download and installation instructions here.' : 'The next Android build is on its way. Follow the project on Discord for updates.'}
         </p>
+        {!isReady && <p className="font-body text-sm text-[var(--bone-dim)] mt-3">Release timing may change as development progresses.</p>}
       </div>
 
       <div className="dd-panel overflow-hidden">
@@ -66,6 +69,7 @@ export default function ApkDownload() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {[
               { label: 'Platform', value: APK_DOWNLOAD.platform },
+              ...(!isReady ? [{ label: 'Planned release', value: GAME_GUIDE.releaseTarget }] : []),
               ...(isReady ? [
                 { label: 'Version', value: APK_DOWNLOAD.version },
                 { label: 'Size', value: APK_DOWNLOAD.sizeLabel },
@@ -124,6 +128,8 @@ export default function ApkDownload() {
               Join Discord
             </a>
           )}
+
+          <a href={GAMEPLAY_TRAILER_URL} target="_blank" rel="noopener noreferrer" className="btn-secondary w-full no-underline mt-4">Watch gameplay trailer</a>
 
           {isReady && <ol className="mt-8 space-y-2 font-body text-sm text-[var(--bone-dim)] list-decimal list-inside leading-relaxed">
             <li>Open this page on your Android phone.</li>
