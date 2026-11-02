@@ -1,4 +1,5 @@
-import { Link } from 'react-router'
+import { useEffect } from 'react'
+import { Link, useLocation } from 'react-router'
 import { usePageMotion } from '@/hooks/useMotion'
 import { COMMUNITY } from '@/config/community'
 import { GAME_GUIDE } from '@/config/gameGuide'
@@ -15,6 +16,17 @@ const ALLIANCE_EVENTS = [
 
 export default function EventsPage() {
   const motionRef = usePageMotion()
+  const { hash } = useLocation()
+
+  useEffect(() => {
+    if (!hash) return
+    // Run after the layout's route-to-top effect and this lazy page's mount.
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start', behavior: 'instant' as ScrollBehavior })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [hash])
+
   return (
     <div ref={motionRef} className="page-shell">
       <div className="container-dd pb-24">
