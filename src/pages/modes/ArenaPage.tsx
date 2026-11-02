@@ -11,6 +11,7 @@ import {
 } from '@/components/ModeKit'
 import { ArenaBracketDiagram } from '@/components/ModeDiagrams'
 import ArenaLadder from '@/sections/ArenaLadder'
+import LiveTournamentInfo from '@/components/LiveTournamentInfo'
 
 const mode = MODE_BY_KEY.arena
 
@@ -28,7 +29,7 @@ const LOOP = [
   {
     step: '03',
     title: 'Attack',
-    text: 'Your squad against their stored defense, played out live. In the Team Arena that means up to three separate rounds, each one starting at full health.',
+    text: 'Your squad fights their stored defense. In the Team Arena that means up to three separate rounds, each one starting at full health. For decisions against an online opponent, choose the separate Live Arena tab.',
   },
   {
     step: '04',
@@ -61,6 +62,7 @@ export default function ArenaPage() {
       </ModeHero>
 
       <div className="container-dd pb-24">
+        <LiveTournamentInfo />
         <section className="mt-14 md:mt-20">
           <SectionHead
             ornament="Two ladders"

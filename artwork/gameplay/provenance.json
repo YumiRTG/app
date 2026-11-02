@@ -1,0 +1,119 @@
+{
+  "verifiedOn": "2026-11-02",
+  "transformations": "Frame extraction, proportional resizing and WebP encoding only. No generated or retouched gameplay.",
+  "captures": [
+    {
+      "id": "campaign",
+      "source": "TrailerMaterial/2026-11-02_December_Endscreen/Dino_Warfront_Ultimate_Trailer_December_30s_1080p_EN.mp4",
+      "sourceSha256": "22e990ecb154b95e2f7c09ac2dc7937bd6414a7ac5b5e116a1ef7abbdd0044b6",
+      "videoTimestampSeconds": 4,
+      "note": "Frame from native Unity gameplay footage, including the original trailer captions.",
+      "outputs": [
+        {
+          "path": "public/gameplay/campaign-480.webp",
+          "bytes": 27904,
+          "sha256": "e0b03accb4cc7c611accc2e53141e4be8d908ab32c43837c43d80a8eaaa60382"
+        },
+        {
+          "path": "public/gameplay/campaign-1600.webp",
+          "bytes": 241136,
+          "sha256": "7aeafc0b727925b7a8dd9505693996bc6fb8c1d855a627ae34fa8901734ea0e1"
+        }
+      ]
+    },
+    {
+      "id": "tower-defense",
+      "source": "TrailerMaterial/2026-11-02_December_Endscreen/Dino_Warfront_Ultimate_Trailer_December_30s_1080p_EN.mp4",
+      "sourceSha256": "22e990ecb154b95e2f7c09ac2dc7937bd6414a7ac5b5e116a1ef7abbdd0044b6",
+      "videoTimestampSeconds": 6,
+      "note": "Frame from native Unity gameplay footage, including the original trailer captions.",
+      "outputs": [
+        {
+          "path": "public/gameplay/tower-defense-480.webp",
+          "bytes": 28826,
+          "sha256": "c15ecd83e93e46dd57eb1418ff594e5774d074ac137b92faf655bac967e5bd7a"
+        },
+        {
+          "path": "public/gameplay/tower-defense-1600.webp",
+          "bytes": 179342,
+          "sha256": "29e2a1a82a34d3fc3a383e78f2f4d4a13576a8cf6827f9c9482591f30379df22"
+        }
+      ]
+    },
+    {
+      "id": "hero-ultimate",
+      "source": "TrailerMaterial/2026-11-02_December_Endscreen/Dino_Warfront_Ultimate_Trailer_December_30s_1080p_EN.mp4",
+      "sourceSha256": "22e990ecb154b95e2f7c09ac2dc7937bd6414a7ac5b5e116a1ef7abbdd0044b6",
+      "videoTimestampSeconds": 19,
+      "note": "Frame from native Unity gameplay footage, including the original trailer captions.",
+      "outputs": [
+        {
+          "path": "public/gameplay/hero-ultimate-480.webp",
+          "bytes": 37830,
+          "sha256": "588046ac3cee05d18f770b982a32d9dfb4a79eb4c3dbf61b98ce925d78bc146a"
+        },
+        {
+          "path": "public/gameplay/hero-ultimate-1600.webp",
+          "bytes": 296768,
+          "sha256": "bc285f78dcc0a8655f74d929eae38c3eef4dcbb47dd72ef6898e51382d7ace86"
+        }
+      ]
+    },
+    {
+      "id": "partner",
+      "source": "TrailerMaterial/2026-11-02_December_Endscreen/Dino_Warfront_Ultimate_Trailer_December_30s_1080p_EN.mp4",
+      "sourceSha256": "22e990ecb154b95e2f7c09ac2dc7937bd6414a7ac5b5e116a1ef7abbdd0044b6",
+      "videoTimestampSeconds": 24,
+      "note": "Frame from native Unity gameplay footage, including the original trailer captions.",
+      "outputs": [
+        {
+          "path": "public/gameplay/partner-480.webp",
+          "bytes": 18370,
+          "sha256": "30800108f1f433aeafaa815a80511be77d5c17c91e91cceba53ea78ced308604"
+        },
+        {
+          "path": "public/gameplay/partner-1600.webp",
+          "bytes": 136688,
+          "sha256": "3d94938eb47317fa1644e38eb6945e49b0f3232a398137c779814e4aaf480cce"
+        }
+      ]
+    },
+    {
+      "id": "world-map",
+      "source": "TrailerMaterial/2026-11-02_December_Endscreen/Dino_Warfront_Ultimate_Trailer_December_30s_1080p_EN.mp4",
+      "sourceSha256": "22e990ecb154b95e2f7c09ac2dc7937bd6414a7ac5b5e116a1ef7abbdd0044b6",
+      "videoTimestampSeconds": 26,
+      "note": "Frame from native Unity gameplay footage, including the original trailer captions.",
+      "outputs": [
+        {
+          "path": "public/gameplay/world-map-480.webp",
+          "bytes": 26306,
+          "sha256": "9a527aa7f9ea50b15e7dd28330f9a662faa72ec353107200ae5b030d956d7394"
+        },
+        {
+          "path": "public/gameplay/world-map-1600.webp",
+          "bytes": 263848,
+          "sha256": "3be655e0c0cd3c6bdcf5773ea1c4107186833965ca8776c0c62076b0f267a00a"
+        }
+      ]
+    },
+    {
+      "id": "alliance-events",
+      "source": "Docs/AllianceEvents_2026-10-13_alliance-lanes-battle-preview.png",
+      "sourceSha256": "4705ee32de2fba9ab0666d82a9ebb4f460808fcc6892959b4c2fb99b141275c9",
+      "note": "Development UI capture with sample teams and scores; German UI.",
+      "outputs": [
+        {
+          "path": "public/gameplay/alliance-events-480.webp",
+          "bytes": 27386,
+          "sha256": "893a9f4c29d8255e3d55b34059e1b98afebe62abb8705fc1ec47854a39c431f8"
+        },
+        {
+          "path": "public/gameplay/alliance-events-1600.webp",
+          "bytes": 194838,
+          "sha256": "36339ce6cfb45320ef7cf87aff479f7be5d5c8aeeb246dbbba9bb261ef478312"
+        }
+      ]
+    }
+  ]
+}

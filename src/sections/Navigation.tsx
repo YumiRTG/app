@@ -5,6 +5,7 @@ import { Link, NavLink, useLocation, useSearchParams } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 import LoginModal from '@/components/LoginModal'
 import DinoMark from '@/components/DinoMark'
+import { GAME_GUIDE } from '@/config/gameGuide'
 
 const navItems = [
   { label: 'Home', to: '/' },
@@ -24,10 +25,6 @@ export default function Navigation() {
   const [loginOpen, setLoginOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [params, setParams] = useSearchParams()
-
-  useEffect(() => {
-    if (params.get('login') === '1') setLoginOpen(true)
-  }, [params])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16)
@@ -57,15 +54,15 @@ export default function Navigation() {
         {/* Top news ticker — AAA game sites style */}
         <div className="news-strip hidden sm:block">
           <div className="container-dd flex items-center justify-between h-8 text-[10px] font-ui tracking-[0.2em] uppercase">
-            <span className="text-[var(--magma-glow)]">Android beta</span>
+            <span className="text-[var(--magma-glow)] shrink-0">{APK_DOWNLOAD.available ? 'Android beta' : `Planned: ${GAME_GUIDE.releaseTarget}`}</span>
             <span className="text-[var(--bone)]/50 truncate px-4">
-              Four modes live · Primeval Defense · Arena 1v1 &amp; 3×3 · Shared world map · 78-stage campaign
+              Live tournaments · Alliance events · 3D battles · Shared world map
             </span>
             <Link
-              to="/progress"
+              to="/events"
               className="text-[var(--gold)] no-underline hover:text-[var(--magma-glow)] shrink-0"
             >
-              Latest updates →
+              Explore events →
             </Link>
           </div>
         </div>
@@ -237,7 +234,7 @@ export default function Navigation() {
         </div>
       )}
 
-      <LoginModal open={loginOpen} onClose={closeLogin} />
+      <LoginModal open={loginOpen || params.get('login') === '1'} onClose={closeLogin} />
     </>
   )
 }

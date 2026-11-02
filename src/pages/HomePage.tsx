@@ -8,6 +8,10 @@ import TopCommanders from '@/sections/TopCommanders'
 import WarRoom from '@/sections/WarRoom'
 import { HomeCinematicSequence, HomeExperienceFx, HomeIntro } from '@/components/HomeExperience'
 import ResponsiveHero from '@/components/ResponsiveHero'
+import GameplayShowcase from '@/components/GameplayShowcase'
+import LiveEventsShowcase from '@/components/LiveEventsShowcase'
+import { GAME_GUIDE } from '@/config/gameGuide'
+import { COMMUNITY } from '@/config/community'
 import './HomePage.css'
 
 const DINOS = [
@@ -47,7 +51,7 @@ export default function HomePage() {
 
         <div className="absolute z-10 left-0 right-0 top-[18%] sm:top-[17%] md:top-[16%] container-dd flex flex-col items-center text-center">
           <p data-hero data-hero-delay="0.05" className="eyebrow mb-2 sm:mb-3 justify-center">
-            Android beta · Prehistoric strategy
+            Android · Planned for {GAME_GUIDE.releaseTarget}
           </p>
 
           <h1
@@ -60,6 +64,10 @@ export default function HomePage() {
             <span className="text-gradient-magma">WARFRONT</span>
           </h1>
 
+          <p data-hero data-hero-delay="0.25" className="font-body text-sm sm:text-base text-[var(--bone)]/85 mt-4 max-w-xl px-2">
+            Build your city. Command 3D battles. Compete in live tournaments.
+          </p>
+
           <div
             data-hero
             data-hero-delay="0.35"
@@ -70,11 +78,11 @@ export default function HomePage() {
             >
               Play free
             </DownloadLink>
-            <Link to="/modes" className="btn-secondary no-underline">
-              Game modes
-            </Link>
-            <Link to="/features/dinos" className="btn-secondary no-underline">
-              Meet the pack
+            <a href="#gameplay-screenshots" className="btn-secondary no-underline">
+              See gameplay
+            </a>
+            <Link to="/events" className="btn-secondary no-underline">
+              Tournaments & events
             </Link>
           </div>
         </div>
@@ -91,6 +99,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      <GameplayShowcase />
       <WarRoom />
       <HomeCinematicSequence />
 
@@ -184,6 +193,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      <LiveEventsShowcase />
       <TopCommanders />
 
       <section className="section-band relative overflow-hidden">
@@ -324,7 +334,7 @@ export default function HomePage() {
               </h2>
               <p className="body-lg mt-5">
                 Build your base, recruit heroes and discover the prehistoric world.
-                {APK_DOWNLOAD.available ? 'Get the Android beta on the download page. Wi-Fi recommended.' : 'The next Android download is coming soon. Join our Discord for release updates.'}
+                {APK_DOWNLOAD.available ? ' Get the Android beta on the download page. Wi-Fi recommended.' : ` The public Android release is planned for ${GAME_GUIDE.releaseTarget}. Timing may change as development progresses.`}
               </p>
               <div className="flex flex-wrap gap-3 mt-10">
                 <DownloadLink className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4">
@@ -333,6 +343,7 @@ export default function HomePage() {
                 <Link to="/features" className="btn-secondary no-underline">
                   Explore features
                 </Link>
+                <a href={COMMUNITY.discordUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary no-underline">Join Discord</a>
               </div>
             </div>
           </div>

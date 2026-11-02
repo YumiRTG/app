@@ -128,6 +128,15 @@ export default function FeaturesPage() {
           </Link>
         </header>
 
+        <aside className="dd-panel p-6 md:p-8 mb-12 flex flex-wrap items-center justify-between gap-6">
+          <div className="max-w-2xl">
+            <p className="eyebrow">Live competition</p>
+            <h2 className="font-display text-3xl text-white uppercase mt-3">Live tournaments & alliance events</h2>
+            <p className="body-lg mt-3">Qualify for the weekly knockout bracket, watch live matches or work toward a shared alliance result.</p>
+          </div>
+          <Link to="/events" className="btn-secondary no-underline">Explore tournaments & events</Link>
+        </aside>
+
         <section id="game-features" aria-labelledby="features-heading" className="scroll-mt-36">
           <div className="flex flex-wrap justify-between items-end gap-4 mb-7">
             <div>
