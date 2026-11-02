@@ -7,12 +7,12 @@ const HOW_IT_WORKS = [
   {
     step: '01',
     title: 'Open the map',
-    text: 'The campaign is a stage path on the world map. Clear one stage to unlock the next.',
+    text: 'Open the separate Campaign map from the city. Clear one stage to unlock the next; this is distinct from the shared world map.',
   },
   {
     step: '02',
     title: 'Pick your squad',
-    text: 'Bring heroes, dinosaurs and troops. Match roles to the stage — tanks for hard hits, strikers for speed.',
+    text: 'Choose human and creature heroes and set their front- and back-row formation. Their classes and skills decide the squad’s strengths.',
   },
   {
     step: '03',
@@ -21,8 +21,8 @@ const HOW_IT_WORKS = [
   },
   {
     step: '04',
-    title: 'Heal & upgrade',
-    text: 'Use the hospital, train more troops and level heroes/dinos. Come back stronger for harder stages.',
+    title: 'Develop the squad',
+    text: 'Improve hero levels, stars, skills and equipment before retrying a difficult stage. Trained world-map troops are not separate units in the campaign squad.',
   },
   {
     step: '05',
@@ -57,19 +57,19 @@ const REALMS = [
 const MECHANICS = [
   {
     title: 'Stage path',
-    text: 'Stages are linked. You progress forward by winning. Harder stages need better troops, dinos and heroes.',
+    text: 'Stages are linked. You progress forward by winning. Harder stages need stronger hero builds and a better formation.',
   },
   {
-    title: 'Army composition',
-    text: 'Mix Infantry, Riders and Shooters with dinos and a hero. Balance damage, tanking and skills.',
+    title: 'Hero formation',
+    text: 'Human and creature heroes have Infantry, Shooter, Rider or Defender classes. Balance damage, defense and skills across the formation.',
   },
   {
     title: 'Power & prep',
-    text: 'Base buildings, research and training raise your battle power before you re-enter the map.',
+    text: 'Hero levels, stars, skills and equipment improve the stats used by your campaign squad.',
   },
   {
-    title: 'Losses & recovery',
-    text: 'Troops can get wounded. Heal them in the hospital so your next push is not gutted.',
+    title: 'Turns & energy',
+    text: 'Choose targets in turn order and spend energy on skills and ultimates. Campaign fights do not send trained troops to the hospital.',
   },
   {
     title: 'Loot & growth',

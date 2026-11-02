@@ -91,7 +91,7 @@ export default function DevlogPage() {
           </h1>
           <p className="body-lg mt-5 max-w-xl">
             What has actually landed, what is being built, and what is still only a plan.
-            No marketing dates and no promises we have not kept yet.
+            Guides reflect the current development build. The Android download is coming soon; newer client features may not be present in older installed beta versions.
           </p>
 
           <div className="devlog-hero__stats">

@@ -83,9 +83,9 @@ const KB: KbEntry[] = [
   {
     keys: ['dino', 'dinosaur', 'tyranno', 'raptor', 'creature', 'bestiary', 'saurier'],
     answerEn:
-      'Open Bestiary for dinosaurs and heroes. In-game you tame creatures and use their skills in campaign battles.',
+      'Open Bestiary for dinosaurs and heroes. Recruit human and creature heroes, then develop their skills for turn-based campaign battles. Your partner dinosaur is a separate companion.',
     answerDe:
-      'Unter Bestiary siehst du Dinos und Helden. Im Spiel zähmst du Kreaturen und nutzt ihre Skills in der Campaign.',
+      'Unter Bestiary siehst du Dinos und Helden. Im Spiel rekrutierst du menschliche und Kreaturen-Helden für rundenbasierte Kampagnenkämpfe. Der Partner-Dino ist ein eigener Begleiter.',
   },
   {
     keys: ['hero', 'nyra', 'commander', 'ally', 'held'],
@@ -97,9 +97,9 @@ const KB: KbEntry[] = [
   {
     keys: ['feature', 'gameplay', 'build', 'base', 'campaign', 'how to play', 'spielen', 'basis'],
     answerEn:
-      'Core loop: build base → train troops → recruit heroes → tame dinos → clear campaign → grow offline. See Features and Story for more.',
+      'Core loop: build base → train troops → recruit heroes → raise a partner → clear campaign → grow offline. See Features and Story for more.',
     answerDe:
-      'Ablauf: Basis bauen → Truppen trainieren → Helden rekrutieren → Dinos zähmen → Campaign spielen → offline wachsen. Mehr unter Features und Story.',
+      'Ablauf: Basis bauen → Truppen trainieren → Helden rekrutieren → Partner aufziehen → Kampagne spielen → offline wachsen. Mehr unter Features und Story.',
   },
   {
     keys: ['permission', 'firebase', 'cloud', 'login failed', 'fehlgeschlagen'],

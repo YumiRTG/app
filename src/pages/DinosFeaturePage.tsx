@@ -30,7 +30,7 @@ export default function DinosFeaturePage() {
           >
             <img
               src={asset('feature-dinos-hero.jpg')}
-              alt="Tame dinosaurs"
+              alt="Dinosaur and creature heroes"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ objectPosition: 'center center' }}
             />
@@ -44,12 +44,12 @@ export default function DinosFeaturePage() {
             <div className="absolute bottom-0 inset-x-0 p-6 md:p-10">
               <p className="eyebrow">Feature · Beasts</p>
               <h1 className="display-lg text-white mt-3">
-                Tame
+                Command
                 <br />
-                <span className="text-gradient-magma">dinosaurs</span>
+                <span className="text-gradient-magma">creature heroes</span>
               </h1>
               <p className="body-lg mt-4 max-w-xl">
-                Basic creatures you can command — simple roles, clear jobs in battle.
+                Dinosaur and creature heroes with different classes, skills and places in your squad.
               </p>
             </div>
           </div>
@@ -57,13 +57,13 @@ export default function DinosFeaturePage() {
 
         <div className="max-w-2xl mb-10" data-reveal="up">
           <p className="body-lg">
-            Basic beasts only — clear roles, no walls of text. How they chain with heroes
-            and troops is something you feel in campaign, not on a website.
+            Recruit creature heroes and develop their levels, skills and equipment. The roster also
+            includes Mammoth, Smilodon and Raccoon. Your partner dinosaur is a separate companion system.
           </p>
         </div>
 
         <div className="flex items-center gap-4 mb-6" data-reveal="up">
-          <h2 className="font-display text-2xl text-white tracking-wide">BASIC DINOS</h2>
+          <h2 className="font-display text-2xl text-white tracking-wide">CREATURE ROSTER</h2>
           <div className="hud-line flex-1 opacity-50" />
           <span className="font-ui text-[10px] tracking-[0.2em] uppercase text-[var(--gold)]/80">
             {BASIC_DINOS.length} beasts

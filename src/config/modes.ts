@@ -1,3 +1,4 @@
+import { GAME_GUIDE } from '@/config/gameGuide'
 import { asset } from '@/lib/assets'
 
 /**
@@ -43,19 +44,19 @@ export const MODES: Mode[] = [
     kicker: 'Mode 01 · Real-time tower defense',
     tagline: 'Hold the line, or lose the herd',
     blurb:
-      'A proper real-time defense mode with its own 3D arena. Wild packs come down one path and you decide what stands in their way. There are twelve stages to work through, plus a weekly map that everyone in the world plays on the same week, under the same rules.',
+      'A proper real-time defense mode with its own 3D arena. Wild packs come down one path and you decide what stands in their way. There are thirteen fixed maps to work through, plus a weekly map that everyone in the world plays on the same week, under the same rules.',
     img: asset('modes/mode-defense.jpg'),
     pos: 'center center',
     accent: '#3dffb5',
     accentSoft: 'rgba(61,255,181,0.16)',
     specs: [
-      { label: 'Stages', value: '12 + weekly' },
-      { label: 'Tower types', value: '5 × 3 tiers' },
+      { label: 'Maps', value: `${GAME_GUIDE.defense.maps} + weekly` },
+      { label: 'Tower types', value: `${GAME_GUIDE.defense.towerTypes} · up to Lv. ${GAME_GUIDE.defense.maxTowerLevel}` },
       { label: 'Start lives', value: '20' },
       { label: 'Battle speed', value: '1× / 2× / 3×' },
     ],
     entry: 'The outer fence of your city, at the defense banner beside the palisade.',
-    unlock: 'Open from the start. The normal stages are free and you can replay them as often as you like.',
+    unlock: `Town Hall ${GAME_GUIDE.unlock.towerDefense}. Fixed maps are free to replay; the ranked weekly challenge uses tickets.`,
   },
   {
     key: 'arena',
@@ -77,7 +78,7 @@ export const MODES: Mode[] = [
       { label: 'Team Arena', value: '9 heroes, Bo3' },
     ],
     entry: 'The Arena building in your city.',
-    unlock: 'Tactical Arena at Town Hall 12. Team Arena needs Town Hall 14 and nine unlocked heroes.',
+    unlock: `Tactical Arena at Town Hall ${GAME_GUIDE.unlock.arena}. Team Arena needs Town Hall ${GAME_GUIDE.unlock.teamArena} and nine unlocked heroes.`,
   },
   {
     key: 'world-map',
@@ -85,9 +86,9 @@ export const MODES: Mode[] = [
     short: 'World',
     name: 'The World Map',
     kicker: 'Mode 03 · Shared persistent world',
-    tagline: 'Everyone out there is real',
+    tagline: 'A shared world of rival commanders',
     blurb:
-      'One shared world, 8000 by 8000, where every base you can see belongs to a player. Five rings run from the quiet edge to the dangerous middle, and the rally boss sits right in the centre. You get there by sending marches: to farm, to hunt, to scout, to raid, to reinforce a friend, or to hold a piece of ground nobody has claimed.',
+      'One shared world, 8000 by 8000, where commanders build bases, gather resources and contest territory. Five rings run from the quiet edge to the dangerous middle, and the rally boss sits right in the centre. You get there by sending marches: to farm, to hunt, to scout, to raid, to reinforce a friend, or to hold a piece of ground nobody has claimed.',
     img: asset('modes/mode-world.jpg'),
     pos: 'center 45%',
     accent: '#38e8ff',
@@ -99,7 +100,7 @@ export const MODES: Mode[] = [
       { label: 'March capacity', value: 'up to 100k' },
     ],
     entry: 'The world map button on the city HUD.',
-    unlock: 'Your base gets placed for you, out in the safe ring, the first time you open the map.',
+    unlock: `Town Hall ${GAME_GUIDE.unlock.worldMap}. Monster hunts unlock at 11, player attacks at 12 and alliance rallies at 15.`,
   },
   {
     key: 'campaign',
@@ -121,7 +122,7 @@ export const MODES: Mode[] = [
       { label: 'Bosses', value: 'One per region' },
     ],
     entry: 'The campaign map from the city.',
-    unlock: 'Open in your first hour. Every stage needs the one before it.',
+    unlock: `Town Hall ${GAME_GUIDE.unlock.campaign}. Clear stages in order. Hard requires Town Hall ${GAME_GUIDE.unlock.campaignHard} and a complete Normal clear; Extreme requires ${GAME_GUIDE.unlock.campaignExtreme} and a complete Hard clear.`,
   },
 ]
 
@@ -137,60 +138,73 @@ export const TD_TOWERS = [
     name: 'Dilophosaurus',
     role: 'Damage over time',
     text: 'Spits venom, and every hit leaves a poison stack that keeps ticking after the target walks away. Cheap to put down, and very good against the slow, heavy stuff.',
-    stat: '120 gold · 12.5 range',
+    stat: '120 gold · stacking poison',
     img: asset('dino-dilo.png'),
   },
   {
     name: 'Fire Dragon',
     role: 'Ground denial',
-    text: 'One breath roughly every three seconds, and the flames stay on the ground afterwards. Put it on a bend so the whole wave has to walk through the fire.',
+    text: 'Breath attacks leave burning ground, and its two upgrade paths specialize the damage. Put it on a bend so the whole wave has to walk through the fire.',
     stat: '200 gold · burning field',
     img: asset('dino-dragon.png'),
   },
   {
     name: 'Sky Nest',
-    role: 'Global reach',
-    text: 'A Pteranodon takes off, circles whatever is furthest along the path and drops bombs on it. It reaches anywhere on the map, but it does not hit nearly as hard as the ground towers.',
-    stat: '280 gold · map-wide',
+    role: 'Air support',
+    text: 'A flying companion attacks advancing enemies. Specialize its path to answer flying threats or deliver heavier strikes.',
+    stat: '280 gold · flying companion',
     img: asset('dino-ptera.png'),
   },
   {
     name: 'Radar Station',
-    role: 'Single-target burst',
-    text: 'An archer on the platform. No splash and no gimmick, just the hardest single shot in the mode and enough range to cover two stretches of path.',
-    stat: '165 gold · 136 dmg at tier 3',
+    role: 'Detection & air defense',
+    text: 'Detects stealth enemies and attacks ground and air targets. Its scouting role helps other towers handle threats they cannot otherwise see.',
+    stat: '165 gold · stealth detection',
     img: asset('icon-shooter.png'),
   },
   {
     name: 'Ice Fortress',
     role: 'Control',
-    text: 'It never shoots. It pulses cold across its whole radius, slows everything by up to 78% and sometimes freezes outright. Upgrading shortens the gap between pulses, which is when it finally stops leaking runners.',
-    stat: '175 gold · 42% freeze at tier 3',
+    text: 'Pulses cold through its radius to slow enemies and sometimes freeze them. Choose a path to strengthen control or turn freezes into damage.',
+    stat: '175 gold · slowing aura',
     img: asset('realm-ice.png'),
   },
 ]
 
+export const TD_OTHER_TOWERS = [
+  { title: 'Elara Veyn', text: 'Long-range attacks with air defense.' },
+  { title: 'Triceratops Bastion', text: 'Short horn shockwaves hit enemies around the build slot.' },
+  { title: 'War Totem', text: 'Supports nearby towers with scouting or attack speed.' },
+  { title: 'Rock Catapult', text: 'Slow, long-range area hits with heavy rocks.' },
+  { title: 'Raptor Pack', text: 'Fast melee attackers that pressure weakened special enemies.' },
+  { title: 'Plesiosaurus', text: 'Built beside water; its waves damage and slow groups.' },
+  { title: 'Brood Nest', text: 'Generates wave gold and collectible eggs; at most three per map.' },
+  { title: 'Raptor Shifter', text: 'Builds rage through hits and can transform into an alpha.' },
+]
+
 export const TD_ENEMIES = [
   { name: 'Compso', role: 'Runner', text: 'Fast, fragile, and never alone. Slow single-target towers hate them.' },
-  { name: 'Sinosaurus', role: 'Sprinter', text: 'More than twice normal speed with barely any health. One hit is enough, if you can land it.' },
+  { name: 'Sinosauropteryx', role: 'Sprinter', text: 'A fast target that tests firing coverage and crowd control.' },
   { name: 'Raptor', role: 'Standard', text: 'The baseline everything else is measured against.' },
   { name: 'Wolf pack', role: 'Swarm', text: 'Quick and constant. If your layout has no splash damage anywhere, this is where it shows.' },
-  { name: 'Alligator', role: 'Armored', text: 'Slow and thick, and it takes two lives with it if it gets past you.' },
-  { name: 'Krag', role: 'Brute', text: 'Nearly triple health at two thirds speed. Pays out well when it finally goes down.' },
-  { name: 'Stegosaurus', role: 'Bulwark', text: 'The wall. 4.6× health, half speed, three lives if it leaks. Burst damage alone will not do it.' },
-  { name: 'Tyrant', role: 'Boss', text: 'Sixteen times a raptor’s health and five lives if it reaches the gate. Usually the last thing you see on a stage.' },
+  { name: 'Deinosuchus', role: 'Armored', text: 'A heavy target that rewards armor-breaking attacks.' },
+  { name: 'Oviraptor', role: 'Swarm', text: 'Groups of small enemies reward reliable area coverage.' },
+  { name: 'Stegosaurus', role: 'Bulwark', text: 'Durable enemies need sustained damage and the right counter traits.' },
+  { name: 'Tyrant', role: 'Boss', text: 'Boss phases can bring shields, reinforcements or other abilities that change your priorities.' },
+  { name: 'Tupuxuara', role: 'Flying', text: 'Choose towers and upgrade paths that can hit air targets.' },
+  { name: 'Metriacanthosaurus', role: 'Saboteur', text: 'A tougher special enemy that pressures an unprepared layout.' },
 ]
 
 export const TD_LOOP = [
   {
     step: '01',
     title: 'Pick a map and a difficulty',
-    text: 'Twelve stages, three difficulties. Easy gives you eight extra lives and a quarter more starting gold. Hard takes six lives off you and gives enemies 55% more health, but it pays 170% of the marks.',
+    text: 'Thirteen fixed maps and three difficulties. Easy adds lives and gold; Hard strengthens enemy waves and increases mark rewards. The weekly ranked challenge uses shared rules.',
   },
   {
     step: '02',
     title: 'Buy ground before wave one',
-    text: 'You start with 260 gold and twelve seconds of prep. The path is already drawn, so where you build matters more than what you build.',
+    text: 'The first map starts with 260 gold before difficulty and bonuses; later maps add 20 per map index. You have twelve seconds of preparation. The path is already drawn, so where you build matters more than what you build.',
   },
   {
     step: '03',
@@ -200,12 +214,12 @@ export const TD_LOOP = [
   {
     step: '04',
     title: 'Fight, upgrade, sell',
-    text: 'Kills and cleared waves pay gold. Every tower goes up three tiers, and selling gives back 60% of what you spent, so a bad opening is fixable. A bad mid-game usually is not.',
+    text: 'Kills and cleared waves pay gold. Pick a branch at level 3 and build toward level 6. The top level needs mastery rank 2, and at most two level-6 towers can stand at once. Selling returns 60% of the gold actually spent, so a bad opening is fixable. A bad mid-game usually is not.',
   },
   {
     step: '05',
     title: 'Bank the stars',
-    text: 'Three stars means you did not lose a single life. Two means you kept 60% of them. The marks go into the defense shop and the manager skill tree.',
+    text: 'Three stars means you did not lose a single life. Two means you kept 60% of them. Earn marks for new stars, repeat clears and weekly progress, subject to the daily cap. Spend them on the defense shop and tower mastery.',
   },
 ]
 
@@ -216,15 +230,15 @@ export const ARENA_MODES = [
     id: 'tactical',
     name: 'Tactical Arena',
     format: '1 v 1 · three heroes',
-    text: 'You pick three heroes for defense and the game stores that line-up. Other players attack it while you are offline, and you go after theirs. When you win, the points come straight out of the defender. When you lose, nothing happens to your rating.',
+    text: 'You pick three heroes for defense and the game stores that line-up. Other players attack it while you are offline, and you go after theirs. When you win, the points come straight out of the defender. When you lose, rating moves from you to the defender.',
     points: [
       'Three heroes on defense, three on attack',
       'Rating starts at 1000 and moves between players',
-      'Losing an attack does not cost you points',
+      'Wins gain rating; lost attacks lose rating',
       'Every defense you lose shows up as mail, with who did it',
       'A daily reward based on where you sit',
     ],
-    unlock: 'Arena building · Town Hall 12',
+    unlock: `Arena building · Town Hall ${GAME_GUIDE.unlock.arena}`,
     tickets: '5 free attacks a day, more for amber',
     img: asset('hero-nyra.png'),
   },
@@ -240,7 +254,7 @@ export const ARENA_MODES = [
       'Its own ladder, its own rating and rewards',
       'Same weekly reset as the Tactical Arena',
     ],
-    unlock: 'Nine heroes unlocked · Town Hall 14',
+    unlock: `Nine heroes unlocked · Town Hall ${GAME_GUIDE.unlock.teamArena}`,
     tickets: '3 matches a day at release, more for amber',
     img: asset('hero-carina.png'),
   },
@@ -253,7 +267,7 @@ export const ARENA_SEASON = [
   },
   {
     title: 'You never wait for anyone',
-    text: 'Your opponent does not have to be online. Their defense is stored, your attack is fought against it live, and both ladders are built so being away does not punish you.',
+    text: 'Your opponent does not have to be online. Their defense is stored, your attack is fought against it live, and your stored defense can still gain or lose rating while you are away.',
   },
   {
     title: 'Defense reports back',
@@ -282,7 +296,7 @@ export const WM_MARCHES = [
   { name: 'Attack player', cost: 'March slot', text: 'Hit a rival base. Their defense power decides how it goes, and the loot is real.' },
   { name: 'Scout', cost: 'Free flight', text: 'A Pterodactyl flies over, uncovers the base and mails you the report. Does not use a march slot.' },
   { name: 'Rescue mission', cost: 'Free flight', text: 'Radar missions flown by air. Extra marches that bring troops home instead of into a fight.' },
-  { name: 'Reinforce ally', cost: 'One-way', text: 'Garrison a friend. If your garrison is stronger than their home defense, yours is what the attacker runs into.' },
+  { name: 'Reinforce ally', cost: 'Stationed troops', text: 'Send a garrison to help defend an ally. Those troops remain committed until recalled or returned.' },
   { name: 'Assist construction', cost: 'Round trip', text: 'Send troops to an alliance building site. The more you send, the faster it finishes.' },
   { name: 'Occupy tile', cost: 'Indefinite', text: 'Plant an outpost and sit on the ground until you call the troops back.' },
   { name: 'Attack outpost', cost: 'March slot', text: 'Break someone else’s outpost. No shield covers it and there is nothing stored there to loot, so this one is only about the ground.' },
@@ -338,8 +352,8 @@ export const CAMPAIGN_DIFFICULTIES = [
 
 export const CAMPAIGN_LOOP = [
   { step: '01', title: 'Choose the stage', text: 'Regions open in order and every stage needs the one before it. The last stage of a region is always a boss.' },
-  { step: '02', title: 'Build the squad', text: 'Heroes, dinosaurs and troops. Roles carry the fight: tanks soak the opening, strikers finish it, support keeps the line up.' },
+  { step: '02', title: 'Build the squad', text: 'Choose human and creature heroes, then set their formation. Tanks absorb pressure, damage dealers finish targets and support keeps the squad fighting.' },
   { step: '03', title: 'Fight', text: 'Turn-based hero combat with skills and ultimates, at a battle speed you set. Stamina decides how much you play in a day, not the map.' },
-  { step: '04', title: 'Collect stars', text: 'Three stars a stage, tracked separately on every difficulty. Finishing Normal leaves the whole map open again on Hard.' },
+  { step: '04', title: 'Collect stars', text: 'Three stars a stage, tracked separately on every difficulty. Hard unlocks after a full Normal clear at Town Hall 24; Extreme follows a full Hard clear at Town Hall 30.' },
   { step: '05', title: 'Sweep and idle', text: 'Cleared stages can be swept instead of replayed, and your progress keeps paying out while the app is shut.' },
 ]

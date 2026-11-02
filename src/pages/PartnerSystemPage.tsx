@@ -1,9 +1,10 @@
+import { GAME_GUIDE } from '@/config/gameGuide'
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
 import { usePageMotion } from '@/hooks/useMotion'
 
 const GROWTH = [
-  ['01', 'Choose', 'At Town Hall 18, enter the partner selection and choose one of three starter dinosaurs.'],
+  ['01', 'Choose', `At Town Hall ${GAME_GUIDE.unlock.partner}, choose a T-Rex, Velociraptor or Parasaurolophus partner.`],
   ['02', 'Hatch', 'Your partner begins small. The relationship starts before the power does.'],
   ['03', 'Bond', 'Feed and pet your dinosaur every day to build the bond and make progression feel personal.'],
   ['04', 'Grow', 'Advance through six upgrade paths while your partner develops from baby to battle companion.'],
@@ -65,7 +66,7 @@ export default function PartnerSystemPage() {
 
         <section className="grid sm:grid-cols-3 gap-3 mt-6" data-reveal-stagger>
           {[
-            ['TOWN HALL 18', 'Unlock the partner selection'],
+            [`TOWN HALL ${GAME_GUIDE.unlock.partner}`, 'Unlock the partner selection'],
             ['3 STARTERS', 'Different dinosaurs, equal starting power'],
             ['6 PATHS', 'Long-term partner progression'],
           ].map(([value, label]) => (
@@ -84,7 +85,7 @@ export default function PartnerSystemPage() {
             <span style={{ color: '#c78cff' }}>A companion you raise.</span>
           </h2>
           <p className="body-lg mt-5 max-w-3xl">
-            The system replaces a passive manager-equipment feeling with something visible and personal. Your partner grows because you keep using it, caring for it and taking it into the world.
+            Choose one companion and develop its bond, six upgrade paths and evolution. Daily care and supported marches help it grow; the manager remains a separate system.
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mt-8" data-reveal-stagger>
@@ -103,7 +104,7 @@ export default function PartnerSystemPage() {
             <p className="eyebrow">Daily bond</p>
             <h2 className="font-display text-3xl md:text-4xl text-white uppercase mt-3">Feed. Pet. Train.</h2>
             <p className="body-lg mt-4">
-              Small daily interactions keep the partner alive as a relationship instead of turning it into another invisible stat sheet. Progress still matters, but the dinosaur remains the thing you see growing.
+              Feed and pet your partner, build bond experience and invest in its upgrades. Its appearance develops as you advance, with body colors, markings and visible armor.
             </p>
           </div>
           <div className="dd-card p-6 md:p-8" data-reveal="right">

@@ -248,7 +248,7 @@ export function HomeCinematicSequence() {
     <section
       ref={sectionRef}
       className="home-command-showcase home-roster-showcase"
-      aria-label="Dino Warfront human and dinosaur hero rosters"
+      aria-label="Dino Warfront human and creature hero rosters"
       style={{ ['--command-accent' as string]: accent }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -291,14 +291,14 @@ export function HomeCinematicSequence() {
               background: mode === 'dinos' ? 'rgba(255,107,61,.08)' : 'rgba(0,0,0,.18)',
             }}
           >
-            Dino hero roster · {BASIC_DINOS.length}
+            Creature hero roster · {BASIC_DINOS.length}
           </button>
         </div>
 
         <div className="grid lg:grid-cols-[.82fr_1.18fr] gap-4">
           <Link
             to={mode === 'heroes' ? '/features/heroes' : '/features/dinos'}
-            className="relative min-h-[32rem] overflow-hidden border border-white/10 bg-[#090812] no-underline text-inherit group"
+            className="relative min-h-[32rem] lg:h-[34rem] overflow-hidden border border-white/10 bg-[#090812] no-underline text-inherit group"
             style={{ boxShadow: `0 0 55px ${accent}18, 0 30px 90px rgba(0,0,0,.38)` }}
           >
             <div className="absolute inset-0 flex items-center justify-center p-5 pb-28">
@@ -331,7 +331,7 @@ export function HomeCinematicSequence() {
             </div>
           </Link>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 content-start">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 content-start lg:max-h-[34rem] lg:overflow-y-auto lg:pr-1">
             {roster.map((entry, index) => {
               const selected = index === active
               return (
@@ -339,6 +339,7 @@ export function HomeCinematicSequence() {
                   key={entry.id}
                   type="button"
                   onClick={() => setActive(index)}
+                  aria-pressed={selected}
                   className="relative min-h-[13.5rem] overflow-hidden border bg-[#090812] text-left group transition-all duration-300"
                   style={{
                     borderColor: selected ? `${accent}aa` : 'rgba(255,255,255,.08)',
@@ -372,7 +373,7 @@ export function HomeCinematicSequence() {
 
         <div className="home-command-showcase__footer">
           <span className="home-command-showcase__pulse"><i /> ROSTER LIVE</span>
-          <strong>{mode === 'heroes' ? 'HUMAN HEROES' : 'DINO HEROES'}</strong>
+          <strong>{mode === 'heroes' ? 'HUMAN HEROES' : 'CREATURE HEROES'}</strong>
           <span>Select a card · full kits stay on the roster page</span>
         </div>
       </div>

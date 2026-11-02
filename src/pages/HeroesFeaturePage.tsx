@@ -66,13 +66,13 @@ export default function HeroesFeaturePage() {
           <div className="lg:col-span-7 space-y-4">
             <p className="body-lg">
               Heroes are not cosmetics — they are the commanders that turn a raw tribe into a
-              fighting dominion. Each basic hero brings a different focus: leadership, strike,
-              support, control, frontline power, or wild versatility.
+              fighting dominion. Each basic hero brings a different focus: ranged damage, infantry pressure,
+              shield breaking, frontline defense, or support.
             </p>
             <p className="body-lg">
               Recruit them in-game, level their skills, and pair them with dinosaurs and troops.
-              The same basic roster you see here is what friends meet in the beta — no filler,
-              just the core legends.
+              Explore the eight named human heroes in the current roster. Their classes and
+              skill roles help you decide who belongs in each formation.
             </p>
             <ul className="grid sm:grid-cols-2 gap-3 mt-6">
               {[
