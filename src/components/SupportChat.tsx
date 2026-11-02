@@ -1,5 +1,5 @@
+import DownloadLink from '@/components/DownloadLink'
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router'
 import { COMMUNITY } from '@/config/community'
 import { useAuth } from '@/hooks/useAuth'
 import { asset } from '@/lib/assets'
@@ -286,13 +286,12 @@ export default function SupportChat() {
           <div className="px-3 py-2 border-b border-white/5 flex flex-wrap gap-2 shrink-0">
             <CommunityChip label="Discord" href={COMMUNITY.discordUrl} />
             <CommunityChip label="Forum" href={COMMUNITY.forumUrl} />
-            <Link
-              to="/download"
+            <DownloadLink
               onClick={() => setOpen(false)}
               className="font-ui text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full no-underline border border-[#f0c14d]/25 text-[#f0c14d] hover:bg-[#f0c14d]/10"
             >
               Download
-            </Link>
+            </DownloadLink>
             <button
               type="button"
               onClick={() => openEmailForm()}

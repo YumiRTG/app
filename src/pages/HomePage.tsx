@@ -1,3 +1,5 @@
+import { APK_DOWNLOAD } from '@/config/download'
+import DownloadLink from '@/components/DownloadLink'
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
 import { usePageMotion } from '@/hooks/useMotion'
@@ -63,12 +65,11 @@ export default function HomePage() {
             data-hero-delay="0.35"
             className="flex flex-wrap gap-3 mt-4 sm:mt-5 justify-center"
           >
-            <Link
-              to="/download"
+            <DownloadLink
               className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4"
             >
               Play free
-            </Link>
+            </DownloadLink>
             <Link to="/modes" className="btn-secondary no-underline">
               Game modes
             </Link>
@@ -317,18 +318,18 @@ export default function HomePage() {
                 <span>Enter the wild</span>
               </div>
               <h2 className="display-lg text-white mt-2">
-                Download &
+                {APK_DOWNLOAD.available ? 'Download &' : 'Android release'}
                 <br />
-                <span className="text-gradient-magma">play</span>
+                <span className="text-gradient-magma">{APK_DOWNLOAD.available ? 'play' : 'coming soon'}</span>
               </h2>
               <p className="body-lg mt-5">
                 Build your base, recruit heroes and discover the prehistoric world.
-                Get the Android beta on the download page. Wi-Fi recommended.
+                {APK_DOWNLOAD.available ? 'Get the Android beta on the download page. Wi-Fi recommended.' : 'The next Android download is coming soon. Join our Discord for release updates.'}
               </p>
               <div className="flex flex-wrap gap-3 mt-10">
-                <Link to="/download" className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4">
+                <DownloadLink className="btn-primary no-underline !text-[0.9rem] !px-8 !py-4">
                   Download APK
-                </Link>
+                </DownloadLink>
                 <Link to="/features" className="btn-secondary no-underline">
                   Explore features
                 </Link>

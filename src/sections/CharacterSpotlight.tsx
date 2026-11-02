@@ -1,5 +1,5 @@
+import DownloadLink from '@/components/DownloadLink'
 import { useEffect, useRef } from 'react'
-import { Link } from 'react-router'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '@/lib/assets'
@@ -160,9 +160,9 @@ export default function CharacterSpotlight() {
               ))}
             </div>
 
-            <Link to="/download" className="btn-primary mt-12 w-fit no-underline">
+            <DownloadLink className="btn-primary mt-12 w-fit no-underline">
               PLAY AS NYRA
-            </Link>
+            </DownloadLink>
           </div>
         </div>
 

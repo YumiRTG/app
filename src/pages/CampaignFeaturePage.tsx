@@ -1,3 +1,4 @@
+import DownloadLink from '@/components/DownloadLink'
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
 import { usePageMotion } from '@/hooks/useMotion'
@@ -201,9 +202,9 @@ export default function CampaignFeaturePage() {
         </div>
 
         <div className="flex flex-wrap gap-3" data-reveal="up">
-          <Link to="/download" className="btn-primary no-underline">
+          <DownloadLink className="btn-primary no-underline">
             Download & conquer
-          </Link>
+          </DownloadLink>
           <Link to="/features/dinos" className="btn-secondary no-underline">
             Dinos
           </Link>

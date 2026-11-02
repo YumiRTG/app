@@ -1,3 +1,4 @@
+import DownloadLink from '@/components/DownloadLink'
 import { Link } from 'react-router'
 import { BASIC_DINOS } from '@/lib/dinos'
 import { BASIC_HEROES } from '@/lib/heroes'
@@ -123,9 +124,9 @@ export default function BestiaryPage() {
           <Link to="/features/heroes" className="btn-secondary no-underline">
             Hero details
           </Link>
-          <Link to="/download" className="btn-secondary no-underline">
+          <DownloadLink className="btn-secondary no-underline">
             Play free
-          </Link>
+          </DownloadLink>
         </div>
       </div>
     </div>

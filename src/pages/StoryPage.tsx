@@ -1,3 +1,4 @@
+import DownloadLink from '@/components/DownloadLink'
 import { Link } from 'react-router'
 import { asset } from '@/lib/assets'
 import { usePageMotion } from '@/hooks/useMotion'
@@ -49,9 +50,9 @@ export default function StoryPage() {
             <Link to="/features/campaign" className="btn-secondary no-underline">
               Campaign path
             </Link>
-            <Link to="/download" className="btn-secondary no-underline">
+            <DownloadLink className="btn-secondary no-underline">
               Enter the beta
-            </Link>
+            </DownloadLink>
           </div>
         </div>
 

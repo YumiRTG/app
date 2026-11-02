@@ -1,3 +1,5 @@
+import { APK_DOWNLOAD } from '@/config/download'
+import DownloadLink from '@/components/DownloadLink'
 import { Link } from 'react-router'
 import DinoMark from '@/components/DinoMark'
 import { COMMUNITY } from '@/config/community'
@@ -9,7 +11,7 @@ const links = [
   { label: 'Play', to: '/play' },
   { label: 'Bestiary', to: '/bestiary' },
   { label: 'Progress', to: '/progress' },
-  { label: 'Download', to: '/download' },
+  { label: APK_DOWNLOAD.available ? 'Download' : 'Coming soon', to: '/download' },
 ]
 
 function openSupport() {
@@ -110,12 +112,11 @@ export default function Footer() {
               </span>
             )}
 
-            <Link
-              to="/download"
+            <DownloadLink
               className="btn-primary !py-2.5 !px-5 !text-[0.68rem] no-underline mt-4"
             >
               Get APK
-            </Link>
+            </DownloadLink>
           </div>
         </div>
       </div>

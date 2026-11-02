@@ -70,8 +70,8 @@ export const DEV_SCREENSHOTS: DevShot[] = [
   },
   {
     src: asset('ui-hero-screen.png'),
-    caption: 'Battle arena',
-    note: 'Where campaign fights play out, under a volcano that is not decorative.',
+    caption: 'Hero roster',
+    note: 'The hero screen, where commanders inspect and develop their roster.',
     date: 'Current build',
     pos: 'center 45%',
   },
@@ -95,6 +95,27 @@ export const DEV_SCREENSHOTS: DevShot[] = [
 
 /** Progression log, newest first. */
 export const PROGRESS_LOG: ProgressEntry[] = [
+  {
+    id: 'quiz-pool-v3',
+    date: '2 November 2026',
+    title: '1,100 quiz questions',
+    body: 'The server quiz pool now contains 1,100 English questions across 22 topics. Each round still has ten questions. Scheduled rounds rotate through the pool without repeating a question within a full cycle, while quizzes already in progress keep their original questions and answers.',
+    tag: 'shipped',
+  },
+  {
+    id: 'alliance-boss-eisenruecken',
+    date: 'October 2026',
+    title: 'Eisenruecken alliance boss',
+    body: 'The alliance boss server update is deployed. Coordinate rallies to break its shield, then use solo attacks during its exposed phase. The new model, event panel and reward views are integrated in the client project; distribution in a new Android build is still pending.',
+    tag: 'wip',
+  },
+  {
+    id: 'android-download-status',
+    date: '2 November 2026',
+    title: 'Android download coming soon',
+    body: 'The previous APK link has been removed while the next Android build is prepared. Join the Discord community through the website for project news and release updates.',
+    tag: 'wip',
+  },
   {
     id: 'web-live-data',
     date: 'August 2026',
@@ -204,13 +225,13 @@ export const FUTURE_UPDATES: FutureUpdate[] = [
   {
     id: 'season-history',
     title: 'Season hall of fame',
-    body: 'Arena seasons reset every Monday and that history disappears. Capturing each season keeps a permanent record.',
-    status: 'planned',
+    body: 'Season history is implemented on the Arena server and in the client project. A new Android release and a web history view are still pending.',
+    status: 'in-progress',
   },
   {
-    id: 'discord-forum',
-    title: 'Discord and forum',
-    body: 'Community channels for bug reports, squad talk and update announcements.',
+    id: 'community-forum',
+    title: 'Community forum',
+    body: 'A dedicated forum for bug reports and squad talk. Discord is already available through the Community links on this site.',
     status: 'soon',
   },
   {

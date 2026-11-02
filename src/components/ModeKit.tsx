@@ -1,3 +1,4 @@
+import DownloadLink from '@/components/DownloadLink'
 import type { ReactNode } from 'react'
 import { Link, NavLink } from 'react-router'
 import { MODES, type Mode, type ModeSpec } from '@/config/modes'
@@ -195,9 +196,9 @@ export function ModeFooterCta({
             </div>
           </dl>
           <div className="flex flex-wrap gap-3 mt-9">
-            <Link to="/download" className="btn-primary no-underline">
+            <DownloadLink className="btn-primary no-underline">
               Download the beta
-            </Link>
+            </DownloadLink>
             <Link to={next.to} className="btn-secondary no-underline">
               Next mode · {next.short}
             </Link>
