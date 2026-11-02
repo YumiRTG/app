@@ -33,7 +33,7 @@ const LOOP = [
   {
     step: '04',
     title: 'Take the points',
-    text: 'When you win, the points come out of the defender and land on you. Same number both ways. When you lose, it costs you the attempt and nothing else.',
+    text: 'When you win, the points come out of the defender and land on you. Same number both ways. When you lose, rating moves to the defender and the attempt is still spent.',
   },
   {
     step: '05',

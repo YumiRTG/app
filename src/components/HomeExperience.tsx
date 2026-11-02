@@ -248,7 +248,7 @@ export function HomeCinematicSequence() {
     <section
       ref={sectionRef}
       className="home-command-showcase home-roster-showcase"
-      aria-label="Dino Warfront human and dinosaur hero rosters"
+      aria-label="Dino Warfront human and creature hero rosters"
       style={{ ['--command-accent' as string]: accent }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -291,7 +291,7 @@ export function HomeCinematicSequence() {
               background: mode === 'dinos' ? 'rgba(255,107,61,.08)' : 'rgba(0,0,0,.18)',
             }}
           >
-            Dino hero roster · {BASIC_DINOS.length}
+            Creature hero roster · {BASIC_DINOS.length}
           </button>
         </div>
 
@@ -372,7 +372,7 @@ export function HomeCinematicSequence() {
 
         <div className="home-command-showcase__footer">
           <span className="home-command-showcase__pulse"><i /> ROSTER LIVE</span>
-          <strong>{mode === 'heroes' ? 'HUMAN HEROES' : 'DINO HEROES'}</strong>
+          <strong>{mode === 'heroes' ? 'HUMAN HEROES' : 'CREATURE HEROES'}</strong>
           <span>Select a card · full kits stay on the roster page</span>
         </div>
       </div>

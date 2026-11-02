@@ -165,8 +165,14 @@ const HERO_ART: Record<string, string> = {
   carina_vale: 'hero-carina.png',
   alissa_mey: 'hero-alyssa.png',
   elara_veyn: 'hero-elara.png',
+  elara_vayn: 'hero-elara.png',
   bloodfang_warlord: 'hero-tweak-vale.webp',
   ronan: 'hero-ronan.png',
+  ronan_vale: 'hero-ronan.png',
+  kael_stormfeather: 'game-roster/kael-stormfeather.webp',
+  mira_thorn: 'game-roster/mira-thorn.webp',
+  featherclaw_raptor: 'game-roster/featherclaw.webp',
+  raccoon: 'game-roster/raccoon.webp',
 }
 
 export function heroArt(heroId: string | undefined): string {

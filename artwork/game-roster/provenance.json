@@ -1,0 +1,84 @@
+{
+  "reviewedOn": "2026-11-02",
+  "note": "Existing game artwork and a Unity Horde map capture; resized and encoded without character or scene edits.",
+  "images": [
+    {
+      "source": "Assets/Resources/mira_thorn_hero.png",
+      "output": "public/game-roster/mira-thorn.webp",
+      "sourceSha256": "e93848f2dd6b46162d9f4eb1efc952fa8f208c292ed75e5bf4c4e9a92d892ae2",
+      "outputSha256": "74e1b2207375aa3c3f67838587af92092c8293fdb15685803520c325fe3cb59b",
+      "bytes": 139566,
+      "resize": {
+        "width": 640,
+        "withoutEnlargement": true
+      },
+      "format": "webp",
+      "quality": 84
+    },
+    {
+      "source": "Assets/Resources/kael_stormfeather_hero.png",
+      "output": "public/game-roster/kael-stormfeather.webp",
+      "sourceSha256": "0482dc33051f44a35b5ca4886a1a3ae30d68ecb78ddafcbdc4d377c133dd36e4",
+      "outputSha256": "c75cae89280ed1a4e464f33b4e84bc810a64cf5c8ea2b8ffa0b57d90cf9bc029",
+      "bytes": 154324,
+      "resize": {
+        "width": 640,
+        "withoutEnlargement": true
+      },
+      "format": "webp",
+      "quality": 84
+    },
+    {
+      "source": "Assets/Resources/featherclaw_raptor_hero.png",
+      "output": "public/game-roster/featherclaw.webp",
+      "sourceSha256": "a75812de94a8721ccfb583c7bf60684e338bad1a64068dbc9b6b1bcca830d368",
+      "outputSha256": "c7d228a8f9010affed55d0d440ae4911dcb958f075223b83901e3eba1222c748",
+      "bytes": 129382,
+      "resize": {
+        "width": 640,
+        "withoutEnlargement": true
+      },
+      "format": "webp",
+      "quality": 84
+    },
+    {
+      "source": "Assets/Resources/rakoon.png",
+      "output": "public/game-roster/raccoon.webp",
+      "sourceSha256": "e3f4daca43017c594643bb29f17f27353d98434f51f6e88a66b31283dd31fa52",
+      "outputSha256": "86d21b35ee95a5445a2f1f2370370b850e3c8711755ffa220ca9bf766d8d5da6",
+      "bytes": 73896,
+      "resize": {
+        "width": 640,
+        "withoutEnlargement": true
+      },
+      "format": "webp",
+      "quality": 84
+    },
+    {
+      "source": "Assets/Resources/Horde/Maps/biome-0.png",
+      "output": "public/features/horde-480.webp",
+      "sourceSha256": "baa2d6bcaef0a15d6f47604d6152bfadf7880d5bdb2ea1b7cb9b1d2ec0aeae50",
+      "outputSha256": "7ae0dd20e222dc83cfb62c8ba2bc16e91fd83d57a78c02bbec0279a8c843bf34",
+      "bytes": 24806,
+      "resize": {
+        "width": 480,
+        "withoutEnlargement": true
+      },
+      "format": "webp",
+      "quality": 84
+    },
+    {
+      "source": "Assets/Resources/Horde/Maps/biome-0.png",
+      "output": "public/features/horde-960.webp",
+      "sourceSha256": "baa2d6bcaef0a15d6f47604d6152bfadf7880d5bdb2ea1b7cb9b1d2ec0aeae50",
+      "outputSha256": "babaf70b5845bd096f978507ba2dbdc4120a2da52dceaad975a0a5cce620f366",
+      "bytes": 39006,
+      "resize": {
+        "width": 960,
+        "withoutEnlargement": true
+      },
+      "format": "webp",
+      "quality": 84
+    }
+  ]
+}

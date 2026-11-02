@@ -88,7 +88,7 @@ export default function WarRoom() {
               Server online
             </p>
             <h2 className="war-room__title">
-              World <span className="text-gradient-magma">dev8d</span>
+              Server <span className="text-gradient-magma">overview</span>
             </h2>
             <p className="war-room__note">
               {pulse?.lastSeenMinutes != null

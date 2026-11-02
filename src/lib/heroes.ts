@@ -15,15 +15,15 @@ export const BASIC_HEROES: HeroInfo[] = [
   {
     id: 'nyra-vale',
     name: 'Nyra Vale',
-    role: 'Commander',
+    role: 'Legendary Shooter',
     img: asset('hero-nyra.png'),
-    focus: 'Leadership · Survival',
+    focus: 'Ranged damage · Energy pressure',
     blurb:
       'Main commander of the Dominion. Nyra holds the tribe together when the wild closes in — the face of your campaign and the heart of every early push.',
     tips: [
-      'Unlock and level her early — she anchors your first squads.',
-      'Pair with tanky dinos or infantry to keep her skills online.',
-      'Story and web rewards revolve around her rise as commander.',
+      'Keep frontline defenders between Nyra and heavy attackers.',
+      'Use her energy pressure and armor penetration to threaten priority targets.',
+      'Develop her levels, skills and equipment together.',
     ],
   },
   {
@@ -42,12 +42,12 @@ export const BASIC_HEROES: HeroInfo[] = [
   },
   {
     id: 'alyssa-mey',
-    name: 'Alyssa Mey',
-    role: 'Hero',
+    name: 'Alissa Mey',
+    role: 'Legendary Rider',
     img: asset('hero-alyssa.png'),
     focus: 'Strike · Mobility',
     blurb:
-      'A sharp frontline ally who thrives when the battle opens up. Alyssa turns clean openings into decisive kills for your pack.',
+      'A sharp frontline ally who thrives when the battle opens up. Alissa turns clean openings into decisive kills for your pack.',
     tips: [
       'Great for aggressive campaign stages.',
       'Synergizes with fast troops and raptor-style beasts.',
@@ -57,23 +57,23 @@ export const BASIC_HEROES: HeroInfo[] = [
   {
     id: 'carina-vale',
     name: 'Carina Vale',
-    role: 'Hero',
+    role: 'Legendary Rider',
     img: asset('hero-carina.png'),
-    focus: 'Support · Resilience',
+    focus: 'Area damage · Shield breaking',
     blurb:
-      'Kin to the Vale line — steady under pressure. Carina helps the tribe endure long sieges and multi-wave fights.',
+      'A sword-wielding damage dealer whose sweeping attacks pressure groups and break enemy shields.',
     tips: [
-      'Useful when hospitals and heal cycles matter.',
-      'Strong mid-roster pick for balanced armies.',
-      'Keep her protected so support skills keep firing.',
+      'Use her area attacks against clustered enemies.',
+      'Bring her against opponents that rely on shields.',
+      'Support her with frontline defense so she can keep dealing damage.',
     ],
   },
   {
     id: 'elara-veyn',
     name: 'Elara Veyn',
-    role: 'Hero',
+    role: 'Epic Shooter',
     img: asset('hero-elara.png'),
-    focus: 'Control · Precision',
+    focus: 'Ranged damage · Energy generation',
     blurb:
       'A calculated fighter who tips close fights. Elara rewards careful positioning and timed skill use.',
     tips: [
@@ -84,17 +84,35 @@ export const BASIC_HEROES: HeroInfo[] = [
   },
   {
     id: 'ronan',
-    name: 'Ronan',
-    role: 'Hero',
+    name: 'Ronan Vale',
+    role: 'Epic Defender',
     img: asset('hero-ronan.png'),
     focus: 'Power · Frontline',
     blurb:
-      'A heavy presence in the line. Ronan is built to hold ground while dinosaurs and troops tear through the rest.',
+      'A heavy presence in the line. Ronan uses shields, defensive buffs and recovery to hold the front line.',
     tips: [
       'Anchor for infantry-heavy formations.',
       'Good when you need durability over pure speed.',
       'Invest when rival tribes hit harder mid-campaign.',
     ],
+  },
+  {
+    id: 'kael-stormfeather',
+    name: 'Kael Stormfeather',
+    role: 'Epic Infantry',
+    img: asset('game-roster/kael-stormfeather.webp'),
+    focus: 'Infantry damage · Team buffs',
+    blurb: 'An infantry swordsman with a leaping strike and buffs that help the squad push through dangerous fights.',
+    tips: ['Build his levels and skill ranks together.', 'Use his team buffs before a dangerous exchange.', 'Pair his offense with a durable front line.'],
+  },
+  {
+    id: 'mira-thorn',
+    name: 'Mira Thorn',
+    role: 'Rare Infantry',
+    img: asset('game-roster/mira-thorn.webp'),
+    focus: 'Spear damage · Armor pressure',
+    blurb: 'A spear fighter whose attacks weaken enemy defense and help the squad focus down armored targets.',
+    tips: ['Use her defense debuffs before stronger attacks.', 'Combine her with damage dealers that exploit weakened targets.', 'Her economy skills support progression outside battle.'],
   },
 ]
 

@@ -52,6 +52,13 @@ export default function WorldBossPage() {
           ))}
         </section>
 
+        <section className="dd-card p-6 md:p-8 mt-10" data-reveal="up">
+          <p className="eyebrow">Two different boss events</p>
+          <h2 className="font-display text-2xl text-white uppercase mt-3">World Boss and alliance boss</h2>
+          <p className="body-lg mt-4">This page covers the scheduled World Boss. The Eisenruecken alliance boss is a separate event with a rally-only shield phase and exposed solo-attack windows. Its server update is deployed; the new Android client release is still pending.</p>
+          <Link to="/progress" className="btn-secondary no-underline mt-5">Follow the alliance boss update</Link>
+        </section>
+
         <section className="mt-16 md:mt-20">
           <div className="sec-ornament mb-4 max-w-[260px]"><span>Live world-map event</span></div>
           <h2 className="display-md text-white">

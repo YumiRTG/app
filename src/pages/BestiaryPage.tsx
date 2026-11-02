@@ -19,12 +19,12 @@ export default function BestiaryPage() {
           </h1>
           <p className="body-lg mt-5">
             First glance only — names and faces. Tap a card for roles and tips.
-            The full picture of how they fight together is in the beta.
+            Explore the current human and creature rosters, with roles and portraits from the game.
           </p>
         </div>
 
         <div className="flex items-center gap-4 mb-6" data-reveal="up">
-          <h2 className="font-display text-2xl text-white tracking-wide">DINOSAURS</h2>
+          <h2 className="font-display text-2xl text-white tracking-wide">CREATURE HEROES</h2>
           <div className="hud-line flex-1 opacity-50" />
           <Link
             to="/features/dinos"

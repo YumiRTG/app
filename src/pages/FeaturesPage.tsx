@@ -1,3 +1,4 @@
+import { GAME_GUIDE } from '@/config/gameGuide'
 import DownloadLink from '@/components/DownloadLink'
 import { ArrowUpRight } from 'lucide-react'
 import { Link } from 'react-router'
@@ -67,6 +68,13 @@ const features = [
     tags: ['Tactical Arena', 'Team Arena', 'Weekly seasons'], image: 'arena',
     alt: 'A stone arena surrounded by jungle, ready for battle',
     to: '/modes/arena', link: 'Explore the Arena',
+  },
+  {
+    title: 'Survive Horde: Urgewalt', category: 'Real-time survival',
+    text: `Enter from Campaign at Town Hall ${GAME_GUIDE.unlock.horde}. Survive ${GAME_GUIDE.horde.areas} areas across ${GAME_GUIDE.horde.chapters} chapters with hero formations, traps, ultimates, Dodge and War Cry. Server-confirmed progress sets your daily in-game mail rewards.`,
+    tags: ['300 areas', 'Real-time commands', 'Daily game mail'], image: 'horde',
+    alt: 'A jungle battlefield rendered from the Horde mode in the game',
+    to: '/modes/campaign#horde', link: 'Explore Horde',
   },
 ]
 
@@ -161,7 +169,7 @@ export default function FeaturesPage() {
         <div className="mt-12 md:mt-16 border-t border-[var(--gold)]/20 pt-8 flex flex-wrap items-center justify-between gap-6">
           <div>
             <h2 className="font-display text-2xl text-white uppercase">Your next move starts in the city.</h2>
-            <p className="font-body text-sm text-[var(--bone-dim)] mt-2">Download the Android beta and build your first dominion.</p>
+            <p className="font-body text-sm text-[var(--bone-dim)] mt-2">The Android download is coming soon. Follow development updates and join the community.</p>
           </div>
           <DownloadLink className="btn-primary no-underline">Download the game <ArrowUpRight size={18} aria-hidden="true" /></DownloadLink>
         </div>

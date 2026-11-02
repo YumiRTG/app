@@ -1,3 +1,4 @@
+import { GAME_GUIDE } from '@/config/gameGuide'
 import { asset } from '@/lib/assets'
 
 /**
@@ -96,6 +97,13 @@ export const DEV_SCREENSHOTS: DevShot[] = [
 /** Progression log, newest first. */
 export const PROGRESS_LOG: ProgressEntry[] = [
   {
+    id: 'current-roster-and-guides',
+    date: '2 November 2026',
+    title: 'Roster and game guides refreshed',
+    body: `The current development roster contains eight named human heroes and thirteen creature heroes. Guides now explain turn-based Campaign, Horde, current unlock levels and the expanded defense arsenal. The game currently offers ${GAME_GUIDE.languages.length} selectable languages: ${GAME_GUIDE.languages.join(', ')}. Arabic remains in preparation. The next Android download is still pending.`,
+    tag: 'wip',
+  },
+  {
     id: 'quiz-pool-v3',
     date: '2 November 2026',
     title: '1,100 quiz questions',
@@ -141,7 +149,7 @@ export const PROGRESS_LOG: ProgressEntry[] = [
     id: 'mode-td',
     date: 'July 2026',
     title: 'Primeval Defense',
-    body: 'A full real-time defense mode in its own 3D arena. Twelve stages, five towers at three tiers each, three difficulties, hero slots, a defense shop and a daily map that every player in the world runs on the same terms.',
+    body: 'A full real-time defense mode in its own 3D arena. The current mode has 13 fixed maps, 13 tower types, two upgrade branches up to level 6, three difficulties, tower mastery and a shared weekly ranked challenge.',
     tag: 'shipped',
   },
   {
@@ -176,7 +184,7 @@ export const PROGRESS_LOG: ProgressEntry[] = [
     id: 'loc',
     date: 'June 2026',
     title: 'Four languages',
-    body: 'German, English, French and Spanish across roughly 1,500 strings, switchable from settings.',
+    body: 'German, English, French and Spanish were the initial four selectable languages. The current development build supports additional languages, listed in the latest update above.',
     tag: 'shipped',
   },
   {

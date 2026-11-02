@@ -1,5 +1,6 @@
+import { GAME_GUIDE } from '@/config/gameGuide'
 import { usePageMotion } from '@/hooks/useMotion'
-import { MODE_BY_KEY, TD_ENEMIES, TD_LOOP, TD_TOWERS } from '@/config/modes'
+import { MODE_BY_KEY, TD_ENEMIES, TD_LOOP, TD_TOWERS, TD_OTHER_TOWERS } from '@/config/modes'
 import {
   FactGrid,
   LoopSteps,
@@ -14,9 +15,9 @@ import TdSimulation from '@/components/TdSimulation'
 const mode = MODE_BY_KEY['tower-defense']
 
 const DIFFICULTY = [
-  { title: 'Easy', text: 'Enemies at 70% health, eight extra lives, a quarter more gold to start with. It pays 60% of the marks, so treat it as a place to learn a map rather than farm one.' },
-  { title: 'Normal', text: 'The reference setting. Twenty lives, 260 gold, enemies exactly as designed. Every star threshold gets tuned here first.' },
-  { title: 'Hard', text: 'Enemies get 55% more health and move 10% faster, you get six fewer lives and less gold. In return it pays 170% of the marks.' },
+  { title: 'Easy', text: 'Base enemy health is 45% of Normal, with 32 starting lives and 40% more starting gold. Mark rewards use a 60% multiplier. Later waves have their own health curve.' },
+  { title: 'Normal', text: 'The reference setting: 20 starting lives and 260 gold on the first fixed map, before progression bonuses. Later maps add starting gold.' },
+  { title: 'Hard', text: 'Base enemy health is 3× Normal and speed is 16% higher. Start with 11 lives and 70% of the normal gold; marks use a 185% multiplier. Enemy count and wave pacing also change.' },
 ]
 
 const PROGRESSION = [
@@ -26,15 +27,15 @@ const PROGRESSION = [
   },
   {
     title: 'Tickets',
-    text: 'Five runs a day for free and up to fifteen more for amber. The twelve normal stages cost nothing at all, so the limit only ever applies to the ranked map.',
+    text: 'Five runs a day for free and up to fifteen more for amber. The thirteen fixed maps cost nothing at all, so the limit only ever applies to the ranked map.',
   },
   {
     title: 'Defense marks',
-    text: 'You earn them per star on a first clear, and per wave survived on the weekly map. There is a daily cap so nobody grinds their way up the board. They pay for the defense shop and the manager skill tree.',
+    text: 'You earn them for new star milestones, repeat map clears and weekly wave progress. There is a daily cap so nobody grinds their way up the board. They pay for the defense shop and tower mastery.',
   },
   {
-    title: 'Manager skill tree',
-    text: 'Permanent upgrades that come with you into every run: tower damage, tower range, starting gold, extra lives. Better placement alone will not get you to stage twelve.',
+    title: 'Tower mastery',
+    text: 'Upgrade each tower type across ten mastery ranks. Rank 2 unlocks its level-6 capstone, rank 5 starts that tower at level 2 and rank 8 reduces its build cost. Choose one of two branches at tower level 3; at most two level-6 towers can stand at once.',
   },
   {
     title: 'Stars',
@@ -86,7 +87,7 @@ export default function TowerDefensePage() {
             <h2 className="display-md text-white">
               One path.
               <br />
-              <span className="text-mode-accent">Eight decisions.</span>
+              <span className="text-mode-accent">Plan every build.</span>
             </h2>
             <p className="body-lg mt-5">
               Every stage draws its own route and scatters build slots around it. A slot on
@@ -104,9 +105,9 @@ export default function TowerDefensePage() {
         <section className="mt-16 md:mt-20">
           <SectionHead
             ornament="Your arsenal"
-            title="Five towers,"
-            accentWord="three tiers each"
-            text="None of them is simply better than the rest. Each one solves a different problem: leaks, armour, swarms, distance. None of them solves all four."
+            title={`${GAME_GUIDE.defense.towerTypes} tower types,`}
+            accentWord={`up to level ${GAME_GUIDE.defense.maxTowerLevel}`}
+            text="Choose damage, detection, control, support or economy. The illustrated examples below are part of the full 13-type arsenal; branch choices change how each tower handles special enemies."
           />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" data-reveal-stagger>
             {TD_TOWERS.map((t) => (
@@ -127,12 +128,17 @@ export default function TowerDefensePage() {
           </div>
         </section>
 
+        <section className="mt-12">
+          <SectionHead ornament="More tower types" title="Complete your" accentWord="loadout" />
+          <FactGrid items={TD_OTHER_TOWERS} />
+        </section>
+
         <section className="mt-16 md:mt-20">
           <SectionHead
             ornament="What comes down the path"
-            title="Eight roles,"
-            accentWord="one weakness each"
-            text="The wave list tells you what a stage wants from you. A layout that shuts down sprinters usually leaks against bulwarks, and the stages that mix both are the ones worth three stars."
+            title="Read enemy traits,"
+            accentWord="then choose the counter"
+            text="The wave preview shows what a map will send at you. Flying, armored, stealth and regenerating threats need different tools; boss phases and map events can force you to adapt."
           />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3" data-reveal-stagger>
             {TD_ENEMIES.map((e) => (

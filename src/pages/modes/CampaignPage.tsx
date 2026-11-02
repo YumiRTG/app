@@ -1,3 +1,7 @@
+import { useEffect } from 'react'
+import { useLocation } from 'react-router'
+import { GAME_GUIDE } from '@/config/gameGuide'
+import { asset } from '@/lib/assets'
 import { usePageMotion } from '@/hooks/useMotion'
 import { CAMPAIGN_DIFFICULTIES, CAMPAIGN_LOOP, CAMPAIGN_REGIONS, MODE_BY_KEY } from '@/config/modes'
 import {
@@ -16,7 +20,7 @@ const mode = MODE_BY_KEY.campaign
 const SYSTEMS = [
   {
     title: 'Stars, per difficulty',
-    text: 'Three stars a stage, tracked separately on each of the four difficulties. Finish the campaign on Normal and the whole map is still sitting there on Hard. Same 78 stages, very different fights.',
+    text: 'Three stars a stage, tracked separately on each of the four difficulties. Hard requires a full Normal clear and Town Hall 24; Extreme requires a full Hard clear and Town Hall 30. Same 78 stages, very different fights.',
   },
   {
     title: 'Sweep',
@@ -42,6 +46,13 @@ const SYSTEMS = [
 
 export default function CampaignPage() {
   const motionRef = usePageMotion()
+  const { hash } = useLocation()
+
+  useEffect(() => {
+    if (hash !== '#horde') return
+    const frame = requestAnimationFrame(() => document.getElementById('horde')?.scrollIntoView({ block: 'start' }))
+    return () => cancelAnimationFrame(frame)
+  }, [hash])
 
   return (
     <div
@@ -59,6 +70,17 @@ export default function CampaignPage() {
       </ModeHero>
 
       <div className="container-dd pb-24">
+        <section id="horde" className="mt-14 md:mt-20 scroll-mt-32">
+          <SectionHead ornament="Campaign → Horde" title="Horde:" accentWord="Urgewalt" text={`A separate real-time survival challenge, unlocked at Town Hall ${GAME_GUIDE.unlock.horde}. It has ${GAME_GUIDE.horde.areas} areas across ${GAME_GUIDE.horde.chapters} chapters alongside the 78-stage turn-based campaign.`} />
+          <div className="grid md:grid-cols-2 gap-6 items-center">
+            <img src={asset('features/horde-960.webp')} alt="Jungle battlefield from Horde mode" className="w-full rounded-md" loading="lazy" />
+            <div className="space-y-4 body-lg">
+              <p>Prepare a hero formation and traps, choose upgrades during the run, and use Dodge, War Cry and ultimates against waves and bosses.</p>
+              <p>Your highest server-confirmed cleared area determines daily resource and Amber rewards delivered through in-game mail. New clears count from the next UTC day.</p>
+              <p>The next Android download is coming soon. These guides describe the current development build.</p>
+            </div>
+          </div>
+        </section>
         <section className="mt-14 md:mt-20">
           <SectionHead
             ornament="How it plays"
