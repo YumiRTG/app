@@ -64,8 +64,8 @@ const features = [
   },
   {
     title: 'Rise through the Arena', category: 'Competitive hero battles',
-    text: 'Choose a three-hero squad for the Tactical Arena or field nine heroes across three teams in Team Arena. Challenge player defenses and climb the weekly rankings.',
-    tags: ['Tactical Arena', 'Team Arena', 'Weekly seasons'], image: 'arena',
+    text: 'Challenge stored player defenses in Tactical or Team Arena, or choose abilities against a real opponent in Live Arena. Qualify for the weekly top-64 tournament and compete for the podium.',
+    tags: ['Ranked ladders', 'Live 3v3', 'Weekly tournaments'], image: 'arena',
     alt: 'A stone arena surrounded by jungle, ready for battle',
     to: '/modes/arena', link: 'Explore the Arena',
   },

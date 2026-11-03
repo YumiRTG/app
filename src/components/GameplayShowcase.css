@@ -1,12 +1,14 @@
 .gameplay-showcase { scroll-margin-top: 7rem; background: radial-gradient(ellipse at 10% 30%, #ff4d1a0c, transparent 60%); }
 .gameplay-showcase__lead { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.35fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); }
 .gameplay-showcase__featured { min-width: 0; overflow: hidden; border: 1px solid #f0c14d30; background: #0e0b16; margin: 0; }
-.gameplay-showcase__featured > img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; background: #07060a; }
+.gameplay-showcase__featured > img, .gameplay-showcase__featured > a > img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; background: #07060a; }
+.gameplay-showcase__featured > a { display: block; }
+.gameplay-showcase__featured > a:focus-visible { outline: 2px solid var(--gold); outline-offset: -3px; }
 .gameplay-showcase__featured figcaption { padding: 1.25rem; border-top: 1px solid #f0c14d20; }
 .gameplay-showcase__note { font-size: .8rem; line-height: 1.6; color: var(--bone-dim); max-width: 26rem; }
 .gameplay-showcase__links { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; margin-top: 1rem; }
 .gameplay-showcase__links a { display: inline-flex; align-items: center; gap: .4rem; min-height: 2.75rem; color: var(--gold); font: 500 .8rem var(--font-body, sans-serif); text-decoration: underline; text-underline-offset: 4px; }
-.gameplay-showcase__thumbs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .75rem; margin-top: 1.5rem; }
+.gameplay-showcase__thumbs { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: .75rem; margin-top: 1.5rem; }
 .gameplay-showcase__thumbs button { min-width: 0; padding: 0; text-align: left; color: var(--bone-dim); background: #100d18; border: 1px solid #ffffff20; cursor: pointer; transition: border-color .2s, background-color .2s; }
 .gameplay-showcase__thumbs button[aria-pressed=true] { color: var(--gold); border-color: var(--gold); background: #f0c14d12; box-shadow: inset 0 -3px var(--gold); }
 .gameplay-showcase__thumbs img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }

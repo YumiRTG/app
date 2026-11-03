@@ -1,5 +1,5 @@
 {
-  "verifiedOn": "2026-11-02",
+  "verifiedOn": "2026-11-03",
   "transformations": "Frame extraction, proportional resizing and WebP encoding only. No generated or retouched gameplay.",
   "captures": [
     {
@@ -112,6 +112,42 @@
           "path": "public/gameplay/alliance-events-1600.webp",
           "bytes": 194838,
           "sha256": "36339ce6cfb45320ef7cf87aff479f7be5d5c8aeeb246dbbba9bb261ef478312"
+        }
+      ]
+    },
+    {
+      "id": "live-tournament",
+      "source": ".codex_tmp/live-arena-runtime-unity/Results/TournamentPodium/overview.png",
+      "note": "Native Unity tournament UI render with 64 simulated participants. Original German UI; sample identities and matches, not a live season.",
+      "sourceSha256": "fabdb777e212af288e2825b3e52911da9439df985d3394845fb49732c88c9e63",
+      "outputs": [
+        {
+          "path": "public/gameplay/live-tournament-480.webp",
+          "bytes": 18758,
+          "sha256": "922167f3dac035abbfc018528f9ec107e6c3580785da409794ba3da877167b4b"
+        },
+        {
+          "path": "public/gameplay/live-tournament-1600.webp",
+          "bytes": 117220,
+          "sha256": "ef610db2a465afcfb084dd81bc57fe3d38cce25a8af394a916f10f3d59c9115a"
+        }
+      ]
+    },
+    {
+      "id": "hall-of-fame",
+      "source": "Docs/Previews/LiveRoundsHallOfFame_2026-10-13.png",
+      "note": "Native Unity Hall of Fame UI render with synthetic names, example portraits and season results. Original German UI.",
+      "sourceSha256": "a750cd30fcf986b70a5b13105c260e9e2535d09efeb2553a5b7316eb44f04210",
+      "outputs": [
+        {
+          "path": "public/gameplay/hall-of-fame-480.webp",
+          "bytes": 7712,
+          "sha256": "ccc62c3f38e1f812a6972b66c1ad4474d22cbb4c53de908ed2264c599bc20c0d"
+        },
+        {
+          "path": "public/gameplay/hall-of-fame-1600.webp",
+          "bytes": 45466,
+          "sha256": "4585e8793a7e385c38a3a34aacfbc28ecbede7db91093b88cb3d62a16267a465"
         }
       ]
     }

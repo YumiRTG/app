@@ -1,12 +1,14 @@
 import { APK_DOWNLOAD } from '@/config/download'
+import { GAME_GUIDE } from '@/config/gameGuide'
 import DownloadLink from '@/components/DownloadLink'
+import { GameScreenshotImage } from '@/components/GameplayShowcase'
 import { Link } from 'react-router'
 import { DEV_SCREENSHOTS, FUTURE_UPDATES, PROGRESS_LOG, type DevShot } from '@/config/devlog'
 import { usePageMotion } from '@/hooks/useMotion'
 import { asset } from '@/lib/assets'
 
 const TAG_STYLE: Record<string, { label: string; color: string }> = {
-  shipped: { label: 'Shipped', color: '#3dffb5' },
+  shipped: { label: 'Implemented', color: '#3dffb5' },
   wip: { label: 'In progress', color: '#f5c15d' },
   milestone: { label: 'Milestone', color: '#ff7a3d' },
 }
@@ -17,51 +19,18 @@ const STATUS_STYLE: Record<string, { label: string; color: string }> = {
   soon: { label: 'Soon', color: '#3dffb5' },
 }
 
-/** Still capture. Landscape tile, wide slot when featured. */
+/** Keep the complete game UI visible, with captions outside the image. */
 function Shot({ shot }: { shot: DevShot }) {
   return (
-    <figure className={`shot ${shot.featured ? 'shot--wide' : ''}`} data-reveal-item>
-      <div className="shot__media">
-        <img
-          src={shot.src}
-          alt={shot.caption}
-          className="shot__img"
-          style={{ objectPosition: shot.pos ?? 'center center' }}
-          loading="lazy"
-        />
-        <div className="shot__scrim" />
-        <figcaption className="shot__cap">
-          {shot.date && <span className="shot__date">{shot.date}</span>}
-          <span className="shot__title">{shot.caption}</span>
-          <span className="shot__note">{shot.note}</span>
-        </figcaption>
-      </div>
-    </figure>
-  )
-}
-
-/**
- * The clips are phone captures, 382x850. Cropping them into a landscape tile
- * throws away most of the frame, so they get a portrait frame instead.
- */
-function Clip({ shot }: { shot: DevShot }) {
-  return (
-    <figure className="clip" data-reveal-item>
-      <div className="clip__frame">
-        <video
-          src={shot.src}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          className="clip__video"
-        />
-        <span className="shot__live">Cinematic</span>
-      </div>
-      <figcaption className="clip__cap">
-        <span className="shot__title">{shot.caption}</span>
-        <span className="shot__note">{shot.note}</span>
+    <figure className={`gameplay-showcase__featured ${shot.featured ? 'md:col-span-2' : ''}`} data-reveal-item>
+      <a href={asset(`gameplay/${shot.id}-1600.webp`)} target="_blank" rel="noopener noreferrer" aria-label={`Open full screenshot: ${shot.title}`}>
+        <GameScreenshotImage shot={shot} sizes={shot.featured ? '(min-width: 1280px) 1200px, 100vw' : '(min-width: 768px) 50vw, 100vw'} />
+      </a>
+      <figcaption>
+        <p className="eyebrow">{shot.category}</p>
+        <h3 className="font-display text-xl text-white uppercase mt-2">{shot.title}</h3>
+        <p className="font-body text-sm text-[var(--bone-dim)] mt-3">{shot.caption}</p>
+        <Link to={shot.to} className="inline-flex items-center min-h-11 mt-3 font-body text-sm text-[var(--gold)] underline underline-offset-4">Explore this feature</Link>
       </figcaption>
     </figure>
   )
@@ -82,7 +51,7 @@ export default function DevlogPage() {
         <div className="container-dd relative z-10">
           <p className="live-badge">
             <span className="live-badge__dot" />
-            Android beta
+            Android · In development
           </p>
           <h1 className="display-lg text-white mt-4">
             Progress
@@ -97,7 +66,7 @@ export default function DevlogPage() {
           <div className="devlog-hero__stats">
             <div>
               <span>{shipped}</span>
-              <small>Shipped</small>
+              <small>Implemented</small>
             </div>
             <div>
               <span>{building}</span>
@@ -108,8 +77,8 @@ export default function DevlogPage() {
               <small>On the roadmap</small>
             </div>
             <div>
-              <span>4</span>
-              <small>Modes live</small>
+              <span>{GAME_GUIDE.liveArena.finalists}</span>
+              <small>Tournament places</small>
             </div>
           </div>
         </div>
@@ -127,21 +96,14 @@ export default function DevlogPage() {
                 The game <span className="text-gradient-gold">as it stands</span>
               </h2>
               <p className="body-lg mt-4">
-                Cinematics and art from the world of Dino Warfront, alongside stills of
-                the build. All of it gets replaced as the game moves.
+                Native Unity gameplay and in-game interface previews. Tournament and alliance screens use sample data; captions identify these previews. UI, visuals and balance may change before release.
               </p>
             </div>
           </div>
 
-          <div className="clip-row" data-reveal-stagger>
-            {DEV_SCREENSHOTS.filter((s) => s.video).map((s) => (
-              <Clip key={s.src} shot={s} />
-            ))}
-          </div>
-
-          <div className="shot-grid mt-4" data-reveal-stagger>
-            {DEV_SCREENSHOTS.filter((s) => !s.video).map((s) => (
-              <Shot key={s.src} shot={s} />
+          <div className="grid md:grid-cols-2 gap-5 mt-4" data-reveal-stagger>
+            {DEV_SCREENSHOTS.map((s) => (
+              <Shot key={s.id} shot={s} />
             ))}
           </div>
         </section>
@@ -230,7 +192,7 @@ export default function DevlogPage() {
               style={{ background: 'radial-gradient(circle, rgba(255,77,26,0.4), transparent 70%)' }}
             />
             <div className="relative z-10 max-w-2xl">
-              <p className="eyebrow">Android beta</p>
+              <p className="eyebrow">Android · Planned for {GAME_GUIDE.releaseTarget}</p>
               <h2 className="display-md text-white mt-3">{APK_DOWNLOAD.available ? 'Play the current build' : 'Android release coming soon'}</h2>
               <p className="body-lg mt-4">
                 {APK_DOWNLOAD.available ? 'Download the APK, log in with your Account ID, and tell us what breaks. That feedback steers the next entries on this page.' : 'The next Android download is coming soon. Join our Discord for news and share your feedback with the community.'}

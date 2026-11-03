@@ -1,5 +1,19 @@
 export const GAMEPLAY_TRAILER_URL = 'https://youtu.be/awej6Zk-oO0'
 
+export const LIVE_TOURNAMENT_SCREENSHOT = {
+  id: 'live-tournament', title: 'Live Arena tournaments', category: 'Tournament UI preview',
+  alt: 'The in-game 64-player tournament bracket connects two knockout halves to a gold championship trophy, the final and a third-place match',
+  caption: 'Follow the knockout bracket, watch live matches and compete for the podium. Development UI with sample participants; original German interface.',
+  to: '/events#live-tournaments',
+} as const
+
+export const HALL_OF_FAME_SCREENSHOT = {
+  id: 'hall-of-fame', title: 'Season Hall of Fame', category: 'Season history preview',
+  alt: 'The in-game Hall of Fame lists a completed season with the champion, runner-up and third-place finisher, using sample names and portraits',
+  caption: 'Completed seasons preserve their top three commanders. Development UI with sample results; original German interface.',
+  to: '/events#live-tournaments',
+} as const
+
 export const GAME_SCREENSHOTS = [
   {
     id: 'campaign', title: '3D campaign battles', category: 'Heroes & creatures',
@@ -37,6 +51,7 @@ export const GAME_SCREENSHOTS = [
     caption: 'Prepare your defense and attack team for alliance competition. Development UI with sample scores.',
     to: '/events#alliance-events',
   },
+  LIVE_TOURNAMENT_SCREENSHOT,
 ] as const
 
-export type GameScreenshot = (typeof GAME_SCREENSHOTS)[number]
+export type GameScreenshot = (typeof GAME_SCREENSHOTS)[number] | typeof HALL_OF_FAME_SCREENSHOT

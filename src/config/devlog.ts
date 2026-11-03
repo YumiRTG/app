@@ -1,5 +1,5 @@
 import { GAME_GUIDE } from '@/config/gameGuide'
-import { asset } from '@/lib/assets'
+import { GAME_SCREENSHOTS, LIVE_TOURNAMENT_SCREENSHOT, type GameScreenshot } from '@/config/showcase'
 
 /**
  * DEV PROGRESS HUB — edit this file to update the website log.
@@ -10,18 +10,7 @@ import { asset } from '@/lib/assets'
  * 3) Commit and push; Vercel redeploys on its own.
  */
 
-export type DevShot = {
-  src: string
-  /** Set for .mp4 so the gallery renders a looping clip instead of an image. */
-  video?: boolean
-  caption: string
-  note: string
-  date?: string
-  /** Give one item the wide slot at the top of the grid. */
-  featured?: boolean
-  /** object-position for the crop. */
-  pos?: string
-}
+export type DevShot = GameScreenshot & { featured?: boolean }
 
 export type ProgressEntry = {
   id: string
@@ -38,64 +27,28 @@ export type FutureUpdate = {
   status: 'planned' | 'in-progress' | 'soon'
 }
 
-/** Captures from the current build. Newest and best first. */
+/** Native gameplay and UI captures; preview data is identified in each caption. */
 export const DEV_SCREENSHOTS: DevShot[] = [
-  {
-    src: asset('gameplay-heroes.mp4'),
-    video: true,
-    caption: 'The tribe',
-    note: 'Cinematic from the world the campaign is set in.',
-    date: 'Cinematic',
-  },
-  {
-    src: asset('gameplay-troops.mp4'),
-    video: true,
-    caption: 'The war band',
-    note: 'Cinematic. Infantry, shooters and riders are the three branches you actually field.',
-    date: 'Cinematic',
-  },
-  {
-    src: asset('env-base.png'),
-    caption: 'The city',
-    note: 'Your base, where production, research and training all live.',
-    date: 'Current build',
-    pos: 'center 45%',
-    featured: true,
-  },
-  {
-    src: asset('campaign-map.png'),
-    caption: 'World map',
-    note: 'Eight thousand units across, five danger rings, every base a real player.',
-    date: 'Current build',
-    pos: 'center 40%',
-  },
-  {
-    src: asset('ui-hero-screen.png'),
-    caption: 'Hero roster',
-    note: 'The hero screen, where commanders inspect and develop their roster.',
-    date: 'Current build',
-    pos: 'center 45%',
-  },
-  {
-    // Not spotlight-nyra.jpg: that file has "Nyra Vale" printed on it but shows
-    // a different character entirely. hero-nyra.png is the real one.
-    src: asset('hero-nyra.png'),
-    caption: 'Nyra Vale',
-    note: 'The tribe leader, and the hero the campaign is written around.',
-    date: 'Current build',
-    pos: 'center 18%',
-  },
-  {
-    src: asset('env-base-2.png'),
-    caption: 'City at dusk',
-    note: 'Lighting pass on the base scene.',
-    date: 'Current build',
-    pos: 'center 50%',
-  },
+  { ...LIVE_TOURNAMENT_SCREENSHOT, featured: true },
+  ...GAME_SCREENSHOTS.filter(shot => shot.id !== LIVE_TOURNAMENT_SCREENSHOT.id),
 ]
 
 /** Progression log, newest first. */
 export const PROGRESS_LOG: ProgressEntry[] = [
+  {
+    id: 'live-tournaments-and-podium',
+    date: '3 November 2026',
+    title: 'Live Arena, tournament bracket and Hall of Fame',
+    body: 'Live Arena supports manual turn-based 3v3 matches with three teams per commander. The top 64 weekly qualifiers advance to a knockout tournament, including a Sunday third-place match at 19:30 UTC and the final at 20:00 UTC. Spectators can follow matches, and the in-game Hall of Fame preserves the top three of completed seasons. The website now shows native Unity previews with sample participants. These client features are part of development; the public Android download is still pending.',
+    tag: 'wip',
+  },
+  {
+    id: 'android-release-target',
+    date: '3 November 2026',
+    title: 'Android release target: December 2026',
+    body: `The planned Android release is ${GAME_GUIDE.releaseTarget}. The public download remains coming soon. Gameplay footage, tournament guides and alliance event previews are now available on the website; follow Discord for release news. Timing and features may change during development.`,
+    tag: 'wip',
+  },
   {
     id: 'current-roster-and-guides',
     date: '2 November 2026',
@@ -191,7 +144,7 @@ export const PROGRESS_LOG: ProgressEntry[] = [
     id: 'apk-beta',
     date: 'May 2026',
     title: 'Android beta',
-    body: 'Private beta APK for friends. Install from the Download page; Wi-Fi recommended.',
+    body: 'An early private Android beta was shared with friends. That older APK is no longer offered on this website; the next public download is coming soon.',
     tag: 'shipped',
   },
   {
@@ -226,8 +179,8 @@ export const FUTURE_UPDATES: FutureUpdate[] = [
   },
   {
     id: 'gift-codes',
-    title: 'Gift code redemption',
-    body: 'Enter your Account ID and a code on the website, claim the reward in game.',
+    title: 'Gift code campaigns',
+    body: 'The website already has a redemption page. Active codes and reward campaigns will be announced through the community; a valid code and an existing game account are required.',
     status: 'planned',
   },
   {

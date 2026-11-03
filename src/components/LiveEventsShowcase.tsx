@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { GAME_GUIDE } from '@/config/gameGuide'
-import { GAME_SCREENSHOTS } from '@/config/showcase'
+import { GAME_SCREENSHOTS, LIVE_TOURNAMENT_SCREENSHOT } from '@/config/showcase'
 import { GameScreenshotImage } from '@/components/GameplayShowcase'
 import './GameplayShowcase.css'
 
@@ -16,6 +16,8 @@ export default function LiveEventsShowcase() {
             <p className="eyebrow">Live Arena · Weekly tournaments</p>
             <h3 className="display-md text-white mt-4">From qualifier<br />to champion.</h3>
             <p className="body-lg mt-5">Face real opponents in live, turn-based 3v3 battles. Prepare three teams, choose your abilities and fight for a place among the top {GAME_GUIDE.liveArena.finalists}.</p>
+            <GameScreenshotImage shot={LIVE_TOURNAMENT_SCREENSHOT} sizes="(min-width: 1024px) 45vw, 100vw" className="live-events-showcase__image" />
+            <p className="font-body text-xs text-[var(--bone-dim)]">In-game bracket preview with sample participants. Original German UI.</p>
             <ol className="competition-path" aria-label="Weekly tournament progression">
               <li><span>Mon–Fri</span><strong>Qualify</strong></li>
               <li><span>Top 64</span><strong>Knockouts</strong></li>
