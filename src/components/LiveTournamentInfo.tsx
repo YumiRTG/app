@@ -14,7 +14,7 @@ export default function LiveTournamentInfo() {
         <a href={asset('gameplay/live-tournament-1600.webp')} target="_blank" rel="noopener noreferrer" aria-label="Open the full Live Arena tournament screenshot in a new tab">
           <GameScreenshotImage shot={LIVE_TOURNAMENT_SCREENSHOT} sizes="(min-width: 1280px) 1200px, 100vw" />
         </a>
-        <figcaption className="font-body text-sm text-[var(--bone-dim)]">The real in-game tournament bracket, shown with sample participants and the original German UI. Open the image to inspect the full bracket.</figcaption>
+        <figcaption className="font-body text-sm text-[var(--bone-dim)]">64 contenders. One champion. Follow every round of the weekly knockout tournament.</figcaption>
       </figure>
       <dl className="live-tournament-info__facts">
         <div><dt>Build your teams</dt><dd>Nine different heroes across three formations. Unlock Live Arena at Town Hall {GAME_GUIDE.liveArena.townHall} with {GAME_GUIDE.liveArena.heroes} heroes. Your levels, stars and equipment count.</dd></div>
@@ -32,14 +32,14 @@ export default function LiveTournamentInfo() {
       <div className="grid lg:grid-cols-2 gap-7 items-center mt-10">
         <div>
           <h3 className="font-display text-2xl text-white uppercase">A podium worth remembering</h3>
-          <p className="body-lg mt-4">The final decides first and second place. The two semi-final runners-up contest third place in a separate match. The in-game Hall of Fame keeps the top three from every completed season, including their portraits and world identities.</p>
-          <p className="font-body text-sm text-[var(--bone-dim)] mt-4">Live matchmaking and the weekly rankings are shared across the game worlds. Tournament history is part of the development client; a public web history view is still planned.</p>
+          <p className="body-lg mt-4">The final decides first and second place. The two losing semi-finalists contest third place in a separate match. The in-game Hall of Fame keeps the top three from every completed season, including their portraits and world identities.</p>
+          <p className="font-body text-sm text-[var(--bone-dim)] mt-4">Compete across game worlds in shared Live Arena matchmaking and weekly rankings. Revisit past champions in the in-game Hall of Fame.</p>
         </div>
         <figure className="gameplay-showcase__featured">
           <a href={asset('gameplay/hall-of-fame-1600.webp')} target="_blank" rel="noopener noreferrer" aria-label="Open the full Hall of Fame screenshot in a new tab">
             <GameScreenshotImage shot={HALL_OF_FAME_SCREENSHOT} sizes="(min-width: 1024px) 50vw, 100vw" />
           </a>
-          <figcaption className="font-body text-sm text-[var(--bone-dim)]">Hall of Fame development preview. Names, portraits and results are sample data; original German UI.</figcaption>
+          <figcaption className="font-body text-sm text-[var(--bone-dim)]">Every season has its champions. Earn your place in the Hall of Fame.</figcaption>
         </figure>
       </div>
     </section>

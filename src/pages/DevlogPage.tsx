@@ -96,7 +96,7 @@ export default function DevlogPage() {
                 The game <span className="text-gradient-gold">as it stands</span>
               </h2>
               <p className="body-lg mt-4">
-                Native Unity gameplay and in-game interface previews. Tournament and alliance screens use sample data; captions identify these previews. UI, visuals and balance may change before release.
+                Explore 3D battles, live tournaments and alliance challenges through screenshots from Dino Warfront. The game is in development; visuals and features may change before release.
               </p>
             </div>
           </div>

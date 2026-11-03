@@ -1,16 +1,16 @@
 export const GAMEPLAY_TRAILER_URL = 'https://youtu.be/awej6Zk-oO0'
 
 export const LIVE_TOURNAMENT_SCREENSHOT = {
-  id: 'live-tournament', title: 'Live Arena tournaments', category: 'Tournament UI preview',
+  id: 'live-tournament', title: 'Live Arena tournaments', category: 'Live tournaments',
   alt: 'The in-game 64-player tournament bracket connects two knockout halves to a gold championship trophy, the final and a third-place match',
-  caption: 'Follow the knockout bracket, watch live matches and compete for the podium. Development UI with sample participants; original German interface.',
+  caption: 'Follow the knockout bracket, watch live matches and compete for a place on the podium.',
   to: '/events#live-tournaments',
 } as const
 
 export const HALL_OF_FAME_SCREENSHOT = {
-  id: 'hall-of-fame', title: 'Season Hall of Fame', category: 'Season history preview',
-  alt: 'The in-game Hall of Fame lists a completed season with the champion, runner-up and third-place finisher, using sample names and portraits',
-  caption: 'Completed seasons preserve their top three commanders. Development UI with sample results; original German interface.',
+  id: 'hall-of-fame', title: 'Season Hall of Fame', category: 'Hall of Fame',
+  alt: 'The Hall of Fame shows the champion, runner-up and third-place finisher with portraits and world identities',
+  caption: 'Celebrate the top three commanders from every completed season and look back on past champions.',
   to: '/events#live-tournaments',
 } as const
 
@@ -46,9 +46,9 @@ export const GAME_SCREENSHOTS = [
     to: '/modes/world-map',
   },
   {
-    id: 'alliance-events', title: 'Alliance lane battles', category: 'Event UI preview',
-    alt: 'The alliance war screen shows three lanes, defense heroes, sample scores and an attack target',
-    caption: 'Prepare your defense and attack team for alliance competition. Development UI with sample scores.',
+    id: 'alliance-events', title: 'Alliance lane battles', category: 'Alliance events',
+    alt: 'The Alliance War screen shows three lanes, defending heroes, team scores and an attack target',
+    caption: 'Prepare your defense, build an attack team and fight for your alliance across three lanes.',
     to: '/events#alliance-events',
   },
   LIVE_TOURNAMENT_SCREENSHOT,

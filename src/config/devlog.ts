@@ -27,7 +27,7 @@ export type FutureUpdate = {
   status: 'planned' | 'in-progress' | 'soon'
 }
 
-/** Native gameplay and UI captures; preview data is identified in each caption. */
+/** Native gameplay and interface captures. Source details live in artwork/gameplay/provenance.json. */
 export const DEV_SCREENSHOTS: DevShot[] = [
   { ...LIVE_TOURNAMENT_SCREENSHOT, featured: true },
   ...GAME_SCREENSHOTS.filter(shot => shot.id !== LIVE_TOURNAMENT_SCREENSHOT.id),
@@ -39,14 +39,14 @@ export const PROGRESS_LOG: ProgressEntry[] = [
     id: 'live-tournaments-and-podium',
     date: '3 November 2026',
     title: 'Live Arena, tournament bracket and Hall of Fame',
-    body: 'Live Arena supports manual turn-based 3v3 matches with three teams per commander. The top 64 weekly qualifiers advance to a knockout tournament, including a Sunday third-place match at 19:30 UTC and the final at 20:00 UTC. Spectators can follow matches, and the in-game Hall of Fame preserves the top three of completed seasons. The website now shows native Unity previews with sample participants. These client features are part of development; the public Android download is still pending.',
+    body: 'Live Arena supports manual turn-based 3v3 matches with three teams per commander. The top 64 weekly qualifiers advance to a knockout tournament, including a Sunday third-place match at 19:30 UTC and the final at 20:00 UTC. Spectators can follow matches, and the in-game Hall of Fame preserves the top three of completed seasons. Discover the tournament bracket and season history in the new screenshots. The public Android download is coming soon.',
     tag: 'wip',
   },
   {
     id: 'android-release-target',
     date: '3 November 2026',
     title: 'Android release target: December 2026',
-    body: `The planned Android release is ${GAME_GUIDE.releaseTarget}. The public download remains coming soon. Gameplay footage, tournament guides and alliance event previews are now available on the website; follow Discord for release news. Timing and features may change during development.`,
+    body: `The planned Android release is ${GAME_GUIDE.releaseTarget}. The public download remains coming soon. Gameplay footage, tournament guides and alliance event guides are now available on the website; follow Discord for release news. Timing and features may change during development.`,
     tag: 'wip',
   },
   {
