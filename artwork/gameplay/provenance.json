@@ -1,5 +1,5 @@
 {
-  "verifiedOn": "2026-11-02",
+  "verifiedOn": "2026-11-03",
   "transformations": "Frame extraction, proportional resizing and WebP encoding only. No generated or retouched gameplay.",
   "captures": [
     {
@@ -98,20 +98,59 @@
       ]
     },
     {
+      "id": "live-tournament",
+      "source": "unity-english-captures/Results/live-tournament.png",
+      "language": "English",
+      "note": "Native Unity tournament UI rendered using Loc.SetLanguage(en), existing game resources and 64 simulated participants. Sample identities and matches, not a live season.",
+      "sourceSha256": "d9409846f6d324423249d6474d1f0edf8273a3166bf297768f4ddb51418f8630",
+      "outputs": [
+        {
+          "path": "public/gameplay/live-tournament-480.webp",
+          "bytes": 17496,
+          "sha256": "ae9887ba24db9cbcf7491b34f4f0d1341588ebcca88dafebb4329d9e552375ea"
+        },
+        {
+          "path": "public/gameplay/live-tournament-1600.webp",
+          "bytes": 115038,
+          "sha256": "6372fed8f7ad5dcdd2b4497034d7ace055e3d19027dc976fe30053099468a8c7"
+        }
+      ]
+    },
+    {
+      "id": "hall-of-fame",
+      "source": "unity-english-captures/Results/hall-of-fame.png",
+      "language": "English",
+      "note": "Native Unity Hall of Fame UI rendered using the game English language, synthetic commander names, example portraits and season results.",
+      "sourceSha256": "c5e44cb9a789568909aa708f829a6a239bec6411b774784d75b141208a31885c",
+      "outputs": [
+        {
+          "path": "public/gameplay/hall-of-fame-480.webp",
+          "bytes": 7132,
+          "sha256": "fe5cfa7fae5714d45214fc384dbc1ef342f591a564b9e6048842726c2c35134b"
+        },
+        {
+          "path": "public/gameplay/hall-of-fame-1600.webp",
+          "bytes": 44252,
+          "sha256": "502f1af0fae47302ff360391c51b1e98c46df0de9bfbf5736645b08e8736680f"
+        }
+      ]
+    },
+    {
       "id": "alliance-events",
-      "source": "Docs/AllianceEvents_2026-10-13_alliance-lanes-battle-preview.png",
-      "sourceSha256": "4705ee32de2fba9ab0666d82a9ebb4f460808fcc6892959b4c2fb99b141275c9",
-      "note": "Development UI capture with sample teams and scores; German UI.",
+      "source": "unity-english-alliance/Results/alliance-events.png",
+      "language": "English",
+      "note": "Existing native Alliance War UI source rendered using the game English translation catalogue and isolated sample event state. No live accounts or API writes.",
+      "sourceSha256": "a3d1d093332f2d4a0642bcc81dc022fbf35ce35f65b78ff9efd4786380ca1bd9",
       "outputs": [
         {
           "path": "public/gameplay/alliance-events-480.webp",
-          "bytes": 27386,
-          "sha256": "893a9f4c29d8255e3d55b34059e1b98afebe62abb8705fc1ec47854a39c431f8"
+          "bytes": 31006,
+          "sha256": "5a9ce6e7d622f7b3487d7b67d06ecbce7e7ba352f97c692d4de463ed8c370c65"
         },
         {
           "path": "public/gameplay/alliance-events-1600.webp",
-          "bytes": 194838,
-          "sha256": "36339ce6cfb45320ef7cf87aff479f7be5d5c8aeeb246dbbba9bb261ef478312"
+          "bytes": 225920,
+          "sha256": "3ef917e05d0f1066ff041cc783ca1a48cdb1caf77e052d67ceee584da2e84eee"
         }
       ]
     }

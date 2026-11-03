@@ -33,7 +33,7 @@ export default function GameplayShowcase() {
             <a href={GAMEPLAY_TRAILER_URL} target="_blank" rel="noopener noreferrer" className="btn-primary no-underline mt-7 inline-flex">
               <Play size={16} aria-hidden="true" /> Watch gameplay · 30 seconds
             </a>
-            <p className="gameplay-showcase__note mt-4">Development screenshots. Features, UI and visuals may change before release.</p>
+            <p className="gameplay-showcase__note mt-4">In-game screenshots. Game in development; visuals and features may change before release.</p>
           </div>
           <figure id="gameplay-active-shot" className="gameplay-showcase__featured">
             <GameScreenshotImage shot={shot} sizes="(min-width: 1024px) 60vw, 100vw" />

@@ -46,7 +46,7 @@ export default function EventsPage() {
           <p className="body-lg mt-5 mb-8 max-w-3xl">Plan your defense, support your teammates and turn individual results into a shared achievement. Check the in-game event calendar for registration, active phases and rewards.</p>
           <figure className="gameplay-showcase__featured">
             <GameScreenshotImage shot={GAME_SCREENSHOTS[5]} sizes="(min-width: 1280px) 1200px, 100vw" />
-            <figcaption className="font-body text-sm text-[var(--bone-dim)]">Alliance War development UI. Sample teams and scores are shown.</figcaption>
+            <figcaption className="font-body text-sm text-[var(--bone-dim)]">Three lanes. One alliance. Prepare your formations and make every attack count.</figcaption>
           </figure>
           <div className="grid md:grid-cols-2 gap-4 mt-7">
             {ALLIANCE_EVENTS.map(event => (
@@ -64,7 +64,7 @@ export default function EventsPage() {
         <aside className="dd-panel p-6 md:p-9 mt-16">
           <p className="eyebrow">Follow the development</p>
           <h2 className="font-display text-3xl text-white uppercase mt-4">Android · Planned for {GAME_GUIDE.releaseTarget}</h2>
-          <p className="body-lg mt-4 max-w-3xl">The public download is coming soon. These features are part of the current development preview; release timing, UI and balance may change. Follow the community for release news.</p>
+          <p className="body-lg mt-4 max-w-3xl">The public download is coming soon. Join the community for release news and upcoming events. The game is in development; release timing and features may change.</p>
           <div className="flex flex-wrap gap-3 mt-6">
             <a href={COMMUNITY.discordUrl} target="_blank" rel="noopener noreferrer" className="btn-primary no-underline">Join Discord</a>
             <Link to="/progress" className="btn-secondary no-underline">Development updates</Link>
