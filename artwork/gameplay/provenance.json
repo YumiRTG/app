@@ -1,6 +1,6 @@
 {
-  "verifiedOn": "2026-11-02",
-  "transformations": "Frame extraction, proportional resizing and WebP encoding only. No generated or retouched gameplay.",
+  "verifiedOn": "2026-11-06",
+  "transformations": "Native Unity capture, video frame extraction, proportional resizing and WebP encoding. No generated or retouched gameplay.",
   "captures": [
     {
       "id": "campaign",
@@ -99,19 +99,19 @@
     },
     {
       "id": "alliance-events",
-      "source": "Docs/AllianceEvents_2026-10-13_alliance-lanes-battle-preview.png",
-      "sourceSha256": "4705ee32de2fba9ab0666d82a9ebb4f460808fcc6892959b4c2fb99b141275c9",
-      "note": "Development UI capture with sample teams and scores; German UI.",
+      "source": "output/Homepage-Screenshots-EN/Alliance-Lane-Battles-EN.png",
+      "sourceSha256": "2f9c1803a457f490fe41eb63ddf5788f490bcb648c95bd6eeba7072630ff9b8b",
+      "note": "Native Unity UI capture using the game's English localization, with sample teams and scores.",
       "outputs": [
         {
           "path": "public/gameplay/alliance-events-480.webp",
-          "bytes": 27386,
-          "sha256": "893a9f4c29d8255e3d55b34059e1b98afebe62abb8705fc1ec47854a39c431f8"
+          "bytes": 34138,
+          "sha256": "869cf7229bf951f742681e21a7cc0ca60b0b85f3fc57b0a43ec94278058d7a77"
         },
         {
           "path": "public/gameplay/alliance-events-1600.webp",
-          "bytes": 194838,
-          "sha256": "36339ce6cfb45320ef7cf87aff479f7be5d5c8aeeb246dbbba9bb261ef478312"
+          "bytes": 249280,
+          "sha256": "ceea105f65c0a762df5e397b7a569671e95bdd0bd2771251ddf3f80afdcedf39"
         }
       ]
     }
